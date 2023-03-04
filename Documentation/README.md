@@ -14,7 +14,7 @@ If you want to join your sketch straight away, keep this route - [link](https://
 What are nodes, how do they work, why are they needed ? [link](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Nodes.md)
 
 # Read about Tasks
-What are tasks, who creates them and why ? [link](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/ProjectsAndTasks.md)
+What are tasks, who creates them and why ? [link](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Task.md)
 
 # Read about Validation
 What is the validation process and why it exists ? [link](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Validation.md)
