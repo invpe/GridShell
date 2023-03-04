@@ -45,6 +45,12 @@ GridShell exposes few more internal functions that you can use in your scripting
 - Example: `RET=DOWNLOAD("PocNetGroupMiners00000000000000000000001DNB4C11AEF6ECF02023218")`
 - Shells: 1
 
+`TSIZE` - Return size of the `/TELEMETRY` file in bytes
+
+- Input: Nothing
+- Output: Bytes or 0 if failed/file not exists
+- Example: `RET=TSIZE()`
+
 
 
 `READ` - Read a file from internal SPIFFS filesystem
