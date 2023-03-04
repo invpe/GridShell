@@ -4,13 +4,16 @@
   
 
 # Tasks
-For a distrigbuted computing to actually work, we need to provide it's computational power some real work to do.
+For a distributed computing to actually work, we need to provide it's computational power some real work to do.
 This work is called Tasks on the GridShell.
   
-Tasks are exactly what is being executed(interpreted) and computed on all GridShell nodes and are written in an [BASIC](https://en.wikipedia.org/wiki/BASIC)-like language, leveraging a great open source interpreter called [mybasic](https://github.com/paladin-t/my_basic).
-There is a great amount of tutorials and playgrounds for BASIC language, and since it was made to be _Begginers all purpose_ it was adopted for GridShell  to minimise the effort needed to build projects that can be run on the grid.
+Tasks are exactly what is being executed(interpreted) on all GridShell nodes and are written in an [BASIC](https://en.wikipedia.org/wiki/BASIC)-like language, leveraging a great open source interpreter called [mybasic](https://github.com/paladin-t/my_basic). 
+There is a great amount of tutorials and playgrounds for BASIC language, and since it was made to be _Begginers all purpose_ it was adopted for GridShell  to minimise the effort needed to build projects that can be run on the network.
 
-The speed of the project execution on the Grid is defined by the number of tasks, their computational complexity and available nodes online.
+Tasks mostly compute things from telemetry files, some solutions require thousands of tasks to run to compute daily values for thousand of sensors.
+We have days when we run thousand tasks per hour for air quality sensors. Each task calculates daily values for one sensor, since we have thousand of sensors we submit thousand of tasks at once.
+
+The speed of the execution on the Grid is defined by the number of tasks, their computational complexity and available nodes online.
 Tasks can't run forever therefore a timeout limit is applied to task execution for every node. 
 After this limit is exceeded task is considered failed and restarted.
 
