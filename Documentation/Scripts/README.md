@@ -37,7 +37,7 @@ GridShell exposes few more internal functions that you can use in your scripting
 
 `BIT_RSHIFT` - Bitwise Right Shift
 
-`DOWNLOAD` - Download telemetry file to local filesystem 
+`DOWNLOAD` - Download telemetry file to local filesystem and save as GNODE_TELEMETRY_FILENAME
 
 - Input: Telemetry file to download (full name) i.e `PocNetGroupMiners00000000000000000000001DNB4C11AEF6ECF02023218`
 - Output: Bytes written, Output filename is always `/TELEMETRY`
@@ -53,11 +53,11 @@ GridShell exposes few more internal functions that you can use in your scripting
 
 
 
-`READ` - Read a file from internal SPIFFS filesystem
+`READ` - Read a GNODE_TELEMETRY_FILENAME file from internal SPIFFS filesystem
 
-- Input: Filename, start byte, size
+- Input: start byte, count
 - Output: String or empty if failed
-- Example: `STRING=READ("/TELEMETRY",1,30)`
+- Example: `STRING=READ(1,30)`
 - Shells: 1
 
 `WRITE` - Write a telemetry data to a gridshell network
