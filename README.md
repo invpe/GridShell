@@ -34,8 +34,8 @@ Please see this [ Documentation ] for more detailed explanation. In simple words
 
 - People join the network with their ESP32 devices (nodes)
 - Network executes tasks (written in [MyBasic](https://github.com/paladin-t/my_basic)) on these people owned nodes
-- Each node is given a "Shell" (after validation) for a proper execution
-- Each Shell can be used to submit a task in the future
+- Each user is given a "Shell" (after validation) for a proper execution
+- Shell can be used to submit a task in the future
 
 The more nodes connected, the more computing power the network has.
 
