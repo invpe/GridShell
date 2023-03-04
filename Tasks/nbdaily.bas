@@ -1,6 +1,6 @@
 REM Genearte hourly averages on daily basis   
 '''''''''''''''''''''''''''''''''''
-SVERSION="1.1"
+SVERSION="1.4"
 PRINT "STARTING ",SVERSION," NOW";
 '''''''''''''''''''''''''''''''''''
 DEF TOKENIZE(GDZIE, TO_SPLIT )   
@@ -36,20 +36,21 @@ VAR TOTALCOUNT = 0
 
 
 
-LISTA = LIST()  
-TOKENIZE(LISTA,INPUTPAYLOAD)
-
-' Take out the filename
-FOWNER$ = GET(LISTA,0)
-FNAME$  = GET(LISTA,1)  
-
-PRINT FOWNER$," ",FNAME$;
+LISTA = LIST()   
+ 
+' Take the filename
+FNAME$  = INPUTPAYLOAD
+ 
+' Download the file from API server
+PRINT "DOWNLOADING ",FNAME$;
+VAR GETIT = DOWNLOAD(FNAME$)
+PRINT "DOWNLOADED ",GETIT," BYTES";
  
 
 ' Continue until there is something to do
-VAR CHUNKSIZE = 512 
-WHILE READ(FOWNER$+FNAME$,CURSOR,CHUNKSIZE) <> "" 
-  NEWS =  READ(FOWNER$+FNAME$,CURSOR,CHUNKSIZE)  
+VAR CHUNKSIZE = 128 
+WHILE READ(CURSOR,CHUNKSIZE) <> "" 
+  NEWS =  READ(CURSOR,CHUNKSIZE)  
   STRIN = STRIN + NEWS  
   VAR NEWLINEPOS = FINDNEWLINEPOS(STRIN)  
 
@@ -72,13 +73,13 @@ WHILE READ(FOWNER$+FNAME$,CURSOR,CHUNKSIZE) <> ""
     ' Sum samples together, we will divdie later  
     DBIAVG(GODZINA)  = DBIAVG(GODZINA)+VAL(DBI) 
  
-    VAR TSIZE = LEN(STRIN) - NEWLINEPOS  
+    VAR THESIZE = LEN(STRIN) - NEWLINEPOS  
 
     ' We need to get new chunk
-    IF TSIZE < 10 THEN
+    IF THESIZE < 10 THEN
       NEWLINEPOS = -1
     ELSE
-      STRIN       = MID(STRIN,NEWLINEPOS + 1,TSIZE - 1) 
+      STRIN       = MID(STRIN,NEWLINEPOS + 1,THESIZE - 1) 
       NEWLINEPOS  = FINDNEWLINEPOS(STRIN)     
     ENDIF
   WEND     
