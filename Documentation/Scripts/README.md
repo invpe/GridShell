@@ -40,7 +40,8 @@ GridShell exposes few more internal functions that you can use in your scripting
 `DOWNLOAD` - Download telemetry file to local filesystem 
 
 - Input: Telemetry file to download (full name) i.e `PocNetGroupMiners00000000000000000000001DNB4C11AEF6ECF02023218`
-- Output: HTTP return code `404,200,...` the file is _always_ written as "telemetry"
+- Output: HTTP return code `404,200,...`, Output filename is always `TELEMETRY`
+
 - Example: `RET=DOWNLOAD("PocNetGroupMiners00000000000000000000001DNB4C11AEF6ECF02023218")`
 - Shells: 1
 
@@ -50,7 +51,7 @@ GridShell exposes few more internal functions that you can use in your scripting
 
 - Input: Filename, start byte, size
 - Output: String or empty if failed
-- Example: `STRING=READ("telemetry",1,30)`
+- Example: `STRING=READ("TELEMETRY",1,30)`
 - Shells: 1
 
 `WRITE` - Write a telemetry data to a gridshell network
