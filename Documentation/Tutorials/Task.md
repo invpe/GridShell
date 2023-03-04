@@ -40,9 +40,9 @@ So you want to write a task ? Perfect, head straight to the tutorial.
 There are various reasons for why you would like to distribute your computational workload to a grid system.
 The most common one the GridShell was approached with are:
  
-- Repeatable computations
+- Repeatable mass computations
 
-Generating values for dynamic graphs always requires some time to compute.
+Generating values for thousands of devices every hour can be daunting to a web server.
 Instead of executing this repeatable task on the web server, it can be offloaded to a grid system that will compute and provide results within minutes.
 
 - Offloading  
