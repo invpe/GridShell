@@ -58,7 +58,7 @@ We are hosting solutions that are headless ESP32 boards with sensors attached wi
 Sensors send telemetry data to GridShell on one minute intervals, 
 request network to calculate values on hourly / daily basis and use GridShell explorer dashboards to visualize the data.
 
-No servers in between, make these small sensors super fast for deployment.
+No servers in between make these sensors super fast in deployment and absolutely cost neutral.
 
 # Example tasks
 
