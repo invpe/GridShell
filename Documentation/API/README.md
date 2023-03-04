@@ -20,5 +20,5 @@ All data is returned in JSON format and the endpoint is working with the `GTN` (
 | Get tasj details | `https://api.gridshell.net/task/98.json`  |
 | List tasks for user | `TBD` |
 | List user details | `https://api.gridshell.net/user/PocNetGroupMiners00000000000000000000001.json` |
-| Get Telemetry File | `https://api.gridshell.net/fs/userid_filename.json` |
+| Get Telemetry File | `https://api.gridshell.net/fs/GRIDUSERIDfilename.json` |
 
