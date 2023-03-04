@@ -17,7 +17,7 @@ Read the simple techinical tutorial on how to join the grid with couple of click
 What are nodes, how do they work, why are they needed ? [Check here](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Nodes.md)
 
 # Read about Tasks
-What are tasks, who creates them and why ? [Find out](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Tasks.md)
+What are tasks, who creates them and why ? [Find out](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Task.md)
 
 # Read about Validation
 What is the validation process and why it exists ? [Check here](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Validation.md)
