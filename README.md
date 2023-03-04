@@ -41,11 +41,16 @@ The more nodes connected, the more computing power the network has.
 
 Currently all of the tasks are submitted by the core-team members and these are mostly distributed calculations like averages for thousands of sensors every hour, statistical calcs for devices like CO2 sensors, headless sensors and tests plus development runs. All tasks are written with MyBasic, this allows to simplify integration / adoption even more.
 
+# Important
+
+This is a very dynamic project where i often do changes, ensure to keep up with the latest and greatest versions of the nodes.
+I try to document all major changes in `Gridshell Improvement Proposal` documents that are stored in the [Documentation](https://github.com/invpe/gridshell/tree/main/Documentation) directory.
+
 # Where do i go next
 
-- Join the network with this [Tutorial]
-- Checkout the GTN (Grid Test Net) status [Link]
-- Checkout the sources [Link]
+- Join the network with this [link](https://github.com/invpe/GridShell/tree/main/Documentation/Tutorials)
+- Checkout the GTN (Grid Test Net) status [link](https://api.gridshell.net/status/)
+- Checkout the sources [link](https://github.com/invpe/GridShell/tree/main/Sources)
 
  
 
