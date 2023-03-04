@@ -54,7 +54,12 @@ Moving computation from devices to a grid system to allow more time and space fo
 Using GridShell as your all-in-one service can also work fine for small devices like sensors.
 Sending telemetry chunks, requesting calculations from the network and visualizing data without hosting any in-between servers is perfectly doable!
 
- 
+We are hosting solutions that are headless ESP32 boards with sensors attached without hosting in between.
+Sensors send telemetry data to GridShell on one minute intervals, 
+request network to calculate values on hourly / daily basis and use GridShell explorer dashboards to visualize the data.
+
+No servers in between, make these small sensors super fast for deployment.
+
 # Example tasks
 
 All tasks that are executed on the grid are placed in the https://github.com/invpe/gridshell/tree/main/Documentation/Tasks folder. 
