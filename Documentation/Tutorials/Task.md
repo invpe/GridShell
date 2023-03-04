@@ -8,7 +8,7 @@ For a distributed computing to actually work, we need to provide it's computatio
 This work is called Tasks on the GridShell.
   
 Tasks are exactly what is being executed(interpreted) on all GridShell nodes and are written in an [BASIC](https://en.wikipedia.org/wiki/BASIC)-like language, leveraging a great open source interpreter called [mybasic](https://github.com/paladin-t/my_basic). 
-There is a great amount of tutorials and playgrounds for BASIC language, and since it was made to be _Begginers all purpose_ it was adopted for GridShell  to minimise the effort needed to build projects that can be run on the network.
+There is a great amount of tutorials and playgrounds for BASIC language, and since it was made to be _Begginers all purpose_ it was adopted for GridShell  to minimise the effort needed to build projects that can be run on the network.  
 
 Tasks mostly compute things from telemetry files, some solutions require thousands of tasks to run to compute daily values for thousand of sensors.
 We have days when we run thousand tasks per hour for air quality sensors. Each task calculates daily values for one sensor, since we have thousand of sensors we submit thousand of tasks at once.
@@ -17,7 +17,7 @@ The speed of the execution on the Grid is defined by the number of tasks, their 
 Tasks can't run forever therefore a timeout limit is applied to task execution for every node. 
 After this limit is exceeded task is considered failed and restarted.
 
-Task is considered completed once done and results are returned in `OUTPUTPAYLOAD`, 
+Task is considered completed once done and results are returned, 
 however on top of the completion there is a process called validation - 
 that ensures that all completed tasks have returned valid outputs from their execution.
 
