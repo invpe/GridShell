@@ -39,6 +39,12 @@ GridShell exposes few more internal functions that you can use in your scripting
 
 `DOWNLOAD` - Download telemetry file to local filesystem
 
+- Input: Telemetry file to download (full name) i.e `PocNetGroupMiners00000000000000000000001DNB4C11AEF6ECF02023218`
+- Output: HTTP return code
+- Example: `RET=DOWNLOAD("PocNetGroupMiners00000000000000000000001DNB4C11AEF6ECF02023218")`
+
+
+
 `READ` - Read a file from internal SPIFFS filesystem
 
 `WRITE` - Write a telemetry data to a gridshell network
