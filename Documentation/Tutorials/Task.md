@@ -30,7 +30,7 @@ https://api.gridshell.net/status/
 In the current version of GridShell, tasks are created by the core team.
 Moving forward, when the grid network matures enough submitting tasks to the grid will be possible for everyone.
 
-Submitting tasks to the grid, requires `Shell Tokens` - credits that are given to nodes for executing the tasks correctly.
+Submitting tasks to the grid, requires `Shell Tokens` - credits that are given to users for executing the tasks correctly.
 
 # How can i create a script (task)
 So you want to write a task ? Perfect, head straight to the tutorial.
