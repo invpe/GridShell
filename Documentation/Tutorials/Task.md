@@ -58,7 +58,7 @@ We are hosting solutions that are headless ESP32 boards with sensors attached ru
 Sensors send telemetry data to GridShell on 10 minute intervals, 
 request network to calculate values on hourly / daily basis and use GridShell explorer dashboards to visualize the data.
 
-No servers in between make these sensors super fast in deployment and absolutely cost neutral leaving zero carbon-footprint, being green 100%.
+No servers in between make these sensors super fast in deployment and absolutely cost neutral leaving zero carbon-footprint, being 100% green.
 
 # Example tasks
 
