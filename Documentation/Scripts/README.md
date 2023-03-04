@@ -41,6 +41,6 @@ GridShell exposes few more internal functions that you can use in your scripting
 
 `READ` - Read a file from internal SPIFFS filesystem
 
-`WRITE` - Write a telemetry data to a file on the gridshell network
+`WRITE` - Write a telemetry data to a gridshell network
 
 `SHA1` - Generate SHA1
