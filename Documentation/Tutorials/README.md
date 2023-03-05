@@ -29,4 +29,4 @@ Read about the User Performance Factor on the grid and its impact to the overall
 Read about the Grid Improvement Proposal document, see released ones, comment and contribute [here](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/GIP.md)
 
 # API
-Check how to integrate with the current GridShell network [here](https://github.com/invpe/GridShell/tree/main/Documentation/API)
+Check how to integrate with the current TestNet GridShell network [here](https://github.com/invpe/GridShell/tree/main/Documentation/API)
