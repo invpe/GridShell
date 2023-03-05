@@ -30,7 +30,7 @@ The project started mid june 2022 as a coding-challenge, it is now `VER0.03` and
 
 # How does it work 
 
-Please see this [ Documentation ] for more detailed explanation. In simple words, it works as follows:
+Please see this [ [Documentation] (https://github.com/invpe/GridShell/tree/main/Documentation) ] for more detailed explanation. In simple words, it works as follows:
 
 - People join the network with their ESP32 devices (nodes)
 - Network executes tasks (written in [MyBasic](https://github.com/paladin-t/my_basic)) on these people owned nodes
