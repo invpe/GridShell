@@ -1,8 +1,9 @@
 # 📔 Writing scripts(tasks) for GridShell
+One important thing at the very start: This is a WIP document, needs more time to work on it.
 
 Even though writing tasks for GridShell is like writing MyBasic scripts, there are small additions that you need to be aware of.
 
-# Input (optional)
+# :inbox_tray: Input (optional)
 
 When submitting a task to the Grid, you can provide an argument which can be used by that task later on.
 We call it `INPUTPAYLOAD` and it is stored as a string which you can later work on i.e tokenize.
@@ -10,7 +11,7 @@ We call it `INPUTPAYLOAD` and it is stored as a string which you can later work 
 Example: `INPUTPAYLOAD="A,B,C,D,"`
 
 
-# Output (mandatory)
+# :outbox_tray: Output (mandatory)
 
 All tasks require to return output in form of a string, store all output data in `OUTPUTPAYLOAD` string.
 For example if your script calculates some values, store them in this variable.
@@ -21,7 +22,7 @@ Example:
 `OUTPUTPAYLOAD="Job done,12345,"`
 
 
-# Additional helper functions
+# :crystal_ball: Additional helper functions
 
 GridShell exposes few more internal functions that you can use in your scripting.
 
