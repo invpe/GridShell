@@ -6,3 +6,5 @@
 
 # Grid Improvement Proposals
 A dedicated documentation to all major logic changes made to the network source codes.
+
+Important: Some might require rewording, but the concept will stay. I will get there some day ;-)
