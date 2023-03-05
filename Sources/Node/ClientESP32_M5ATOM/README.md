@@ -6,6 +6,6 @@ when there is nothing to do on the server.
 So all in all, you get:
 
 - Led notifications on M5ATOM
-- Ultra Low Power computing
+- Even smarter - Ultra Low Power computing
 
 Check it out !
