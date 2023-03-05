@@ -2,6 +2,14 @@
 One important thing at the very start: This is a WIP document, needs more time to work on it.
 
 Even though writing tasks for GridShell is like writing MyBasic scripts, there are small additions that you need to be aware of.
+Before going anywhere further, ensure to note down these resources - key to the concept of writing tasks for the network.
+
+1. MyBasic https://github.com/paladin-t/my_basic
+2. MyBasic Web Playground https://my-basic.github.io/playground/output/index.html
+3. GridShell Command Line Playground https://github.com/invpe/GridShell/tree/main/Sources/MyBasic
+
+Ok, now you can continue ;-)
+
 
 # :inbox_tray: Input (optional)
 
