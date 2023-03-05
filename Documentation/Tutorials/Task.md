@@ -31,11 +31,7 @@ In the current version of GridShell, tasks are created by the core team.
 Moving forward, when the grid network matures enough submitting tasks to the grid will be possible for everyone.
 
 Submitting tasks to the grid, requires `Shell Tokens` - credits that are given to users for executing the tasks correctly.
-
-# How can i create a script (task)
-So you want to write a task ? Perfect, head straight to the tutorial.
-
-
+ 
 # Why are tasks created ?
 There are various reasons for why you would like to distribute your computational workload to a grid system.
 The most common one the GridShell was approached with are:
@@ -64,3 +60,7 @@ No servers in between make these sensors super fast in deployment and absolutely
 
 All tasks that are executed on the grid are placed in the [https://github.com/invpe/gridshell/tree/main/Documentation/Tasks](https://github.com/invpe/GridShell/tree/main/Tasks) folder. 
 Feel free to browse and review, as more and more tasks are added this folder will grow becoming quite a nice library of scripts you can run / build based on existing projects.
+
+
+# How can i create a script (task)
+TBD
