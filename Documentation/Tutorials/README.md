@@ -13,6 +13,9 @@ One day i hope i'll find time to have a one pager done ;-)
 # Connect and join the Grid 
 Read the simple techinical tutorial on how to join the grid with couple of clicks [here](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Join.md) 
 
+# Shells
+What is a shell ? [link](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Shells.md)
+
 # Read about Nodes
 What are nodes, how do they work, why are they needed ? [Check here](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Nodes.md)
 
