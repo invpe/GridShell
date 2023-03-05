@@ -16,6 +16,8 @@ What are nodes, how do they work, why are they needed ? [link](https://github.co
 # Read about Tasks
 What are tasks, who creates them and why ? [link](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Task.md)
 
+How to write a task? [link](https://github.com/invpe/GridShell/tree/main/Documentation/Scripts)
+
 # Read about Validation
 What is the validation process and why it exists ? [link](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Validation.md)
 
