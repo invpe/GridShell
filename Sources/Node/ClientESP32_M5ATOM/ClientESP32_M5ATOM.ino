@@ -57,8 +57,9 @@ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(ADA_NUMPIXELS, ADA_PIN, NEO_GRB + N
 // Goes to sleep                 //
 ///////////////////////////////////
 void DeepSleep()
-{
-
+{  
+  CGridShell::GetInstance().Stop();
+  
 #ifdef NOTIFY_LED_ADA
   pixels.setPixelColor(0, 0, 0, 0);
   pixels.show();
@@ -67,8 +68,6 @@ void DeepSleep()
   digitalWrite(LED_BUILTIN, LOW);
 #endif
 
-  // Disco
-  CGridShell::GetInstance().Stop();
 
   // Sleep
   esp_deep_sleep_start();
@@ -159,9 +158,7 @@ void GridShellCB(uint8_t  uiEventType)
     ///////////////////////////////////
     case CGridShell::eEvent::EVENT_NO_TASKS_TO_EXECUTE:
       {
-#ifdef SLEEP_WHEN_IDLE
-        DeepSleep();
-#endif
+
       }
       break;
     ///////////////////////////////////
@@ -169,6 +166,9 @@ void GridShellCB(uint8_t  uiEventType)
     ///////////////////////////////////
     case CGridShell::eEvent::EVENT_NO_TASKS_TO_VALIDATE:
       {
+#ifdef SLEEP_WHEN_IDLE
+        DeepSleep();
+#endif
       }
       break;
     ///////////////////////////////////
