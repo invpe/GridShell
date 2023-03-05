@@ -24,3 +24,6 @@ Read about the User Performance Factor on the grid and its impact to the overall
 
 # Read about GIP
 Read about the Grid Improvement Proposal document, the way i try to keep a track of major changes in the logic of the grid. [link](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/GIP.md)
+
+# API
+Check how to integrate with the current GridShell network [here](https://github.com/invpe/GridShell/tree/main/Documentation/API)
