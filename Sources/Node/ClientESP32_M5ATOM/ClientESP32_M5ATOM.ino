@@ -8,7 +8,7 @@
    YELLOW - Connection to Grid
    GREEN  - Idling
    BLUE   - Working
-   
+
    https://www.gridshell.net/
    https://github.com/invpe/gridshell
 */
@@ -66,6 +66,11 @@ void DeepSleep()
 #ifdef NOTIFY_LED_SIMPLE
   digitalWrite(LED_BUILTIN, LOW);
 #endif
+
+  // Disco
+  CGridShell::GetInstance().Stop();
+
+  // Sleep
   esp_deep_sleep_start();
 }
 ///////////////////////////////////
@@ -312,7 +317,7 @@ void loop()
   /////////////////////////////
 #ifdef SLEEP_WHEN_IDLE
   if (millis() - uiIdleTime >= SLEEP_IDLE_TIMEOUT)
-  { 
+  {
     DeepSleep();
   }
 #endif
