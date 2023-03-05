@@ -158,7 +158,9 @@ void GridShellCB(uint8_t  uiEventType)
     ///////////////////////////////////
     case CGridShell::eEvent::EVENT_NO_TASKS_TO_EXECUTE:
       {
-
+#ifdef SLEEP_WHEN_IDLE
+        DeepSleep();
+#endif
       }
       break;
     ///////////////////////////////////
@@ -166,9 +168,7 @@ void GridShellCB(uint8_t  uiEventType)
     ///////////////////////////////////
     case CGridShell::eEvent::EVENT_NO_TASKS_TO_VALIDATE:
       {
-#ifdef SLEEP_WHEN_IDLE
-        DeepSleep();
-#endif
+
       }
       break;
     ///////////////////////////////////
