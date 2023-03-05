@@ -323,6 +323,8 @@ void CGridShell::Tick()
           mb_register_func(bas, "READ", _read);
           mb_register_func(bas, "WRITE", _write);
           mb_register_func(bas, "SHA1", _sha1);
+          mb_register_func(bas, "DOWNLOAD", _download);
+          mb_register_func(bas, "TSIZE", _tsize);
 
           // Enable step by step execution to keep alive with the server
           mb_debug_set_stepped_handler(bas, CGridShell::MBStep);
@@ -687,6 +689,8 @@ String CGridShell::GetSHA1(const String& rstrFile)
 // -----------------------------------------------------------------------------
 bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const bool& bAppend)
 {
+  if (rstrWhat.length() > GNODE_WRITE_MAX)return false;
+
   String strBaseEncoded = EncodeBase64(rstrWhat);
 
   String strCommand;
@@ -711,31 +715,6 @@ bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const boo
 // --[  Method  ]---------------------------------------------------------------
 //
 //  - Class     : CGridShell
-//  - Prototype :
-//
-//  - Purpose   : **Experimental** (.BAS and LIB)
-//                Read a string from a file (max 128b)
-//
-// -----------------------------------------------------------------------------
-String CGridShell::Read(const String& rstrName, const uint32_t& ruiStart, const uint32_t& ruiCount)
-{
-  String strCommand = "READ," + rstrName + "," + String(ruiStart) + "," + String(ruiCount) + "\r\n";
-
-  Send(strCommand);
-
-  String strReturn      = m_Client.readStringUntil(',');
-  String strReturnCode  = m_Client.readStringUntil(',');
-
-  GDEBUG("Read : " + strReturnCode);
-
-  //
-  if (strReturn == "READ" && strReturnCode[0] == 'O' && strReturnCode[1] == 'K')
-    return DecodeBase64(m_Client.readStringUntil(','));
-  return "";
-}
-// --[  Method  ]---------------------------------------------------------------
-//
-//  - Class     : CGridShell
 //  - Prototype : TestScript(const String& strScript, const String& strInputPayload)
 //
 //  - Purpose   : Uncomment to play with testing the scripts on the device, normally
@@ -747,8 +726,10 @@ String CGridShell::Read(const String& rstrName, const uint32_t& ruiStart, const 
 //                CGridShell::GetInstance().TestScript(strScript, "some_input_payload");
 // -----------------------------------------------------------------------------
 /*
-  void CGridShell::TestScript(const String& strScript, const String& strInputPayload)
-  {
+void CGridShell::TestScript(const String& strScript, const String& strInputPayload)
+{
+  Serial.println(strScript);
+
   //
   int iRetCode = MB_FUNC_ERR;
   String strOutput = "";
@@ -770,6 +751,8 @@ String CGridShell::Read(const String& rstrName, const uint32_t& ruiStart, const 
   mb_register_func(bas, "READ", _read);
   mb_register_func(bas, "WRITE", _write);
   mb_register_func(bas, "SHA1", _sha1);
+  mb_register_func(bas, "DOWNLOAD", _download);
+  mb_register_func(bas, "TSIZE", _tsize);
 
   // Load up the script
   if (mb_load_string(bas, strScript.c_str(), true) == MB_FUNC_OK)
@@ -796,7 +779,7 @@ String CGridShell::Read(const String& rstrName, const uint32_t& ruiStart, const 
 
   mb_close(&bas);
   mb_dispose();
-  }*/
+}*/
 // --[  Method  ]---------------------------------------------------------------
 //
 //  - Class     : CGridShell

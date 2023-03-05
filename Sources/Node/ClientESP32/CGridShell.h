@@ -16,16 +16,20 @@
 #include "my_basic.hpp"
 #include "mbedtls/base64.h"
 /*---------*/
+#define GNODE_FS_SERVER "https://api.gridshell.net/fs/"
 #define GNODE_SERVER "work.gridshell.net"
 #define GNODE_VERSION "03"
+#define GNODE_TELEMETRY_FILENAME "/TELEMETRY"
 #define GNODE_PING_TIME 10000
 #define GNODE_RECON_TIMER (1000 * 60)
 #define GNODE_POOL_PORT 1911
+#define GNODE_WRITE_MAX 128
+#define GNODE_READ_MAX 128
 #define GNODE_RET_TERMINATED 777
 #define GNODE_ARCH "ESP32"
 /*---------*/
 // Enable to dump debug informations to the serial
-//#define GNODE_DEBUG 1
+#define GNODE_DEBUG 1
 #ifdef GNODE_DEBUG
 #define GDEBUG Serial.println
 #else
@@ -57,8 +61,7 @@ class CGridShell
     void Stop();
     void RegisterEventCallback(void (*pFunc)(  uint8_t  ) );
     bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
-    String Read(const String& rstrName, const uint32_t& ruiStart, const uint32_t& ruiCount);
-    
+
     ~CGridShell();
 
 
@@ -67,7 +70,7 @@ class CGridShell
 
   private:
     CGridShell();
-    bool DownloadScript(const String& rstrURL,const String& rstrPath);
+    bool DownloadScript(const String& rstrURL, const String& rstrPath);
     String GetMD5(const String& rstrFile);
     String GetSHA1(const String& rstrFile);
     String XOR(const String& toEncrypt, const String& rstrKey);
@@ -224,41 +227,114 @@ static int _read(struct mb_interpreter_t* s, void** l)
 {
   int result = MB_FUNC_OK;
 
-  char *cFilename;
   int_t iStart = 0;
   int_t iCount = 0;
 
   // Pop variables
   mb_check(mb_attempt_open_bracket(s, l));
-  mb_check(mb_pop_string(s, l, &cFilename));
   mb_check(mb_pop_int(s, l, &iStart));
   mb_check(mb_pop_int(s, l, &iCount));
   mb_check(mb_attempt_close_bracket(s, l));
 
+  // Returned upon failure
+  char buf[] = {0x00};
 
+  // Check for start less than 0
+  if (iStart < 0)
+  {
+    mb_check(mb_push_string(s, l, mb_memdup(buf, 1)));
+    GDEBUG("Read count <= 0");
+    return result;
+  }
 
-  String strRes = "";
+  // Check for read size > 0
+  if (iCount <= 0)
+  {
+    mb_check(mb_push_string(s, l, mb_memdup(buf, 1)));
+    GDEBUG("Read count <= 0");
+    return result;
+  }
 
-  // GLIB
-  //strRes = CGridShell::GetInstance().Read(String(cFilename), iStart, iCount);
+  // Check for count > chunk limit
+  if (iCount > GNODE_READ_MAX)
+  {
+    mb_check(mb_push_string(s, l, mb_memdup(buf, 1)));
+    GDEBUG("Read count > GNODE_READ_MAX");
+    return result;
+  }
 
+  // Check if exists
+  File fFile = SPIFFS.open(GNODE_TELEMETRY_FILENAME);
+  if (!fFile)
+  {
+    mb_check(mb_push_string(s, l, mb_memdup(buf, 1)));
+    GDEBUG("Read file doesnt exist GNODE_TELEMETRY_FILENAME");
+    return result;
+  }
 
-  // HTTP API FS VERSION ( SAFER COZ SSL BUT SLOW (2SEC) )
-  HTTPClient http;
-  http.setReuse(true);
-  http.begin("https://api.gridshell.net/fs/?file=" + String(cFilename) + "&s=" + String(iStart) + "&e=" + String(iCount));
-  int httpCode = http.GET();
-  String strData = http.getString();
+  // Check for start boundary
+  if (iStart > fFile.size())
+  {
+    mb_check(mb_push_string(s, l, mb_memdup(buf, 1)));
+    GDEBUG("Read Start boundary " + String(iStart) + " past " + String(fFile.size()));
+    return result;
+  }
 
-  if (httpCode == 200)
-    strRes = strData;
-  http.end();
+  // Check for count boundary
+  if (iCount > fFile.size())
+  {
+    mb_check(mb_push_string(s, l, mb_memdup(buf, 1)));
+    GDEBUG("Read Count boundary " + String(iCount) + " past " + String(fFile.size()));
+    return result;
+  }
 
-  GDEBUG("RET: '" + strRes + "'");
-  char buf[strRes.length()];
-  memset(buf, 0, sizeof(buf));
-  sprintf(buf, "%s", strRes.c_str());
-  mb_check(mb_push_string(s, l, mb_memdup(buf, (unsigned)(strlen(buf) + 1))));
+  // Check for start+count boundary vs size
+  if (iStart + iCount > fFile.size())
+  {
+    mb_check(mb_push_string(s, l, mb_memdup(buf, 1)));
+    GDEBUG("Read boundary " + String(iStart + iCount) + " past " + String(fFile.size()));
+    return result;
+  }
+
+  // Finaly read the file
+  GDEBUG("Reading file " + String(GNODE_TELEMETRY_FILENAME));
+
+  //
+  byte bReadBuffer[GNODE_READ_MAX + 1];
+  memset(bReadBuffer, 0x00, sizeof(bReadBuffer));
+  uint32_t uiBytesRead = 0;
+
+  fFile.seek(iStart, SeekSet);
+  uiBytesRead = fFile.readBytes((char*)bReadBuffer, iCount);
+  fFile.close();
+
+  // We add one more byte for NULL terminator as basic likes strings not bytes
+  bReadBuffer[uiBytesRead] = '\0';
+
+  GDEBUG("READ " + String(uiBytesRead) + " of " + String(iCount) + " requested");
+
+  mb_check(mb_push_string(s, l, mb_memdup((char*)bReadBuffer, (unsigned)(uiBytesRead + 1))));
+
+  return result;
+}
+static int _tsize(struct mb_interpreter_t* s, void** l) {
+  int result = MB_FUNC_OK;
+  int_t iSize = 0;
+
+  mb_check(mb_attempt_open_bracket(s, l));
+  mb_check(mb_attempt_close_bracket(s, l));
+
+  File fTele = SPIFFS.open(GNODE_TELEMETRY_FILENAME);
+  if (fTele)
+  {
+    iSize = fTele.size();
+    GDEBUG("TELEMETRY Size: " + String(fTele.size()));
+    fTele.close();
+  }
+  else
+    GDEBUG("TELEMETRY file doesnt exist");
+
+  mb_check(mb_push_int(s, l, iSize));
 
   return result;
 }
@@ -280,6 +356,64 @@ static int _write(struct mb_interpreter_t* s, void** l)
   int_t iSuccess = CGridShell::GetInstance().Write(String(cFilename), String(cText), iAppend);
 
   mb_check(mb_push_int(s, l, 0));
+  return result;
+}
+// Change to streaming later so that reading big telemetry files (max 1mb)
+// Can crash the memory now.
+static int _download(struct mb_interpreter_t* s, void** l)
+{
+  int result = MB_FUNC_OK;
+  char *cFilename;
+
+  mb_check(mb_attempt_open_bracket(s, l));
+  mb_check(mb_pop_string(s, l, &cFilename));
+  mb_check(mb_attempt_close_bracket(s, l));
+
+  // Fixed name for overwriting (so we don't keep downloaded files)
+  String strPath = GNODE_TELEMETRY_FILENAME;
+
+  GDEBUG("HTTPS Getting " + String(cFilename));
+
+  //
+  HTTPClient http;
+  http.begin(GNODE_FS_SERVER + String(cFilename));
+
+  //
+  uint32_t uiBytesWritten = 0;
+
+  //
+  int httpCode    = http.GET();
+  String strData  = http.getString();
+
+
+  //
+  if (httpCode == 200)
+  {
+    http.end();
+    GDEBUG("HTTPS Downloaded " + String(strData.length()));
+
+    File fScript = SPIFFS.open(strPath, "w");
+
+    if (!fScript)
+    {
+      GDEBUG("Failed to write a file " + strPath);
+    }
+    else
+    {
+      fScript.print(strData);
+      fScript.close();
+      GDEBUG(strPath + " Saved");
+      uiBytesWritten = strData.length();
+    }
+  }
+  else
+  {
+
+    GDEBUG("HTTPS Failed downloading");
+  }
+  http.end();
+
+  mb_check(mb_push_int(s, l, uiBytesWritten));
   return result;
 }
 #endif
