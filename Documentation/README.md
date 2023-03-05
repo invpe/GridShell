@@ -29,3 +29,6 @@ Read about the Grid Improvement Proposal document, the way i try to keep a track
 
 # API
 Check how to integrate with the current GridShell network [here](https://github.com/invpe/GridShell/tree/main/Documentation/API)
+
+# The Test Net
+Read about how the GridShell operates today on a test network, which is buggy far from being secure and can go down very often [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/GTN.md)
