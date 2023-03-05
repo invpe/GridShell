@@ -6,6 +6,8 @@ we will see some of these products mature and go to market being operated totall
 
 #  NoiseBlaster
 
+https://github.com/invpe/GridShell/tree/main/Sources/Integrations/NoiseBlaster
+
 A 100% green, eco friendly, zero carbon footprint, cost neutral noise sensors.
 
 This is a flag product for the GridShell network. 
