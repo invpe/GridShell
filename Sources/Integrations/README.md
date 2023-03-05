@@ -15,8 +15,7 @@ These devices run solely on the network being part of the Test Net Core tasks,
 they don't require any hosting or even web service - all things are happening with the use of shell tokens and on the people's nodes.
 Nodes are powered by solar panels reducing costs to zero.
 
-Achievements
-
+Achievements:
 :seedling: - 100% eco | 
 :cloud: - no hosting | 
 :dollar: - zero costs |
