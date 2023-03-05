@@ -5,3 +5,4 @@
 ---------------------------
 
 # Grid Improvement Proposals
+A dedicated documentation to all major logic changes made to the network source codes.
