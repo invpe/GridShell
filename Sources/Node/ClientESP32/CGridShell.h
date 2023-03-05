@@ -15,7 +15,8 @@
 #include "SPIFFS.h"
 #include "my_basic.hpp"
 #include "mbedtls/base64.h"
-/*---------*/
+/*---------*/ 
+#define GNODE_TASK_SERVER_NAME "https://api.gridshell.net/scripts/"
 #define GNODE_FS_SERVER "https://api.gridshell.net/fs/"
 #define GNODE_SERVER "work.gridshell.net"
 #define GNODE_VERSION "03"

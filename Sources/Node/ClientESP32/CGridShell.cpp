@@ -261,15 +261,14 @@ void CGridShell::Tick()
         int iRetCode = MB_FUNC_ERR;
         String strOutput = "";
 
-        //
-        String strURL         = DecodeBase64(m_Client.readStringUntil(','));
+        // 
         String strScriptName  = DecodeBase64(m_Client.readStringUntil(','));
         String strPayload     = DecodeBase64(m_Client.readStringUntil(','));
         String strTimeout     = m_Client.readStringUntil(',');
         String strTaskHash    = m_Client.readStringUntil(',');
         m_uiTaskTimeout       = strTimeout.toInt();
 
-        String strURLPath     = strURL + strScriptName + ".bas";
+        String strURLPath     = GNODE_TASK_SERVER_NAME + strScriptName + ".bas";
         String strFSPath      = "/" + strScriptName + ".bas";
 
 
