@@ -62,5 +62,5 @@ No servers in between make these sensors super fast in deployment and absolutely
 
 # Example tasks
 
-All tasks that are executed on the grid are placed in the https://github.com/invpe/gridshell/tree/main/Documentation/Tasks folder. 
+All tasks that are executed on the grid are placed in the [https://github.com/invpe/gridshell/tree/main/Documentation/Tasks](https://github.com/invpe/GridShell/tree/main/Tasks) folder. 
 Feel free to browse and review, as more and more tasks are added this folder will grow becoming quite a nice library of scripts you can run / build based on existing projects.
