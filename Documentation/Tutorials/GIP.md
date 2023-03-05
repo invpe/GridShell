@@ -11,6 +11,4 @@ Improvements and major changes for GridShell will be stored in files called GIP 
 Since GridShell is available thanks to You sharing computational power voluntarily - all proposals are decided to be publicly available and
 open for discussion and suggestions.
 
-GIP document serves as a documentation of a change in the system, once it is approved by the majority of the users it is planned for a release.
-GridShell will use a Voting process for decision making about implementing GIP to production.
- 
+GIP document serves as a documentation of a change in the system, hopefully this will serve better than comments in the code ;-)
