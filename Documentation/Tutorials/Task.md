@@ -63,4 +63,5 @@ Feel free to browse and review, as more and more tasks are added this folder wil
 
 
 # How can i create a script (task)
-TBD
+For now, reach out to https://github.com/invpe/GridShell/tree/main/Documentation/Scripts, this should get you started.
+
