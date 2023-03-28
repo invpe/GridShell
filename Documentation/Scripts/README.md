@@ -67,8 +67,9 @@ GridShell exposes few more internal functions that you can use in your scripting
 - Input: start byte, count
 - Output: String or empty if failed
 - Example: `STRING=READ(1,30)`
-- Shells: 1
 
 `WRITE` - Write a telemetry data to a gridshell network
+
+- Shells: 1
 
 `SHA1` - Generate SHA1
