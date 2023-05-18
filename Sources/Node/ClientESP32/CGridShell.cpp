@@ -12,7 +12,7 @@ CGridShell::CGridShell()
   m_strUsername = "";
   m_uiLastHB    = 0;
 
-  // To force the connection to happen immediately after poweron
+  // To force the connection to haappen immediately after poweron
   // We skip to the future ;-)
   m_uiLastReconnection = millis() + (10 * GNODE_RECON_TIMER);
 
@@ -261,7 +261,7 @@ void CGridShell::Tick()
         int iRetCode = MB_FUNC_ERR;
         String strOutput = "";
 
-        // 
+        //
         String strScriptName  = DecodeBase64(m_Client.readStringUntil(','));
         String strPayload     = DecodeBase64(m_Client.readStringUntil(','));
         String strTimeout     = m_Client.readStringUntil(',');
@@ -287,7 +287,7 @@ void CGridShell::Tick()
           GDEBUG("Diff hashes");
 
           // Get the task file
-          if (DownloadScript(strURLPath, strFSPath) == true)
+          if (StreamScript(strURLPath, strFSPath) == true)
             GDEBUG("Download completed");
           else GDEBUG("Download failed");
         }
@@ -367,7 +367,6 @@ void CGridShell::Tick()
         }
 
         Send("RESULTS," + String(iRetCode) + "," + EncodeBase64(strOutput) + "\r\n");
-
         if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_IDLE);
       }
     }
@@ -598,41 +597,44 @@ String CGridShell::XOR(const String & toEncrypt, const String & rstrKey)
 //  - Class     : CGridShell
 //  - Prototype :
 //
-//  - Purpose   : Obtains the source of the task to execute
+//  - Purpose   : Obtains the source of the task to execute via streaming
 //
 // -----------------------------------------------------------------------------
-bool CGridShell::DownloadScript(const String& rstrURL, const String& rstrPath)
+bool CGridShell::StreamScript(const String& rstrURL, const String& rstrPath)
 {
 
-  //
-  HTTPClient http;
-  http.begin(rstrURL);
+  HTTPClient httpClient; 
 
-  //
-  int httpCode    = http.GET();
-  String strData  = http.getString();
+  httpClient.begin(rstrURL);
+  int httpCode = httpClient.GET();
 
-  //
-  if (httpCode == 200)
+  if (httpCode == HTTP_CODE_OK)
   {
-    http.end();
-
-    GDEBUG("HTTPS Downloaded");
-
-    File fScript = SPIFFS.open(rstrPath, "w");
-
-    if (!fScript) {
+    File file = SPIFFS.open(rstrPath, FILE_WRITE);
+    if (!file) 
+    {
       GDEBUG("Failed to write a file " + rstrPath);
+      httpClient.end();
       return false;
     }
-    fScript.print(strData);
-    fScript.close();
 
+    WiFiClient* stream = httpClient.getStreamPtr();
+    uint8_t buffer[128] = {0};
+    int bytesRead = 0;
+
+    while (httpClient.connected() && (bytesRead = stream->readBytes(buffer, sizeof(buffer))) > 0) {
+      file.write(buffer, bytesRead);
+    }
+
+    file.close();
     GDEBUG(rstrPath + " Saved");
     return true;
+    
+  } else {
+    Serial.printf("Failed to download file. HTTP error code: %d\n", httpCode);
   }
-  http.end();
 
+  httpClient.end();
   GDEBUG("HTTPS Failed");
   return false;
 }
@@ -682,7 +684,7 @@ String CGridShell::GetSHA1(const String& rstrFile)
 //  - Class     : CGridShell
 //  - Prototype :
 //
-//  - Purpose   : **Experimental** (LIB only)
+//  - Purpose   : Lib Only
 //                Write a string to a file stored on the grid network (max 128b)
 //
 // -----------------------------------------------------------------------------
@@ -725,8 +727,8 @@ bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const boo
 //                CGridShell::GetInstance().TestScript(strScript, "some_input_payload");
 // -----------------------------------------------------------------------------
 /*
-void CGridShell::TestScript(const String& strScript, const String& strInputPayload)
-{
+  void CGridShell::TestScript(const String& strScript, const String& strInputPayload)
+  {
   Serial.println(strScript);
 
   //
@@ -778,7 +780,41 @@ void CGridShell::TestScript(const String& strScript, const String& strInputPaylo
 
   mb_close(&bas);
   mb_dispose();
-}*/
+  }*/
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   :
+//
+// -----------------------------------------------------------------------------
+uint32_t CGridShell::AddTask(const String& rstrScript, const String& rstrInputPayload)
+{
+  if (rstrScript.length() <= 0)return false;
+  if (rstrInputPayload.length() <= 0)return false;
+  if (rstrInputPayload.length() > GNODE_MAX_PAYLOAD_LEN)return false;
+
+
+  String strInputBase = EncodeBase64(rstrInputPayload);
+  String strCommand = "ADDT," + rstrScript + "," + strInputBase + "\r\n";
+
+  Send(strCommand);
+
+  String strReturn      = m_Client.readStringUntil(',');
+  String strReturnCode  = m_Client.readStringUntil(',');
+
+
+  GDEBUG("AddTask : " + strReturnCode);
+
+  //
+  if (strReturn == "ADDT" && strReturnCode[0] != 'B' && strReturnCode[1] != 'A' && strReturnCode[2] != 'D')
+  {
+    return strReturnCode.toInt();
+  }
+
+  return false;
+}
 // --[  Method  ]---------------------------------------------------------------
 //
 //  - Class     : CGridShell

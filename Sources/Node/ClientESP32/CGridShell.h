@@ -16,6 +16,7 @@
 #include "my_basic.hpp"
 #include "mbedtls/base64.h"
 /*---------*/ 
+#define GNODE_MAX_PAYLOAD_LEN 256
 #define GNODE_TASK_SERVER_NAME "https://api.gridshell.net/scripts/"
 #define GNODE_FS_SERVER "https://api.gridshell.net/fs/"
 #define GNODE_SERVER "work.gridshell.net"
@@ -62,6 +63,7 @@ class CGridShell
     void Stop();
     void RegisterEventCallback(void (*pFunc)(  uint8_t  ) );
     bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
+    uint32_t AddTask(const String& rstrScript, const String& rstrInputPayload);
 
     ~CGridShell();
 
@@ -71,7 +73,7 @@ class CGridShell
 
   private:
     CGridShell();
-    bool DownloadScript(const String& rstrURL, const String& rstrPath);
+    bool StreamScript(const String& rstrURL, const String& rstrPath);
     String GetMD5(const String& rstrFile);
     String GetSHA1(const String& rstrFile);
     String XOR(const String& toEncrypt, const String& rstrKey);
