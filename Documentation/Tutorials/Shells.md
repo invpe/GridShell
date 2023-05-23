@@ -2,8 +2,8 @@
 Shells are virtual credits that users earn when executing tasks on the network.
 
 # How do i use Shells ?
-Shells are required to run a task, currently `one task = one shell`, meaning for each task submitted you need to have one shell token. 
-THe more shells you have, the more tasks you can run on the network.
+Shells are required to run a task and write telemetry on the grid - currently `one task = one shell`, meaning for each task submitted you need to have one shell token. 
+The more shells you have, the more tasks you can run on the network.
 
 # How do i get Shells ?
 When a task is assigned to your node and executed a validation mechanism kicks in, once confirmed that the execution was correct, you get one shell token.
