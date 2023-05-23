@@ -1,0 +1,4 @@
+OUTPUTPAYLOAD = ""
+a = 0
+WHILE a < 10
+WEND
