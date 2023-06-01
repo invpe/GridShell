@@ -182,57 +182,49 @@ void CGridShell::Tick()
         // Diffie-Hellman Key Exchange
         // ****************************
 
-        // Get P,G and Server public key for our node
-        String strServerP = m_Client.readStringUntil('\n');
-        String strServerG = m_Client.readStringUntil('\n');
+        // Get Server public key for our node
         String strServerPublicKey = m_Client.readStringUntil('\n');
-        GDEBUG("Got P=" + strServerP + " G=" + strServerG + " ServPubKey=" + strServerPublicKey);
+        GDEBUG("Got ServPubKey=" + strServerPublicKey);
 
         // Failure, drop.
-        if (strServerP.isEmpty() || strServerG.isEmpty() || strServerPublicKey.isEmpty())
+        if (strServerPublicKey.isEmpty())
         {
           GDEBUG("No response, cancelled");
           Stop();
           return;
         }
 
-        //
-        uint64_t uiServerP          = strtoull(strServerP.c_str(), NULL, 10);
-        uint64_t uiServerG          = strtoull(strServerG.c_str(), NULL, 10);
-        uint64_t uiServerPublicKey  = strtoull(strServerPublicKey.c_str(), NULL, 10);
+        CBigInteger uiP = std::string("8799372823567034263");
+        CBigInteger uiG = std::string("3");
+        CBigInteger uiServerPublicKey = strServerPublicKey.c_str();
 
         // Calculate our private key
-        uint64_t uiDHPrivateKey = esp_random();
+        CBigInteger uiMyPrivateKey = std::to_string(esp_random());
 
         // Calculate our public key
-        uint64_t uiDHPublicKey = power(uiServerG, uiDHPrivateKey, uiServerP);
+        CBigInteger uiMyPublicKey = uiG.powMod(uiMyPrivateKey, uiP);
 
-        // Compute symmetric (secret) key
-        uint64_t uiKey = power(uiServerPublicKey, uiDHPrivateKey, uiServerP);
-
+        // Compute symmetric (shared secret) key
+        CBigInteger uiKey = uiServerPublicKey.powMod(uiMyPrivateKey, uiP); 
+        
         // ****************************
         // SHA1
         // ****************************
-
-        char cTemp[40];
-        sprintf(cTemp, "%llu", uiKey);
-        String sha1HashKey = sha1HW(cTemp);
+        String sha1HashKey = sha1HW(String(uiKey.GetInteger().c_str()));
 
         // ****************************
         // XOR
         // ****************************
-
         String strCipher = XOR(m_strUsername, sha1HashKey);
 
         // ****************************
         // BASE64ENCODE
         // ****************************
-
         String strBase64EncodedGUID = EncodeBase64(strCipher);
 
-        // Pass my Public Key and GUID encoded
-        Send("JOB," + String(std::to_string(uiDHPublicKey).c_str()) + "," + strBase64EncodedGUID + "," + GNODE_VERSION + "," + m_strMACAddress + "," + GNODE_ARCH + "\r\n");
 
+        // Pass my Public Key and GUID encoded
+        Send("JOB," + String( uiMyPublicKey.GetInteger().c_str()) + "," + strBase64EncodedGUID + "," + GNODE_VERSION + "," + m_strMACAddress + "," + GNODE_ARCH + "\r\n");
 
         //
         if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_IDLE);
@@ -538,42 +530,7 @@ String CGridShell::sha1HW(unsigned char *payload, int len)
 
   return hashStr;
 }
-// --[  Method  ]---------------------------------------------------------------
-//
-//  - Class     : CGridShell
-//  - Prototype :
-//
-//  - Purpose   : Modular Mul
-//
-// -----------------------------------------------------------------------------
-uint64_t CGridShell::modular_mul(uint64_t a, uint64_t b, uint64_t mod) {
-  uint64_t result = 0;
-  for (uint64_t current_term = a; b; b >>= 1) {
-    if (b & 1) {
-      result = (result + current_term) % mod;
-    }
-    current_term = 2 * current_term % mod;
-  }
-  return result;
-}
-// --[  Method  ]---------------------------------------------------------------
-//
-//  - Class     : CGridShell
-//  - Prototype :
-//
-//  - Purpose   : Power method
-//
-// -----------------------------------------------------------------------------
-uint64_t CGridShell::power(uint64_t base, uint64_t exp, uint64_t mod) {
-  uint64_t result = 1;
-  for (uint64_t current_factor = base; exp; exp >>= 1) {
-    if (exp & 1) {
-      result = modular_mul(result, current_factor, mod);
-    }
-    current_factor = modular_mul(current_factor, current_factor, mod);
-  }
-  return result;
-}
+
 // --[  Method  ]---------------------------------------------------------------
 //
 //  - Class     : CGridShell
@@ -603,7 +560,7 @@ String CGridShell::XOR(const String & toEncrypt, const String & rstrKey)
 bool CGridShell::StreamScript(const String& rstrURL, const String& rstrPath)
 {
 
-  HTTPClient httpClient; 
+  HTTPClient httpClient;
 
   httpClient.begin(rstrURL);
   int httpCode = httpClient.GET();
@@ -611,7 +568,7 @@ bool CGridShell::StreamScript(const String& rstrURL, const String& rstrPath)
   if (httpCode == HTTP_CODE_OK)
   {
     File file = SPIFFS.open(rstrPath, FILE_WRITE);
-    if (!file) 
+    if (!file)
     {
       GDEBUG("Failed to write a file " + rstrPath);
       httpClient.end();
@@ -629,7 +586,7 @@ bool CGridShell::StreamScript(const String& rstrURL, const String& rstrPath)
     file.close();
     GDEBUG(rstrPath + " Saved");
     return true;
-    
+
   } else {
     Serial.printf("Failed to download file. HTTP error code: %d\n", httpCode);
   }
@@ -713,74 +670,6 @@ bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const boo
     return true;
   return false;
 }
-// --[  Method  ]---------------------------------------------------------------
-//
-//  - Class     : CGridShell
-//  - Prototype : TestScript(const String& strScript, const String& strInputPayload)
-//
-//  - Purpose   : Uncomment to play with testing the scripts on the device, normally
-//                this is not used, so commented out.
-//
-//                Example:
-//                Initialize and get Grid Online
-//                String strScript = "OUTPUTPAYLOAD=READ(\"NB4C11AEF6ECF02023213\",10,10)\nPRINT OUTPUTPAYLOAD;";
-//                CGridShell::GetInstance().TestScript(strScript, "some_input_payload");
-// -----------------------------------------------------------------------------
-/*
-  void CGridShell::TestScript(const String& strScript, const String& strInputPayload)
-  {
-  Serial.println(strScript);
-
-  //
-  int iRetCode = MB_FUNC_ERR;
-  String strOutput = "";
-
-  void **l = NULL;
-  struct mb_interpreter_t* bas = NULL;
-
-  // Initialize MYBASIC
-  mb_init();
-  mb_open(&bas);
-
-  // Bitwise operations
-  mb_register_func(bas, "BIT_AND", _bit_and);
-  mb_register_func(bas, "BIT_OR", _bit_or);
-  mb_register_func(bas, "BIT_NOT", _bit_not);
-  mb_register_func(bas, "BIT_XOR", _bit_xor);
-  mb_register_func(bas, "BIT_LSHIFT", _bit_lshift);
-  mb_register_func(bas, "BIT_RSHIFT", _bit_rshift);
-  mb_register_func(bas, "READ", _read);
-  mb_register_func(bas, "WRITE", _write);
-  mb_register_func(bas, "SHA1", _sha1);
-  mb_register_func(bas, "DOWNLOAD", _download);
-  mb_register_func(bas, "TSIZE", _tsize);
-
-  // Load up the script
-  if (mb_load_string(bas, strScript.c_str(), true) == MB_FUNC_OK)
-  {
-    // payload check and upload
-    if (strInputPayload != "")
-    {
-      mb_value_t valAdd;
-      valAdd.type = MB_DT_STRING;
-      valAdd.value.string =  (char *)strInputPayload.c_str();
-      mb_add_var(bas, l, "INPUTPAYLOAD", valAdd, true);
-    }
-
-    // Run
-    iRetCode = mb_run(bas, true);
-
-    // Obtain output
-    mb_value_t valGet;
-    int iRes = mb_get_value_by_name(bas, l, "OUTPUTPAYLOAD", &valGet);
-
-    // Needs to be a string
-    strOutput = String(valGet.value.string);
-  }
-
-  mb_close(&bas);
-  mb_dispose();
-  }*/
 // --[  Method  ]---------------------------------------------------------------
 //
 //  - Class     : CGridShell

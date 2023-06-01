@@ -15,6 +15,7 @@
 #include "SPIFFS.h"
 #include "my_basic.hpp"
 #include "mbedtls/base64.h"
+#include "CBigInteger.h"
 /*---------*/ 
 #define GNODE_MAX_PAYLOAD_LEN 256
 #define GNODE_TASK_SERVER_NAME "https://api.gridshell.net/scripts/"
@@ -31,7 +32,7 @@
 #define GNODE_ARCH "ESP32"
 /*---------*/
 // Enable to dump debug informations to the serial
-#define GNODE_DEBUG 1
+//#define GNODE_DEBUG 1
 #ifdef GNODE_DEBUG
 #define GDEBUG Serial.println
 #else
@@ -65,11 +66,7 @@ class CGridShell
     bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
     uint32_t AddTask(const String& rstrScript, const String& rstrInputPayload);
 
-    ~CGridShell();
-
-
-    //void TestScript(const String& strScript, const String& strInputPayload);
-
+    ~CGridShell(); 
 
   private:
     CGridShell();
@@ -79,8 +76,6 @@ class CGridShell
     String XOR(const String& toEncrypt, const String& rstrKey);
     String sha1HW(String payload);
     String sha1HW(unsigned char *payload, int len);
-    uint64_t power(uint64_t base, uint64_t exp, uint64_t mod);
-    uint64_t modular_mul(uint64_t a, uint64_t b, uint64_t mod);
     String EncodeBase64(const String& strString);
     String DecodeBase64(const String& strString);
     void Send(const String& strData);
