@@ -38,12 +38,8 @@ Same as above but validators only, do not waste energy - come back in a moment.
 
 ----
 
-2. Obtain Server `public key`, `P`, `G` values from the welcome message
+2. Obtain Server `public key` value from the welcome message
   
-`184440799 - Server P`
-
-`3 - Server G`
-
 `148722804 - Server Public Key`
 
 
