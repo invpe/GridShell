@@ -21,7 +21,7 @@
 #define GNODE_TASK_SERVER_NAME "https://api.gridshell.net/scripts/"
 #define GNODE_FS_SERVER "https://api.gridshell.net/fs/"
 #define GNODE_SERVER "work.gridshell.net"
-#define GNODE_VERSION "03"
+#define GNODE_VERSION "04"
 #define GNODE_TELEMETRY_FILENAME "/TELEMETRY"
 #define GNODE_PING_TIME 10000
 #define GNODE_RECON_TIMER (1000 * 60)
