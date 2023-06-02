@@ -1,0 +1,16 @@
+# GIP 0007 - Protocol V004 Version
+
+- Author(s): gridshell
+- Date: 2/6/2023
+
+# Synopsis
+Protocol update to version 004
+
+Remove P,G from server hello message,
+hard code P,G in the server,client sources.
+
+# Rationale
+To minimize the welcome payload - remove P,G sharing and leave Server public key on the welcome message.
+Hard code P,G values in nodes and use BigInteger class to enhance for bigger prime numbers in the future.
+  
+  
