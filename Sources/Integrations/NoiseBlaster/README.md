@@ -67,13 +67,29 @@ Your sketch folder files should look like this now:
 
 
 
+7. Open **NoiseBlaster.ino** with arduino
 
-8. Connect ESP32 and upload the sketch
-9. From now on, your Noiseblaster :
+![image](https://github.com/invpe/GridShell/assets/106522950/0e86cadb-35f2-4d07-95f7-e3421df86686)
+
+8. Update WiFi credentials and provide your GS UID
+
+![image](https://github.com/invpe/GridShell/assets/106522950/ae53dfa0-d405-40f8-a63b-260f99976930)
+
+9. Connect ESP32 to your USB
+10. Click `Tools->Board->WEMOS LOLIN32`
+11. Click `Tools->Port` and select ESP32 Com port
+12. Click `Sketch->Upload` and upload the software to ESP32
+13. Once uploaded you will see
+
+![image](https://github.com/invpe/GridShell/assets/106522950/9d8f1ff1-2e31-4ec0-8e07-654b455cfd7a)
+
+
+# :beer: Grab a beer, you're all set !
+
+From now on, your Noiseblaster :
 
 - Is part of the GridShell network
 - Measures noise levels
 - Contributes to the network executing scripts(tasks) and earning shells
 - Is available to view over GridShell explorer grafana dashboards.
 
-# :beer: Grab a beer, you're all set !
