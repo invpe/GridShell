@@ -2,8 +2,12 @@
 
 A Gridshell enabled, headless noise sensor based on ESP32 and SKU_SEN0232 analog sensor.
 
-Sound level meters are widely used in environmental noise detection, such as highway noise monitoring station, room noise monitoring and so on. 
-It’s time for you to DIY a sound level detector to protect your hearing.
+_Sound level meters are widely used in environmental noise detection, such as highway noise monitoring station, room noise monitoring and so on. 
+It’s time for you to DIY a sound level detector to protect your hearing._
+
+![image](https://github.com/invpe/GridShell/assets/106522950/c11a6805-4e6a-4681-aaf9-5ca4ecb0d961)
+
+
 
 # What is it ?
 
@@ -23,6 +27,7 @@ Just visit the NoiseBlaster dashboard page and provide your's Noiseblaster devic
 # What is it made of ?
 
 Noiseblaster is using two devices connected together with three wires.
+
 This is all you need to measure noise levels in your surroundings.
 
 1. ESP32 Mini
@@ -37,9 +42,22 @@ This is all you need to measure noise levels in your surroundings.
 
 This is really simple, let's build one together.
 
-1. Get ESP32 Mini and the DFRobot SEN0232 serns
+1. Get ESP32 Mini and the DFRobot SEN0232 sensor.
 2. Print out [the PLA case](https://github.com/invpe/GridShell/blob/main/Sources/Integrations/NoiseBlaster/NoiseBlaster.stl)
-3. Connect the wires
-4. Download the sketch and provide necessary details like your GUID, Wifi details
-5. Connect ESP32 and upload the sketch
-6.
+3. [Pull out the ESP32 Mini pinout](https://nettigo.eu/products/wifi-bluetooth-module-esp32-d1-mini)
+4. Connect wires 
+
+- Sensor GND to ESP GND
+- Sensor Analog to ESP SVP
+- Sensor VOLTAGE to ESP VCC
+
+5. Download the sketch and provide necessary details like your GUID, Wifi details
+6. Connect ESP32 and upload the sketch
+7. From now on, your Noiseblaster :
+
+- Is part of the GridShell network
+- Measures noise levels
+- Contributes to the network executing scripts(tasks) and earning shells
+- Is available to view over GridShell explorer grafana dashboards.
+
+
