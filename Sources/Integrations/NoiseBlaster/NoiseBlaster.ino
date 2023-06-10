@@ -2,12 +2,12 @@
    NoiseBlaster a GridShell driven Noise levels monitor
    This device is using DFRobot https://wiki.dfrobot.com/Gravity__Analog_Sound_Level_Meter_SKU_SEN0232
    to measure the value every minute and write it to a telemetry file on GridShell network.
-
 */
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <NTPClient.h>
 #include <ArduinoOTA.h>
+#include <ArduinoJson.h>
 #include <chrono>
 #include <vector>
 #include "SPIFFS.h"
@@ -16,17 +16,15 @@
 #include "CGridShell.h"
 #define GRID_U  ""
 /*------------------*/
-
 #define WIFI_A  ""
 #define WIFI_P  ""
-#define VREF  3.3
-
-uint32_t uiSensorPoolTimer;
-TaskHandle_t Task1;
-int iLastDay = 0;
+/*------------------*/
+#define VREF 3.3
+/*------------------*/
+uint32_t uiSensorPoolTimer;  
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org", 7200);
-
+/*------------------*/
 String GetMACAddress(const int& iType)
 {
   String strMac;
@@ -44,6 +42,7 @@ String GetMACAddress(const int& iType)
 
   return String(MAC_char);
 }
+/*------------------*/
 void setup()
 {
   Serial.begin(115200);
@@ -85,13 +84,13 @@ void setup()
   }
   else
     ESP.restart();
- 
-    
-  // Set time offset    
+
+
+  // Set time offset
   timeClient.setTimeOffset(3600);
   timeClient.begin();
   timeClient.update();
- 
+
 
   ArduinoOTA
   .onStart([]() {
@@ -126,8 +125,11 @@ void setup()
   ArduinoOTA.begin();
 
 
+  //
+  CGridShell::GetInstance().Tick();
 
 }
+/*------------------*/
 void loop()
 {
 
@@ -138,23 +140,24 @@ void loop()
   while (!timeClient.update()) {
     timeClient.forceUpdate();
   }
-
   // Keep ticking
   CGridShell::GetInstance().Tick();
 
   // Ensure grid online
   if (CGridShell::GetInstance().Connected())
   {
-    // Every minute
+    // Minute intervals
     if (millis() - uiSensorPoolTimer >= 60000)
     {
+
       time_t _t;
       _t = timeClient.getEpochTime();
-
       std::chrono::system_clock::time_point now = std::chrono::system_clock::from_time_t(_t);
       time_t tt = std::chrono::system_clock::to_time_t(now);
       tm local_tm = *localtime(&tt);
 
+
+      //
       float voltageValue, dbValue;
       voltageValue  = analogRead(A0);
       dbValue       = (voltageValue / 4095 * VREF) * 50 ;
@@ -172,10 +175,6 @@ void loop()
       // HOUR,MINUTE,DBI VALUE
       String strTextToWrite = String(timeClient.getEpochTime()) + "," + String(local_tm.tm_hour) + "," + String(local_tm.tm_min) + "," + String(dbValue) + "\n";
 
-      // Check if file exists, if not add header columns
-      // String strRead = CGridShell::GetInstance().Read("PocNetGroupMiners00000000000000000000001" + strFileName, 0, 1);
-
-
       bool bSuccess   = CGridShell::GetInstance().Write(strFileName, strTextToWrite, true);
 
       Serial.println("Time : " + timeClient.getFormattedTime());
@@ -188,5 +187,11 @@ void loop()
       uiSensorPoolTimer = millis();
 
     }
+  }
+  // Check if WiFi available, if not just boot.
+  if (WiFi.status() != WL_CONNECTED)
+  {
+    Serial.println("WIFI Bad, rebooting");
+    ESP.restart();
   }
 }
