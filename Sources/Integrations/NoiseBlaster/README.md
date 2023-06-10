@@ -1,4 +1,4 @@
-# Gridshell - Noiseblaster
+# :loudspeaker: Gridshell - Noiseblaster
 
 A Gridshell enabled, headless noise sensor based on ESP32 and SKU_SEN0232 analog sensor.
 
@@ -9,7 +9,7 @@ It’s time for you to DIY a sound level detector to protect your hearing._
 
 
 
-# What is it ?
+# :mag_right: What is it ?
 
 Noise Blaster is a first real "demo" integration with the GridShell environment.
 It is using DFRobot's sound meter to measure the sound levels and stores the output on the network for visualisations.
@@ -24,7 +24,7 @@ Just visit the NoiseBlaster dashboard page and provide your's Noiseblaster devic
 ![image](https://github.com/invpe/GridShell/assets/106522950/4e065f89-2d81-4450-92b1-eadd964ef72b)
 
 
-# What is it made of ?
+# :art: What is it made of ?
 
 Noiseblaster is using two devices connected together with three wires.
 
@@ -38,7 +38,7 @@ This is all you need to measure noise levels in your surroundings.
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/9fe0d047-b72c-452d-800d-63c8739f100b)
 
-# How do i make one ?
+# :pizza: How do i make one ?
 
 This is really simple, let's build one together.
 
@@ -60,4 +60,4 @@ This is really simple, let's build one together.
 - Contributes to the network executing scripts(tasks) and earning shells
 - Is available to view over GridShell explorer grafana dashboards.
 
-
+# :beer: Grab a beer, you're all set !
