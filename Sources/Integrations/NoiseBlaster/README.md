@@ -56,9 +56,20 @@ This is really simple, let's build one together.
 ![image](https://github.com/invpe/GridShell/assets/106522950/1e885f54-ffdc-4c6b-921e-f35ddbd68ed0)
 
 
-5. Download the sketch with the GridShell lib and provide necessary details like your GUID, Wifi details
-7. Connect ESP32 and upload the sketch
-8. From now on, your Noiseblaster :
+5. Create new sketch in arduino, name it **NoiseBlaster**
+6. [Download GS Lib files](https://github.com/invpe/GridShell/tree/main/Sources/Node/ClientESP32) and place them in your new sketch folder
+7. [Download NoiseBlaster.ino](https://github.com/invpe/GridShell/blob/main/Sources/Integrations/NoiseBlaster/NoiseBlaster.ino) and place in your new sketch folder
+
+Your sketch folder files should look like this now:
+
+
+![image](https://github.com/invpe/GridShell/assets/106522950/407767b4-6e76-4c08-bb92-0ba4a2cfef6e)
+
+
+
+
+8. Connect ESP32 and upload the sketch
+9. From now on, your Noiseblaster :
 
 - Is part of the GridShell network
 - Measures noise levels
