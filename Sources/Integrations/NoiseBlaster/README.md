@@ -22,6 +22,8 @@ You don't need to host anything to be able to use the sensor and the network fro
 Just visit the NoiseBlaster dashboard page and provide your's Noiseblaster device id.
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/4e065f89-2d81-4450-92b1-eadd964ef72b)
+![image](https://github.com/invpe/GridShell/assets/106522950/3dc06ae8-b28f-44f4-9bfc-2c2ec2ab4950)
+
 
 
 # :art: What is it made of ?
