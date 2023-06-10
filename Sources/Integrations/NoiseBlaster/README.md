@@ -53,9 +53,9 @@ This is really simple, let's build one together.
 - Sensor Analog to ESP SVP
 - Sensor VOLTAGE to ESP VCC
 
-5. Download the sketch and provide necessary details like your GUID, Wifi details
-6. Connect ESP32 and upload the sketch
-7. From now on, your Noiseblaster :
+5. Download the sketch with the GridShell lib and provide necessary details like your GUID, Wifi details
+7. Connect ESP32 and upload the sketch
+8. From now on, your Noiseblaster :
 
 - Is part of the GridShell network
 - Measures noise levels
