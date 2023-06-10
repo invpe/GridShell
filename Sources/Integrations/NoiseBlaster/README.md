@@ -8,10 +8,17 @@ It’s time for you to DIY a sound level detector to protect your hearing.
 # What is it ?
 
 Noise Blaster is a first real "demo" integration with the GridShell environment.
-It is using DFRobot's sound meter to measure the sound levels and stores the output on the network.
+It is using DFRobot's sound meter to measure the sound levels and stores the output on the network for visualisations.
 This device is using solely Grid Shell to store, calculate and display data while still contributing with execution of tasks in the background.
 
-It has a simple to 3D Print case (non waterproof!) for you to pack it up and start using.
+It has a simple to [3D Print case](https://github.com/invpe/GridShell/blob/main/Sources/Integrations/NoiseBlaster/NoiseBlaster.stl) (non waterproof!) for you to pack it up and start using.
+
+Noiseblaster is using GridShell explorer frontend made in Grafana for visualisations, keeping your setup completely headless.
+You don't need to host anything to be able to use the sensor and the network from the moment you connect.
+Just visit the NoiseBlaster dashboard page and provide your's Noiseblaster device id.
+
+![image](https://github.com/invpe/GridShell/assets/106522950/4e065f89-2d81-4450-92b1-eadd964ef72b)
+
 
 # What is it made of ?
 
@@ -26,3 +33,13 @@ This is all you need to measure noise levels in your surroundings.
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/9fe0d047-b72c-452d-800d-63c8739f100b)
 
+# How do i make one ?
+
+This is really simple, let's build one together.
+
+1. Get ESP32 Mini and the DFRobot SEN0232 serns
+2. Print out [the PLA case](https://github.com/invpe/GridShell/blob/main/Sources/Integrations/NoiseBlaster/NoiseBlaster.stl)
+3. Connect the wires
+4. Download the sketch and provide necessary details like your GUID, Wifi details
+5. Connect ESP32 and upload the sketch
+6.
