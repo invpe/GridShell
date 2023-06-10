@@ -14,10 +14,10 @@
 #include <ctime>
 /*------------------*/
 #include "CGridShell.h"
-#define GRID_U  ""
+#define GRID_U  "PUT_YOUR_GUID_HERE"
 /*------------------*/
-#define WIFI_A  ""
-#define WIFI_P  ""
+#define WIFI_A  "PUT_YOUR_ACCESSPOINT_NAME"
+#define WIFI_P  "PUT_YOUR_ACCESSPOINT_WIF_PASSWORD"
 /*------------------*/
 #define VREF 3.3
 /*------------------*/
