@@ -53,6 +53,9 @@ This is really simple, let's build one together.
 - Sensor Analog to ESP SVP
 - Sensor VOLTAGE to ESP VCC
 
+![image](https://github.com/invpe/GridShell/assets/106522950/1e885f54-ffdc-4c6b-921e-f35ddbd68ed0)
+
+
 5. Download the sketch with the GridShell lib and provide necessary details like your GUID, Wifi details
 7. Connect ESP32 and upload the sketch
 8. From now on, your Noiseblaster :
