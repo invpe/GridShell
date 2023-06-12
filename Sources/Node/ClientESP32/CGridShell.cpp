@@ -675,14 +675,14 @@ bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const boo
 //  - Class     : CGridShell
 //  - Prototype :
 //
-//  - Purpose   :
+//  - Purpose   : Returns 0 if failed
 //
 // -----------------------------------------------------------------------------
 uint32_t CGridShell::AddTask(const String& rstrScript, const String& rstrInputPayload)
 {
-  if (rstrScript.length() <= 0)return false;
-  if (rstrInputPayload.length() <= 0)return false;
-  if (rstrInputPayload.length() > GNODE_MAX_PAYLOAD_LEN)return false;
+  if (rstrScript.length() <= 0)return 0;
+  if (rstrInputPayload.length() <= 0)return 0;
+  if (rstrInputPayload.length() > GNODE_MAX_PAYLOAD_LEN)return 0;
 
 
   String strInputBase = EncodeBase64(rstrInputPayload);
@@ -702,7 +702,7 @@ uint32_t CGridShell::AddTask(const String& rstrScript, const String& rstrInputPa
     return strReturnCode.toInt();
   }
 
-  return false;
+  return 0;
 }
 // --[  Method  ]---------------------------------------------------------------
 //

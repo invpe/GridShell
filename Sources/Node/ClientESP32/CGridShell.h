@@ -16,7 +16,7 @@
 #include "my_basic.hpp"
 #include "mbedtls/base64.h"
 #include "CBigInteger.h"
-/*---------*/ 
+/*---------*/
 #define GNODE_MAX_PAYLOAD_LEN 256
 #define GNODE_TASK_SERVER_NAME "https://api.gridshell.net/scripts/"
 #define GNODE_FS_SERVER "https://api.gridshell.net/fs/"
@@ -66,7 +66,7 @@ class CGridShell
     bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
     uint32_t AddTask(const String& rstrScript, const String& rstrInputPayload);
 
-    ~CGridShell(); 
+    ~CGridShell();
 
   private:
     CGridShell();
@@ -356,8 +356,6 @@ static int _write(struct mb_interpreter_t* s, void** l)
   mb_check(mb_push_int(s, l, 0));
   return result;
 }
-// Change to streaming later so that reading big telemetry files (max 1mb)
-// Can crash the memory now.
 static int _download(struct mb_interpreter_t* s, void** l)
 {
   int result = MB_FUNC_OK;
@@ -372,45 +370,38 @@ static int _download(struct mb_interpreter_t* s, void** l)
 
   GDEBUG("HTTPS Getting " + String(cFilename));
 
-  //
-  HTTPClient http;
-  http.begin(GNODE_FS_SERVER + String(cFilename));
-
-  //
+  HTTPClient httpClient;
   uint32_t uiBytesWritten = 0;
+  httpClient.begin(GNODE_FS_SERVER + String(cFilename));
+  int httpCode = httpClient.GET();
 
-  //
-  int httpCode    = http.GET();
-  String strData  = http.getString();
-
-
-  //
-  if (httpCode == 200)
+  if (httpCode == HTTP_CODE_OK)
   {
-    http.end();
-    GDEBUG("HTTPS Downloaded " + String(strData.length()));
-
-    File fScript = SPIFFS.open(strPath, "w");
-
-    if (!fScript)
+    File file = SPIFFS.open(strPath, FILE_WRITE);
+    if (!file)
     {
       GDEBUG("Failed to write a file " + strPath);
+      httpClient.end();
+      return false;
     }
-    else
-    {
-      fScript.print(strData);
-      fScript.close();
-      GDEBUG(strPath + " Saved");
-      uiBytesWritten = strData.length();
+
+    WiFiClient* stream = httpClient.getStreamPtr();
+    uint8_t buffer[128] = {0};
+    int bytesRead = 0;
+
+    while (httpClient.connected() && (bytesRead = stream->readBytes(buffer, sizeof(buffer))) > 0) {
+      file.write(buffer, bytesRead);
+      uiBytesWritten += bytesRead;
     }
+
+    file.close();
+    GDEBUG(strPath + " Saved");
   }
   else
-  {
-
     GDEBUG("HTTPS Failed downloading");
-  }
-  http.end();
 
+  httpClient.end();
+   
   mb_check(mb_push_int(s, l, uiBytesWritten));
   return result;
 }
