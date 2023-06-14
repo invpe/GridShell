@@ -14,14 +14,16 @@
 #include <ctime>
 /*------------------*/
 #include "CGridShell.h"
-#define GRID_U  "PUT_YOUR_GUID_HERE"
+#define GRID_U  ""
+#define GRID_PU ""
 /*------------------*/
-#define WIFI_A  "PUT_YOUR_ACCESSPOINT_NAME"
-#define WIFI_P  "PUT_YOUR_ACCESSPOINT_WIF_PASSWORD"
+#define WIFI_A  ""
+#define WIFI_P  ""
 /*------------------*/
 #define VREF 3.3
 /*------------------*/
-uint32_t uiSensorPoolTimer;  
+uint32_t uiSensorPoolTimer;
+uint32_t uiAveragesTaskID;
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org", 7200);
 /*------------------*/
@@ -45,8 +47,9 @@ String GetMACAddress(const int& iType)
 /*------------------*/
 void setup()
 {
-  Serial.begin(115200);
+  uiAveragesTaskID = 0;
 
+  Serial.begin(115200);
   Serial.println("Mounting FS...");
   while (!SPIFFS.begin())
   {
@@ -72,14 +75,12 @@ void setup()
       ESP.restart();
   }
 
-
   Serial.println("Connected " + WiFi.localIP().toString());
-
 
   ///////////////////////////////////////////////////
   // Initialize GridShell Node with your user hash//
   ///////////////////////////////////////////////////
-  if (CGridShell::GetInstance().Init(GRID_U) == true)
+  if (CGridShell::GetInstance().Init(GRID_U,true) == true)
   {
   }
   else
@@ -90,7 +91,6 @@ void setup()
   timeClient.setTimeOffset(3600);
   timeClient.begin();
   timeClient.update();
-
 
   ArduinoOTA
   .onStart([]() {
@@ -140,39 +140,66 @@ void loop()
   while (!timeClient.update()) {
     timeClient.forceUpdate();
   }
+
+  // Extract the time from NTP server
+  time_t _t;
+  _t = timeClient.getEpochTime();
+  std::chrono::system_clock::time_point now = std::chrono::system_clock::from_time_t(_t);
+  time_t tt = std::chrono::system_clock::to_time_t(now);
+  tm local_tm = *localtime(&tt);
+
   // Keep ticking
   CGridShell::GetInstance().Tick();
 
   // Ensure grid online
   if (CGridShell::GetInstance().Connected())
   {
+    // File name - you can see it is rotating per day to new file
+    // NB - Noise blaster
+    // MAC - Mac of the sensor
+    // YEAR - 2023
+    // MONTH - 2
+    // DAY - 13
+    // We will be storing 24hrs of data per day for each sensor
+    String strFileName    = "NB" + GetMACAddress(0) + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday);
+
+    // Submit daily averages task and wait for it's execution to complete/validate.
+    // Important: This can not kick in, if device is executing a task and finishing after the defined start time
+    // Important: When waiting for task to complete/validate no sensor data is pushed to avoid appending telemetry
+    //            and causing invalid validation (different telemetry files due to telemetry data difference)
+    if (uiAveragesTaskID == 0)
+    {
+      if ( local_tm.tm_hour == 23 && local_tm.tm_min >= 59  && local_tm.tm_sec <= 30 )
+      {
+        Serial.println("Time to submit daily task");
+
+        String strTaskPayload = GRID_PU + strFileName;
+        uiAveragesTaskID      = CGridShell::GetInstance().AddTask("nbdaily", strTaskPayload);
+
+        Serial.println("Task submitted: " + String(uiAveragesTaskID));
+        Serial.println("Awaiting execution and validation now");
+      }
+
+    }
+    else
+    {
+      if ( local_tm.tm_hour == 00 && local_tm.tm_min >= 00   && local_tm.tm_sec <= 30  )
+      {
+        uiAveragesTaskID = 0;
+      }
+    }
+
+
     // Minute intervals
     if (millis() - uiSensorPoolTimer >= 60000)
     {
-
-      time_t _t;
-      _t = timeClient.getEpochTime();
-      std::chrono::system_clock::time_point now = std::chrono::system_clock::from_time_t(_t);
-      time_t tt = std::chrono::system_clock::to_time_t(now);
-      tm local_tm = *localtime(&tt);
-
 
       //
       float voltageValue, dbValue;
       voltageValue  = analogRead(A0);
       dbValue       = (voltageValue / 4095 * VREF) * 50 ;
 
-      // File name - you can see it is rotating per day to new file
-      // NB - Noise blaster
-      // MAC - Mac of the sensor
-      // YEAR - 2023
-      // MONTH - 2
-      // DAY - 13
-      // We will be storing 24hrs of data per day for each sensor
-      String strFileName    = "NB" + GetMACAddress(0) + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday);
-
-      // Keep CSV (Comma separated for DataCopia visualisations)
-      // HOUR,MINUTE,DBI VALUE
+      // Keep data in CSV format for easy visualisation
       String strTextToWrite = String(timeClient.getEpochTime()) + "," + String(local_tm.tm_hour) + "," + String(local_tm.tm_min) + "," + String(dbValue) + "\n";
 
       bool bSuccess   = CGridShell::GetInstance().Write(strFileName, strTextToWrite, true);
