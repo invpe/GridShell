@@ -11,7 +11,7 @@
 
    https://www.gridshell.net/
    https://github.com/invpe/gridshell
-*/
+*/ 
 #include <ArduinoOTA.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
@@ -29,7 +29,7 @@
 ///////////////////////////////////
 // Turn on/off OTA functionality //
 ///////////////////////////////////
-#define ENABLE_OTA
+//#define ENABLE_OTA
 ///////////////////////////////////
 // Power saving on idle          //
 ///////////////////////////////////
@@ -235,7 +235,7 @@ void setup()
   ///////////////////////////////////////////////////
   // Initialize GridShell Node with your user hash//
   ///////////////////////////////////////////////////
-  if (CGridShell::GetInstance().Init(GRID_USERHASH) == true)
+  if (CGridShell::GetInstance().Init(GRID_USERHASH, true) == true)
   {
   }
   else
