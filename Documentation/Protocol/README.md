@@ -1,4 +1,4 @@
-# 🔡 GridShell work protocol (v04)
+# 🔡 GridShell work protocol (v05)
 
 
 
@@ -47,7 +47,7 @@ Same as above but validators only, do not waste energy - come back in a moment.
 4. `SHA1(symmetric_key)` - to generate a XOR key
 5. `XOR(user_hash with SHA1(symmetric_key))` - to generate cipher
 6. `BASE64ENCODE(XOR(user_hash, SHA1(symmetric_key)))` - to encode the cipher with base64
-7. Send `JOB,node_public_key,base64_cipher,VERSION,MAC,ARCH` - to identify with GridShell server
+7. Send `JOB,node_public_key,base64_cipher,VERSION,MAC,ARCH,1` - to identify with GridShell server
 
 Following `ARCH` types are defined for now:
 - ESP32
