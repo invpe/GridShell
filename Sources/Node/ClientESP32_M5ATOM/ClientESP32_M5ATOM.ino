@@ -168,7 +168,6 @@ void GridShellCB(uint8_t  uiEventType)
     ///////////////////////////////////
     case CGridShell::eEvent::EVENT_NO_TASKS_TO_VALIDATE:
       {
-
       }
       break;
     ///////////////////////////////////
