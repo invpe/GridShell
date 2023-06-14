@@ -21,7 +21,7 @@
 #define GNODE_TASK_SERVER_NAME "https://api.gridshell.net/scripts/"
 #define GNODE_FS_SERVER "https://api.gridshell.net/fs/"
 #define GNODE_SERVER "work.gridshell.net"
-#define GNODE_VERSION "04"
+#define GNODE_VERSION "05"
 #define GNODE_TELEMETRY_FILENAME "/TELEMETRY"
 #define GNODE_PING_TIME 10000
 #define GNODE_RECON_TIMER (1000 * 60)
@@ -55,7 +55,7 @@ class CGridShell
     };
     static CGridShell& GetInstance();
     static int MBStep(struct mb_interpreter_t* s, void** l, const char* f, int p, unsigned short row, unsigned short col);
-    bool Init(const String& strUsername);
+    bool Init(const String& strUsername, const bool& rbExecFlag);
     uint32_t GetTaskTimeout();
     uint32_t GetTaskStartTime();
     void Pong();
@@ -81,6 +81,7 @@ class CGridShell
     void Send(const String& strData);
     String m_strUsername;
     String m_strMACAddress;
+    uint8_t m_bExecFlag;
     uint32_t m_uiLastHB;
     uint32_t m_uiLastReconnection;
     uint32_t m_uiTaskStart;
@@ -357,7 +358,8 @@ static int _write(struct mb_interpreter_t* s, void** l)
   return result;
 }
 static int _download(struct mb_interpreter_t* s, void** l)
-{
+{ 
+
   int result = MB_FUNC_OK;
   char *cFilename;
 
@@ -401,7 +403,7 @@ static int _download(struct mb_interpreter_t* s, void** l)
     GDEBUG("HTTPS Failed downloading");
 
   httpClient.end();
-   
+
   mb_check(mb_push_int(s, l, uiBytesWritten));
   return result;
 }

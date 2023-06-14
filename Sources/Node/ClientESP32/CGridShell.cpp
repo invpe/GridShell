@@ -11,6 +11,7 @@ CGridShell::CGridShell()
 {
   m_strUsername = "";
   m_uiLastHB    = 0;
+  m_bExecFlag  = true;
 
   // To force the connection to haappen immediately after poweron
   // We skip to the future ;-)
@@ -54,11 +55,12 @@ void CGridShell::Stop()
 //  - Purpose   : Set things up internally
 //
 // -----------------------------------------------------------------------------
-bool CGridShell::Init(const String& strUsername)
+bool CGridShell::Init(const String& strUsername, const bool& rbExecFlag)
 {
   GDEBUG("Lib start");
 
   //
+  m_bExecFlag = rbExecFlag;
   m_strUsername = strUsername;
 
   // Validate username length
@@ -205,8 +207,8 @@ void CGridShell::Tick()
         CBigInteger uiMyPublicKey = uiG.powMod(uiMyPrivateKey, uiP);
 
         // Compute symmetric (shared secret) key
-        CBigInteger uiKey = uiServerPublicKey.powMod(uiMyPrivateKey, uiP); 
-        
+        CBigInteger uiKey = uiServerPublicKey.powMod(uiMyPrivateKey, uiP);
+
         // ****************************
         // SHA1
         // ****************************
@@ -224,7 +226,7 @@ void CGridShell::Tick()
 
 
         // Pass my Public Key and GUID encoded
-        Send("JOB," + String( uiMyPublicKey.GetInteger().c_str()) + "," + strBase64EncodedGUID + "," + GNODE_VERSION + "," + m_strMACAddress + "," + GNODE_ARCH + "\r\n");
+        Send("JOB," + String( uiMyPublicKey.GetInteger().c_str()) + "," + strBase64EncodedGUID + "," + GNODE_VERSION + "," + m_strMACAddress + "," + GNODE_ARCH + "," + String(m_bExecFlag) + "\r\n");
 
         //
         if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_IDLE);
