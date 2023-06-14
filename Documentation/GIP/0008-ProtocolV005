@@ -6,8 +6,14 @@
 # Synopsis
 Protocol update to version 005
 
-TBC
+Add EXEC parameter to JOB (ident) to mark node for executing tasks (1) or not (0).
+
 
 # Rationale
-TBC  
+To allow for easier work with GS, disable assigning tasks to nodes that do not want to execute them.
+This is helpful in situations where a lot of tasks are being processed, and the user is having hard time
+to find himself in lots of commands coming from the server assigning tasks to his id.
+
+ESP32 examples were updated but also protocol has changed to V005 to reflect this change.
+
   
