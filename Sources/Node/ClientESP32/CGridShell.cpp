@@ -96,6 +96,7 @@ void CGridShell::Pong()
   {
     if (millis() - m_uiLastHB >= GNODE_PING_TIME)
     {
+      GDEBUG("HEAP: " + String(ESP.getFreeHeap()));
       Send("PONG\r\n");
       m_uiLastHB = millis();
       if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_PONG);
@@ -359,8 +360,40 @@ void CGridShell::Tick()
           strOutput = "";
           iRetCode = 0;
         }
+        GDEBUG("Pushing results " + String(strOutput.length()));
 
-        Send("RESULTS," + String(iRetCode) + "," + EncodeBase64(strOutput) + "\r\n");
+        // Results can be long, so we treat them differently
+        if (strOutput.length() > 0)
+        {
+          // Get Len
+          size_t stLen = 0;
+          mbedtls_base64_encode(NULL, 0, &stLen, (unsigned char*)strOutput.c_str(), strOutput.length());
+
+          GDEBUG("B64 Length: " + String(stLen));
+
+          // Heap
+          unsigned char* encodedData = new unsigned char[stLen + 1];
+
+          // Encode
+          mbedtls_base64_encode(encodedData, stLen, &stLen, (unsigned char*)strOutput.c_str(), strOutput.length());
+
+          // Clea
+          encodedData[stLen] = '\0';
+          strOutput = "";
+
+          // Send
+          m_Client.write("RESULTS,", 8);
+          m_Client.write(String(iRetCode).c_str(), String(iRetCode).length());
+          m_Client.write(",", 1);          
+          m_Client.write(encodedData, stLen);
+          m_Client.write("\r\n", 2);
+
+          // Delete
+          delete[] encodedData;
+        }
+        else
+          Send("RESULTS," + String(iRetCode) + ",\r\n");
+
         if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_IDLE);
       }
     }
@@ -477,6 +510,8 @@ int CGridShell::MBStep(struct mb_interpreter_t* s, void** l, const char* f, int 
 
   // Breath
   yield();
+
+
   CGridShell::GetInstance().Pong();
 
   //
