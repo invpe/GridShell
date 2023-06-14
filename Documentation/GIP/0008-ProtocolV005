@@ -14,6 +14,9 @@ To allow for easier work with GS, disable assigning tasks to nodes that do not w
 This is helpful in situations where a lot of tasks are being processed, and the user is having hard time
 to find himself in lots of commands coming from the server assigning tasks to his id.
 
+Additionaly it allows to create nodes that have constraints and want to leverage other GS functionality (like WRITE) 
+without having to execute tasks.
+
 ESP32 examples were updated but also protocol has changed to V005 to reflect this change.
 
   
