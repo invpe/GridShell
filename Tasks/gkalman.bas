@@ -1,6 +1,4 @@
-'Kalman Filter 
-'INPUTPAYLOAD="filename_to_parse,KalmanQ,KalmanR,column_idx_to_filter"
-SVERSION="1.0"
+SVERSION="1.3"
 PRINT "STARTING ",SVERSION," NOW";
 '''''''''''''''''''''''''''''''''''
 DEF TOKENIZE(GDZIE, TO_SPLIT )   
@@ -43,10 +41,11 @@ DEF FINDNEWLINEPOS(STRINGUS)
   RETURN -1
 ENDDEF  
 '''''''''''''''''''''''''''''''''''  
-TEXT$ = "" 
+LISTA = LIST()   
 STRIN = ""
-VAR CURSOR = 0
-VAR TOTALCOUNT = 0 
+OUTPUTPAYLOAD = ""
+CURSOR = 0
+CHUNKSIZE = 128 
 ''''''''''''''''''''''''''''''''''' 
 x = 0
 P = 1
@@ -57,10 +56,7 @@ K = P / (P + R)
 x = x + K * (z - x)
 P = (1 - K) * P
 ENDDEF
-'''''''''''''''''''''''''''''''''''
-LISTA = LIST()   
- 
-' Take the filename
+''''''''''''''''''''''''''''''''''' 
 FNAME$ = PTOKENIZER(INPUTPAYLOAD,0) ' Filename to parse
 qQ = PTOKENIZER(INPUTPAYLOAD,1) ' KalmanQ
 rR = PTOKENIZER(INPUTPAYLOAD,2) ' KalmanR
@@ -68,48 +64,46 @@ vVALUE = PTOKENIZER(INPUTPAYLOAD,3) ' Which column to filter
 Q = VAL(qQ)
 R = VAL(rR)
 VALUEPOSITION = VAL(vVALUE)
-
-' Download the file from API server
+ 
 PRINT "DOWNLOADING ",FNAME$;
-VAR GETIT = DOWNLOAD(FNAME$)
+GETIT = DOWNLOAD(FNAME$)
 PRINT "DOWNLOADED ",GETIT," BYTES"; 
 
-' Continue until there is something to do
-VAR CHUNKSIZE = 128 
-WHILE READ(CURSOR,CHUNKSIZE) <> "" 
-  NEWS =  READ(CURSOR,CHUNKSIZE)  
-  STRIN = STRIN + NEWS  
-  VAR NEWLINEPOS = FINDNEWLINEPOS(STRIN)  
+READTIMES = GETIT / CHUNKSIZE
+FOR Z = 0 TO READTIMES 
+  
+  CURSOR = Z * CHUNKSIZE 
+  NEWS =  READ(CURSOR,CHUNKSIZE) 
 
-  WHILE NEWLINEPOS > 0 
-    TOKENIZED = LEFT(STRIN,NEWLINEPOS)
-    TOKENIZED = TOKENIZED +"," 
- 
+
+  IF NEWS = "" THEN
+  EXIT
+  ENDIF
+
+  STRIN = STRIN + NEWS     
+  WHILE TRUE
+    NEWLINEPOS  = FINDNEWLINEPOS(STRIN)  
+    IF NEWLINEPOS < 0 THEN
+    EXIT
+    ENDIF
+    TOKENIZED   = LEFT(STRIN,NEWLINEPOS)
+    TOKENIZED   = TOKENIZED +"," 
+
     CLEAR(LISTA)
     TOKENIZE(LISTA, TOKENIZED)  
     VAR RAWVALUE = GET(LISTA,VALUEPOSITION)  
 
     ' Kalman
     KalmanUpdate(VAL(RAWVALUE)) 
-    TEXT$ = TEXT$  + STR(x) + CHR(10)
- 	
- 	  '
-    VAR THESIZE = LEN(STRIN) - NEWLINEPOS  
+    OUTPUTPAYLOAD = OUTPUTPAYLOAD + STR(x) + CHR(10) 
 
-    ' We need to get new chunk
-    IF THESIZE < 10 THEN
-      NEWLINEPOS = -1
+
+    VAR THESIZE = LEN(STRIN) - NEWLINEPOS  
+ 
+    IF THESIZE < 10 THEN 
+      EXIT
     ELSE
-      STRIN       = MID(STRIN,NEWLINEPOS + 1,THESIZE - 1) 
-      NEWLINEPOS  = FINDNEWLINEPOS(STRIN)     
+      STRIN       = MID(STRIN,NEWLINEPOS + 1,THESIZE - 1)  
     ENDIF
-  WEND     
- CURSOR = CURSOR + CHUNKSIZE 
- TOTALCOUNT = TOTALCOUNT+CHUNKSIZE
-WEND
-''''''''''''''''''''''''
- 
-OUTPUTPAYLOAD=TEXT$
-PRINT OUTPUTPAYLOAD;
- 
- 
+  WEND    
+NEXT Z 
