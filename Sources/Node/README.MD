@@ -8,6 +8,7 @@ The files you will always need to put in any sketch folder are;
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/46dd89e3-c8a2-4977-b927-65a3c8451493)
 
+They are located in: https://github.com/invpe/GridShell/tree/main/Sources/GridShell
 
 
 
