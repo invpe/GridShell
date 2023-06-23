@@ -10,7 +10,7 @@
 #define __CLIB_GRID__
 /*---------*/
 #include <WiFi.h>
-#include <HTTPClient.h> 
+#include <HTTPClient.h>
 #include "SPIFFS.h"
 #include "my_basic.hpp"
 #include "mbedtls/base64.h"
@@ -25,8 +25,8 @@
 #define GNODE_PING_TIME 10000
 #define GNODE_RECON_TIMER (1000 * 60)
 #define GNODE_POOL_PORT 1911
-#define GNODE_WRITE_MAX 128
-#define GNODE_READ_MAX 128
+#define GNODE_WRITE_MAX 512
+#define GNODE_READ_MAX 512
 #define GNODE_RET_TERMINATED 777
 #define GNODE_ARCH "ESP32"
 /*---------*/
@@ -64,18 +64,17 @@ class CGridShell
     void RegisterEventCallback(void (*pFunc)(  uint8_t  ) );
     bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
     uint32_t AddTask(const String& rstrScript, const String& rstrInputPayload);
-
+    String EncodeBase64(const String& strString);
+    String DecodeBase64(const String& strString);
     ~CGridShell();
 
   private:
     CGridShell();
-    bool StreamScript(const String& rstrURL, const String& rstrPath); 
+    bool StreamScript(const String& rstrURL, const String& rstrPath);
     String GetSHA1(const String& rstrFile);
     String XOR(const String& toEncrypt, const String& rstrKey);
     String sha1HW(String payload);
     String sha1HW(unsigned char *payload, int len);
-    String EncodeBase64(const String& strString);
-    String DecodeBase64(const String& strString);
     void Send(const String& strData);
     String m_strUsername;
     String m_strMACAddress;
