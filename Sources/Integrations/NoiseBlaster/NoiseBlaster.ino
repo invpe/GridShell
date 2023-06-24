@@ -14,8 +14,7 @@
 #include <ctime>
 /*------------------*/
 #include "CGridShell.h"
-#define GRID_U  ""
-#define GRID_PU ""
+#define GRID_U  "" 
 /*------------------*/
 #define WIFI_A  ""
 #define WIFI_P  ""
@@ -25,7 +24,7 @@
 uint32_t uiSensorPoolTimer;
 uint32_t uiAveragesTaskID;
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "pool.ntp.org", 7200);
+NTPClient timeClient(ntpUDP, "pool.ntp.org", 10800); // GMT = +3hrs to Eu/Warsaw
 /*------------------*/
 String GetMACAddress(const int& iType)
 {
@@ -80,7 +79,7 @@ void setup()
   ///////////////////////////////////////////////////
   // Initialize GridShell Node with your user hash//
   ///////////////////////////////////////////////////
-  if (CGridShell::GetInstance().Init(GRID_U,true) == true)
+  if (CGridShell::GetInstance().Init(GRID_U, true) == true)
   {
   }
   else
@@ -129,6 +128,20 @@ void setup()
   CGridShell::GetInstance().Tick();
 
 }
+
+String generateHTMLColor(int value) {
+  int red = 255 * value / 100;
+  int green = 255 * (100 - value) / 100;
+  int blue = 0;
+
+  String htmlColor = "#";
+  htmlColor += String(red, HEX);
+  htmlColor += String(green, HEX);
+  htmlColor += String(blue, HEX);
+
+  return htmlColor;
+}
+
 /*------------------*/
 void loop()
 {
@@ -154,41 +167,7 @@ void loop()
   // Ensure grid online
   if (CGridShell::GetInstance().Connected())
   {
-    // File name - you can see it is rotating per day to new file
-    // NB - Noise blaster
-    // MAC - Mac of the sensor
-    // YEAR - 2023
-    // MONTH - 2
-    // DAY - 13
-    // We will be storing 24hrs of data per day for each sensor
     String strFileName    = "NB" + GetMACAddress(0) + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday);
-
-    // Submit daily averages task and wait for it's execution to complete/validate.
-    // Important: This can not kick in, if device is executing a task and finishing after the defined start time
-    // Important: When waiting for task to complete/validate no sensor data is pushed to avoid appending telemetry
-    //            and causing invalid validation (different telemetry files due to telemetry data difference)
-    if (uiAveragesTaskID == 0)
-    {
-      if ( local_tm.tm_hour == 23 && local_tm.tm_min >= 59  && local_tm.tm_sec <= 30 )
-      {
-        Serial.println("Time to submit daily task");
-
-        String strTaskPayload = GRID_PU + strFileName;
-        uiAveragesTaskID      = CGridShell::GetInstance().AddTask("nbdaily", strTaskPayload);
-
-        Serial.println("Task submitted: " + String(uiAveragesTaskID));
-        Serial.println("Awaiting execution and validation now");
-      }
-
-    }
-    else
-    {
-      if ( local_tm.tm_hour == 00 && local_tm.tm_min >= 00   && local_tm.tm_sec <= 30  )
-      {
-        uiAveragesTaskID = 0;
-      }
-    }
-
 
     // Minute intervals
     if (millis() - uiSensorPoolTimer >= 60000)
@@ -198,17 +177,17 @@ void loop()
       float voltageValue, dbValue;
       voltageValue  = analogRead(A0);
       dbValue       = (voltageValue / 4095 * VREF) * 50 ;
+ 
+      
+      String strPayload = strFileName + ",1,";
+      strPayload += String(timeClient.getEpochTime()) + "," + String(local_tm.tm_hour) + "," + String(local_tm.tm_min) + "," + String(dbValue) + "\n";
 
-      // Keep data in CSV format for easy visualisation
-      String strTextToWrite = String(timeClient.getEpochTime()) + "," + String(local_tm.tm_hour) + "," + String(local_tm.tm_min) + "," + String(dbValue) + "\n";
-
-      bool bSuccess   = CGridShell::GetInstance().Write(strFileName, strTextToWrite, true);
-
+      uint32_t uiTaskID = CGridShell::GetInstance().AddTask("write", strPayload);
+      
+      Serial.println("Wrote telemetry: " + String(uiTaskID) + " Len:" + String(strPayload.length()));
       Serial.println("Time : " + timeClient.getFormattedTime());
       Serial.println("Grid : " + String(CGridShell::GetInstance().Connected()));
-      Serial.println("Value: " + String(dbValue));
       Serial.println("Memor: " + String(ESP.getFreeHeap()));
-      Serial.println("Wrote: " + String(bSuccess));
       Serial.println("--------------------");
 
       uiSensorPoolTimer = millis();
