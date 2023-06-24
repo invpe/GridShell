@@ -48,7 +48,7 @@ Currently all of the tasks are submitted by the core-team members and these are 
 
 This is a very dynamic project where i often do changes, ensure to keep up with the latest and greatest versions of the sources.
 The project has nothing to do with mining, crypto or things like that so don't approach it that way. As of today it is in early shapes
-being developed few months by single me, so don't expect things to work like a charm everytime here ;-)
+being developed ~~few months~~ a year now by single me, so don't expect things to work like a charm everytime here ;-)
 Also,
 I try to document all major changes in `Gridshell Improvement Proposal` documents that are stored in the [Documentation](https://github.com/invpe/gridshell/tree/main/Documentation) directory.
 
