@@ -25,7 +25,7 @@
 
 With billions of IOT devices connected today there is a huge potential of computing power ready for use at minimal or even zero cost. These tiny computers are capable of operating on renewable energies like solar power, giving tremendous opportunities for utilizing their computing capabilities without impacting environment. We all have WiFi enabled sensors, smart bulbs, sockets, plugs... which idle for most of their time - why not connect them together and use as one big computer to solve our problems ?
 
-The project started mid june 2022 as a coding-challenge, it is now `VER0.04` and running a `TestNet` which means everyone can join and contribute to the network, tasks are sent by the core development team. GridShell is made to be used by everyone. Once you join and contribute to the network, you are granted Shells for each task execution. You will be able to use these Shells to write telemetry and execute your own tasks on the GridShell network in the nearest future.
+The project started mid june 2022 as a coding-challenge, it is now `VER0.05` and running a `TestNet` which means everyone can join and contribute to the network, tasks are sent by the core development team. GridShell is made to be used by everyone. Once you join and contribute to the network, you are granted Shells for each task execution. You will be able to use these Shells to write telemetry and execute your own tasks on the GridShell network in the nearest future.
 
 
 # :sparkles: How does it work 
@@ -41,6 +41,8 @@ Please see documentation for more detailed explanation. In simple words, it work
 The more nodes connected, the more computing power the network has.
 
 Currently all of the tasks are submitted by the core-team members and these are mostly distributed calculations like averages for thousands of sensors every hour, statistical calcs for devices like CO2 sensors, headless sensors and tests plus development runs. All tasks are written with MyBasic, this allows to simplify integration / adoption even more.
+
+:thumbsup: Don't worry, you can submit tasks too, checkout the example integrations how it's done :smiley:
 
 # :boom: Important
 
