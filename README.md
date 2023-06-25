@@ -33,9 +33,9 @@ The project started mid june 2022 as a coding-challenge, it is now `VER0.05` and
 Please see documentation for more detailed explanation. In simple words, it works as follows:
 
 - People join the network with their ESP32 devices (nodes)
-- Network executes tasks (written in [MyBasic](https://github.com/paladin-t/my_basic)) on contributors nodes
-- Each user is given a "Shell" (after validation) for a proper execution
-- Shell can be used to submit a task in the future 
+- Network executes tasks (written in [MyBasic](https://github.com/paladin-t/my_basic)) on volunteer nodes
+- Each volunteer is granted a "Shell" (after validation) for a proper execution
+- Shell can be used to submit a task   
 - Shells are used to write telemetry to the system
 
 The more nodes connected, the more computing power the network has.
