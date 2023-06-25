@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <i>Join your arduino sketch to iot powered distributed computing network</i>
+  <i>Join your arduino sketch to iot powered distributed volunteer computing network</i>
 </p>
  
 
