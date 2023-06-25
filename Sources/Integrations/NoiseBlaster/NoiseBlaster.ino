@@ -14,13 +14,17 @@
 #include <ctime>
 /*------------------*/
 #include "CGridShell.h"
-#define GRID_U  "" 
+#define GRID_U  ""
 /*------------------*/
 #define WIFI_A  ""
 #define WIFI_P  ""
 /*------------------*/
 #define VREF 3.3
 /*------------------*/
+std::vector<float> vDataPoints;
+// Second thread GRID
+TaskHandle_t Task1;
+
 uint32_t uiSensorPoolTimer;
 uint32_t uiAveragesTaskID;
 WiFiUDP ntpUDP;
@@ -42,6 +46,14 @@ String GetMACAddress(const int& iType)
     sprintf(MAC_char, "%s%02X", MAC_char, marray[i]);
 
   return String(MAC_char);
+}
+/*------------------*/
+void TaskGRID(void *pvParameters)
+{
+  while (1)
+  {
+    CGridShell::GetInstance().Tick();
+  }
 }
 /*------------------*/
 void setup()
@@ -126,6 +138,7 @@ void setup()
 
   //
   CGridShell::GetInstance().Tick();
+  xTaskCreatePinnedToCore(TaskGRID, "Task1", 10000, (void*)1, 1, &Task1, 1);
 
 }
 
@@ -142,6 +155,18 @@ String generateHTMLColor(int value) {
   return htmlColor;
 }
 
+float CalculateAverage(const std::vector<float>& values) {
+  if (values.empty()) {
+    return 0.0f;
+  }
+
+  float sum = 0.0f;
+  for (float value : values) {
+    sum += value;
+  }
+
+  return sum / values.size();
+}
 /*------------------*/
 void loop()
 {
@@ -161,39 +186,44 @@ void loop()
   time_t tt = std::chrono::system_clock::to_time_t(now);
   tm local_tm = *localtime(&tt);
 
-  // Keep ticking
-  CGridShell::GetInstance().Tick();
-
-  // Ensure grid online
-  if (CGridShell::GetInstance().Connected())
+  // Read sensor value every second
+  if (millis() - uiSensorPoolTimer >= 1000)
   {
-    String strFileName    = "NB" + GetMACAddress(0) + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday);
+    float voltageValue, dbValue;
+    voltageValue  = analogRead(A0);
+    dbValue       = (voltageValue / 4095 * VREF) * 50 ;
+    vDataPoints.push_back(dbValue);
 
-    // Minute intervals
-    if (millis() - uiSensorPoolTimer >= 60000)
+    // Enough datapoints & Grid connected
+    if (vDataPoints.size() >= 60)
     {
+      if (CGridShell::GetInstance().Connected())
+      {
+        String strFileName = "NB" + GetMACAddress(0) + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday);
 
-      //
-      float voltageValue, dbValue;
-      voltageValue  = analogRead(A0);
-      dbValue       = (voltageValue / 4095 * VREF) * 50 ;
- 
-      
-      String strPayload = strFileName + ",1,";
-      strPayload += String(timeClient.getEpochTime()) + "," + String(local_tm.tm_hour) + "," + String(local_tm.tm_min) + "," + String(dbValue) + "\n";
+        float fAverage = CalculateAverage(vDataPoints);
 
-      uint32_t uiTaskID = CGridShell::GetInstance().AddTask("write", strPayload);
-      
-      Serial.println("Wrote telemetry: " + String(uiTaskID) + " Len:" + String(strPayload.length()));
-      Serial.println("Time : " + timeClient.getFormattedTime());
-      Serial.println("Grid : " + String(CGridShell::GetInstance().Connected()));
-      Serial.println("Memor: " + String(ESP.getFreeHeap()));
-      Serial.println("--------------------");
+        uint32_t uiSpace = SPIFFS.totalBytes() - SPIFFS.usedBytes();
+        String strPayload = strFileName + ",1,";
+        strPayload += String(timeClient.getEpochTime()) + "," + String(local_tm.tm_hour) + "," + String(local_tm.tm_min) + "," + String(fAverage) + "\n";
 
-      uiSensorPoolTimer = millis();
+        uint32_t uiTaskID = CGridShell::GetInstance().AddTask("write", strPayload);
 
+        Serial.println("Wrote telemetry: " + String(uiTaskID) + " Len:" + String(strPayload.length()));
+        Serial.println("Time : " + timeClient.getFormattedTime());
+        Serial.println("Grid : " + String(CGridShell::GetInstance().Connected()));
+        Serial.println("Memor: " + String(ESP.getFreeHeap()));
+        Serial.println("Space: " + String(uiSpace));
+        Serial.println("--------------------");
+      }
+      vDataPoints.clear();
     }
+    
+    uiSensorPoolTimer = millis();
   }
+
+
+
   // Check if WiFi available, if not just boot.
   if (WiFi.status() != WL_CONNECTED)
   {
