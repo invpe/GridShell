@@ -20,6 +20,27 @@ On top, GridShell installed ready to contribute and report telemetry data which 
 
 We definitely suggest using the Widget on the phone, it does make life easier and looks more pro :muscle:
 
+# :raised_hand: Whats cool about it ?
+
+Glad you're asking, everything.
+- The fact it is simple to build
+- The fact you don't care about storing measurements
+- The fact you join the grid
+- The fact you always know what your pool temp is
+- The fact you contribute to the grid earning shells you can use
+- The fact it is ready, download, upload and you're set.
+
+# :frog: Can i buy it ?
+
+If you don't want to build it, you can buy it.
+Jump here and you'll get it all setup and ready to work.
+
+# :turtle: Prerequisites?
+
+All you need is:
+- WiFi
+- Gridshell account 
+  
 # :shell: Widget
 
 Install [WCS](https://wd.gt/) and add your widget.
