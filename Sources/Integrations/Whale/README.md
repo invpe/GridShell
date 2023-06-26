@@ -48,10 +48,16 @@ All you need is:
   
 # :shell: Widget
 
+![image](https://github.com/invpe/GridShell/assets/106522950/f62ff19c-cd6a-4df4-898c-d9e43cbd4114)
+
+
 Install [WCS](https://wd.gt/) and add your widget.
 The widget link you can use is listed on explorer below.
 
 # :crocodile: Web
+
+![image](https://github.com/invpe/GridShell/assets/106522950/2ba960cb-336e-464b-801c-c83dc9ab5693)
+
 
 Access your sensor via [Explorer](https://explorer.gridshell.net:3000/d/ca74c27d-03f9-4f18-8017-001d013b93ce/gridshell-pool?orgId=1)
 
