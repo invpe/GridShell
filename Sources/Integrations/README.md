@@ -20,3 +20,17 @@ Achievements:
 :cloud: - no hosting | 
 :dollar: - zero costs |
 
+# :whale: Whale
+
+https://github.com/invpe/GridShell/tree/main/Sources/Integrations/Whale
+
+Another usefull integration with the GridShell network.
+Measure temperature in your pool like apro (or anywhere else) without hosting hassle.
+
+
+Achievements:
+:seedling: - 100% eco | 
+:cloud: - no hosting | 
+:dollar: - zero costs |
+
+
