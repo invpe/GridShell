@@ -2,13 +2,17 @@
 
 Become GridShell computing volunteer while swimming in your pool like a :fish:.
 When diving or taking a relaxing nap on your :doughnut: this device will keep reporting
-the water temperature, which you can check on your mobile at any time like a pro :tada:
+the water temperature every 5 minutes, which you can check on your mobile at any time like a pro :tada:
 
 Meanwhile it will also contribute to the network by executing tasks, earning shells for you :relaxed:
 
 Do not check pool temperature yourself why bother ? Let this device do it for you :sparkles:
 It will serve years, it will give you insights it will work and earn you shells, which you can - play with,
 or leave for more of your sensors to burn them!
+
+![image](https://github.com/invpe/GridShell/assets/106522950/220d99b6-ffb9-4b1d-b062-ae89cd5481c3)
+![image](https://github.com/invpe/GridShell/assets/106522950/7bcd3c1d-d105-46ca-a6e9-643765a87e5a)
+
 
 # :sweat_drops: So what is it?
 
