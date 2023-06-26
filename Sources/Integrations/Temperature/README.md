@@ -24,12 +24,9 @@ We definitely suggest using the Widget on the phone, it does make life easier an
 
 Glad you're asking, everything.
 - The fact it is simple to build
-- The fact you don't care about storing measurements, running servers.
-
-  All telemetry is sent to the grid burning shells earned by your device.
-  Simply put, you just don't care - you use.
-  
+- The fact you don't care about storing measurements, running servers.  
 - The fact you join the grid
+- The fact your sensor will submit tasks that other volunteers will execute and vice versa
 - The fact you always know what your pool temp is
 - The fact you contribute to the grid earning shells you can use
 - The fact it is ready, download, upload and you're set.
