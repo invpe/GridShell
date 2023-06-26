@@ -1,1 +1,2 @@
+# :ocean: Pool temperature sensor
 
