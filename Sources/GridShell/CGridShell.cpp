@@ -173,14 +173,6 @@ void CGridShell::Tick()
           return;
         }
 
-        // Nothing to execute
-        if (strTasksToExecute.toInt() == 0)
-          if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_NO_TASKS_TO_EXECUTE);
-
-        // Nothing to validate
-        if (strTasksToValidate.toInt() == 0)
-          if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_NO_TASKS_TO_VALIDATE);
-
         // ****************************
         // Diffie-Hellman Key Exchange
         // ****************************
@@ -228,6 +220,17 @@ void CGridShell::Tick()
 
         // Pass my Public Key and GUID encoded
         Send("JOB," + String( uiMyPublicKey.GetInteger().c_str()) + "," + strBase64EncodedGUID + "," + GNODE_VERSION + "," + m_strMACAddress + "," + GNODE_ARCH + "," + String(m_bExecFlag) + "\r\n");
+
+
+
+        // Nothing to execute
+        if (strTasksToExecute.toInt() == 0)
+          if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_NO_TASKS_TO_EXECUTE);
+
+        // Nothing to validate
+        if (strTasksToValidate.toInt() == 0)
+          if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_NO_TASKS_TO_VALIDATE);
+
 
         //
         if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_IDLE);
