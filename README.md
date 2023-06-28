@@ -49,6 +49,57 @@ Since version `0.05` everyone can submit a task and start using available resour
 All tasks are written with MyBasic, this allows to simplify 
 integration / adoption even more.
 
+# :briefcase: What are some use cases ?
+
+There are dozens of DIY projects requiring a simple way to visualize data, 
+from simple humidity sensors to advanced solutions like air quality devices that
+require calibratiins and more sophisticated hardware layer. 
+
+However they all have one thing in common - at some stage you defocus from the product
+to all-things-around when all you need is just to display the data and process it.
+
+You've made a great device, and now want to show off the results.
+You made 10 of them, even more and you start thinking how do you put the
+puzzles together so that it takes little or no effort in the end.
+This should be simple, absolutely effortless and never drag you from 
+making the product better and focus on the code and h/w right ?
+
+The last thing you want to do is to rent a server, deploy services and maintain
+it to display your data. This is boring, waste of time and forces you to focus on
+activities that are dragging you from your DIY work. Keeping all these things right,
+paying for hosting, getting certs deplyed and maintaining it is really not fun when
+all you really want to do is focus on the product and eventual sale of it.
+
+Very often, you end up copy/pasting lots of commands to spin up a web server on
+a paid vps that you just dont need. It should be simple and quick to go 
+from a working sensor to presenting data. We all have been there and dont want to come back
+to read manuals, and maintain servers for few sensors we have deployed here and there.
+
+There is another option, you can pay for some integration - which will keep you happy as
+long as have not breached the 'few bucks' price for couple of devices. This is ok,
+but how fast do you integrate ?
+
+A single line of code will store your `telemetry` on the GridShell system, this is all you need :
+
+`CGridShell::GetInstance().AddTask("write", strPayload);`
+
+From the moment it is executed, a file is written and you can:
+
+- visualize it
+- process it
+- download it
+- share it
+- append it
+
+No hosting, no services, no maintenance - the single line that you put in your Arduino sketch
+will keep you focused on the product. Once you call it:
+
+- Nodes that are online will take care to store your file
+- API endpoint will ensure you can access it
+- EXPLORER will visualize it.
+
+
+
 # :boom: Important
 
 This is a very dynamic project where i often do changes, ensure to keep up with the latest and greatest versions of the sources.
