@@ -27,14 +27,8 @@ Ensure your node runs the same version
 
 `110` is the number of tasks waiting to execute.
 
-When this number is equal to `0`, you can put your device to sleep.
-There is absolutely no need to keep them up and running if there is nothing to process. Wake them up sporadically
-and keep running when there is really work to be done.
-
-
 `739` is the number of tasks waiting for validation.
 
-Same as above but validators only, do not waste energy - come back in a moment.
 
 ----
 
@@ -58,6 +52,14 @@ Following `ARCH` types are defined for now:
 - WIN64
 
 See rationale here: https://github.com/invpe/gridshell/blob/main/GIP/0002-ARCH.md
+
+
+
+When Number of tasks to execute is equal to `0`, you can put your device to sleep.
+There is absolutely no need to keep them up and running if there is nothing to process. Wake them up sporadically
+and keep running when there is really work to be done.
+
+Same as above but validators only, do not waste energy - come back in a moment.
 
 ----
 
