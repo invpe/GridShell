@@ -51,8 +51,7 @@ GridShell exposes few more internal functions that you can use in your scripting
 - Input: Telemetry file to download (full name) i.e `PocNetGroupMiners00000000000000000000001DNB4C11AEF6ECF02023218`
 - Output: Bytes written, Output filename is always `/TELEMETRY`
 
-- Example: `RET=DOWNLOAD("PocNetGroupMiners00000000000000000000001DNB4C11AEF6ECF02023218")`
-- Shells: 1
+- Example: `RET=DOWNLOAD("PocNetGroupMiners00000000000000000000001DNB4C11AEF6ECF02023218")
 
 `TSIZE` - Return size of the `/TELEMETRY` file in bytes
 
@@ -69,7 +68,5 @@ GridShell exposes few more internal functions that you can use in your scripting
 - Example: `STRING=READ(1,30)`
 
 `WRITE` - Write a telemetry data to a gridshell network
-
-- Shells: 1
 
 `SHA1` - Generate SHA1
