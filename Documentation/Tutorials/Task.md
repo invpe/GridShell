@@ -28,7 +28,7 @@ https://api.gridshell.net/status/
 
 # Who is creating the tasks ?
 In the current version of GridShell, tasks are created by the core team.
-Moving forward, when the grid network matures enough submitting tasks to the grid will be possible for everyone.
+Moving forward, when the grid network matures enough ~~submitting~~ creating tasks for the grid will be possible by everyone.
 
 Submitting tasks to the grid, requires `Shell Tokens` - credits that are given to users for executing the tasks correctly.
  
