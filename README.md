@@ -53,7 +53,7 @@ integration / adoption even more.
 
 There are dozens of DIY projects requiring a simple way to visualize data, 
 from simple humidity sensors to advanced solutions like air quality devices that
-require calibratiins and more sophisticated hardware layer. 
+require calibrations/tunning and more sophisticated hardware layer. 
 
 However they all have one thing in common - at some stage you defocus from the product
 to all-things-around when all you need is just to display the data and process it.
@@ -97,6 +97,14 @@ will keep you focused on the product. Once you call it:
 - Nodes that are online will take care to store your file
 - API endpoint will ensure you can access it
 - EXPLORER will visualize it.
+
+Add one more line of code : 
+
+`CGridShell::GetInstance().Tick();`
+
+And you earn a Shell token when there is someone executing a task on the network and your device
+will run it. As simple as that.
+
 
 
 
