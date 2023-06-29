@@ -146,7 +146,7 @@ Simply head to: `https://api.gridshel.net/fs/XXXXXXXXXXMYTELEMETRY` but replace 
 
 2. EXPLORER
 
-Open [](https://explorer.gridshell.net:3000/d/cf9d5f97-9f02-488a-b49a-28409bdc1593/gridshell-your-telemetry?orgId=1) and update the input fields to point to your file. 
+Open [EXPLORER](https://explorer.gridshell.net:3000/d/cf9d5f97-9f02-488a-b49a-28409bdc1593/gridshell-your-telemetry?orgId=1) and update the input fields to point to your file. 
 
 ## Final thoughts
 
