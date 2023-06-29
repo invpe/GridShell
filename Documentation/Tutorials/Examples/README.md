@@ -148,6 +148,9 @@ Simply head to: `https://api.gridshel.net/fs/XXXXXXXXXXMYTELEMETRY` but replace 
 
 Open [EXPLORER](https://explorer.gridshell.net:3000/d/cf9d5f97-9f02-488a-b49a-28409bdc1593/gridshell-your-telemetry?orgId=1) and update the input fields to point to your file. 
 
+![image](https://github.com/invpe/GridShell/assets/106522950/0b592361-1a51-4381-8772-3c6ebc990e48)
+
+
 ## Final thoughts
 
 You can see your tasks being submitted and executed but also your device being part of the execution chain (shells earning) via [API](https://api.gridshell.net/status) endpoint or [Explorer](https://explorer.gridshell.net:3000/)
