@@ -140,7 +140,13 @@ Now it's time for a 🍺, job done ! Your device is now contributing to the netw
 From now on there are endless options to visualize this telemetry, since in this example we've been storing a simple table there isn't much 
 we can actualy graph, but still your data is easily accessible either via API or EXPLORER.
 
+1. API
 
+Simply head to: `https://api.gridshel.net/fs/XXXXXXXXXXMYTELEMETRY` but replace all *X* with the Public Grid Username
+
+2. EXPLORER
+
+Open [](https://explorer.gridshell.net:3000/d/cf9d5f97-9f02-488a-b49a-28409bdc1593/gridshell-your-telemetry?orgId=1) and update the input fields to point to your fil
 
 ## Final thoughts
 
