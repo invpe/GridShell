@@ -96,7 +96,21 @@ For this example i am using ESP32 M5-Stack ATOM board and will use this as a boa
    ![image](https://github.com/invpe/GridShell/assets/106522950/07584afe-537b-4def-850a-56404ec508df)
 
 The compilation process will start, observe the bottom window for the results.
-At the end of it, you should be presented with
+At the end of it, you should be presented with a summary message.
+
+![image](https://github.com/invpe/GridShell/assets/106522950/f2a880ca-60d0-48ad-ba52-04a10809efd2)
+
+4. Time to upload the sketch to the board, click `Sketch->Upload`
+
+![image](https://github.com/invpe/GridShell/assets/106522950/205eeb73-8e32-4a9b-b0ab-8616f0020357)
+
+Now hold for a few seconds for Arduino to program your sketch onto the ESP32.
+Once completed you will be presented following output
+
+![image](https://github.com/invpe/GridShell/assets/106522950/80a48260-5830-4b50-9c27-d5ececc2e209)
+
+
+
 
 
 
