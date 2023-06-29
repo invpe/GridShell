@@ -13,7 +13,7 @@
 /*------------------*/
 uint64_t uiOneMinute;
 /*------------------*/
-bool bAppend = false;               // << File append flag (true = yes, false = no)
+uint8_t bAppend = 0;               // << File append flag (true = yes, false = no)
 String strFileName = "MYTELEMETRY"; // << Filename
 String strTextToWrite = "1,3,5,6,777,\n"; // << Text to write
 /*------------------*/
@@ -82,11 +82,11 @@ void loop()
 
     // Payload for the WRITE script
     String strFilePayload = "";
-    strFilePayload = strFileName;         // The filename you want to write
+    strFilePayload = strFileName+",";         // The filename you want to write
     strFilePayload += String(bAppend) + ","; // The Append flag (1 - yes, 0 - no)
     strFilePayload += strTextToWrite;     // The message you want to write to the file
     strFilePayload += ",";                // Mandatory payload closure, leave it
-
+ 
     // Submit a task to the GRID that will execute writing to file
     uint32_t uiTaskID = CGridShell::GetInstance().AddTask("write", strFilePayload);
 
