@@ -168,7 +168,46 @@ Your output will look as follows:
 |1|3|5|6|777|
 |1|3|5|6|777|
 
+## Generate random values
 
+You can also play fun and instead of writing static values, generate some random values to visualize / graph better.
+
+Put this before payload generation
+
+    // Lets generate some random values
+    strTextToWrite = String(rand()%10)+",";
+    strTextToWrite += String(rand()%20)+",";
+    strTextToWrite += String(rand()%15)+",";
+    strTextToWrite += String(rand()%13)+"\n"; 
+
+The code should look like this:
+
+   // Lets generate some random values
+    strTextToWrite = String(rand()%10)+",";
+    strTextToWrite += String(rand()%20)+",";
+    strTextToWrite += String(rand()%15)+",";
+    strTextToWrite += String(rand()%13)+"\n";    
+  
+    // Payload for the WRITE script
+    String strFilePayload = "";
+    strFilePayload = strFileName+",";         // The filename you want to write
+    strFilePayload += String(bAppend) + ","; // The Append flag (1 - yes, 0 - no)
+    strFilePayload += strTextToWrite;     // The message you want to write to the file
+    strFilePayload += ",";     
+
+We will now store random values in specific range in our telemetry, appending it.
+The output should look like this now
+
+|columnA|columnB|columnC|columnD|columnE|
+|-------|-------|-------|-------|-------|
+|0|13|15|3|7|
+|1|23|35|6|17|
+|4|2|2|13|11|
+|8|6|4|23|21|
+|2|8|66|16|4|
+
+
+This will look well on the graph.
 
 
 
