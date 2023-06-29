@@ -182,19 +182,20 @@ Put this before payload generation
 
 The code should look like this:
 
-   `// Lets generate some random values
+
+    // Lets generate some random values
     strTextToWrite = String(rand()%10)+",";
     strTextToWrite += String(rand()%20)+",";
     strTextToWrite += String(rand()%15)+",";
-    strTextToWrite += String(rand()%13)+"\n";`
-    
-  
+    strTextToWrite += String(rand()%13)+"\n";    
     // Payload for the WRITE script
     String strFilePayload = "";
     strFilePayload = strFileName+",";         // The filename you want to write
     strFilePayload += String(bAppend) + ","; // The Append flag (1 - yes, 0 - no)
     strFilePayload += strTextToWrite;     // The message you want to write to the file
-    strFilePayload += ",";     
+    strFilePayload += ",";                // Mandatory payload closure, leave it
+
+    
 
 We will now store random values in specific range in our telemetry, appending it.
 The output should look like this now
