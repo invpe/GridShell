@@ -153,7 +153,7 @@ Open [EXPLORER](https://explorer.gridshell.net:3000/d/cf9d5f97-9f02-488a-b49a-28
 
 ## Final thoughts
 
-You can see your tasks being submitted and executed but also your device being part of the execution chain (shells earning) via [API](https://api.gridshell.net/status) endpoint or [Explorer](https://explorer.gridshell.net:3000/)
+You can see your tasks being submitted and executed but also your device being part of the execution chain (shells earning) via [API](https://api.gridshell.net/status) endpoint or [Explorer](https://explorer.gridshell.net:3000/d/c67e1c66-8ac3-480e-860b-7d1ba05aa8f8/gridshell-user)
 
 Feel free to click throuh, for example on your user - where you can check balance of shells and number of connected nodes.
 The returned format from API is always `JSON` to help you integrate with other systems more easily.
