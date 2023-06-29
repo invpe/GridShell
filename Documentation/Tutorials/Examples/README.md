@@ -10,5 +10,9 @@ Follow each step, take small steps straight to the 🏁 finish line.
 We begin this tutorial by creating a folder on your desktop and adding necessary files to it, so you've got all things in one place.
 
 
-1. Create a folder called **Simple** on your desktop 
+1. Create a folder called **Simple** on your desktop
+2. Download all files from [Library](https://github.com/invpe/GridShell/tree/main/Sources/GridShell) and put them into your newly created **Simple** folder
+3. Download [Simple](https://github.com/invpe/GridShell/blob/main/Sources/Integrations/Simple/Simple.ino) sketch and put it into your newly  created **Simple** folder
+
+   
 
