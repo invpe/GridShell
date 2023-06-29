@@ -82,8 +82,21 @@ We are ready to compile the sketch, before we do it we need to ensure that you h
 
 For this example i am using ESP32 M5-Stack ATOM board and will use this as a board for compilation.
 
-1. In Arduino, go to `Tools->Boards`
+1. In Arduino, go to `Tools->Boards` and select the proper ESP32 board
 
+   ![image](https://github.com/invpe/GridShell/assets/106522950/901d1ca1-2e2f-4890-8d9d-8695dffea84c)
+
+
+2. Use Minimal Spiffs partition
+ 
+![image](https://github.com/invpe/GridShell/assets/106522950/2a331df5-9d04-440c-9217-e44821155b66)
+
+3. Go to `Sketch->Verify/Compile`
+
+   ![image](https://github.com/invpe/GridShell/assets/106522950/07584afe-537b-4def-850a-56404ec508df)
+
+The compilation process will start, observe the bottom window for the results.
+At the end of it, you should be presented with
 
 
 
