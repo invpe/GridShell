@@ -34,5 +34,7 @@ Prepare for a easy ride but don't take another slice of 🍕 yet  😄
 
 4. You will be presented with the **source code** of the Simple sketch
 
+We have to update exactly three things to make it work.
 
+🛑 If you don't have your own GridShell User account, you need it now - go [here](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Join.md) to create it.
 
