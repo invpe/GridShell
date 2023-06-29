@@ -54,9 +54,32 @@ Once done, we're ready to move forward, you just provided your UserHash, and WiF
 
 ## Optionally change filename and text to write
 
-By 
+By default the sketch will write (not append) to **MYTELEMETRY** file every **MINUTE**, you can easily change that by updating these lines in the code:
 
+`bool bAppend = false;               // << File append flag (true = yes, false = no)`
+`String strFileName = "MYTELEMETRY"; // << Filename`
+`String strTextToWrite = "1,3,5,6,777,\n"; // << Text to write`
 
+`bAppend` - is a flag telling we want to overwrite every minute, not append to the file.
+
+`strFileName` - is a filename, simply that
+
+`strTextToWrite` - is what you will write to the file. 
+Here we keep it comma separated (CSV format) to easily visualize it at the end.
+Feel free to update it as you like or leave it default.
+
+Good stuff, if you are here you deserve another slice of :pizza:
+
+## Compile the sketch
+
+We are ready to compile the sketch, before we do it we need to ensure that you have:
+
+- Proper board selected
+- Proper SPIFFS (flash size) selected
+
+For this example i am using ESP32 M5-Stack ATOM board and will use this as a board for compilation.
+
+1. In Arduino, go to `Tools->Boards`
 
 
 
