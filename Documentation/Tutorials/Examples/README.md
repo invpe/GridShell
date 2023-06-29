@@ -33,5 +33,6 @@ Prepare for a easy ride but don't take another slice of 🍕 yet  😄
 ![image](https://github.com/invpe/GridShell/assets/106522950/0fb04ad5-1ecb-411a-aa96-094e09da8b15)
 
 4. You will be presented with the **source code** of the Simple sketch
-5. 
+
+
 
