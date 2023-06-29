@@ -34,6 +34,8 @@ Prepare for a easy ride but don't take another slice of 🍕 yet  😄
 
 4. You will be presented with the **source code** of the Simple sketch
 
+## Update source code with details
+
 🛑 If you don't have your own GridShell User account, you need it now - go [here](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Join.md) to create it.
 
 
@@ -47,13 +49,8 @@ Fill necessary details in definitions as commented:
 `#define WIFI_P  ""      // << Provide your WiFi Access Point Password`
 
 
-Once done, we're ready to move forward, just as an example my setup is as follows:
+Once done, we're ready to move forward, you just provided your UserHash, and WiFi Credentials for your ESP32 to connect to the GridShell server.
 
-`#define GRID_U  "f3y2hssbcvxert243hrhsddfasd24dsfas2323348282a3bd4b"`
-
-`#define WIFI_A  "superinternet"`
-
-`#define WIFI_P  "superpasswordyes"`
 
 ## Compile and upload
 
