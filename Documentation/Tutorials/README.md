@@ -34,5 +34,8 @@ Read about the Grid Improvement Proposal document, see released ones, comment an
 # API
 Check how to integrate with the current TestNet GridShell network [here](https://github.com/invpe/GridShell/tree/main/Documentation/API)
 
+# EXPLORER
+Grafana Visualization endpoint [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md)
+
 # TestNet
 How is this running today [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/GTN.md)
