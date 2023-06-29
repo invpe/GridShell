@@ -110,7 +110,11 @@ Once completed you will be presented following output
 ![image](https://github.com/invpe/GridShell/assets/106522950/80a48260-5830-4b50-9c27-d5ececc2e209)
 
 
+Grab another 🍕, we burned few calories here 😄
 
 
+## Monitoring
+
+Once your device is programmed with the example sketch, hit `Tools->Serial Monitor` so we can observe it working.
 
 
