@@ -119,5 +119,8 @@ Once your device is programmed with the example sketch, hit `Tools->Serial Monit
 It is good to confirm all is well before we close Arduino and focus on visualizing data.
 What you should see is ESP32 pushing `WRITE` task to the grid, with your filename and its contents every minute.
 
+![image](https://github.com/invpe/GridShell/assets/106522950/343dbbee-028f-4ecd-8601-ead78ce06d9e)
+
+
 
 
