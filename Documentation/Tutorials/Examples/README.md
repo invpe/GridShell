@@ -116,5 +116,8 @@ Grab another 🍕, we burned few calories here 😄
 ## Monitoring
 
 Once your device is programmed with the example sketch, hit `Tools->Serial Monitor` so we can observe it working.
+It is good to confirm all is well before we close Arduino and focus on visualizing data.
+What you should see is ESP32 pushing `WRITE` task to the grid, with your filename and its contents every minute.
+
 
 
