@@ -57,8 +57,11 @@ Once done, we're ready to move forward, you just provided your UserHash, and WiF
 By default the sketch will write (not append) to **MYTELEMETRY** file every **MINUTE**, you can easily change that by updating these lines in the code:
 
 `bool bAppend = false;               // << File append flag (true = yes, false = no)`
+
 `String strFileName = "MYTELEMETRY"; // << Filename`
+
 `String strTextToWrite = "1,3,5,6,777,\n"; // << Text to write`
+
 
 `bAppend` - is a flag telling we want to overwrite every minute, not append to the file.
 
