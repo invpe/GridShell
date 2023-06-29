@@ -5,6 +5,7 @@ You will write your first ESP32 Arduino sketch, which will write telemetry to Gr
 
 Follow each step, take small steps straight to the 🏁 finish line.
 
+
 ## Your workplace
 
 We begin this tutorial by creating a folder on your desktop and adding necessary files to it, so you've got all things in one place.
@@ -18,5 +19,19 @@ Once all above steps have been completd, your folder should have following files
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/405e6371-fbfb-42c0-bee6-95f6891eb6b6)
 
-   
+If all is good, you deserve a slice of 🍕
+
+## Arduino
+
+We will now open the sketch file with Arduino and compile it.
+Prepare for a easy ride but don't take another slice of 🍕 yet  😄
+
+1. Open your newly created **Simple** folder
+2. Double click on **Simple.ino** which is a sketch file
+3. Arduino IDE will open
+
+![image](https://github.com/invpe/GridShell/assets/106522950/0fb04ad5-1ecb-411a-aa96-094e09da8b15)
+
+4. You will be presented with the **source code** of the Simple sketch
+5. 
 
