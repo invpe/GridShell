@@ -35,3 +35,6 @@ Check how to integrate with the current GridShell network [here](https://github.
 
 # The Test Net
 Read about how the GridShell operates today on a test network, which is buggy far from being secure and can go down very often [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/GTN.md)
+
+# Simple examples
+Go through all of them to master using GridShell [click](https://github.com/invpe/GridShell/tree/main/Documentation/Tutorials/Examples)
