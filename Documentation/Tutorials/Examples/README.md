@@ -150,6 +150,14 @@ Open [EXPLORER](https://explorer.gridshell.net:3000/d/cf9d5f97-9f02-488a-b49a-28
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/0b592361-1a51-4381-8772-3c6ebc990e48)
 
+## Append
+
+To append to your file instead of overwriting it, simply change:
+
+`uint8_t bAppend = 0;` to `uint8_t bAppend = 1`
+
+This will cause your file to grow and your values to be added.
+
 
 ## Final thoughts
 
