@@ -52,7 +52,9 @@ Fill necessary details in definitions as commented:
 Once done, we're ready to move forward, you just provided your UserHash, and WiFi Credentials for your ESP32 to connect to the GridShell server.
 
 
-## Compile and upload
+## Optionally change filename and text to write
+
+By 
 
 
 
