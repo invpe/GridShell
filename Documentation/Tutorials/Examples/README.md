@@ -40,15 +40,25 @@ Prepare for a easy ride but don't take another slice of 🍕 yet  😄
 We have to update exactly three things to make it work.
 Fill necessary details in definitions as commented:
 
-#define GRID_U  ""      // << Provide your Grid UserHash
-#define WIFI_A  ""      // << Provide your WiFi Access Point Name
-#define WIFI_P  ""      // << Provide your WiFi Access Point Password
+`#define GRID_U  ""      // << Provide your Grid UserHash`
+
+`#define WIFI_A  ""      // << Provide your WiFi Access Point Name`
+
+`#define WIFI_P  ""      // << Provide your WiFi Access Point Password`
+
 
 Once done, we're ready to move forward, just as an example my setup is as follows:
 
-#define GRID_U  f3y2hssbcvxert243hrhsddfasd24dsfas2323348282a3bd4b""      // << Provide your Grid UserHash
-#define WIFI_A  "superinternet"      // << Provide your WiFi Access Point Name
-#define WIFI_P  "superpasswordyes"      // << Provide your WiFi Access Point Password
+`#define GRID_U  "f3y2hssbcvxert243hrhsddfasd24dsfas2323348282a3bd4b"`
+
+`#define WIFI_A  "superinternet"`
+
+`#define WIFI_P  "superpasswordyes"`
+
+## Compile and upload
+
+
+
 
 
 
