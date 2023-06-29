@@ -129,7 +129,10 @@ Now it's time for a 🍺, job done ! Your device is now contributing to the netw
 
 ## Final thoughts
 
-You can see your tasks being submitted and executed but also your device being part of the execution chain (shells earning) via [API](https://api.gridshell.net/status) endpoint.
+You can see your tasks being submitted and executed but also your device being part of the execution chain (shells earning) via [API](https://api.gridshell.net/status) endpoint or [Explorer](https://explorer.gridshell.net:3000/)
 
 Feel free to click throuh, for example on your user - where you can check balance of shells and number of connected nodes.
 The returned format from API is always `JSON` to help you integrate with other systems more easily.
+
+[API Handbook](https://github.com/invpe/GridShell/blob/main/Documentation/API/README.md)
+[EXPLORER Handbook](#)
