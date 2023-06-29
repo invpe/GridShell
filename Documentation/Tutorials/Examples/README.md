@@ -3,7 +3,7 @@
 In this article, we will set you up, step by step so that you can start using GridShell like a pro 👍
 You will write your first ESP32 Arduino sketch, which will write telemetry to Grid which later we will visualize 🥇
 
-Follow each step, take small steps straight to the 🏁 finish line.
+Follow each point, take small steps straight to the 🏁 finish line.
 
 
 ## Your workplace
