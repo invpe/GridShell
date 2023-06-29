@@ -134,5 +134,7 @@ You can see your tasks being submitted and executed but also your device being p
 Feel free to click throuh, for example on your user - where you can check balance of shells and number of connected nodes.
 The returned format from API is always `JSON` to help you integrate with other systems more easily.
 
+
 [API Handbook](https://github.com/invpe/GridShell/blob/main/Documentation/API/README.md)
-[EXPLORER Handbook](#)
+
+[EXPLORER Handbook](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md)
