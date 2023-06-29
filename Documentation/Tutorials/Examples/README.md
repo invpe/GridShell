@@ -135,6 +135,13 @@ What you should see is ESP32 pushing `WRITE` task to the grid, with your filenam
 Now it's time for a 🍺, job done ! Your device is now contributing to the network and using it 🥇
 
 
+## Visualization
+
+From now on there are endless options to visualize this telemetry, since in this example we've been storing a simple table there isn't much 
+we can actualy graph, but still your data is easily accessible either via API or EXPLORER.
+
+
+
 ## Final thoughts
 
 You can see your tasks being submitted and executed but also your device being part of the execution chain (shells earning) via [API](https://api.gridshell.net/status) endpoint or [Explorer](https://explorer.gridshell.net:3000/)
