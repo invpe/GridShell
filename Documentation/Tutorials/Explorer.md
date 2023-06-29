@@ -1,8 +1,13 @@
 # GridShell Explorer
 
 Easy visualization is one of the key concepts of using GridShell, that's why we've got Grafana to get you covered.
-[Use this endpoint](https://explorer.gridshell.net:3000/) and explorer/gridshellexplorer as credentials to
-move from JSON data to graphs and colors.
+
+[Use this endpoint](https://explorer.gridshell.net:3000/) 
+
+`login: explorer
+password: gridshellexplorer `
+
+to move from JSON data to graphs and colors.
 
 # List of dashboards to use
 
