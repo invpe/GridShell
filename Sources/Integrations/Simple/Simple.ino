@@ -15,7 +15,7 @@ uint64_t uiOneMinute;
 /*------------------*/
 uint8_t bAppend = 0;               // << File append flag (true = yes, false = no)
 String strFileName = "MYTELEMETRY"; // << Filename
-String strTextToWrite = "1,3,5,6,777,\n"; // << Text to write
+String strTextToWrite = "columnA,columnB,columnC,columnD,columnE\n1,3,5,6,777,\n"; // << Text to write
 /*------------------*/
 void setup()
 {
