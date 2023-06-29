@@ -60,7 +60,7 @@ By default the sketch will write (not append) to **MYTELEMETRY** file every **MI
 
 `String strFileName = "MYTELEMETRY"; // << Filename`
 
-`String strTextToWrite = "1,3,5,6,777,\n"; // << Text to write`
+`String strTextToWrite = "columnA,columnB,columnC,columnD\n1,3,5,6,777,\n"; // << Text to write`
 
 `bAppend` - is a flag telling we want to overwrite every minute, not append to the file.
 
@@ -76,7 +76,7 @@ This translates to a simple table:
 |1|3|5|6|777|
 
 
-We keep it comma separated (CSV format) to easily visualize it at the end.
+We keep it comma separated (CSV format) to easily visualize it at the end pretty much with any tool you wish.
 Feel free to update it as you like or leave it default.
 
 Good stuff, if you are here you deserve another slice of :pizza:
