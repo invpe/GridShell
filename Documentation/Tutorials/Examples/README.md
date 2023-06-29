@@ -157,6 +157,19 @@ To append to your file instead of overwriting it, simply change:
 `uint8_t bAppend = 0;` to `uint8_t bAppend = 1`
 
 This will cause your file to grow and your values to be added.
+Your output will look as follows:
+
+
+|columnA|columnB|columnC|columnD|columnE|
+|-------|-------|-------|-------|-------|
+|1|3|5|6|777|
+|1|3|5|6|777|
+|1|3|5|6|777|
+|1|3|5|6|777|
+|1|3|5|6|777|
+
+
+
 
 
 ## Final thoughts
