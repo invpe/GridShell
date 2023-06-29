@@ -122,5 +122,14 @@ What you should see is ESP32 pushing `WRITE` task to the grid, with your filenam
 ![image](https://github.com/invpe/GridShell/assets/106522950/343dbbee-028f-4ecd-8601-ead78ce06d9e)
 
 
+`WRITE Task ID: 58559` - this is the id of your task on the GridShell network, go on and check it out via [api](https://api.gridshell.net/task/58559.json)
+
+Now it's time for a 🍺, job done ! Your device is now contributing to the network and using it 🥇
 
 
+## Final thoughts
+
+You can see your tasks being submitted and executed but also your device being part of the execution chain (shells earning) via [API](https://api.gridshell.net/status) endpoint.
+
+Feel free to click throuh, for example on your user - where you can check balance of shells and number of connected nodes.
+The returned format from API is always `JSON` to help you integrate with other systems more easily.
