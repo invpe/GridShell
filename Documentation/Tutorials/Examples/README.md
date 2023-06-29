@@ -209,7 +209,9 @@ The output should look like this now
 |2|8|66|16|4|
 
 
-This will look well on the graph.
+This will look well on the graph, let's see how it looks.
+
+
 
 
 
