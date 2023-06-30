@@ -205,7 +205,7 @@ This will look well on the graph, let's see how it looks.
 
 ## Visualization
 
-In order to graph the data on the Grafana dashboard, we will have to update the code so that they follow the proper format.
+In order to graph the data on the Grafana dashboard, we will have to update the code so that the data we are writing follows the proper format.
 Reffer to [Explorer](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md) tutorial to learn more about the format and the way generic dashboard works.
 
 
