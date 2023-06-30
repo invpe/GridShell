@@ -135,20 +135,11 @@ What you should see is ESP32 pushing `WRITE` task to the grid, with your filenam
 Now it's time for a 🍺, job done ! Your device is now contributing to the network and using it 🥇
 
 
-## Visualization
+## Access the data
 
-From now on there are endless options to visualize this telemetry, since in this example we've been storing a simple table there isn't much 
-we can actualy graph, but still your data is easily accessible either via API or EXPLORER.
-
-1. API
-
+The data you're storing can be accessed directly via API call, 
 Simply head to: `https://api.gridshel.net/fs/XXXXXXXXXXMYTELEMETRY` but replace all *X* with the Public Grid Username
 
-2. EXPLORER
-
-Open [EXPLORER](https://explorer.gridshell.net:3000/d/cf9d5f97-9f02-488a-b49a-28409bdc1593/gridshell-your-telemetry?orgId=1) and update the input fields to point to your file. 
-
-![image](https://github.com/invpe/GridShell/assets/106522950/0b592361-1a51-4381-8772-3c6ebc990e48)
 
 ## Append
 
@@ -212,17 +203,19 @@ The output should look like this now
 This will look well on the graph, let's see how it looks.
 
 
+## Visualization
 
+In order to graph the data on the Grafana dashboard, we will have to update the code so that they follow the proper format.
+Reffer to Explorer tutorial to learn more about the format and the way generic dashboard works.
 
 
 ## Final thoughts
 
 You can see your tasks being submitted and executed but also your device being part of the execution chain (shells earning) via [API](https://api.gridshell.net/status) endpoint or [Explorer](https://explorer.gridshell.net:3000/d/c67e1c66-8ac3-480e-860b-7d1ba05aa8f8/gridshell-user)
 
-Feel free to click throuh, for example on your user - where you can check balance of shells and number of connected nodes.
+Feel free to click through, for example on your user - where you can check balance of shells and number of connected nodes.
 The returned format from API is always `JSON` to help you integrate with other systems more easily.
 
 
 [API Handbook](https://github.com/invpe/GridShell/blob/main/Documentation/API/README.md)
 
-[EXPLORER Handbook](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md)
