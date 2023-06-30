@@ -120,6 +120,7 @@ I try to document all major changes in `Gridshell Improvement Proposal` document
 
 - Join the network with this [link](https://github.com/invpe/GridShell/tree/main/Documentation/Tutorials)
 - Checkout ready to use integrations like [NoiseBlaster](https://github.com/invpe/GridShell/tree/main/Sources/Integrations/NoiseBlaster)
+- Checkout simple sketch to start with [here](https://github.com/invpe/GridShell/tree/main/Sources/Integrations/Simple)
 - Checkout the GTN (Grid Test Net) status [link](https://api.gridshell.net/status/)
 - Checkout the sources [link](https://github.com/invpe/GridShell/tree/main/Sources)
 - Checkout the explorer [link](https://explorer.gridshell.net:3000)
