@@ -1,4 +1,5 @@
-#INPUTPAYLOAD="TELEMETRY,COLUMN_TO_AVERAGE,"
+'Average selected column values
+'INPUTPAYLOAD="TELEMETRYFILE,COLUMN_IDX,"
 SVERSION="1.0"
 '''''''''''''''''''''''''''''''''''
 DEF TOKENIZE(GDZIE, TO_SPLIT )   
