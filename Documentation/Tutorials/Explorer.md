@@ -22,10 +22,11 @@ This one is to help getting user details
 
 ## GridShell Generic Graph [🌎](https://explorer.gridshell.net:3000/d/cf9d5f97-9f02-488a-b49a-28409bdc1593/gridshell-your-telemetry)
 
-This is a generic dashboard you can use to visualize the data, but ensure to keep your data aligned to the following format:
+This is a generic dashboard you can use to visualize the data, but ensure to keep your telemetry data aligned to the following format:
 
 |unix epoch|valueA|valueB|valueC|valueD|
 |----------|------|------|------|------|
 |1688087943|1|2|3|4|
 |1688087963|11|32|32|41|
+|...|...|...|...|...|
 
