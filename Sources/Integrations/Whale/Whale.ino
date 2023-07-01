@@ -16,7 +16,7 @@
 #define WIFI_A  ""
 #define WIFI_P  ""
 /*------------------*/
-#define TIME_INTERVAL 5
+#define TIME_INTERVAL 10
 #define TIME_OFFSET 7200
 #define LED_BUILTIN 2
 #define ONE_WIRE_BUS 4
@@ -125,7 +125,6 @@ void setup() {
   timeClient.begin();
   timeClient.update();
 
-
 }
 /*------------------*/
 void loop() {
@@ -150,27 +149,32 @@ void loop() {
   //
   if (millis() - uiLastTick > TIME_INTERVAL * 60000)
   {
-
+    Serial.println("Time to push data");
     digitalWrite(LED_BUILTIN, HIGH);
 
 
     // Ensure grid online
     if (CGridShell::GetInstance().Connected())
     {
+
+      Serial.println("GridShell is up");
+
       // Get temperature
       sensors.requestTemperatures();
       float fTempC = sensors.getTempCByIndex(0);
 
       // Check if reading was successful and submit telemetry task
       if (fTempC != DEVICE_DISCONNECTED_C)
-      {   }
+      {
+        Serial.println("Sensor reading OK");
+      }
       else
       {
         fTempC = 0;
 
         Serial.println("Error: Could not read temperature data");
       }
-
+      uint32_t uiSpace = SPIFFS.totalBytes() - SPIFFS.usedBytes();
       String strFileName = "POOLT" + GetMACAddress(0) + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday);
 
       String strPayload = strFileName + ",1,";
@@ -178,33 +182,31 @@ void loop() {
       strPayload += String(local_tm.tm_hour) + ",";
       strPayload += String(local_tm.tm_min) + ",";
       strPayload += String(WiFi.RSSI()) + ",";
-      strPayload += String(SPIFFS.usedBytes()) + ",";
+      strPayload += String(uiSpace) + ",";
       strPayload += String(ESP.getFreeHeap()) + ",";
       strPayload += String(fTempC) + "\n";
 
+      // Write CSV telemetry data   (append)
       uint32_t uiTaskID = CGridShell::GetInstance().AddTask("write", strPayload);
       Serial.println("Write task :" + String(uiTaskID));
 
-      // Submit Widget task
-      String strTaskPayload = "POOLTW" + GetMACAddress(0);
-      strTaskPayload += ",Pool,Pool Temperature,";
-      strTaskPayload += "Temperature\\n";
-      strTaskPayload += timeClient.getFormattedTime();
-      strTaskPayload += "\\n";
-
-      if (fTempC != DEVICE_DISCONNECTED_C)
-        strTaskPayload += String(fTempC);
-      else
-        strTaskPayload += "??";
-
-      strTaskPayload += ",#AAAAAA";
-      strTaskPayload += ",https://gridshell.net/,";
-
-      uiTaskID = CGridShell::GetInstance().AddTask("widget", strTaskPayload);
-      Serial.println("Widget task: " + String(uiTaskID));
+      // Write JSON data (overwrite)
+      strFileName = "POOLT" + GetMACAddress(0) + "J";
+      strPayload = strFileName + ",0,";
+      strPayload += "{\"Sensor\": \"" + GetMACAddress(0) + "\",";
+      strPayload += "\"Temperature\": " + String(fTempC) + ",";
+      strPayload += "\"Epoch\": " + String(timeClient.getEpochTime()) + ",";
+      strPayload += "\"Time\": \"" + timeClient.getFormattedTime() + "\"";
+      strPayload +=  "}";
+      uiTaskID = CGridShell::GetInstance().AddTask("write", strPayload);
+      Serial.println("Json task: " + String(uiTaskID));
 
 
     }
+    else
+      Serial.println("Gridshell is down");
+
+    Serial.println("Waiting for next cycle");
     uiLastTick = millis();
     digitalWrite(LED_BUILTIN, LOW);
   }
