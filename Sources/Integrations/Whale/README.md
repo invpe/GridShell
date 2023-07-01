@@ -51,7 +51,7 @@ All you need is:
 ![image](https://github.com/invpe/GridShell/assets/106522950/f62ff19c-cd6a-4df4-898c-d9e43cbd4114)
 
 
-Install [WCS](https://wd.gt/) and add your widget.
+Install [WIDGERIDOO](https://apps.apple.com/us/app/widgeridoo/id1531359008) and add your widget.
 The widget link you can use is listed on explorer below.
 
 # :crocodile: Web
