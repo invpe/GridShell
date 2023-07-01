@@ -3,7 +3,7 @@
 - Date: 1/7/2023
 
 # Synopsis
-Introduce MAX Open files within Retention window
+Introduce MAX Open files within Retention window per user.
 
 # Rationale
 - Reason for this GIP, what does it solve, improve. 
@@ -25,7 +25,7 @@ There needs to be a mechanism to limit number of files opened on GFS (future: DF
 # Explanation in details
 - Provide clean explanation about the new concept
 
-Each user will have `10` files to open within `retention` window.
+Each user will have `10` files to open within `retention` window - this is a core user variable, which can be updated.
 When `WRITE` command is used it will return `FILE,BAD_MAX_FILES` error when limit reached.
 
 - Clarify implementation details
