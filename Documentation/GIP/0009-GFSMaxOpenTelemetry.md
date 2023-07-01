@@ -3,7 +3,7 @@
 - Date: 1/7/2023
 
 # Synopsis
-Introduce MAX Open files within Retention window per user.
+Introduce MAX Open files (telemetry) within Retention window per user.
 
 # Rationale
 - Reason for this GIP, what does it solve, improve. 
