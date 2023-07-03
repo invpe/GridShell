@@ -38,5 +38,28 @@ NEXT I
  
 Time of execution 	`187/300000 ms`
 
+## TOKENIZE string to list
+Split string by `,` to LIST object
+
+```
+DEF TOKENIZE(GDZIE, TO_SPLIT )   
+  CUR_STRING = ""
+  FOR ICT = 0 TO LEN(TO_SPLIT)-1
+    LET CHARV = MID( TO_SPLIT, ICT , 1 )
+    IF CHARV <> "," THEN 
+      CUR_STRING = CUR_STRING + CHARV 
+    ELSE  
+      PUSH(GDZIE,CUR_STRING)
+      CUR_STRING = "" 
+    ENDIF
+  NEXT ICT 
+ENDDEF 
+
+CSVLIST=LIST()
+STRCSV="THIS,IS,A,DUMMY,COMMA,SEPARATED,TEXT,WITH,SOME,RANDOM VALUES,LIKE,2,43,5,56,7,3,45,234,"
+TOKENIZE(CSVLIST,STRCSV)
+```
+
+Time of execution 	`844/300000 ms`
 
 
