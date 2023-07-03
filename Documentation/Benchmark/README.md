@@ -17,7 +17,18 @@ ENDIF
 ```
 Time of execution 	`5030/300000 ms`
 
-## READ
+## READ byte per byte
+Reading `3757` bytes of `TELEMETRY` from `SPIFFS` one by one byte.
+
+```
+BYTES=TSIZE() 
+FOR I = 0 TO BYTES
+TXT = READ(I,1)
+NEXT I
+```
+Time of execution 	42751/300000 ms
+
+## READ in 500b chunks
 Reading `5x500` (2.5k) bytes from `TELEMETRY` file stored on `SPIFFS`
 ```
 FOR I = 0 TO 5
