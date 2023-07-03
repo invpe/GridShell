@@ -4,6 +4,8 @@ Here i will store some benchmark results i performed as part of playing with the
 To keep benchmark consistent, following setup was used:
 
 - Software [Playground](https://github.com/invpe/GridShell/tree/main/Sources/ESPPlayground) sketch
+- `GS_DEBUG` disabled
+- No Serial printing
 - Hardware `M5 Stack ATOM ESP32 Board`
 - Compiled with `Minimal SPIFFS (Large APP with OTA)`
   
