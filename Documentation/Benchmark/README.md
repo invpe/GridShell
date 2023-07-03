@@ -5,6 +5,7 @@ All benchmarks were performed on the [Playground](https://github.com/invpe/GridS
 
 ## DOWNLOAD
 Download `3757` bytes of `TELEMETRY` to local `SPIFFS`
+File is downloaded from api endpoint.
 
 ```
 FNAME="PocNetGroupMiners00000000000000000000001POOLT083AF25746D8202372"
