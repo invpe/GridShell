@@ -1,4 +1,5 @@
-# ESP32 GridShell Playground
+# 🎮 ESP32 GridShell Playground
+
 
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/b55cab5d-7c4d-4f22-a894-7013ff73e46d)
