@@ -29,14 +29,14 @@ NEXT I
 Time of execution 	42751/300000 ms
 
 ## READ in 500b chunks
-Reading `5x500` (2.5k) bytes from `TELEMETRY` file stored on `SPIFFS`
+Reading `7x500` (3.5k) bytes from `TELEMETRY` file stored on `SPIFFS`
 ```
-FOR I = 0 TO 5
-TXT = READ(I,500)
+FOR I = 0 TO 7
+TXT = READ(I*500,500) 
 NEXT I
 ```
  
-Time of execution: `187/300000 ms`
+Time of execution 	`187/300000 ms`
 
 
 
