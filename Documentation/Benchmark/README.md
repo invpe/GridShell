@@ -3,6 +3,19 @@
 Here i will store some benchmark results i performed as part of playing with the BAS execution.
 All benchmarks were performed on the [Playground](https://github.com/invpe/GridShell/tree/main/Sources/ESPPlayground) sketch, using M5 Stack ATOM ESP32 Board.
 
+## DOWNLOAD
+Download `3757` bytes of `TELEMETRY` to local `SPIFFS`
+
+```
+FNAME="PocNetGroupMiners00000000000000000000001POOLT083AF25746D8202372"
+BYTES = DOWNLOAD(FNAME)
+IF BYTES = 0 THEN
+PRINT "ERROR";
+EXIT
+ENDIF
+```
+Time of execution 	`5030/300000 ms`
+
 ## READ
 Reading `5x500` (2.5k) bytes from `TELEMETRY` file stored on `SPIFFS`
 ```
