@@ -93,17 +93,23 @@ TOKENIZE(CSVLIST,STRCSV)
 ```
 Time of execution 	`659/300000 ms`
 
-## TOKENIZE string to list `10 times`
-Split string by `,` to LIST objects and do it 10 times
+## TOKENIZE empty FOR loop
+Empty FOR loop
 
 ```
+ 
+DEF TOKENIZE(GDZIE, TO_SPLIT )   
+  CUR_STRING = "" 
+  SLEN = LEN(TO_SPLIT)-1
+  ICT = 0
+  FOR ICT = 0 TO SLEN
+   
+  NEXT ICT 
+ENDDEF 
 CSVLIST=LIST()
-FOR I = 0 TO 10
-CLEAR(CSVLIST)
 STRCSV="THIS,IS,A,DUMMY,COMMA,SEPARATED,TEXT,WITH,SOME,RANDOM VALUES,LIKE,2,43,5,56,7,3,45,234,"
-TOKENIZE(CSVLIST,STRCSV) 
-NEXT I
+TOKENIZE(CSVLIST,STRCSV)
 ```
-Time of execution 	`8170/300000 ms`
+Time of execution 	`120/300000 ms`
 
 
