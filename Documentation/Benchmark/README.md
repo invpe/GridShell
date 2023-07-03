@@ -1,7 +1,12 @@
 # 🧪  Bencharking BAS execution 
 
 Here i will store some benchmark results i performed as part of playing with the BAS execution.
-All benchmarks were performed on the [Playground](https://github.com/invpe/GridShell/tree/main/Sources/ESPPlayground) sketch, using M5 Stack ATOM ESP32 Board.
+To keep benchmark consistent, following setup was used:
+
+- Software [Playground](https://github.com/invpe/GridShell/tree/main/Sources/ESPPlayground) sketch
+- Hardware `M5 Stack ATOM ESP32 Board`
+- Compiled with `Minimal SPIFFS (Large APP with OTA)`
+  
 
 ## DOWNLOAD
 Download `3757` bytes of `TELEMETRY` to local `SPIFFS`
