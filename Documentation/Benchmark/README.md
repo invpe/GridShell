@@ -7,6 +7,32 @@ To keep benchmark consistent, following setup was used:
 - Hardware `M5 Stack ATOM ESP32 Board`
 - Compiled with `Minimal SPIFFS (Large APP with OTA)`
   
+## PRIME
+Find prime numbers between `0 and 100`
+
+```
+FOR N = 0 TO 100
+M = 2
+ISP = 1
+WHILE M < N
+IF N MOD M = 0 THEN ISP = 0 ELSE M = M + 1
+IF ISP = 0 THEN EXIT
+WEND
+IF ISP = 1 THEN PRINT STR(N);
+NEXT N 
+```
+Time of execution 	`5731/300000 ms`
+
+
+## SHA1
+Generate SHA1 from a string
+
+```
+HASH = SHA1("THIS IS A PLAIN TEXT") 
+```
+
+Time of execution 	`46/300000 ms`
+
 
 ## DOWNLOAD
 Download `3757` bytes of `TELEMETRY` to local `SPIFFS`
