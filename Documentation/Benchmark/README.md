@@ -62,4 +62,17 @@ TOKENIZE(CSVLIST,STRCSV)
 
 Time of execution 	`844/300000 ms`
 
+## TOKENIZE string to list `10 times`
+Split string by `,` to LIST objects and do it 10 times
+
+```
+CSVLIST=LIST()
+FOR I = 0 TO 10
+CLEAR(CSVLIST)
+STRCSV="THIS,IS,A,DUMMY,COMMA,SEPARATED,TEXT,WITH,SOME,RANDOM VALUES,LIKE,2,43,5,56,7,3,45,234,"
+TOKENIZE(CSVLIST,STRCSV) 
+NEXT I
+```
+Time of execution 	`8170/300000 ms`
+
 
