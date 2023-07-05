@@ -387,7 +387,7 @@ void CGridShell::Tick()
           // Send
           m_Client.write("RESULTS,", 8);
           m_Client.write(String(iRetCode).c_str(), String(iRetCode).length());
-          m_Client.write(",", 1);          
+          m_Client.write(",", 1);
           m_Client.write(encodedData, stLen);
           m_Client.write("\r\n", 2);
 
@@ -510,10 +510,6 @@ int CGridShell::MBStep(struct mb_interpreter_t* s, void** l, const char* f, int 
   // Avoid endless loops
   if (millis() - CGridShell::GetInstance().GetTaskStartTime() > CGridShell::GetInstance().GetTaskTimeout())
     return GNODE_RET_TERMINATED;
-
-  // Breath
-  yield();
-
 
   CGridShell::GetInstance().Pong();
 
@@ -659,8 +655,7 @@ String CGridShell::GetSHA1(const String& rstrFile)
 //  - Class     : CGridShell
 //  - Prototype :
 //
-//  - Purpose   : Lib Only
-//                Write a string to a file stored on the grid network (max 128b)
+//  - Purpose   : Write a string to a file stored on the grid network
 //
 // -----------------------------------------------------------------------------
 bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const bool& bAppend)
@@ -676,17 +671,7 @@ bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const boo
   strCommand += rstrName + "," + strBaseEncoded + "\r\n";
 
   Send(strCommand);
-
-  String strReturn      = m_Client.readStringUntil(',');
-  String strReturnCode  = m_Client.readStringUntil(',');
-
-
-  GDEBUG("Write : " + strReturnCode);
-
-  //
-  if (strReturn == "FILE" && strReturnCode[0] == 'O' && strReturnCode[1] == 'K')
-    return true;
-  return false;
+  return true;
 }
 // --[  Method  ]---------------------------------------------------------------
 //
