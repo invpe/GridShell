@@ -3,11 +3,8 @@
    This device is using DFRobot https://wiki.dfrobot.com/Gravity__Analog_Sound_Level_Meter_SKU_SEN0232
    to measure the value every minute and write it to a telemetry file on GridShell network.
 */
-#include <WiFi.h>
-#include <HTTPClient.h>
-#include <NTPClient.h>
+#include <WiFi.h> 
 #include <ArduinoOTA.h>
-#include <ArduinoJson.h>
 #include <chrono>
 #include <vector>
 #include "SPIFFS.h"
@@ -21,14 +18,13 @@
 /*------------------*/
 #define VREF 3.3
 /*------------------*/
-std::vector<float> vDataPoints;
-// Second thread GRID
-TaskHandle_t Task1;
 
+// Second thread GRID
+TaskHandle_t Task1; 
+const char* ntpServer = "pool.ntp.org";
+const long  gmtOffset_sec = 0;
+const int   daylightOffset_sec = 3600;
 uint32_t uiSensorPoolTimer;
-uint32_t uiAveragesTaskID;
-WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "pool.ntp.org", 10800); // GMT = +3hrs to Eu/Warsaw
 /*------------------*/
 String GetMACAddress(const int& iType)
 {
@@ -58,8 +54,6 @@ void TaskGRID(void *pvParameters)
 /*------------------*/
 void setup()
 {
-  uiAveragesTaskID = 0;
-
   Serial.begin(115200);
   Serial.println("Mounting FS...");
   while (!SPIFFS.begin())
@@ -96,13 +90,7 @@ void setup()
   }
   else
     ESP.restart();
-
-
-  // Set time offset
-  timeClient.setTimeOffset(3600);
-  timeClient.begin();
-  timeClient.update();
-
+ 
   ArduinoOTA
   .onStart([]() {
     String type;
@@ -135,6 +123,7 @@ void setup()
   ArduinoOTA.setHostname("NBLASTER");
   ArduinoOTA.begin();
 
+  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 
   //
   CGridShell::GetInstance().Tick();
@@ -172,52 +161,45 @@ void loop()
 {
 
   //
-  ArduinoOTA.handle();
+  ArduinoOTA.handle(); 
 
-  // This sketch is time dependent
-  while (!timeClient.update()) {
-    timeClient.forceUpdate();
-  }
+  
 
-  // Extract the time from NTP server
-  time_t _t;
-  _t = timeClient.getEpochTime();
-  std::chrono::system_clock::time_point now = std::chrono::system_clock::from_time_t(_t);
-  time_t tt = std::chrono::system_clock::to_time_t(now);
-  tm local_tm = *localtime(&tt);
-
+  
   // Read sensor value every second
-  if (millis() - uiSensorPoolTimer >= 1000)
+  if (millis() - uiSensorPoolTimer >= 60000)
   {
+
+    // Extract the time from NTP server
+    tm local_tm;
+    if(!getLocalTime(&local_tm)){ 
+    return;
+    } 
+  
+    time_t timeSinceEpoch = mktime(&local_tm); 
+  
+       
     float voltageValue, dbValue;
     voltageValue  = analogRead(A0);
     dbValue       = (voltageValue / 4095 * VREF) * 50 ;
-    vDataPoints.push_back(dbValue);
-
-    // Enough datapoints & Grid connected
-    if (vDataPoints.size() >= 60)
+    if (CGridShell::GetInstance().Connected())
     {
-      if (CGridShell::GetInstance().Connected())
-      {
+
         String strFileName = "NB" + GetMACAddress(0) + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday);
-
-        float fAverage = CalculateAverage(vDataPoints);
-
         uint32_t uiSpace = SPIFFS.totalBytes() - SPIFFS.usedBytes();
+        
         String strPayload = strFileName + ",1,";
-        strPayload += String(timeClient.getEpochTime()) + "," + String(local_tm.tm_hour) + "," + String(local_tm.tm_min) + "," + String(fAverage) + "\n";
+        strPayload += String(timeSinceEpoch) + "," + String(local_tm.tm_hour) + "," + String(local_tm.tm_min) + "," + String(dbValue) + "\n";
 
         uint32_t uiTaskID = CGridShell::GetInstance().AddTask("write", strPayload);
 
         Serial.println("Wrote telemetry: " + String(uiTaskID) + " Len:" + String(strPayload.length()));
-        Serial.println("Time : " + timeClient.getFormattedTime());
+        Serial.println("Time : " + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday)+" "+String(local_tm.tm_hour)+":"+String(local_tm.tm_min) );
         Serial.println("Grid : " + String(CGridShell::GetInstance().Connected()));
         Serial.println("Memor: " + String(ESP.getFreeHeap()));
         Serial.println("Space: " + String(uiSpace));
         Serial.println("--------------------");
-      }
-      vDataPoints.clear();
-    }
+    } 
     
     uiSensorPoolTimer = millis();
   }
