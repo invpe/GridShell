@@ -33,7 +33,7 @@ I kept the idea very simple:
 [DUCO] GOOD
 ```
 
-
+This isn't anything special, but demonstrates how quickly i could integrate a network of nodes to a specific task.
 I left it working for some time, had free Shells to spend and kept it going.
 
 ```
@@ -62,6 +62,17 @@ I left it working for some time, had free Shells to spend and kept it going.
 [DUCO] GOOD
 Restarting
 ...
+```
+
+### Was it really working ?
+
+Yes, see some balance dumps here from the wallet page.
+
+```
+5621.810133 DUCO
+5621.82252972 DUCO
+5621.8245512 DUCO
+5621.83147469 DUCO
 ```
 
 
