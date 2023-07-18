@@ -7,6 +7,9 @@ Once i spend few minutes rolling out a distributed DuinoCoin miner, since this i
 Their protocol is simple and allows for a quick integration. Of course, this will never be efficent to run on GridShell 
 due to the characteristics of distributed computing, but executing a mining task on the network is a good fun and exercise ✨
 
+This isn't anything special, but demonstrates how quickly i could integrate a network of nodes to a specific task.
+
+
 ![image](https://github.com/invpe/GridShell/assets/106522950/64b0d2af-092f-4ad2-8204-fa98cf27f4c7)
 
 
@@ -33,7 +36,6 @@ I kept the idea very simple:
 [DUCO] GOOD
 ```
 
-This isn't anything special, but demonstrates how quickly i could integrate a network of nodes to a specific task.
 I left it working for some time, had free Shells to spend and kept it going.
 
 ```
