@@ -41,6 +41,4 @@ Read about how to use the Explorer endpoint [here](https://github.com/invpe/Grid
 
 # Simple examples
 Go through all of them to master using GridShell [click](https://github.com/invpe/GridShell/tree/main/Documentation/Tutorials/Examples)
-
-# Funny examples
-Funny things happen sometimes [click](#)
+ 
