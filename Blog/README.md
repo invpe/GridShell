@@ -118,7 +118,7 @@ each with different configuration parameters to find optimal settings for your n
 
 
 
-## 18/07/2023 - Integrating GridShell with DuCo mining
+## 18/07/2023 - Integrating GridShell with DuCo mining 👷‍♂️
 
 Required: [script](https://api.gridshell.net/scripts/dduco.bas) 
 
