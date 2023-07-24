@@ -17,9 +17,11 @@ Lets try to make it in three simple steps to get you up and running.
 4. Update the sketch with account details, WiFi credentials & compile 
 
 # Monitoring
-Access your account details with Test Net API server, head to :
+Access your account details with the expolorer page here:
 
-https://api.gridshell.net/user/your_new_grid_username.json
+[https://explorer.gridshell.net:3000/d/c67e1c66-8ac3-480e-860b-7d1ba05aa8f8/gridshell-user?orgId=1](https://explorer.gridshell.net:3000/d/c67e1c66-8ac3-480e-860b-7d1ba05aa8f8/gridshell-user?orgId=1)
+
+
 
 To obtain your user latest and greatest.
 Of course the name will differ, this is just an example :-)
