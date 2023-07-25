@@ -121,7 +121,7 @@ I try to document all major changes in `Gridshell Improvement Proposal` document
 - **Connect** your first node [link](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Join.md)
 - **Use** GridShell [link](https://github.com/invpe/GridShell/tree/main/Documentation/Tutorials/Examples) 
 - Checkout the **sources** [link](https://github.com/invpe/GridShell/tree/main/Sources)
-- Checkout the **explorer** [link](https://explorer.gridshell.net:3000)
+- Checkout the **explorer** [link](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md)
 
 
  
