@@ -187,6 +187,7 @@ the value i was looking for was hidden in the intregration itself not the tokens
 5621.8245512 DUCO
 5621.83147469 DUCO
 ```
+![image](https://github.com/invpe/GridShell/assets/106522950/43be2566-f82c-4a89-bc2f-51faa7552dbf)
 
 
 If you're interested into the task and integration itself, checkout one of the submitted tasks below or see the [distributed duco](https://api.gridshell.net/scripts/dduco.bas) script itself.
