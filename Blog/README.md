@@ -66,6 +66,7 @@ Let's fire off, and monitor the progress over [here](https://explorer.gridshell.
 
 🤞
 
+![image](https://github.com/invpe/GridShell/assets/106522950/d3b78b27-7f69-4dc9-88ab-2f5f461a7636)
 
 
 ## 🛰️ 20/07/2023 - Playing with a simple neural network 
