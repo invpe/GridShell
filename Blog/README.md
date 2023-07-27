@@ -1,6 +1,74 @@
 # 📰 Series of blog entries for GridShell
 
-## 20/07/2023 - Playing with a simple neural network 🛰️
+## 🍀 27/07/2023 - Building solar powered node 
+
+Keeping in mind how important for this project is to use renewable energy sources, i targetted for this month to run a single node absolutely on sun energy,
+using cheap components available in any electronic store. There will be two approaches to this task:
+
+- Continous run, where no deep sleep is introduced, to see how long it will stay up and what is the charge ratio to uptime.
+- Idle time, where node will wake up (from the deep sleep) check if any work is requiring execution and proceed, finishing with entering a deep sleep again.
+
+I am pretty sure that the second approach will be easy to achieve, so i'll try first with the first one.
+One very important point is that i want to be able to measure the battery level via A0 (Analog pin) and report as part of the telemetry.
+This will give me a clear view on which of the two scenarios i will be testing gives best results. 
+
+So to start, let's first check what hardware i will be using.
+
+### 💪 Hardware 
+
+I am focusing only on already existing electronics in my garage.
+If any updates will be required, i'll do so but first let's reuse whatever i have to kick start.
+
+1. ESP 32 Mini [specs](https://nettigo.eu/products/wifi-bluetooth-module-esp32-d1-mini?_gl=1*bp3yf*_ga*NjUwOTgzNjU5LjE2OTA0NTgzMDQ.*_ga_2MCQHEHG4M*MTY5MDQ1ODMwMy4xLjAuMTY5MDQ1ODMwMy4wLjAuMA..)
+2. A TP4056 charging board [specs](https://botland.store/charger-modules-for-li-po-batteries/6944-lipol-charger-tp4056-1s-37v-microusb-with-5904422375355.html)
+3. A battery 18650 Li-Ion Sony US18650VTC5 2600mAh [specs](https://botland.store/li-ion-batteries/4271-18650-li-ion-cell-sony-us18650vtc5-2600mah-5900000000411.html)
+4. A solar panel [specs](https://botland.store/low-power-solar-panels/3695-solar-cell-07w55v-95x95x3mm-5904422302856.html)
+
+Simply put - a solar panel will be connected to the charger. Charger gets connect to battery (to charge it) - from now, we have a circuit which charges the battery that will power up the node from the sun.
+Next, we connect ESP to the outout of the charger and we have a continous flow of voltage, powering up our node. 
+Since i want to measure the battery voltage, i'll also run a wire between 3.3 and A0 (SVP) on the board.
+
+### Simple schematics
+
+![image](https://github.com/invpe/GridShell/assets/106522950/b2b61b2e-73ff-41be-9439-d86877b59432)
+
+```
+SOLAR+ to TP4056 +
+SOLAR- to TP4056 -
+
+TP4056B+ to BATTERY +
+TP4056B- to BATTERY -
+
+TP4056OUT+ TO ESP 3.3
+TP4056OUT- TO ESP GND
+
+ESP 3.3 TO A0
+```
+
+This setup will:
+
+- Load the battery
+- Power up the ESP
+- Allow ESP to read A0 values (0,4095) - we're maxing a bit, since it requires 3.3 there, but i have nothing to drop it down before A0 to 3.3, so for now i'll keep it that way.
+
+### ⛹️‍♂️ Software 
+
+I will use the usual [node sketch](https://github.com/invpe/GridShell/tree/main/Sources/Node/ClientESP32) for ESP32.
+The only update i will use is enable `ENABLE_TELEMETRY` which will write a telemetry file that consists of few diagnostic items but also readings from A0 mapped to `<0,100>` in percents.
+
+`float fBatteryLevel = map(analogRead(ANALOG_PIN), 0.0f, 4095.0f, 0, 100);`
+
+This is absolutely enough to cover the requirements.
+The node will operate as usual, but send diagnostic telemetry including readings from analog pin.
+I can track it later with the Explorer using [Gridshell Node Telemetry dashboard](https://explorer.gridshell.net:3000/d/d46107a0-d8c2-49a0-8924-de7299152567/gridshell-node-telemetry?orgId=1).
+       
+Let's fire off, and monitor the progress over [here](https://explorer.gridshell.net:3000/d/d46107a0-d8c2-49a0-8924-de7299152567/gridshell-node-telemetry?orgId=1&var-NodeID=7c9ebd793fa0&var-GUser=PocNetGroupMiners00000000000000000000001)
+
+🤞
+
+
+
+## 🛰️ 20/07/2023 - Playing with a simple neural network 
 
 Required: [telemetry](https://api.gridshell.net/fs/neuraltest), [script](https://api.gridshell.net/scripts/neuralnetwork.bas)  
 
