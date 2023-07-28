@@ -62,7 +62,7 @@ This is absolutely enough to cover the requirements.
 The node will operate as usual, but send diagnostic telemetry including readings from analog pin.
 I can track it later with the Explorer using [Gridshell Node Telemetry dashboard](https://explorer.gridshell.net:3000/d/d46107a0-d8c2-49a0-8924-de7299152567/gridshell-node-telemetry?orgId=1).
        
-Let's fire off, and monitor the progress over [here](https://explorer.gridshell.net:3000/d/d46107a0-d8c2-49a0-8924-de7299152567/gridshell-node-telemetry?orgId=1&var-NodeID=7c9ebd793fa0&var-GUser=PocNetGroupMiners00000000000000000000001)
+Let's fire off, and monitor the progress over [here](https://explorer.gridshell.net:3000/d/d46107a0-d8c2-49a0-8924-de7299152567/gridshell-node-telemetry?orgId=1&var-NodeID=7C9EBD793FA00&var-GUser=PocNetGroupMiners00000000000000000000001)
 
 🤞
 
