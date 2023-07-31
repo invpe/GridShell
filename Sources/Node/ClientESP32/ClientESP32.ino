@@ -21,7 +21,18 @@
 ///////////////////////////////////
 // Turn on/off OTA functionality //
 ///////////////////////////////////
-//#define ENABLE_OTA
+#define ENABLE_OTA
+/////////////////////////////////////
+// Turn on/off Diagnostic telemetry//
+/////////////////////////////////////
+//#define ENABLE_TELEMETRY
+#ifdef ENABLE_TELEMETRY
+  #define ANALOG_PIN A0
+  const char* ntpServer = "pool.ntp.org";
+  const long  gmtOffset_sec = 3600;
+  const int   daylightOffset_sec = 3600;
+  uint64_t uiLastTelemetry = 0;
+#endif
 //////////////////////////////////////////////
 // LED Functionality                        //
 //////////////////////////////////////////////
@@ -137,6 +148,11 @@ void setup()
   ArduinoOTA.begin();
 #endif
 
+#ifdef ENABLE_TELEMETRY  
+  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+#endif
+
+
   digitalWrite(LED_BUILTIN, LOW);
 }
 ///////////////////////////////////
@@ -144,7 +160,13 @@ void setup()
 ///////////////////////////////////
 void loop()
 {
+  
   static uint32_t m_uiLastHB   = 0;
+
+  // This keeps handling the OTA functionality
+#ifdef ENABLE_OTA
+  ArduinoOTA.handle();
+#endif
 
   /////////////////////////////
   // Keep working on the grid//
@@ -158,14 +180,44 @@ void loop()
     ESP.restart();
   }
 
+  // Enable sending diagnostic telemetry every 10 minutes
+  // New file will be created every day
+#ifdef ENABLE_TELEMETRY
+  if(millis() - uiLastTelemetry >= 60000ULL * 10)
+  {
+    if(CGridShell::GetInstance().Connected())
+    {
+        tm local_tm;
+        getLocalTime(&local_tm);
+        time_t tTimeSinceEpoch = mktime(&local_tm); 
+        
+        String strMAC = WiFi.macAddress(); 
+        strMAC.replace(":", "");
+        
+        float fBatteryLevel = map(analogRead(ANALOG_PIN), 0.0f, 4095.0f, 0, 100);  
+        
+        String strFileName = "DT" + strMAC + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday);
+        String strAppend = "1";
+        String strPayload = strFileName + ",";
+        
+        strPayload += strAppend+",";
+        strPayload += String(tTimeSinceEpoch) + ",";      
+        strPayload += String(fBatteryLevel)+",";
+        strPayload += String(SPIFFS.totalBytes())+",";
+        strPayload += String(SPIFFS.usedBytes())+",";
+        strPayload += String(WiFi.RSSI()) + ","; 
+        strPayload += String(ESP.getFreeHeap()) + "\n"; 
+         
+        CGridShell::GetInstance().AddTask("write", strPayload); 
+    }
+    uiLastTelemetry = millis();
+  }
+#endif
+
+
   // Your Normal Sketch things
   if (millis() - m_uiLastHB > 1000)
   {
     m_uiLastHB = millis();
   }
-
-  // This keeps handling the OTA functionality
-#ifdef ENABLE_OTA
-  ArduinoOTA.handle();
-#endif
 }
