@@ -17,5 +17,5 @@ They are located in: https://github.com/invpe/GridShell/tree/main/Sources/GridSh
 
 - https://github.com/invpe/GridShell/tree/main/Sources/Node/ClientESP32 - This is barebones ESP32, treat it as a minimal core version of the ESP32 node.
 
-- https://github.com/invpe/GridShell/tree/main/Sources/Node/ClientESP32_M5ATOM - This is a juiced up version for USB M5 Atom sticks, includes some callbacks handling and LED illuminations :)
+- ~~https://github.com/invpe/GridShell/tree/main/Sources/Node/ClientESP32_M5ATOM - This is a juiced up version for USB M5 Atom sticks, includes some callbacks handling and LED illuminations :)~~ This is now obsolete.
 
