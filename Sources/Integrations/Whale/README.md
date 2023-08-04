@@ -13,6 +13,14 @@ or leave for more of your sensors to burn them!
 ![image](https://github.com/invpe/GridShell/assets/106522950/220d99b6-ffb9-4b1d-b062-ae89cd5481c3)
 ![image](https://github.com/invpe/GridShell/assets/106522950/7bcd3c1d-d105-46ca-a6e9-643765a87e5a)
 
+# 📰 Update
+
+Added `DEEP SLEEP` feature to keep your Whale operating on the Solar.
+Just enable or disable it in the code 
+
+```
+#define ENABLE_DEEP_SLEEP
+```
 
 # :sweat_drops: So what is it?
 
