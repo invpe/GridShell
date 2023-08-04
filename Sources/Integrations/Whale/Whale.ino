@@ -1,27 +1,39 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 #include <WiFi.h>
-#include <HTTPClient.h> 
+#include <HTTPClient.h>
 #include <ArduinoOTA.h>
 #include <chrono>
 #include <vector>
 #include "SPIFFS.h"
-#include <ctime> 
+#include <ctime>
 /*------------------*/
 #include "CGridShell.h"
 // Put your username here to submit daily average tasks for Your Whale sensor
-//#define GRID_USERNAME "PocNetGroupMiners00000000000000000000001"
+// #define GRID_USERNAME "PocNetGroupMiners00000000000000000000001"
 #define GRID_U ""
 /*------------------*/
 #define WIFI_A ""
 #define WIFI_P ""
 /*------------------*/
-#define TIME_INTERVAL 10ULL
+#define ANALOG_PIN A0
+#define TIME_INTERVAL 30ULL
 #define LED_BUILTIN 2
 #define ONE_WIRE_BUS 4
 /*------------------*/
+// Enable deep sleep after run
+#define ENABLE_DEEP_SLEEP
+/*------------------*/
+#ifdef ENABLE_DEEP_SLEEP
+#define SLEEP_TIME (TIME_INTERVAL * (60ULL * 1000000ULL))
+void DeepSleep() {
+  CGridShell::GetInstance().Stop();
+  esp_deep_sleep_start();
+}
+#endif
+/*------------------*/
 OneWire oneWire(ONE_WIRE_BUS);
-DallasTemperature sensors(&oneWire); 
+DallasTemperature sensors(&oneWire);
 uint32_t uiLastTick = 0;
 /*------------------*/
 // Set your NTP settings here
@@ -47,6 +59,10 @@ String GetMACAddress(const int& iType) {
 }
 /*------------------*/
 void setup() {
+#ifdef ENABLE_DEEP_SLEEP
+  esp_sleep_enable_timer_wakeup(SLEEP_TIME);
+#endif
+
   pinMode(LED_BUILTIN, OUTPUT);
 
   Serial.begin(115200);
@@ -56,7 +72,7 @@ void setup() {
     Serial.println("Failed to mount file system");
     delay(1000);
   }
-  
+
   WiFi.setHostname("GSWHALE");
   WiFi.begin(WIFI_A, WIFI_P);
 
@@ -74,33 +90,33 @@ void setup() {
   Serial.println("Connected " + WiFi.localIP().toString());
 
   ArduinoOTA
-    .onStart([]() {
-      String type;
-      if (ArduinoOTA.getCommand() == U_FLASH)
-        type = "sketch";
-      else  // U_SPIFFS
-        type = "filesystem";
-    })
-    .onEnd([]() {
-      Serial.println(F("\nEnd"));
-    })
-    .onProgress([](unsigned int progress, unsigned int total) {
-      //Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
-    })
-    .onError([](ota_error_t error) {
-      Serial.printf("Error[%u]: ", error);
-      if (error == OTA_AUTH_ERROR)
-        Serial.println(F("Auth Failed"));
-      else if (error == OTA_BEGIN_ERROR)
-        Serial.println(F("Begin Failed"));
-      else if (error == OTA_CONNECT_ERROR)
-        Serial.println(F("Connect Failed"));
-      else if (error == OTA_RECEIVE_ERROR)
-        Serial.println(F("Receive Failed"));
-      else if (error == OTA_END_ERROR)
-        Serial.println(F("End Failed"));
-      esp_restart();
-    });
+  .onStart([]() {
+    String type;
+    if (ArduinoOTA.getCommand() == U_FLASH)
+      type = "sketch";
+    else  // U_SPIFFS
+      type = "filesystem";
+  })
+  .onEnd([]() {
+    Serial.println(F("\nEnd"));
+  })
+  .onProgress([](unsigned int progress, unsigned int total) {
+    //Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
+  })
+  .onError([](ota_error_t error) {
+    Serial.printf("Error[%u]: ", error);
+    if (error == OTA_AUTH_ERROR)
+      Serial.println(F("Auth Failed"));
+    else if (error == OTA_BEGIN_ERROR)
+      Serial.println(F("Begin Failed"));
+    else if (error == OTA_CONNECT_ERROR)
+      Serial.println(F("Connect Failed"));
+    else if (error == OTA_RECEIVE_ERROR)
+      Serial.println(F("Receive Failed"));
+    else if (error == OTA_END_ERROR)
+      Serial.println(F("End Failed"));
+    esp_restart();
+  });
 
   ArduinoOTA.setHostname("GSWHALE");
   ArduinoOTA.begin();
@@ -115,12 +131,12 @@ void setup() {
   if (CGridShell::GetInstance().Init(GRID_U, true) == true) {
   } else
     ESP.restart();
-  
+
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 
 }
 /*------------------*/
-void loop() 
+void loop()
 {
 
   // Check if WiFi available, if not just boot.
@@ -140,65 +156,68 @@ void loop()
 
   // Extract the time from NTP server
   tm local_tm;
-  if(!getLocalTime(&local_tm)){
-  Serial.println("Failed to obtain time");
-  return;
-} 
+  if (!getLocalTime(&local_tm)) {
+    Serial.println("Failed to obtain time");
+    return;
+  }
   // Get epoch
-  time_t timeSinceEpoch = mktime(&local_tm); 
-
+  time_t timeSinceEpoch = mktime(&local_tm);
 
   // Action time
+#ifndef ENABLE_DEEP_SLEEP
   if (millis() - uiLastTick > TIME_INTERVAL * 60000) {
+#endif
     digitalWrite(LED_BUILTIN, HIGH);
- 
+
     // Ensure grid online
-    if (CGridShell::GetInstance().Connected()) 
+    if (CGridShell::GetInstance().Connected())
     {
       String strPayload = "";
       uint32_t uiTaskID = 0;
-      
+
       Serial.println("GridShell is up");
- 
-      // Are we past midnight ? Submit daily averages for yesterday      
-      if (local_tm.tm_hour == 00 && local_tm.tm_min <= 10) 
+
+      // Are we past midnight ? Submit daily averages for yesterday
+      if (local_tm.tm_hour == 00 && local_tm.tm_min <= 10)
       {
-#ifdef GRID_USERNAME        
+#ifdef GRID_USERNAME
         time_t timeOneDay = 24 * 60 * 60;
         time_t yesterdayTime = timeSinceEpoch - timeOneDay;
-        
+
         struct tm *yesterdayTm = localtime(&yesterdayTime);
 
-          // Extract the year, month, and day from the struct tm
-          int year = yesterdayTm->tm_year + 1900;
-          int month = yesterdayTm->tm_mon + 1;
-          int day = yesterdayTm->tm_mday;             
-        
-          strPayload = GRID_USERNAME "," + GetMACAddress(0) + "," + String(year) + String(month) + String(day) + ",6,";
-          Serial.println(strPayload);
-          uiTaskID = CGridShell::GetInstance().AddTask("whaledavg", strPayload);
-          Serial.println("Average task :" + String(uiTaskID));
-#endif          
+        // Extract the year, month, and day from the struct tm
+        int year = yesterdayTm->tm_year + 1900;
+        int month = yesterdayTm->tm_mon + 1;
+        int day = yesterdayTm->tm_mday;
+
+        strPayload = GRID_USERNAME "," + GetMACAddress(0) + "," + String(year) + String(month) + String(day) + ",6,";
+        Serial.println(strPayload);
+        uiTaskID = CGridShell::GetInstance().AddTask("whaledavg", strPayload);
+        Serial.println("Average task :" + String(uiTaskID));
+#endif
       }
       else
       {
         Serial.println("Time to push data");
-         
+
         // Get temperature
         sensors.requestTemperatures();
         float fTempC = sensors.getTempCByIndex(0);
-  
+
         // Check if reading was successful and submit telemetry task
         if (fTempC != DEVICE_DISCONNECTED_C) {
           Serial.println("Sensor reading OK");
         } else {
           fTempC = 0;
-  
+
           Serial.println("Error: Could not read temperature data");
         }
+
+        float fBatteryLevel = map(analogRead(ANALOG_PIN), 0.0f, 4095.0f, 0, 100);
         uint32_t uiSpace = SPIFFS.totalBytes() - SPIFFS.usedBytes();
         String strFileName = "POOLT" + GetMACAddress(0) + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday);
-  
+
         strPayload = strFileName + ",1,";
         strPayload += String(timeSinceEpoch) + ",";
         strPayload += String(local_tm.tm_hour) + ",";
@@ -206,27 +225,35 @@ void loop()
         strPayload += String(WiFi.RSSI()) + ",";
         strPayload += String(uiSpace) + ",";
         strPayload += String(ESP.getFreeHeap()) + ",";
-        strPayload += String(fTempC) + "\n";
-  
+        strPayload += String(fTempC) + ",";
+        strPayload += String(fBatteryLevel) + "\n";
+
         // Write CSV telemetry data   (append)
         uiTaskID = CGridShell::GetInstance().AddTask("write", strPayload);
         Serial.println("Write task :" + String(uiTaskID));
-  
+
         // Write JSON data (overwrite)
         strFileName = "POOLT" + GetMACAddress(0) + "J";
         strPayload = strFileName + ",0,";
         strPayload += "{\"Sensor\": \"" + GetMACAddress(0) + "\",";
         strPayload += "\"Temperature\": " + String(fTempC) + ",";
+        strPayload += "\"Battery\": " + String(fBatteryLevel) + ",";
         strPayload += "\"Epoch\": " + String(timeSinceEpoch) + ",";
-        strPayload += "\"Time\": \"" + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday)+" "+String(local_tm.tm_hour)+":"+String(local_tm.tm_min) + "\"";
+        strPayload += "\"Time\": \"" + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday) + " " + String(local_tm.tm_hour) + ":" + String(local_tm.tm_min) + "\"";
         strPayload += "}";
         uiTaskID = CGridShell::GetInstance().AddTask("write", strPayload);
         Serial.println("Json task: " + String(uiTaskID));
       }
-    } 
-    
+    }
+
     Serial.println("Waiting for next cycle");
     uiLastTick = millis();
     digitalWrite(LED_BUILTIN, LOW);
+
+#ifdef ENABLE_DEEP_SLEEP
+    DeepSleep();
+#endif
+#ifndef ENABLE_DEEP_SLEEP
   }
+#endif
 }
