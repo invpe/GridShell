@@ -6,7 +6,7 @@ Before going anywhere further, ensure to note down these resources - key to the 
 
 1. MyBasic https://github.com/paladin-t/my_basic
 2. MyBasic Web Playground https://my-basic.github.io/playground/output/index.html
-3. GridShell Command Line Playground https://github.com/invpe/GridShell/tree/main/Sources/MyBasic
+3. GridShell Command Line Playground https://github.com/invpe/GridShell/tree/main/Sources/ESPPlayground
 
 Ok, now you can continue ;-)
 
