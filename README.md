@@ -48,7 +48,7 @@ GridShell's innovative token-based system rewards users for their contributions.
 Your Shell tokens are your key to accessing GridShell's full potential. Submit tasks by exchanging shell tokens. When your submitted task is successfully validated, you contribute back to the community and allow them to earn more tokens. This cycle of participation and reward fuels the GridShell ecosystem.
 
 ## 🧮 Data-Driven Computations:
-GridShell introduces a new dimension to computing through the capability for tasks to read telemetry files. Tasks can utilize telemetry data as input, enhancing the network's ability to perform complex computations that draw insights from real-world data.
+GridShell introduces a new dimension to computing through the capability for tasks to read/write telemetry files. Tasks can utilize telemetry data as input, enhancing the network's ability to perform complex computations that draw insights from real-world data.
 
 ## 👁️‍🗨️ Empowering Insights:
 By allowing tasks to access telemetry files, GridShell bridges the gap between raw data and powerful insights. Users can perform computations that leverage real-world telemetry data, enhancing the precision and relevance of their analyses.
