@@ -24,21 +24,37 @@
 # :seedling: Welcome
 
 With billions of IOT devices connected today there is a huge potential of computing power ready for use at minimal or even zero cost. These tiny computers are capable of operating on renewable energies like solar power, giving tremendous opportunities for utilizing their computing capabilities without impacting environment. We all have WiFi enabled sensors, smart bulbs, sockets, plugs... which idle for most of their time - why not connect them together and use as one big computer to solve our problems ?
+ 
+Welcome to GridShell, an innovative distributed computing solution powered by ESP32 nodes. Designed to address high-throughput computing challenges, GridShell seamlessly integrates data processing, analysis, and visualization for a wide array of applications.
 
-The project started mid june 2022 as a coding-challenge, 
-it is now `VER0.05` and running a `TestNet` which means everyone can 
-join, contribute and use the network. 
-GridShell is made to be used by everyone. 
-Once you connect your nodes will be granted Shells for each 
-task execution. You will be able to use these Shells to write telemetry and 
-execute your own tasks on the GridShell network.
+## 🗃️ Key Features
+- Distributed Computing Power: Leverage the collective computing strength of ESP32 nodes for efficient task execution.
+- Telemetry Data Processing: Store and process telemetry data from IoT devices, enabling deep analysis and insights.
+- Custom Script Execution: Empower users to execute custom scripts and calculations on telemetry data.
+- Real-time Visualization: Integrate with Grafana dashboards for real-time and historical data insights.
+- API and Integration: Provide HTTPS API access for seamless integration with external applications.
+- Renewable Energy Compatibility: Operate on renewable energy sources or at zero cost, promoting sustainability.
 
+## 🧑‍🏭 Workload Suitability:
+GridShell is best suited for high-throughput computing scenarios where the emphasis lies in achieving a high rate of job completion. It excels with workloads involving large job groups or streams, prioritizing efficient job processing over low job turnaround time. While GridShell is versatile, it may be less suitable for workloads demanding extensive memory or storage resources or those with a notably high ratio of network communication to computing.
+
+## 🧑‍🤝‍🧑 Community-Powered Volunteer Computing:
+At GridShell, we celebrate the spirit of volunteer computing. Our network is open for anyone with ESP32 or any other ULP nodes to join, creating a community of volunteers contributing computing power to collaborative projects. By participating, volunteers collectively enhance the capacity and impact of distributed computing, all while sharing the ideals of volunteerism and community-driven innovation.When you join the GridShell network with your node, you become part of a collaborative force that drives innovation. As a contributor, your node executes tasks launched by others, strengthening the collective computing power.
+
+## 🆕 Innovative Reward Mechanism:
+GridShell's innovative token-based system rewards users for their contributions. When your node successfully executes a task launched by another user, you are granted a valuable shell token. These tokens are a testament to your commitment to the GridShell community.
+
+## 💝 Token Economy:
+Your Shell tokens are your key to accessing GridShell's full potential. Submit tasks by exchanging shell tokens. When your submitted task is successfully validated, you contribute back to the community and allow them to earn more tokens. This cycle of participation and reward fuels the GridShell ecosystem.
+
+## ⭐ Value Proposition:
+GridShell empowers through innovation, sustainability, and community collaboration. High-throughput computing and renewable energy compatibility drive optimized processes and decisions.
 
 # :sparkles: How does it work 
 
 Please see documentation for more detailed explanation. In simple words, it works as follows:
 
-- People join the network with their ESP32 devices (nodes)
+- People - You - join the network with their ESP32 devices (nodes)
 - Network executes tasks (written in [MyBasic](https://github.com/paladin-t/my_basic)) on volunteer nodes
 - Each volunteer is granted a "Shell" (after validation) for a proper execution
 - Shells are used to submit a tasks and use the network
