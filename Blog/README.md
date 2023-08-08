@@ -68,6 +68,12 @@ Let's fire off, and monitor the progress over [here](https://explorer.gridshell.
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/d3b78b27-7f69-4dc9-88ab-2f5f461a7636)
 
+📆 Update with Deep Sleep (10m)
+
+Added deep sleep to the [Whale](https://github.com/invpe/GridShell/tree/main/Sources/Integrations/Whale) sensor plugged into the solar, seems very promising.
+The sleep time is only `10 minutes` which for a pool sensor is too often, 
+[Explorer](https://explorer.gridshell.net:3000/d/ca74c27d-03f9-4f18-8017-001d013b93ce/gridshell-pool?orgId=1).
+
 
 📆 Update
 
