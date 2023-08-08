@@ -193,6 +193,7 @@ void loop()
         
         String strMAC = WiFi.macAddress(); 
         strMAC.replace(":", "");
+        strMAC.toLowerCase();
         
         float fBatteryLevel = map(analogRead(ANALOG_PIN), 0.0f, 4095.0f, 0, 100);  
         
