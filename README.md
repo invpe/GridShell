@@ -94,13 +94,17 @@ With validated results, you access the processed data through GridShell's compre
 In this use case, GridShell not only accelerates data processing and analysis but also eliminates the need for external hosting. Volunteer nodes from individuals across the city or globally contribute to the accuracy of your analysis. 
 
 
-# :boom: Important
+# :boom: Message from the author
 
-This is a very dynamic project where i often do changes, ensure to keep up with the latest and greatest versions of the sources.
-The project has nothing to do with mining, crypto or things like that so don't approach it that way. As of today it is in early shapes
-being developed ~~few months~~ a year now by single me, so don't expect things to work like a charm everytime here ;-)
-Also,
-I try to document all major changes in `Gridshell Improvement Proposal` documents that are stored in the [Documentation](https://github.com/invpe/gridshell/tree/main/Documentation) directory.
+I am excited to work on this project and have you visiting and joining the GridShell. 
+As we stride forward in reshaping the landscape of ultra low power distributed computing, I want to acknowledge that this project is still in its development phase.
+While we continue to innovate and refine our systems, it's only natural that you might encounter occasional hiccups or challenges along the way and i recognize that unforeseen issues might arise as we work to enhance the platform's capabilities.
+
+During this development phase, all feedback is invaluable to me. 
+If you encounter any issues, have suggestions, or experience any uncertainties feel free to reach out to me - because, as the old adage goes, there's nothing quite like the synergy that arises when two minds come together to innovate and solve challenges.
+
+GridShell is being developed ~~few months~~ a year now by single me, ironing out issues, optimizing the platform, creating a seamless experience, building the logic behind.
+With your support and understanding, I am confident that this hobby project will continue to evolve into something much bigger than i initially thought.
 
 # :running: Where do i go next
 
