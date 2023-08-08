@@ -3,33 +3,28 @@
 </p>
 
 -------------------
+# 🎭 User Performance Factor (UPF): Elevating Reliability and Task Precision
 
-# User Performance Factor
-The UPF "User Performance Factor" is a value that tells the Grid system how well nodes for a user are performing their job.
-As we know, the main job of a node is to execute a given task and return proper output.
+## Introduction to UPF:
+In the intricate landscape of GridShell, the User Performance Factor (UPF) emerges as a pillar of reliability and precision. This dynamic metric, rooted in historical task executions, gauges a user's trustworthiness and dedication within the network.
 
-To calcualte the performance of every user, the GridShell is looking at two very important numbers:
+## A Glimpse into UPF:
+UPF is a snapshot of a user's most recent 100 task executions. This collection captures validated executions marked as '1' and unsuccessful ones as '0.' These outcomes coalesce to form a performance percentage that stands as a testament to a user's commitment.
 
-- Number of tasks a node returned that are valid
-- Number of tasks a node returned that are invalid
+## Performance in Percentage:
+UPF paints a vivid picture of a user's execution consistency. A UPF of 100% signals a remarkable record where all 100 tasks were executed and validated. A UPF of 50% signifies a track record where only 50 out of the last 100 tasks were validated.
 
-This is part of the Validation process that is crucial to the success of task execution.
+## UPF's Role in Tasks Distribution:
+In the intricate choreography of tasks distribution, UPF takes center stage. When assigning a task, the network consults a user's UPF. A pivotal role is played by a simple random function, generating a value between 0 and 100. If this value is less than or equal to the user's UPF, the user is entrusted with the task.
 
-Every user on the grid has UPF value calculated, this is a score of the user and it is rendering its overall performance factor for the system.
-UPF is used in every major logic: assigning tasks, rewarding for task execution, validation and throttling for task execution.
+## Trust and Task Allocation:
+The interaction between UPF and tasks distribution speaks volumes about GridShell's commitment to accuracy and confidence. By considering a user's historical performance, the network ensures tasks are directed to users who have consistently demonstrated their prowess in accurate execution.
 
-With the current version, users with low UPF will:
+## Awards of Trust:
+UPF also plays a vital part in the allocation of Shell Tokens. Following the validation of a task, a user's UPF is taken into account. If the user's UPF surpasses the generated random value, a Shell Token is bestowed. This additional layer of scrutiny solidifies the network's reliance on steadfast contributors.
 
-- have their tasks validated once their nodes complete the work
-- have less chance to be picked for task execution 
-- have less chances to be rewarded for a valid execution  
+## Nurturing Excellence:
+UPF transcends the realm of mere metrics; it propels excellence and reliability. By upholding a strong UPF, users contribute to the network's reliability, building trust and magnifying the cooperative ethos that defines GridShell.
 
-It is good to check out `GIP` for `UPF` as things can and will definitely change in this area.
-
-Why is it so important to keep this value high?
-
-The GridShell performance is tightly coupled with the users UPF values, 
-the higher the UPF's the faster the Grid as the number of validation reduces.
-
-There will be more logic introduced for low UPF users within upcoming [Grid Improvement Proposals](https://github.com/invpe/gridshell/tree/main/GIP).
-
+## Elevate Your UPF:
+Be a torchbearer of dependability within the GridShell ecosystem. Foster a robust UPF by consistently executing and validating tasks, shaping an environment where precision is celebrated and rewarded.
