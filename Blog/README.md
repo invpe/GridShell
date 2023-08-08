@@ -69,6 +69,14 @@ Let's fire off, and monitor the progress over [here](https://explorer.gridshell.
 ![image](https://github.com/invpe/GridShell/assets/106522950/d3b78b27-7f69-4dc9-88ab-2f5f461a7636)
 
 
+📆 Update
+
+Keeping ESP32 up and running without deep sleep is a **no go**, the solution dies after running 2hrs on fully charged battery. 
+I'll be migrating to an option where i'll deep sleep, check if any tasks are to be executed and deep sleep if not.
+Only keep up, when there is really something to execute. Will come back with updates after i get this done 👍
+
+
+
 ## 🛰️ 20/07/2023 - Playing with a simple neural network 
 
 Required: [telemetry](https://api.gridshell.net/fs/neuraltest), [script](https://api.gridshell.net/scripts/neuralnetwork.bas)  
