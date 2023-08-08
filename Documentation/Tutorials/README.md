@@ -31,6 +31,9 @@ Read about the User Performance Factor on the grid and its impact to the overall
 # Read about GIP
 Read about the Grid Improvement Proposal document, see released ones, comment and contribute [here](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/GIP.md)
 
+# Read about TELEMETRY
+What is GridShell Telemetry and what purpose does it serve ? [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Telemetry.md)
+
 # API
 Check how to integrate with the current TestNet GridShell network [here](https://github.com/invpe/GridShell/tree/main/Documentation/API)
 
