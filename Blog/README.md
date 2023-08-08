@@ -1,5 +1,22 @@
 # 📰 Series of blog entries for GridShell
 
+## 🧮 8/8/2023 - Updates to explorer
+
+Following last week comments, there were few updates made to the explorer and node.
+Explorer now displays rewards per time for a specific grid user
+
+![image](https://github.com/invpe/GridShell/assets/106522950/a6c8f4a2-452f-48b4-a844-5e6eaac1a9a1)
+
+This helps to visualize the execution for your account 👍
+
+Nodes have also been updated to store their ID in lower case when writing telemetry [here](https://github.com/invpe/GridShell/commit/4e89c7c6924d6a802584ca1e468a50f642a3e2b2),
+to allow linkage from User dashboard to Node telemetry from the Online List table.
+
+![image](https://github.com/invpe/GridShell/assets/106522950/be34402f-9e6c-43b1-ae86-b1066f201ea5)
+
+Now with a single click you can move from User dashboard to your GridShell node.
+
+
 ## 🍀 27/07/2023 - Building solar powered node 
 
 Keeping in mind how important for this project is to use renewable energy sources, i targetted for this month to run a single node absolutely on sun energy,
