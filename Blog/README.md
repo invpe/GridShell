@@ -1,5 +1,14 @@
 # 📰 Series of blog entries for GridShell
 
+## 💹 10/8/2023 - Updates to explorer
+
+This time adding total number of tasks executed that were validated on the user dashboard and user json file.
+
+![image](https://github.com/invpe/GridShell/assets/106522950/20dc8684-3e61-45f2-840a-cf433cd24643)
+
+This is not taking into consideration previous executions, however all tasks forward that will get executed and confirmed valid,
+will increase the counter for the user.
+
 ## 🧮 8/8/2023 - Updates to explorer
 
 Following last week comments, there were few updates made to the explorer and node.
