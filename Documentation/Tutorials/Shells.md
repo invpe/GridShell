@@ -4,7 +4,7 @@
 Shell Tokens form the heartbeat of the GridShell ecosystem. These tokens are the driving force behind the network's collaborative spirit, rewarding users for their contributions and fueling the cycle of innovation.
 
 ## Earning Tokens Through Validation:
-When you submit a task to GridShell and your node executes it, a critical validation mechanism springs into action. This validation process, involving a trusted validator node, ensures the accuracy and correctness of the task's execution. Upon successful validation, you earn a valuable reward: 1 Shell Token.
+When someone submits a task to GridShell and your node executes it, a critical validation mechanism springs into action. This validation process, involving a trusted validator node, ensures the accuracy and correctness of the task's execution. Upon successful validation, you earn a valuable reward: 1 Shell Token.
 
 ## The Key to Task Submission:
 In the GridShell universe, Shell Tokens hold the key to task submission. To initiate a task, users are required to possess a Shell Token. This mechanism ensures a fair and balanced approach to task distribution, allowing users to participate and contribute based on their earned tokens.
