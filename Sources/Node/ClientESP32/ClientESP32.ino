@@ -3,7 +3,7 @@
    ESP does idle and takes load from Grid Server if available
    https://www.gridshell.net/
    https://github.com/invpe/gridshell
-*/ 
+*/
 #include <ArduinoOTA.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
@@ -27,11 +27,11 @@
 /////////////////////////////////////
 //#define ENABLE_TELEMETRY
 #ifdef ENABLE_TELEMETRY
-  #define ANALOG_PIN A0
-  const char* ntpServer = "pool.ntp.org";
-  const long  gmtOffset_sec = 3600;
-  const int   daylightOffset_sec = 3600;
-  uint64_t uiLastTelemetry = 0;
+#define ANALOG_PIN A0
+const char* ntpServer = "pool.ntp.org";
+const long  gmtOffset_sec = 3600;
+const int   daylightOffset_sec = 3600;
+uint64_t uiLastTelemetry = 0;
 #endif
 //////////////////////////////////////////////
 // LED Functionality                        //
@@ -105,7 +105,7 @@ void setup()
   ///////////////////////////////////////////////////
   // Initialize GridShell Node with your user hash//
   ///////////////////////////////////////////////////
-  if (CGridShell::GetInstance().Init(GRID_USERHASH,true) == true)
+  if (CGridShell::GetInstance().Init(GRID_USERHASH, true) == true)
   {
   }
   else
@@ -148,7 +148,7 @@ void setup()
   ArduinoOTA.begin();
 #endif
 
-#ifdef ENABLE_TELEMETRY  
+#ifdef ENABLE_TELEMETRY
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 #endif
 
@@ -160,7 +160,7 @@ void setup()
 ///////////////////////////////////
 void loop()
 {
-  
+
   static uint32_t m_uiLastHB   = 0;
 
   // This keeps handling the OTA functionality
@@ -183,33 +183,34 @@ void loop()
   // Enable sending diagnostic telemetry every 10 minutes
   // New file will be created every day
 #ifdef ENABLE_TELEMETRY
-  if(millis() - uiLastTelemetry >= 60000ULL * 10)
+  if (millis() - uiLastTelemetry >= 60000ULL * 10)
   {
-    if(CGridShell::GetInstance().Connected())
+    if (CGridShell::GetInstance().Connected())
     {
-        tm local_tm;
-        getLocalTime(&local_tm);
-        time_t tTimeSinceEpoch = mktime(&local_tm); 
-        
-        String strMAC = WiFi.macAddress(); 
-        strMAC.replace(":", "");
-        strMAC.toLowerCase();
-        
-        float fBatteryLevel = map(analogRead(ANALOG_PIN), 0.0f, 4095.0f, 0, 100);  
-        
-        String strFileName = "DT" + strMAC + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday);
-        String strAppend = "1";
-        String strPayload = strFileName + ",";
-        
-        strPayload += strAppend+",";
-        strPayload += String(tTimeSinceEpoch) + ",";      
-        strPayload += String(fBatteryLevel)+",";
-        strPayload += String(SPIFFS.totalBytes())+",";
-        strPayload += String(SPIFFS.usedBytes())+",";
-        strPayload += String(WiFi.RSSI()) + ","; 
-        strPayload += String(ESP.getFreeHeap()) + "\n"; 
-         
-        CGridShell::GetInstance().AddTask("write", strPayload); 
+      tm local_tm;
+      getLocalTime(&local_tm);
+      time_t tTimeSinceEpoch = mktime(&local_tm);
+
+      String strMAC = WiFi.macAddress();
+      strMAC.replace(":", "");
+      strMAC.toLowerCase();
+
+      float fBatteryLevel = map(analogRead(ANALOG_PIN), 0.0f, 4095.0f, 0, 100);
+      float fInternTempSensor =  (temprature_sens_read() - 32) / 1.8; // Celsius
+      String strFileName = "DT" + strMAC + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday);
+      String strAppend = "1";
+      String strPayload = strFileName + ",";
+
+      strPayload += strAppend + ",";
+      strPayload += String(tTimeSinceEpoch) + ",";
+      strPayload += String(fBatteryLevel) + ",";
+      strPayload += String(SPIFFS.totalBytes()) + ",";
+      strPayload += String(SPIFFS.usedBytes()) + ",";
+      strPayload += String(WiFi.RSSI()) + ",";
+      strPayload += String(ESP.getFreeHeap()) + ",";
+      strPayload += String(fInternTempSensor) + "\n";
+
+      CGridShell::GetInstance().AddTask("write", strPayload);
     }
     uiLastTelemetry = millis();
   }
