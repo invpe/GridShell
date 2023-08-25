@@ -11,11 +11,7 @@ CGridShell::CGridShell() {
   m_strUsername = "";
   m_uiLastHB = 0;
   m_bExecFlag = true;
-
-  // To force the connection to haappen immediately after poweron
-  // We skip to the future ;-)
-  m_uiLastReconnection = millis() + (10 * GNODE_RECON_TIMER);
-
+  m_uiLastReconnection = 0;
   m_pCallback = NULL;
 }
 // --[  Method  ]---------------------------------------------------------------
