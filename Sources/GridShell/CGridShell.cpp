@@ -7,11 +7,10 @@
 //  - Purpose   : CTOR
 //
 // -----------------------------------------------------------------------------
-CGridShell::CGridShell()
-{
+CGridShell::CGridShell() {
   m_strUsername = "";
-  m_uiLastHB    = 0;
-  m_bExecFlag  = true;
+  m_uiLastHB = 0;
+  m_bExecFlag = true;
 
   // To force the connection to haappen immediately after poweron
   // We skip to the future ;-)
@@ -27,8 +26,7 @@ CGridShell::CGridShell()
 //  - Purpose   :
 //
 // -----------------------------------------------------------------------------
-CGridShell& CGridShell::GetInstance()
-{
+CGridShell& CGridShell::GetInstance() {
   static CGridShell sInstance;
 
   return sInstance;
@@ -41,11 +39,11 @@ CGridShell& CGridShell::GetInstance()
 //  - Purpose   : Helper
 //
 // -----------------------------------------------------------------------------
-void CGridShell::Stop()
-{
+void CGridShell::Stop() {
+  close(m_Client.fd());
   m_Client.stop();
-  m_Client.flush();
-  if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_DISCONNECTED);
+  delay(500);
+  if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_DISCONNECTED);
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -55,8 +53,7 @@ void CGridShell::Stop()
 //  - Purpose   : Set things up internally
 //
 // -----------------------------------------------------------------------------
-bool CGridShell::Init(const String& strUsername, const bool& rbExecFlag)
-{
+bool CGridShell::Init(const String& strUsername, const bool& rbExecFlag) {
   GDEBUG("Lib start");
 
   //
@@ -64,8 +61,7 @@ bool CGridShell::Init(const String& strUsername, const bool& rbExecFlag)
   m_strUsername = strUsername;
 
   // Validate username length
-  if (m_strUsername.length() != 40)
-  {
+  if (m_strUsername.length() != 40) {
     m_strUsername = "";
 
     GDEBUG("Username is wrong");
@@ -73,7 +69,7 @@ bool CGridShell::Init(const String& strUsername, const bool& rbExecFlag)
   }
 
   // Obtain MAC for ident purposes
-  m_strMACAddress =  WiFi.macAddress();
+  m_strMACAddress = WiFi.macAddress();
   m_strMACAddress.replace(":", "");
 
   GDEBUG("Init completed");
@@ -89,17 +85,14 @@ bool CGridShell::Init(const String& strUsername, const bool& rbExecFlag)
 //  - Purpose   : Keep alive with server
 //
 // -----------------------------------------------------------------------------
-void CGridShell::Pong()
-{
+void CGridShell::Pong() {
   // Keep Alive
-  if (m_Client.connected())
-  {
-    if (millis() - m_uiLastHB >= GNODE_PING_TIME)
-    {
+  if (m_Client.connected()) {
+    if (millis() - m_uiLastHB >= GNODE_PING_TIME) {
       GDEBUG("HEAP: " + String(ESP.getFreeHeap()));
       Send("PONG\r\n");
       m_uiLastHB = millis();
-      if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_PONG);
+      if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_PONG);
     }
   }
 }
@@ -111,8 +104,7 @@ void CGridShell::Pong()
 //  - Purpose   : Returns connection status
 //
 // -----------------------------------------------------------------------------
-bool CGridShell::Connected()
-{
+bool CGridShell::Connected() {
   return m_Client.connected();
 }
 // --[  Method  ]---------------------------------------------------------------
@@ -123,16 +115,13 @@ bool CGridShell::Connected()
 //  - Purpose   : Heart of the execution
 //
 // -----------------------------------------------------------------------------
-void CGridShell::Tick()
-{
+void CGridShell::Tick() {
   // Are we up?
-  if (m_Client.connected() == false)
-  {
+  if (m_Client.connected() == false) {
     int iTimer = millis() - m_uiLastReconnection;
 
     // Check if user set and reconnection timer is expired
-    if (m_strUsername.length() == 40 && abs(iTimer) > GNODE_RECON_TIMER)
-    {
+    if (m_strUsername.length() == 40 && abs(iTimer) > GNODE_RECON_TIMER) {
 
       //
       m_uiLastReconnection = millis();
@@ -143,10 +132,9 @@ void CGridShell::Tick()
       Stop();
 
       // Connect
-      if (m_Client.connect(GNODE_SERVER, GNODE_POOL_PORT))
-      {
+      if (m_Client.connect(GNODE_SERVER, GNODE_POOL_PORT)) {
 
-        if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_CONNECTED);
+        if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_CONNECTED);
 
 
         // Ident and provide payload if any, this is base64 encoded already by ::Init
@@ -157,18 +145,16 @@ void CGridShell::Tick()
         String strTemp = m_Client.readStringUntil('\n');
 
         // Safety check
-        if (strVersion.isEmpty() || strWelcome.isEmpty() || strTasksToExecute.isEmpty() || strTasksToValidate.isEmpty())
-        {
+        if (strVersion.isEmpty() || strWelcome.isEmpty() || strTasksToExecute.isEmpty() || strTasksToValidate.isEmpty()) {
           Stop();
           GDEBUG("No response, cancelled");
           return;
         }
 
         // Confirm versions
-        if (strVersion != GNODE_VERSION)
-        {
-          if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_VERSIONS_MISMATCH);
-          GDEBUG("Versions mismatch " + strVersion + " != "GNODE_VERSION);
+        if (strVersion != GNODE_VERSION) {
+          if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_VERSIONS_MISMATCH);
+          GDEBUG("Versions mismatch " + strVersion + " != " GNODE_VERSION);
           Stop();
           return;
         }
@@ -182,8 +168,7 @@ void CGridShell::Tick()
         GDEBUG("Got ServPubKey=" + strServerPublicKey);
 
         // Failure, drop.
-        if (strServerPublicKey.isEmpty())
-        {
+        if (strServerPublicKey.isEmpty()) {
           GDEBUG("No response, cancelled");
           Stop();
           return;
@@ -219,29 +204,26 @@ void CGridShell::Tick()
 
 
         // Pass my Public Key and GUID encoded
-        Send("JOB," + String( uiMyPublicKey.GetInteger().c_str()) + "," + strBase64EncodedGUID + "," + GNODE_VERSION + "," + m_strMACAddress + "," + GNODE_ARCH + "," + String(m_bExecFlag) + "\r\n");
+        Send("JOB," + String(uiMyPublicKey.GetInteger().c_str()) + "," + strBase64EncodedGUID + "," + GNODE_VERSION + "," + m_strMACAddress + "," + GNODE_ARCH + "," + String(m_bExecFlag) + "\r\n");
 
-
+        GDEBUG("Sent Ident");
 
         // Nothing to execute
         if (strTasksToExecute.toInt() == 0)
-          if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_NO_TASKS_TO_EXECUTE);
+          if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_NO_TASKS_TO_EXECUTE);
 
         // Nothing to validate
         if (strTasksToValidate.toInt() == 0)
-          if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_NO_TASKS_TO_VALIDATE);
+          if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_NO_TASKS_TO_VALIDATE);
 
 
         //
-        if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_IDLE);
+        if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_IDLE);
       }
     }
-  }
-  else
-  {
+  } else {
     // Wait for server to post a message
-    if (m_Client.available())
-    {
+    if (m_Client.available()) {
 
       //
       String strJobType = m_Client.readStringUntil(',');
@@ -250,24 +232,23 @@ void CGridShell::Tick()
       GDEBUG("Server request " + strJobType);
 
       // Task coming
-      if (strJobType == "EXEC")
-      {
+      if (strJobType == "EXEC") {
 
-        if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_WORK);
+        if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_WORK);
 
         //
         int iRetCode = MB_FUNC_ERR;
         String strOutput = "";
 
         //
-        String strScriptName  = DecodeBase64(m_Client.readStringUntil(','));
-        String strPayload     = DecodeBase64(m_Client.readStringUntil(','));
-        String strTimeout     = m_Client.readStringUntil(',');
-        String strTaskHash    = m_Client.readStringUntil(',');
-        m_uiTaskTimeout       = strTimeout.toInt();
+        String strScriptName = DecodeBase64(m_Client.readStringUntil(','));
+        String strPayload = DecodeBase64(m_Client.readStringUntil(','));
+        String strTimeout = m_Client.readStringUntil(',');
+        String strTaskHash = m_Client.readStringUntil(',');
+        m_uiTaskTimeout = strTimeout.toInt();
 
-        String strURLPath     = GNODE_TASK_SERVER_NAME + strScriptName + ".bas";
-        String strFSPath      = "/" + strScriptName + ".bas";
+        String strURLPath = GNODE_TASK_SERVER_NAME + strScriptName + ".bas";
+        String strFSPath = "/" + strScriptName + ".bas";
 
 
         //
@@ -278,8 +259,7 @@ void CGridShell::Tick()
 
 
         // Hash does not match, download the script
-        if (strTaskHash != GetSHA1(strFSPath))
-        {
+        if (strTaskHash != GetSHA1(strFSPath)) {
           SPIFFS.remove(strFSPath);
 
           GDEBUG("Diff hashes");
@@ -288,13 +268,11 @@ void CGridShell::Tick()
           if (StreamScript(strURLPath, strFSPath) == true)
             GDEBUG("Download completed");
           else GDEBUG("Download failed");
-        }
-        else  GDEBUG("Hashes OK");
+        } else GDEBUG("Hashes OK");
 
         File fScriptFile = SPIFFS.open(strFSPath, "r");
-        if (fScriptFile)
-        {
-          String strScript = fScriptFile.readStringUntil('\0') ;
+        if (fScriptFile) {
+          String strScript = fScriptFile.readStringUntil('\0');
           fScriptFile.close();
 
           GDEBUG("Script Starting for " + String(m_uiTaskTimeout) + " ms ");
@@ -303,20 +281,14 @@ void CGridShell::Tick()
           m_uiTaskStart = millis();
 
           uint32_t uiStart = millis();
-          void **l = NULL;
+          void** l = NULL;
           struct mb_interpreter_t* bas = NULL;
 
           // Initialize MYBASIC
           mb_init();
           mb_open(&bas);
 
-          // Additional functions registration
-          mb_register_func(bas, "BIT_AND", _bit_and);
-          mb_register_func(bas, "BIT_OR", _bit_or);
-          mb_register_func(bas, "BIT_NOT", _bit_not);
-          mb_register_func(bas, "BIT_XOR", _bit_xor);
-          mb_register_func(bas, "BIT_LSHIFT", _bit_lshift);
-          mb_register_func(bas, "BIT_RSHIFT", _bit_rshift);
+          // Additional functions registration          
           mb_register_func(bas, "READ", _read);
           mb_register_func(bas, "WRITE", _write);
           mb_register_func(bas, "SHA1", _sha1);
@@ -327,18 +299,15 @@ void CGridShell::Tick()
           mb_debug_set_stepped_handler(bas, CGridShell::MBStep);
 
           // Load up the script
-          if (mb_load_string(bas, strScript.c_str(), true) == MB_FUNC_OK)
-          {
+          if (mb_load_string(bas, strScript.c_str(), true) == MB_FUNC_OK) {
             // payload check and upload
-            if (strPayload != "")
-            {
+            if (strPayload != "") {
               GDEBUG("Added payload");
               mb_value_t valAdd;
               valAdd.type = MB_DT_STRING;
-              valAdd.value.string =  (char *)strPayload.c_str();
+              valAdd.value.string = (char*)strPayload.c_str();
               mb_add_var(bas, l, "INPUTPAYLOAD", valAdd, true);
-            }
-            else GDEBUG("No payload?");
+            } else GDEBUG("No payload?");
 
             // Run
             iRetCode = mb_run(bas, true);
@@ -356,9 +325,7 @@ void CGridShell::Tick()
 
           mb_close(&bas);
           mb_dispose();
-        }
-        else
-        {
+        } else {
           GDEBUG("Failed to load script");
           strOutput = "";
           iRetCode = 0;
@@ -366,8 +333,7 @@ void CGridShell::Tick()
         GDEBUG("Pushing results " + String(strOutput.length()));
 
         // Results can be long, so we treat them differently
-        if (strOutput.length() > 0)
-        {
+        if (strOutput.length() > 0) {
           // Get Len
           size_t stLen = 0;
           mbedtls_base64_encode(NULL, 0, &stLen, (unsigned char*)strOutput.c_str(), strOutput.length());
@@ -393,11 +359,10 @@ void CGridShell::Tick()
 
           // Delete
           delete[] encodedData;
-        }
-        else
+        } else
           Send("RESULTS," + String(iRetCode) + ",\r\n");
 
-        if (m_pCallback != NULL)m_pCallback(CGridShell::eEvent::EVENT_IDLE);
+        if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_IDLE);
       }
     }
 
@@ -414,8 +379,7 @@ void CGridShell::Tick()
 //  - Purpose   : Register your callback function here
 //
 // -----------------------------------------------------------------------------
-void CGridShell::RegisterEventCallback(void (*pFunc)(  uint8_t  ))
-{
+void CGridShell::RegisterEventCallback(void (*pFunc)(uint8_t)) {
   m_pCallback = pFunc;
 }
 // --[  Method  ]---------------------------------------------------------------
@@ -426,9 +390,8 @@ void CGridShell::RegisterEventCallback(void (*pFunc)(  uint8_t  ))
 //  - Purpose   : Sends out String to server
 //
 // -----------------------------------------------------------------------------
-void CGridShell::Send(const String & strData)
-{
-  m_Client.write( strData.c_str(),  strData.length() );
+void CGridShell::Send(const String& strData) {
+  m_Client.write(strData.c_str(), strData.length());
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -438,10 +401,8 @@ void CGridShell::Send(const String & strData)
 //  - Purpose   : Encodes Base64 to String
 //
 // ---------------------------------------------------------------------------
-String CGridShell::EncodeBase64(const String & strString)
-{
-  if (strString.length() > 0)
-  {
+String CGridShell::EncodeBase64(const String& strString) {
+  if (strString.length() > 0) {
     size_t stLen = 0;
     mbedtls_base64_encode(NULL, 0, &stLen, (unsigned char*)strString.c_str(), strString.length());
 
@@ -459,12 +420,10 @@ String CGridShell::EncodeBase64(const String & strString)
 //  - Purpose   : Decodes Base64 to String
 //
 // ---------------------------------------------------------------------------
-String CGridShell::DecodeBase64(const String & strString)
-{
-  if (strString.length() > 0)
-  {
+String CGridShell::DecodeBase64(const String& strString) {
+  if (strString.length() > 0) {
     size_t stLen = 0;
-    mbedtls_base64_decode( NULL, 0, &stLen, (unsigned char*)strString.c_str(), strString.length());
+    mbedtls_base64_decode(NULL, 0, &stLen, (unsigned char*)strString.c_str(), strString.length());
 
     unsigned char ucDecoded[stLen];
     mbedtls_base64_decode(ucDecoded, stLen, &stLen, (unsigned char*)strString.c_str(), strString.length());
@@ -481,8 +440,7 @@ String CGridShell::DecodeBase64(const String & strString)
 //  - Purpose   : Return task timeout in milliseconds for MBStep
 //
 // ---------------------------------------------------------------------------
-uint32_t CGridShell::GetTaskTimeout()
-{
+uint32_t CGridShell::GetTaskTimeout() {
   return m_uiTaskTimeout;
 }
 // --[  Method  ]---------------------------------------------------------------
@@ -493,8 +451,7 @@ uint32_t CGridShell::GetTaskTimeout()
 //  - Purpose   : Return task start time for MBStep
 //
 // ---------------------------------------------------------------------------
-uint32_t CGridShell::GetTaskStartTime()
-{
+uint32_t CGridShell::GetTaskStartTime() {
   return m_uiTaskStart;
 }
 // --[  Method  ]---------------------------------------------------------------
@@ -505,8 +462,7 @@ uint32_t CGridShell::GetTaskStartTime()
 //  - Purpose   : Handling BAS execution and keeping alive with the server, also checks for task endless loop
 //
 // ---------------------------------------------------------------------------
-int CGridShell::MBStep(struct mb_interpreter_t* s, void** l, const char* f, int p, unsigned short row, unsigned short col)
-{
+int CGridShell::MBStep(struct mb_interpreter_t* s, void** l, const char* f, int p, unsigned short row, unsigned short col) {
   // Avoid endless loops
   if (millis() - CGridShell::GetInstance().GetTaskStartTime() > CGridShell::GetInstance().GetTaskTimeout())
     return GNODE_RET_TERMINATED;
@@ -524,9 +480,8 @@ int CGridShell::MBStep(struct mb_interpreter_t* s, void** l, const char* f, int 
 //  - Purpose   : HW SHA1
 //
 // -----------------------------------------------------------------------------
-String CGridShell::sha1HW(String payload)
-{
-  return sha1HW((unsigned char *)payload.c_str(), payload.length());
+String CGridShell::sha1HW(String payload) {
+  return sha1HW((unsigned char*)payload.c_str(), payload.length());
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -536,8 +491,7 @@ String CGridShell::sha1HW(String payload)
 //  - Purpose   : HW SHA1
 //
 // -----------------------------------------------------------------------------
-String CGridShell::sha1HW(unsigned char *payload, int len)
-{
+String CGridShell::sha1HW(unsigned char* payload, int len) {
   //
   int size = 20;
   byte shaResult[size];
@@ -550,7 +504,7 @@ String CGridShell::sha1HW(unsigned char *payload, int len)
   mbedtls_md_init(&ctx);
   mbedtls_md_setup(&ctx, mbedtls_md_info_from_type(md_type), 0);
   mbedtls_md_starts(&ctx);
-  mbedtls_md_update(&ctx, (const unsigned char *) payload, payloadLength);
+  mbedtls_md_update(&ctx, (const unsigned char*)payload, payloadLength);
   mbedtls_md_finish(&ctx, shaResult);
   mbedtls_md_free(&ctx);
 
@@ -575,8 +529,7 @@ String CGridShell::sha1HW(unsigned char *payload, int len)
 //  - Purpose   : XOR
 //
 // -----------------------------------------------------------------------------
-String CGridShell::XOR(const String & toEncrypt, const String & rstrKey)
-{
+String CGridShell::XOR(const String& toEncrypt, const String& rstrKey) {
   String output = toEncrypt;
 
   for (int i = 0; i < toEncrypt.length(); i++)
@@ -593,26 +546,23 @@ String CGridShell::XOR(const String & toEncrypt, const String & rstrKey)
 //  - Purpose   : Obtains the source of the task to execute via streaming
 //
 // -----------------------------------------------------------------------------
-bool CGridShell::StreamScript(const String& rstrURL, const String& rstrPath)
-{
+bool CGridShell::StreamScript(const String& rstrURL, const String& rstrPath) {
 
   HTTPClient httpClient;
 
   httpClient.begin(rstrURL);
   int httpCode = httpClient.GET();
 
-  if (httpCode == HTTP_CODE_OK)
-  {
+  if (httpCode == HTTP_CODE_OK) {
     File file = SPIFFS.open(rstrPath, FILE_WRITE);
-    if (!file)
-    {
+    if (!file) {
       GDEBUG("Failed to write a file " + rstrPath);
       httpClient.end();
       return false;
     }
 
     WiFiClient* stream = httpClient.getStreamPtr();
-    uint8_t buffer[128] = {0};
+    uint8_t buffer[128] = { 0 };
     int bytesRead = 0;
 
     while (httpClient.connected() && (bytesRead = stream->readBytes(buffer, sizeof(buffer))) > 0) {
@@ -639,8 +589,7 @@ bool CGridShell::StreamScript(const String& rstrURL, const String& rstrPath)
 //  - Purpose   : Return SHA1 of the given file
 //
 // -----------------------------------------------------------------------------
-String CGridShell::GetSHA1(const String& rstrFile)
-{
+String CGridShell::GetSHA1(const String& rstrFile) {
   File fScriptFile = SPIFFS.open(rstrFile, "r");
   if (!fScriptFile)
     return "";
@@ -658,14 +607,13 @@ String CGridShell::GetSHA1(const String& rstrFile)
 //  - Purpose   : Write a string to a file stored on the grid network
 //
 // -----------------------------------------------------------------------------
-bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const bool& bAppend)
-{
-  if (rstrWhat.length() > GNODE_WRITE_MAX)return false;
+bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const bool& bAppend) {
+  if (rstrWhat.length() > GNODE_WRITE_MAX) return false;
 
   String strBaseEncoded = EncodeBase64(rstrWhat);
 
   String strCommand;
-  if (bAppend)strCommand = "APPEND,";
+  if (bAppend) strCommand = "APPEND,";
   else strCommand = "WRITE,";
 
   strCommand += rstrName + "," + strBaseEncoded + "\r\n";
@@ -681,28 +629,28 @@ bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const boo
 //  - Purpose   : Returns 0 if failed
 //
 // -----------------------------------------------------------------------------
-uint32_t CGridShell::AddTask(const String& rstrScript, const String& rstrInputPayload)
-{
-  if (rstrScript.length() <= 0)return 0;
-  if (rstrInputPayload.length() <= 0)return 0;
-  if (rstrInputPayload.length() > GNODE_MAX_PAYLOAD_LEN)return 0;
-
+uint32_t CGridShell::AddTask(const String& rstrScript, const String& rstrInputPayload) {
+  if (!Connected()) return 0;
+  if (rstrScript.length() <= 0) return 0;
+  if (rstrInputPayload.length() <= 0) return 0;
+  if (rstrInputPayload.length() > GNODE_MAX_PAYLOAD_LEN) return 0;
 
   String strInputBase = EncodeBase64(rstrInputPayload);
   String strCommand = "ADDT," + rstrScript + "," + strInputBase + "\r\n";
 
   Send(strCommand);
 
-  String strReturn      = m_Client.readStringUntil(',');
-  String strReturnCode  = m_Client.readStringUntil(',');
-
-
-  GDEBUG("AddTask : " + strReturnCode);
-
-  //
-  if (strReturn == "ADDT" && strReturnCode[0] != 'B' && strReturnCode[1] != 'A' && strReturnCode[2] != 'D')
+  if (m_Client.available())
   {
-    return strReturnCode.toInt();
+    String strReturn = m_Client.readStringUntil(',');
+    String strReturnCode = m_Client.readStringUntil(',');
+
+    GDEBUG("AddTask : " + strReturnCode);
+
+    //
+    if (strReturn == "ADDT" && strReturnCode[0] != 'B' && strReturnCode[1] != 'A' && strReturnCode[2] != 'D') {
+      return strReturnCode.toInt();
+    }
   }
 
   return 0;
@@ -715,7 +663,5 @@ uint32_t CGridShell::AddTask(const String& rstrScript, const String& rstrInputPa
 //  - Purpose   : DTOR
 //
 // -----------------------------------------------------------------------------
-CGridShell::~CGridShell()
-{
-
+CGridShell::~CGridShell() {
 }
