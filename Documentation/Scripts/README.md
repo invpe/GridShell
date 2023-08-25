@@ -34,18 +34,6 @@ Example:
 
 GridShell exposes few more internal functions that you can use in your scripting.
 
-`BIT_AND` - Bitwise AND
-
-`BIT_OR` - Bitwise OR
-
-`BIT_NOT` - Bitwise NOT
-
-`BIT_XOR` - Bitwise XOR
-
-`BIT_LSHIFT` - Bitwise Left Shift
-
-`BIT_RSHIFT` - Bitwise Right Shift
-
 `DOWNLOAD` - Download telemetry file to local filesystem and save as GNODE_TELEMETRY_FILENAME
 
 - Input: Telemetry file to download (full name) i.e `PocNetGroupMiners00000000000000000000001DNB4C11AEF6ECF02023218`
