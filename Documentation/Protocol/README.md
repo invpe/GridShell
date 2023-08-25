@@ -5,7 +5,7 @@
 ## Generic assumptions
 - The work protocol is plain text in the current version of GridShell
 - All nodes connect to a central server
-- All nodes have to heartbeat every **10**s 
+- All nodes have to heartbeat every **30**s 
 - Any misuse of the protocol, executing or incorrect behaviour will get you temporarily blocked or permanently banned
 
 ## :electric_plug: Get connected and identify yourself
