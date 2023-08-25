@@ -33,7 +33,7 @@ Welcome to GridShell, an innovative distributed computing solution powered by ES
 <div align="center"><tt>GridShell cluster operating 192 nodes in ULP mode</tt></div>
 
 
-# GridShell early users
+# ⭐ GridShell early users
 <div align="left"> 
 <a href=https://looko2.pl/><img src=https://github.com/invpe/GridShell/assets/106522950/edf4e09d-5aae-49a9-825d-29a4be909509></a> 
 </div>
