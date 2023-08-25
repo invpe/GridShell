@@ -5,12 +5,7 @@ All data is returned in JSON format and the endpoint is working with the `GTN` (
 
 * Endpoints
 
-`https://api.gridshell.net/`
-
-* Web status
-
-`https://api.gridshell.net/status/`
-
+`https://api.gridshell.net/` 
 
 * Methods 
 
