@@ -1,5 +1,12 @@
 # 📰 Series of blog entries for GridShell
 
+## 📊 24/8/2023 - Moving from API status to Explorer
+
+Moved out from using API/status endpoint displaying all core details now in the Explorer dashboard.
+See [dashboard](https://explorer.gridshell.net:3000/d/e66e2a62-ef5d-482b-aeee-3dc8a3bb6e2b/gridshell-core?orgId=1) instead 👍
+
+
+
 ## 💹 10/8/2023 - Updates to explorer
 
 This time adding total number of tasks executed that were validated on the user dashboard and user json file.
