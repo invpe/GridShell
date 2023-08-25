@@ -12,7 +12,6 @@
 <div align="center">
  
 <a href=https://github.com/invpe/gridshell/tree/main/Documentation><img src="https://badgen.net/static/>/Documentation/ebcf34?scale=2"></a>
-<a href=https://api.gridshell.net/status/><img src="https://badgen.net/static/>/TestNet/A9DDFF?scale=2?"></a>
 <a href=https://github.com/invpe/gridshell/tree/main/Sources><img src="https://badgen.net/static/>/Sources/ebcf34?scale=2?"></a>
 <a href=https://explorer.gridshell.net:3000><img src="https://badgen.net/static/>/Explorer/A9CCFF?scale=2?"></a>
 <a href=https://github.com/paladin-t/my_basic><img src="https://badgen.net/static/>/MyBasic/A9DDFF?scale=2?"></a>
