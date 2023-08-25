@@ -7,8 +7,8 @@
 <p align="center">
   <i>Join your arduino sketch to iot powered distributed volunteer computing network</i>
 </p> 
-
  
+
 <div align="center">
  
 <a href=https://github.com/invpe/gridshell/tree/main/Documentation><img src="https://badgen.net/static/>/Documentation/ebcf34?scale=2"></a>
@@ -21,6 +21,7 @@
   
 </div> 
 
+--- 
 # :seedling: Welcome
 
 With billions of IOT devices connected today there is a huge potential of computing power ready for use at minimal or even zero cost. These tiny computers are capable of operating on renewable energies like solar power, giving tremendous opportunities for utilizing their computing capabilities without impacting environment. We all have WiFi enabled sensors, smart bulbs, sockets, plugs... which idle for most of their time - why not connect them together and use as one big computer to solve our problems ?
@@ -30,6 +31,12 @@ Welcome to GridShell, an innovative distributed computing solution powered by ES
 
 <img src=https://github.com/invpe/gridshell/blob/main/Resources/GSEP.png>
 <div align="center"><tt>GridShell cluster operating 192 nodes in ULP mode</tt></div>
+
+
+# GridShell early users
+<div align="left"> 
+<a href=https://looko2.pl/><img src=https://github.com/invpe/GridShell/assets/106522950/edf4e09d-5aae-49a9-825d-29a4be909509></a> 
+</div>
 
 
 
