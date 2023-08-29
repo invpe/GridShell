@@ -5,6 +5,12 @@ Follow the tutorial below, to program your board and configure the node in few s
 1. Download latest release files [https://github.com/invpe/GridShell/releases](https://github.com/invpe/GridShell/releases)
 2. Open [https://esp.huhn.me/](https://esp.huhn.me/)
 3. Plug in your ESP32 device
+
+![image](https://github.com/invpe/GridShell/assets/106522950/81c7c593-cba8-4829-95ed-0ca9fe7d6fea)
+
+_Image by Sparkfun_
+
+
 4. Select **Connect**
 
    ![image](https://github.com/invpe/GridShell/assets/106522950/a34b65f8-e819-4e6b-a45e-9bbb7cb38ec5)
@@ -45,6 +51,9 @@ Follow the tutorial below, to program your board and configure the node in few s
 ![image](https://github.com/invpe/GridShell/assets/106522950/b22120d6-3bcc-450b-85a5-e3b14f542e80)
 
 13. The Node will ask config questions, provide all the answers
+
+# 🤬 Made a mistake?
+Don't worry, just follow the steps again ! 🤝
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/77c5b265-a98a-40db-8bbf-9ed6e0dbca19)
 
