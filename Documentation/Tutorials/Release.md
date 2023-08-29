@@ -2,7 +2,7 @@
 If youre not planning to work with sources, the most convienient way to setup a GS Node is to upload release to the board.
 Follow the tutorial below, to program your board and configure the node in few simple steps.
 
-1. Download latest release files
+1. Download latest release files [https://github.com/invpe/GridShell/releases](https://github.com/invpe/GridShell/releases)
 2. Open [https://esp.huhn.me/](https://esp.huhn.me/)
 3. Plug in your ESP32 device
 4. Select **Connect**
