@@ -9,7 +9,7 @@ This tutorial assumes that you have an ESP32 device ready to join the GridShell 
 Arduino needs to be able to upload sketches to your ESP32, therefore ensure that this is all working before moving forward.
 
 # Setup from a release file
-Open [Documentation/Tutorials/Release.md](Documentation/Tutorials/Release.md) to simply upload release binaries to your ESP32.
+Open [Documentation/Tutorials/Release.md](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Release.md) to simply upload release binaries to your ESP32.
 
 # Setup from sources
 Lets try to make it in three simple steps to get you up and running.
