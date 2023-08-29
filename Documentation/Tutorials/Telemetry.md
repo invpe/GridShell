@@ -23,3 +23,12 @@ Telemetry is more than data storage; it's an opportunity for users to contribute
 
 ## Enriching the GridShell Experience:
 Telemetry is a cornerstone of GridShell's commitment to comprehensive and insightful data processing. 
+
+## Disclaimer: Transparency in Telemetry Storage
+
+At GridShell, we believe in the power of collaboration and open data. As part of our commitment to transparency, we want you to be aware that all telemetry data stored within the system is in plain text format. This means that anyone using GridShell has the ability to view and utilize this data.
+
+We view this open access as a significant benefit, enabling a wide range of contributors to engage in volunteer computing and data analysis. Your valuable insights and contributions help shape the collaborative ecosystem that is GridShell.
+
+By using GridShell, you acknowledge and understand that the telemetry data you store can be accessed by other users. 
+We encourage responsible use of this shared data and respect for fellow contributors.
