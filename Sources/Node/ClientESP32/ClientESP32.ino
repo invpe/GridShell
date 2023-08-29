@@ -12,12 +12,12 @@
 ////////////////////////////////
 // Your WiFi Credentials here //
 ////////////////////////////////
-#define WIFI_SSID ""
-#define WIFI_PWD  ""
+String WIFI_SSID = "";
+String WIFI_PWD = "";
 ////////////////////////////////
 // Your GridShell user-hash   //
 ////////////////////////////////
-#define GRID_USERHASH ""
+String GRID_USERHASH = "";
 ///////////////////////////////////
 // Turn on/off OTA functionality //
 ///////////////////////////////////
@@ -63,6 +63,40 @@ void GridShellCB(uint8_t  uiEventType)
   }
 }
 ///////////////////////////////////
+// Config saver                  //
+///////////////////////////////////
+void SaveConfig()
+{
+  File configFile = SPIFFS.open("/config.txt", "w");
+  if (!configFile)
+  {
+    return;
+  }
+
+  //
+  configFile.print(WIFI_SSID + "\n");
+  configFile.print(WIFI_PWD + "\n");
+  configFile.print(GRID_USERHASH + "\n");
+  configFile.close();
+
+}
+///////////////////////////////////
+// Config loader                 //
+///////////////////////////////////
+bool LoadConfig()
+{
+  File configFile = SPIFFS.open("/config.txt", "r");
+  if (!configFile)
+    return false;
+
+  WIFI_SSID = configFile.readStringUntil('\n') ;
+  WIFI_PWD = configFile.readStringUntil('\n') ;
+  GRID_USERHASH  = configFile.readStringUntil('\n') ;
+  configFile.close();
+
+  return true;
+}
+///////////////////////////////////
 // Sketch setup                  //
 ///////////////////////////////////
 void setup()
@@ -81,12 +115,52 @@ void setup()
     delay(1000);
   }
 
+  // Load config
+  LoadConfig();
+
+  // Check if necessary creds given
+  if (WIFI_SSID == "" || GRID_USERHASH == "")
+  {
+    // Wait for user readiness 
+    while (!Serial.available()) {
+      // Wait for input
+    }
+    Serial.readString();
+
+    // Wait for user to provide WiFi name
+    Serial.println("Please enter WiFi name:");
+    while (!Serial.available()) {
+      // Wait for input
+    }
+    WIFI_SSID = Serial.readString();
+    WIFI_SSID.trim(); // Remove leading/trailing spaces
+
+    // Wait for user to provide WiFi password
+    Serial.println("Please enter WiFi password:");
+    while (!Serial.available()) {
+      // Wait for input
+    }
+    WIFI_PWD = Serial.readString();
+    WIFI_PWD.trim(); // Remove leading/trailing spaces
+
+    // Wait for user to provide UUID
+    Serial.println("Please enter UUID:");
+    while (!Serial.available()) {
+      // Wait for input
+    }
+    GRID_USERHASH = Serial.readString();
+    GRID_USERHASH.trim(); // Remove leading/trailing spaces
+  }
+
+  // Save config
+  SaveConfig();
+
   //
-  Serial.println("Connecting to WiFi");
+  Serial.println("Connecting to WiFi "+WIFI_SSID);
 
   // Connect to WiFi, internet required ;-)
   WiFi.mode(WIFI_STA);
-  WiFi.begin(WIFI_SSID, WIFI_PWD);
+  WiFi.begin(WIFI_SSID.c_str(), WIFI_PWD.c_str());
 
   // Give it 10 seconds to connect, otherwise reboot
   uint8_t iRetries = 0;
