@@ -23,20 +23,28 @@ Follow the tutorial below, to program your board and configure the node in few s
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/7ebc1077-c6a5-4e7e-9479-1dd27ef8a34b)
 
+8. Provide files to flash
+
+   ![Screenshot from 2023-08-29 09-43-16](https://github.com/invpe/GridShell/assets/106522950/14b788eb-9c38-4256-adca-d174008f68de)
+
+9. Click **PROGRAM**
+
+![Screenshot from 2023-08-29 09-43-40](https://github.com/invpe/GridShell/assets/106522950/ac02ce31-1c87-4009-b0f5-75bfb0920b80)
+
+10. Reset the device
+
+![image](https://github.com/invpe/GridShell/assets/106522950/14812e2d-0b9b-4d1d-ad14-d386ac10e669)
 
 
-
-Open the serial monitor [https://serial.huhn.me/](https://serial.huhn.me/)
-
-Reset your ESP32
+11. Open the serial monitor [https://serial.huhn.me/](https://serial.huhn.me/)
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/eeaca9d8-475a-4c31-9531-816f41eae5f5)
 
-Send "HELLO" via Serial terminal 
+12. Send "HELLO" via Serial terminal 
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/b22120d6-3bcc-450b-85a5-e3b14f542e80)
 
-The Node will ask config questions, provide all the answers
+13. The Node will ask config questions, provide all the answers
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/77c5b265-a98a-40db-8bbf-9ed6e0dbca19)
 
