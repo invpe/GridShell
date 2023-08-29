@@ -3,10 +3,13 @@
 
 
 ## Generic assumptions
-- The work protocol is plain text in the current version of GridShell
+- The work protocol is plain text in the current version of GridShell 
 - All nodes connect to a central server
 - All nodes have to heartbeat every **30**s 
 - Any misuse of the protocol, executing or incorrect behaviour will get you temporarily blocked or permanently banned
+
+## Keep your nodes safe!
+Since in it's current shape the protocol is plain text for simplicity, i suggest keeping your nodes running in a safe network.
 
 ## :electric_plug: Get connected and identify yourself
 
