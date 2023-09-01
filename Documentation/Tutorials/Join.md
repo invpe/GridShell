@@ -11,6 +11,15 @@ Arduino needs to be able to upload sketches to your ESP32, therefore ensure that
 # Create account on the testnet
 [https://api.gridshell.net/getuser/](https://api.gridshell.net/getuser/)
 
+When creating account, you have been given three values, ensure to keep them noted
+as it is impossible to recreate them if lost.
+
+![Account](https://github.com/invpe/GridShell/blob/main/Resources/Tut6A.png?raw=true)
+
+* Username (Public) - this is cool to share with others
+* UserHash (Private) - never share it - used for the sketch to ident
+* UserKey (Private) - never share it - might be used later on
+
 # Setup from a release file
 Open [Documentation/Tutorials/Release.md](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Release.md) to simply upload release binaries to your ESP32.
 
@@ -30,13 +39,4 @@ Access your account details with the expolorer page here:
 
 To obtain your user latest and greatest.
 Of course the name will differ, this is just an example :-)
-
-# Important
-When creating account, you have been given three values, ensure to keep them noted
-as it is impossible to recreate them if lost.
-
-![Account](https://github.com/invpe/GridShell/blob/main/Resources/Tut6A.png?raw=true)
-
-* Username (Public) - this is cool to share with others
-* UserHash (Private) - never share it - used for the sketch to ident
-* UserKey (Private) - never share it - might be used later on
+ 
