@@ -68,36 +68,10 @@ bool CGridShell::Init(const String& strUsername, const bool& rbExecFlag) {
   m_strMACAddress = WiFi.macAddress();
   m_strMACAddress.replace(":", "");
 
-  // Remove desynched telemetry chunks
-  CleanFS();
-
   GDEBUG("Init completed");
 
   //
   return true;
-}
-// --[  Method  ]---------------------------------------------------------------
-//
-//  - Class     : CGridShell
-//  - Prototype :
-//
-//  - Purpose   : Remove telemetry chunks prefixed with GS
-//
-// -----------------------------------------------------------------------------
-void CGridShell::CleanFS()
-{
-  // List all files in SPIFFS
-  File root = SPIFFS.open("/");
-  File file = root.openNextFile();
-
-  while (file) {
-    String fileName = file.name();
-    if (fileName.startsWith(GNODE_FILE_PREFIX)) {
-      GDEBUG("Deleting file: " + fileName);
-      SPIFFS.remove("/"+fileName);
-    }
-    file = root.openNextFile();
-  }
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -310,13 +284,12 @@ void CGridShell::Tick() {
           mb_init();
           mb_open(&bas);
 
-          // Additional functions registration
+          // Additional functions registration          
           mb_register_func(bas, "READ", _read);
           mb_register_func(bas, "WRITE", _write);
           mb_register_func(bas, "SHA1", _sha1);
           mb_register_func(bas, "DOWNLOAD", _download);
           mb_register_func(bas, "TSIZE", _tsize);
-          mb_register_func(bas, "FMD5", _fmd5);
 
           // Enable step by step execution to keep alive with the server
           mb_debug_set_stepped_handler(bas, CGridShell::MBStep);
@@ -609,30 +582,6 @@ bool CGridShell::StreamScript(const String& rstrURL, const String& rstrPath) {
 //  - Class     : CGridShell
 //  - Prototype :
 //
-//  - Purpose   : Return MD5 of the given file
-//
-// -----------------------------------------------------------------------------
-String CGridShell::GetMD5(const String& rstrFile)
-{
-  GDEBUG("MD5 " + rstrFile);
-  File fFile = SPIFFS.open(rstrFile, "r");
-  if (!fFile)return String();
-
-  if (fFile.seek(0, SeekSet)) {
-    MD5Builder md5;
-    md5.begin();
-    md5.addStream(fFile, fFile.size());
-    md5.calculate();
-    return md5.toString();
-  }
-
-  return String();
-}
-// --[  Method  ]---------------------------------------------------------------
-//
-//  - Class     : CGridShell
-//  - Prototype :
-//
 //  - Purpose   : Return SHA1 of the given file
 //
 // -----------------------------------------------------------------------------
@@ -651,27 +600,21 @@ String CGridShell::GetSHA1(const String& rstrFile) {
 //  - Class     : CGridShell
 //  - Prototype :
 //
-//  - Purpose   : Write a chunk of the telemetry
+//  - Purpose   : Write a string to a file stored on the grid network
 //
 // -----------------------------------------------------------------------------
 bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const bool& bAppend) {
+  if (rstrWhat.length() > GNODE_WRITE_MAX) return false;
 
-  GDEBUG("Write " + rstrName);
+  String strBaseEncoded = EncodeBase64(rstrWhat);
 
-  File fTelemetry;
+  String strCommand;
+  if (bAppend) strCommand = "APPEND,";
+  else strCommand = "WRITE,";
 
-  if (bAppend)
-    fTelemetry = SPIFFS.open(rstrName, "a");
-  else
-    fTelemetry = SPIFFS.open(rstrName, "w");
+  strCommand += rstrName + "," + strBaseEncoded + "\r\n";
 
-  if (!fTelemetry)
-    return false;
-
-  fTelemetry.print(rstrWhat);
-  fTelemetry.close();
-
-  GDEBUG("Write OK");
+  Send(strCommand);
   return true;
 }
 // --[  Method  ]---------------------------------------------------------------
