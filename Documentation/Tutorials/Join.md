@@ -8,6 +8,9 @@
 This tutorial assumes that you have an ESP32 device ready to join the GridShell and that you have Arduino application installed.
 Arduino needs to be able to upload sketches to your ESP32, therefore ensure that this is all working before moving forward.
 
+# Create account on the testnet
+[https://api.gridshell.net/getuser/](https://api.gridshell.net/getuser/)
+
 # Setup from a release file
 Open [Documentation/Tutorials/Release.md](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Release.md) to simply upload release binaries to your ESP32.
 
@@ -16,8 +19,7 @@ Lets try to make it in three simple steps to get you up and running.
 
 1. Download the sketch https://github.com/invpe/GridShell/tree/main/Sources/Node/ClientESP32
 2. Download GridShell library [here](https://github.com/invpe/GridShell/tree/main/Sources/GridShell) and put all files into sketch folder
-3. Create Test Net account https://api.gridshell.net/getuser/
-4. Update the sketch with account details, WiFi credentials & compile 
+3. Update the sketch with account details, WiFi credentials & compile 
 
 # Monitoring
 Access your account details with the expolorer page here:
