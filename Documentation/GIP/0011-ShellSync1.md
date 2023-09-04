@@ -1,4 +1,4 @@
-# GIP 0011
+# GIP 0011 - Distributing telemetry storage
 - Author(s): GridShell
 - Date: --/-/----
 
