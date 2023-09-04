@@ -211,7 +211,7 @@ Reffer to [Explorer](https://github.com/invpe/GridShell/blob/main/Documentation/
 
 ## Final thoughts
 
-You can see your tasks being submitted and executed but also your device being part of the execution chain (shells earning) via [API](https://api.gridshell.net/status) endpoint or [Explorer](https://explorer.gridshell.net:3000/d/c67e1c66-8ac3-480e-860b-7d1ba05aa8f8/gridshell-user)
+You can see your tasks being submitted and executed but also your device being part of the execution chain (shells earning) via [API](https://api.gridshell.net/status) endpoint or [Explorer](https://gridshell.grafana.net/d/cd4c7abe-f622-4384-8a6d-348f3bffde47/user?orgId=1)
 
 Feel free to click through, for example on your user - where you can check balance of shells and number of connected nodes.
 The returned format from API is always `JSON` to help you integrate with other systems more easily.
