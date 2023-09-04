@@ -1,5 +1,10 @@
 # 📰 Series of blog entries for GridShell
 
+## ➡️ 4/9/2023 - ShellSync and Explorer migration
+
+The ShellSync work is in progres, see newest [GIP](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0011-ShellSync1.md).
+Meantime i am also moving away from hosting explorer to Grafana in Cloud, links have been updated.
+
 ## 📊 24/8/2023 - Moving from API status to Explorer
 
 Moved out from using API/status endpoint displaying all core details now in the Explorer dashboard.
