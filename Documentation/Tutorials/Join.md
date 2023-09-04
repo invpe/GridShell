@@ -33,9 +33,7 @@ Lets try to make it in three simple steps to get you up and running.
 # Monitoring
 Access your account details with the expolorer page here:
 
-[https://explorer.gridshell.net:3000/d/c67e1c66-8ac3-480e-860b-7d1ba05aa8f8/gridshell-user?orgId=1](https://explorer.gridshell.net:3000/d/c67e1c66-8ac3-480e-860b-7d1ba05aa8f8/gridshell-user?orgId=1)
-
-
+[https://gridshell.grafana.net/d/cd4c7abe-f622-4384-8a6d-348f3bffde47/user?orgId=1](https://gridshell.grafana.net/d/cd4c7abe-f622-4384-8a6d-348f3bffde47/user?orgId=1)
 
 To obtain your user latest and greatest.
 Of course the name will differ, this is just an example :-)
