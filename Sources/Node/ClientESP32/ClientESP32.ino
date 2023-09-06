@@ -27,6 +27,14 @@ String GRID_USERHASH = "";
 /////////////////////////////////////
 //#define ENABLE_TELEMETRY
 #ifdef ENABLE_TELEMETRY
+#ifdef __cplusplus
+extern "C" {
+#endif
+uint8_t temprature_sens_read();
+#ifdef __cplusplus
+}
+#endif
+uint8_t temprature_sens_read();  
 #define ANALOG_PIN A0
 const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = 3600;
