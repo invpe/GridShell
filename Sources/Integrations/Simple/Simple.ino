@@ -105,7 +105,7 @@ void loop()
 
     // Submit a task to the GRID that will execute writing to file
     String strFullPayload = strFilePayload+CGridShell::GetInstance().EncodeBase64(strTextToWrite) + ",";
-    uint32_t uiTaskID = CGridShell::GetInstance().AddTask("write", strFullPayload);
+    uint32_t uiTaskID = CGridShell::GetInstance().AddTask("writedfs", strFullPayload);
 
     Serial.println("WRITE Task ID: " + String(uiTaskID));
     Serial.println("Grid Status  : " + String(CGridShell::GetInstance().Connected()));
