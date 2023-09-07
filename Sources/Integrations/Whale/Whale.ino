@@ -10,14 +10,13 @@
 /*------------------*/
 #include "CGridShell.h"
 // Put your username here to submit daily average tasks for Your Whale sensor
-// #define GRID_USERNAME "PocNetGroupMiners00000000000000000000001"
+//#define GRID_USERNAME "PocNetGroupMiners00000000000000000000001"
 #define GRID_U ""
 /*------------------*/
 #define WIFI_A ""
 #define WIFI_P ""
 /*------------------*/
 #define ANALOG_PIN A0
-#define TIME_INTERVAL 30ULL
 #define LED_BUILTIN 2
 #define ONE_WIRE_BUS 4
 /*------------------*/
@@ -25,7 +24,8 @@
 #define ENABLE_DEEP_SLEEP
 /*------------------*/
 #ifdef ENABLE_DEEP_SLEEP
-#define SLEEP_TIME (TIME_INTERVAL * (60ULL * 1000000ULL))
+// Define the time to sleep in microseconds (30 minutes)
+const uint64_t SLEEP_TIME = 30e6 * 60;
 void DeepSleep() {
   CGridShell::GetInstance().Stop();
   esp_deep_sleep_start();
@@ -178,7 +178,7 @@ void loop()
       Serial.println("GridShell is up");
 
       // Are we past midnight ? Submit daily averages for yesterday
-      if (local_tm.tm_hour == 00 && local_tm.tm_min <= 10)
+      if (local_tm.tm_hour == 00 && local_tm.tm_min <= 30)
       {
 #ifdef GRID_USERNAME
         time_t timeOneDay = 24 * 60 * 60;
@@ -216,10 +216,9 @@ void loop()
 
         float fBatteryLevel = map(analogRead(ANALOG_PIN), 0.0f, 4095.0f, 0, 100);
         uint32_t uiSpace = SPIFFS.totalBytes() - SPIFFS.usedBytes();
-        String strFileName = "POOLT" + GetMACAddress(0) + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday);
 
-        strPayload = strFileName + ",1,";
-        strPayload += String(timeSinceEpoch) + ",";
+        String strFileSettings = "POOLT" + GetMACAddress(0) + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday) + ",1,";
+        strPayload = String(timeSinceEpoch) + ",";
         strPayload += String(local_tm.tm_hour) + ",";
         strPayload += String(local_tm.tm_min) + ",";
         strPayload += String(WiFi.RSSI()) + ",";
@@ -227,21 +226,25 @@ void loop()
         strPayload += String(ESP.getFreeHeap()) + ",";
         strPayload += String(fTempC) + ",";
         strPayload += String(fBatteryLevel) + "\n";
-
+        
         // Write CSV telemetry data   (append)
-        uiTaskID = CGridShell::GetInstance().AddTask("write", strPayload);
+        String strTaskPayload = strFileSettings + CGridShell::GetInstance().EncodeBase64(strPayload) + ",";        
+        uiTaskID = CGridShell::GetInstance().AddTask("writedfs", strTaskPayload);
         Serial.println("Write task :" + String(uiTaskID));
 
+        
+
         // Write JSON data (overwrite)
-        strFileName = "POOLT" + GetMACAddress(0) + "J";
-        strPayload = strFileName + ",0,";
-        strPayload += "{\"Sensor\": \"" + GetMACAddress(0) + "\",";
+        strFileSettings = "POOLT" + GetMACAddress(0) + "J,0,";
+        strPayload = "{\"Sensor\": \"" + GetMACAddress(0) + "\",";
         strPayload += "\"Temperature\": " + String(fTempC) + ",";
         strPayload += "\"Battery\": " + String(fBatteryLevel) + ",";
         strPayload += "\"Epoch\": " + String(timeSinceEpoch) + ",";
         strPayload += "\"Time\": \"" + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday) + " " + String(local_tm.tm_hour) + ":" + String(local_tm.tm_min) + "\"";
         strPayload += "}";
-        uiTaskID = CGridShell::GetInstance().AddTask("write", strPayload);
+
+        strTaskPayload = strFileSettings + CGridShell::GetInstance().EncodeBase64(strPayload) + ",";
+        uiTaskID = CGridShell::GetInstance().AddTask("writedfs", strPayload);
         Serial.println("Json task: " + String(uiTaskID));
       }
     }
