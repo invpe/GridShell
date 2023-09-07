@@ -1,4 +1,4 @@
-# 🔡 GridShell work protocol (v05)
+# 🔡 GridShell work protocol (v06)
 
 
 
