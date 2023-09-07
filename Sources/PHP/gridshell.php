@@ -6,7 +6,7 @@
 
 $GLOBALS['lastpong'] = 0; 
 $GLOBALS['grid_socket'] = 0; 
-$GLOBALS['version']="05";
+$GLOBALS['version']="06";
 
 function xor_this($string,$key) {
  
@@ -66,8 +66,8 @@ function GS_Login($uid,$nodeid=NULL)
     $serverPublicKey =  str_replace("\n","",$b); 
 
     // These are temporary values for TestNet
-    $serverG = 3;
-    $serverP = 8799372823567034263;
+    $serverG = "2";
+    $serverP = "9840485683654561415963922255243388377177431468711912621027980528684674331318089597310841532159423071472940950709936601452503154610443618922381114939628259";
 
     // Calculate our private key
     $privatekey = rand()%PHP_INT_MAX; 
