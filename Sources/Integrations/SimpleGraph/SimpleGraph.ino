@@ -90,7 +90,7 @@ void loop()
 
   // Every minute, write comma separated values to telemetry file
   // Do not append (bAppend flag = false)
-  if (millis() - uiOneMinute >= 60000)
+  if (millis() - uiOneMinute >= 1 * 60000)
   {
     // Lets generate some random values
     strTextToWrite = String(timeClient.getEpochTime()) + ","; // << First column is time
@@ -101,11 +101,11 @@ void loop()
     // Payload for the WRITE script
     String strFilePayload = "";
     strFilePayload = strFileName + ",";       // The filename you want to write
-    strFilePayload += String(bAppend) + ","; // The Append flag (1 - yes, 0 - no)
-    strFilePayload += strTextToWrite;     // The message you want to write to the file
+    strFilePayload += String(bAppend) + ","; // The Append flag (1 - yes, 0 - no) 
 
     // Submit a task to the GRID that will execute writing to file
-    uint32_t uiTaskID = CGridShell::GetInstance().AddTask("write", strFilePayload);
+    String strFullPayload = strFilePayload+CGridShell::GetInstance().EncodeBase64(strTextToWrite) + ",";
+    uint32_t uiTaskID = CGridShell::GetInstance().AddTask("writedfs", strFilePayload);
 
     Serial.println("WRITE Task ID: " + String(uiTaskID));
     Serial.println("Grid Status  : " + String(CGridShell::GetInstance().Connected()));
