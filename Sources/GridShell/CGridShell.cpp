@@ -36,6 +36,7 @@ CGridShell& CGridShell::GetInstance() {
 //
 // -----------------------------------------------------------------------------
 void CGridShell::Stop() {
+  m_Client.flush();
   close(m_Client.fd());
   m_Client.stop();
   delay(500);
@@ -68,10 +69,38 @@ bool CGridShell::Init(const String& strUsername, const bool& rbExecFlag) {
   m_strMACAddress = WiFi.macAddress();
   m_strMACAddress.replace(":", "");
 
+  // Remove telemetry chunks, prepare space for new
+  CleanFS();
+
   GDEBUG("Init completed");
 
   //
   return true;
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   : Remove telemetry chunks prefixed with GS
+//
+// -----------------------------------------------------------------------------
+void CGridShell::CleanFS()
+{
+  GDEBUG("Cleaning GDFS");
+
+  // List all files in SPIFFS
+  File root = SPIFFS.open("/");
+  File file = root.openNextFile();
+
+  while (file) {
+    String fileName = file.name();
+    if (fileName.startsWith(GNODE_FILE_PREFIX)) {
+      GDEBUG("Deleting file: " + fileName);
+      SPIFFS.remove("/" + fileName);
+    }
+    file = root.openNextFile();
+  }
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -118,6 +147,9 @@ void CGridShell::Tick() {
 
     // Check if user set and reconnection timer is expired
     if (m_strUsername.length() == 40 && abs(iTimer) > GNODE_RECON_TIMER) {
+
+      // Remove telemetry chunks, prepare space for new
+      CleanFS();
 
       //
       m_uiLastReconnection = millis();
@@ -170,8 +202,8 @@ void CGridShell::Tick() {
           return;
         }
 
-        CBigInteger uiP = std::string("8799372823567034263");
-        CBigInteger uiG = std::string("3");
+        CBigInteger uiP = std::string("9840485683654561415963922255243388377177431468711912621027980528684674331318089597310841532159423071472940950709936601452503154610443618922381114939628259");
+        CBigInteger uiG = std::string("2");
         CBigInteger uiServerPublicKey = strServerPublicKey.c_str();
 
         // Calculate our private key
@@ -284,12 +316,17 @@ void CGridShell::Tick() {
           mb_init();
           mb_open(&bas);
 
-          // Additional functions registration          
+          // Additional functions registration
           mb_register_func(bas, "READ", _read);
           mb_register_func(bas, "WRITE", _write);
           mb_register_func(bas, "SHA1", _sha1);
           mb_register_func(bas, "DOWNLOAD", _download);
           mb_register_func(bas, "TSIZE", _tsize);
+          mb_register_func(bas, "FMD5", _fmd5);
+          mb_register_func(bas, "B64D", _b64d);
+          mb_register_func(bas, "B64E", _b64e);
+          mb_register_func(bas, "DEL", _del);
+
 
           // Enable step by step execution to keep alive with the server
           mb_debug_set_stepped_handler(bas, CGridShell::MBStep);
@@ -582,6 +619,30 @@ bool CGridShell::StreamScript(const String& rstrURL, const String& rstrPath) {
 //  - Class     : CGridShell
 //  - Prototype :
 //
+//  - Purpose   : Return MD5 of the given file
+//
+// -----------------------------------------------------------------------------
+String CGridShell::GetMD5(const String& rstrFile)
+{
+  GDEBUG("MD5 " + rstrFile);
+  File fFile = SPIFFS.open(rstrFile, "r");
+  if (!fFile)return String();
+
+  if (fFile.seek(0, SeekSet)) {
+    MD5Builder md5;
+    md5.begin();
+    md5.addStream(fFile, fFile.size());
+    md5.calculate();
+    return md5.toString();
+  }
+
+  return String();
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
 //  - Purpose   : Return SHA1 of the given file
 //
 // -----------------------------------------------------------------------------
@@ -600,21 +661,39 @@ String CGridShell::GetSHA1(const String& rstrFile) {
 //  - Class     : CGridShell
 //  - Prototype :
 //
-//  - Purpose   : Write a string to a file stored on the grid network
+//  - Purpose   : Write a chunk of the telemetry
+//
+// -----------------------------------------------------------------------------
+void CGridShell::Delete(const String& rstrName)
+{
+  SPIFFS.remove(rstrName);
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   : Write a chunk of the telemetry
 //
 // -----------------------------------------------------------------------------
 bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const bool& bAppend) {
-  if (rstrWhat.length() > GNODE_WRITE_MAX) return false;
 
-  String strBaseEncoded = EncodeBase64(rstrWhat);
+  GDEBUG("Write " + rstrName);
 
-  String strCommand;
-  if (bAppend) strCommand = "APPEND,";
-  else strCommand = "WRITE,";
+  File fTelemetry;
 
-  strCommand += rstrName + "," + strBaseEncoded + "\r\n";
+  if (bAppend)
+    fTelemetry = SPIFFS.open(rstrName, "a");
+  else
+    fTelemetry = SPIFFS.open(rstrName, "w");
 
-  Send(strCommand);
+  if (!fTelemetry)
+    return false;
+
+  fTelemetry.print(rstrWhat);
+  fTelemetry.close();
+
+  GDEBUG("Write OK");
   return true;
 }
 // --[  Method  ]---------------------------------------------------------------
@@ -622,7 +701,7 @@ bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const boo
 //  - Class     : CGridShell
 //  - Prototype :
 //
-//  - Purpose   : Returns 0 if failed
+//  - Purpose   : Returns 
 //
 // -----------------------------------------------------------------------------
 uint32_t CGridShell::AddTask(const String& rstrScript, const String& rstrInputPayload) {
@@ -636,18 +715,10 @@ uint32_t CGridShell::AddTask(const String& rstrScript, const String& rstrInputPa
 
   Send(strCommand);
 
-  if (m_Client.available())
-  {
-    String strReturn = m_Client.readStringUntil(',');
-    String strReturnCode = m_Client.readStringUntil(',');
+  String strReturn = m_Client.readStringUntil('\n'); 
 
-    GDEBUG("AddTask : " + strReturnCode);
-
-    //
-    if (strReturn == "ADDT" && strReturnCode[0] != 'B' && strReturnCode[1] != 'A' && strReturnCode[2] != 'D') {
-      return strReturnCode.toInt();
-    }
-  }
+  GDEBUG("AddTask : " + strReturn);
+ 
 
   return 0;
 }

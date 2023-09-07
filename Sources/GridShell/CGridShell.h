@@ -14,13 +14,15 @@
 #include "SPIFFS.h"
 #include "my_basic.hpp"
 #include "mbedtls/base64.h"
+#include "MD5Builder.h"
 #include "CBigInteger.h"
 /*---------*/
 #define GNODE_MAX_PAYLOAD_LEN 256
 #define GNODE_TASK_SERVER_NAME "https://api.gridshell.net/scripts/"
 #define GNODE_FS_SERVER "https://api.gridshell.net/fs/"
+#define GNODE_FILE_PREFIX "GS"
 #define GNODE_SERVER "work.gridshell.net"
-#define GNODE_VERSION "05"
+#define GNODE_VERSION "06"
 #define GNODE_TELEMETRY_FILENAME "/TELEMETRY"
 #define GNODE_PING_TIME 30000
 #define GNODE_RECON_TIMER (1000 * 60)
@@ -31,7 +33,7 @@
 #define GNODE_ARCH "ESP32"
 /*---------*/
 // Enable to dump debug informations to the serial
-// #define GNODE_DEBUG 1
+//#define GNODE_DEBUG 1
 #ifdef GNODE_DEBUG
 #define GDEBUG Serial.println
 #else
@@ -39,51 +41,109 @@
 #endif
 /*---------*/
 class CGridShell {
-public:
-  enum eEvent {
-    EVENT_IDLE = 0,
-    EVENT_WORK,
-    EVENT_DISCONNECTED,
-    EVENT_CONNECTED,
-    EVENT_NO_TASKS_TO_EXECUTE,
-    EVENT_NO_TASKS_TO_VALIDATE,
-    EVENT_VERSIONS_MISMATCH,
-    EVENT_PONG
-  };
-  static CGridShell& GetInstance();
-  static int MBStep(struct mb_interpreter_t* s, void** l, const char* f, int p, unsigned short row, unsigned short col);
-  bool Init(const String& strUsername, const bool& rbExecFlag);
-  uint32_t GetTaskTimeout();
-  uint32_t GetTaskStartTime();
-  void Pong();
-  void Tick();
-  bool Connected();
-  void Stop();
-  void RegisterEventCallback(void (*pFunc)(uint8_t));
-  bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
-  uint32_t AddTask(const String& rstrScript, const String& rstrInputPayload);
-  String EncodeBase64(const String& strString);
-  String DecodeBase64(const String& strString);
-  ~CGridShell();
+  public:
+    enum eEvent {
+      EVENT_IDLE = 0,
+      EVENT_WORK,
+      EVENT_DISCONNECTED,
+      EVENT_CONNECTED,
+      EVENT_NO_TASKS_TO_EXECUTE,
+      EVENT_NO_TASKS_TO_VALIDATE,
+      EVENT_VERSIONS_MISMATCH,
+      EVENT_PONG
+    };
+    static CGridShell& GetInstance();
+    static int MBStep(struct mb_interpreter_t* s, void** l, const char* f, int p, unsigned short row, unsigned short col);
+    bool Init(const String& strUsername, const bool& rbExecFlag);
+    uint32_t GetTaskTimeout();
+    uint32_t GetTaskStartTime();
+    void Pong();
+    void Tick();
+    bool Connected();
+    void Stop();
+    void RegisterEventCallback(void (*pFunc)(uint8_t));
+    bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
+    void Delete(const String& rstrName);
+    uint32_t AddTask(const String& rstrScript, const String& rstrInputPayload);
+    String EncodeBase64(const String& strString);
+    String DecodeBase64(const String& strString);
+    String GetSHA1(const String& rstrFile);
+    String GetMD5(const String& rstrFile);
+    String sha1HW(String payload);
+    String sha1HW(unsigned char* payload, int len);
+    ~CGridShell();
 
-private:
-  CGridShell();
-  bool StreamScript(const String& rstrURL, const String& rstrPath);
-  String GetSHA1(const String& rstrFile);
-  String XOR(const String& toEncrypt, const String& rstrKey);
-  String sha1HW(String payload);
-  String sha1HW(unsigned char* payload, int len);
-  void Send(const String& strData);
-  String m_strUsername;
-  String m_strMACAddress;
-  uint8_t m_bExecFlag;
-  uint32_t m_uiLastHB;
-  uint32_t m_uiLastReconnection;
-  uint32_t m_uiTaskStart;
-  uint32_t m_uiTaskTimeout;
-  WiFiClient m_Client;
-  void (*m_pCallback)(uint8_t);
+  private:
+    CGridShell();
+    void CleanFS();
+    bool StreamScript(const String& rstrURL, const String& rstrPath);
+    String XOR(const String& toEncrypt, const String& rstrKey);
+    void Send(const String& strData);
+    String m_strUsername;
+    String m_strMACAddress;
+    uint8_t m_bExecFlag;
+    uint32_t m_uiLastHB;
+    uint32_t m_uiLastReconnection;
+    uint32_t m_uiTaskStart;
+    uint32_t m_uiTaskTimeout; 
+    WiFiClient m_Client;
+    void (*m_pCallback)(uint8_t);
 };
+
+/*---------*/
+static int _b64e(struct mb_interpreter_t* s, void** l) {
+  int result = MB_FUNC_OK;
+
+  mb_check(mb_attempt_open_bracket(s, l));
+
+  char* m;
+
+  mb_check(mb_pop_string(s, l, &m));
+  mb_check(mb_attempt_close_bracket(s, l));
+
+  String strRes =  CGridShell::GetInstance().EncodeBase64(m);
+  char buf[strRes.length()];
+  sprintf(buf, "%s", strRes.c_str());
+
+  mb_check(mb_push_string(s, l, mb_memdup(buf, (unsigned)(strlen(buf) + 1))));
+  return result;
+}
+/*---------*/
+static int _b64d(struct mb_interpreter_t* s, void** l) {
+  int result = MB_FUNC_OK;
+
+  mb_check(mb_attempt_open_bracket(s, l));
+
+  char* m;
+
+  mb_check(mb_pop_string(s, l, &m));
+  mb_check(mb_attempt_close_bracket(s, l));
+
+  String strRes =  CGridShell::GetInstance().DecodeBase64(m);
+  char buf[strRes.length()];
+  sprintf(buf, "%s", strRes.c_str());
+
+  mb_check(mb_push_string(s, l, mb_memdup(buf, (unsigned)(strlen(buf) + 1))));
+  return result;
+}
+/*---------*/
+static int _fmd5(struct mb_interpreter_t* s, void** l) {
+  int result = MB_FUNC_OK;
+
+  mb_check(mb_attempt_open_bracket(s, l));
+
+  char* m;
+
+  mb_check(mb_pop_string(s, l, &m));
+  mb_check(mb_attempt_close_bracket(s, l));
+
+  String strRes = CGridShell::GetInstance().GetMD5(m);
+
+  char buf[strRes.length()];
+  sprintf(buf, "%s", strRes.c_str());
+  mb_check(mb_push_string(s, l, mb_memdup(buf, (unsigned)(strlen(buf) + 1))));
+  return result;
+}
 /*---------*/
 static int _sha1(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
@@ -95,29 +155,10 @@ static int _sha1(struct mb_interpreter_t* s, void** l) {
   mb_check(mb_pop_string(s, l, &m));
   mb_check(mb_attempt_close_bracket(s, l));
 
+  String strRes =  CGridShell::GetInstance().sha1HW(m);
+  char buf[strRes.length()];
+  sprintf(buf, "%s", strRes.c_str());
 
-  int_t iLen = strlen(m);
-  byte shaResult[20];
-
-  mbedtls_md_context_t ctx;
-  mbedtls_md_type_t md_type = MBEDTLS_MD_SHA1;
-  mbedtls_md_init(&ctx);
-  mbedtls_md_setup(&ctx, mbedtls_md_info_from_type(md_type), 0);
-  mbedtls_md_starts(&ctx);
-  mbedtls_md_update(&ctx, (const unsigned char*)m, iLen);
-  mbedtls_md_finish(&ctx, shaResult);
-  mbedtls_md_free(&ctx);
-
-  // To string conversions happening, need better idea some day
-  String hashStr;
-  for (uint16_t i = 0; i < sizeof(shaResult); i++) {
-    String hex = String(shaResult[i], HEX);
-    if (hex.length() < 2)
-      hex = "0" + hex;
-    hashStr += hex;
-  }
-  char buf[hashStr.length()];
-  sprintf(buf, "%s", hashStr.c_str());
   mb_check(mb_push_string(s, l, mb_memdup(buf, (unsigned)(strlen(buf) + 1))));
   return result;
 }
@@ -226,21 +267,33 @@ static int _tsize(struct mb_interpreter_t* s, void** l) {
 
   return result;
 }
+/*---------*/
+static int _del(struct mb_interpreter_t* s, void** l) {
+  int result = MB_FUNC_OK;
+
+  mb_check(mb_attempt_open_bracket(s, l));
+
+  char* m;
+
+  mb_check(mb_pop_string(s, l, &m));
+  mb_check(mb_attempt_close_bracket(s, l));
+  CGridShell::GetInstance().Delete(String(m));
+  mb_check(mb_push_int(s, l, 0));
+  return result;
+}
 static int _write(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
   char* cFilename;
   char* cText;
-  int_t iAppend = 0;
-
 
   // Pop variables
   mb_check(mb_attempt_open_bracket(s, l));
   mb_check(mb_pop_string(s, l, &cFilename));
   mb_check(mb_pop_string(s, l, &cText));
-  mb_check(mb_pop_int(s, l, &iAppend));
   mb_check(mb_attempt_close_bracket(s, l));
 
-  int_t iSuccess = CGridShell::GetInstance().Write(String(cFilename), String(cText), iAppend);
+  // We don't append chunks
+  int_t iSuccess = CGridShell::GetInstance().Write(String(cFilename), String(cText), false);
 
   mb_check(mb_push_int(s, l, iSuccess));
   return result;
