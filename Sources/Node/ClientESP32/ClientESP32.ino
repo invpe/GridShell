@@ -1,7 +1,6 @@
 /*
-   Example integration with the GRIDSHELL
+   GridShell Node for ESP32
    ESP does idle and takes load from Grid Server if available
-   https://www.gridshell.net/
    https://github.com/invpe/gridshell
 */
 #include <ArduinoOTA.h>
@@ -9,23 +8,18 @@
 #include <HTTPClient.h>
 #include "SPIFFS.h"
 #include "CGridShell.h"
-////////////////////////////////
-// Your WiFi Credentials here //
-////////////////////////////////
-String WIFI_SSID = "";
-String WIFI_PWD = "";
-////////////////////////////////
-// Your GridShell user-hash   //
-////////////////////////////////
-String GRID_USERHASH = "";
 ///////////////////////////////////
 // Turn on/off OTA functionality //
 ///////////////////////////////////
-#define ENABLE_OTA
+// #define ENABLE_OTA
+///////////////////////////////////
+// LED Functionality             //
+///////////////////////////////////
+#define LED_BUILTIN 2
 /////////////////////////////////////
 // Turn on/off Diagnostic telemetry//
 /////////////////////////////////////
-//#define ENABLE_TELEMETRY
+// #define ENABLE_TELEMETRY
 #ifdef ENABLE_TELEMETRY
 #ifdef __cplusplus
 extern "C" {
@@ -34,42 +28,19 @@ uint8_t temprature_sens_read();
 #ifdef __cplusplus
 }
 #endif
-uint8_t temprature_sens_read();  
+uint8_t temprature_sens_read();
 #define ANALOG_PIN A0
 const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = 3600;
 const int   daylightOffset_sec = 3600;
 uint64_t uiLastTelemetry = 0;
 #endif
-//////////////////////////////////////////////
-// LED Functionality                        //
-//////////////////////////////////////////////
-#define LED_BUILTIN 2
 ///////////////////////////////////
-// Callback                      //
+// User details                  //
 ///////////////////////////////////
-void GridShellCB(uint8_t  uiEventType)
-{
-  switch (uiEventType)
-  {
-    ///////////////////////////////////
-    // Node is executing a task     //
-    ///////////////////////////////////
-    case CGridShell::eEvent::EVENT_WORK:
-      {
-        digitalWrite(LED_BUILTIN, HIGH);
-      }
-      break;
-    ///////////////////////////////////
-    // Node is idling               //
-    ///////////////////////////////////
-    case CGridShell::eEvent::EVENT_IDLE:
-      {
-        digitalWrite(LED_BUILTIN, LOW);
-      }
-      break;
-  }
-}
+String WIFI_SSID = "";
+String WIFI_PWD = "";
+String GRID_USERHASH = "";
 ///////////////////////////////////
 // Config saver                  //
 ///////////////////////////////////
@@ -128,8 +99,10 @@ void setup()
 
   // Check if necessary creds given
   if (WIFI_SSID == "" || GRID_USERHASH == "")
-  {
-    // Wait for user readiness 
+  {    
+    Serial.println("Time to setup, hit ENTER to start.");
+    
+    // Wait for user readiness
     while (!Serial.available()) {
       // Wait for input
     }
@@ -164,7 +137,7 @@ void setup()
   SaveConfig();
 
   //
-  Serial.println("Connecting to WiFi "+WIFI_SSID);
+  Serial.println("Connecting to WiFi " + WIFI_SSID);
 
   // Connect to WiFi, internet required ;-)
   WiFi.mode(WIFI_STA);
@@ -192,9 +165,6 @@ void setup()
   }
   else
     ESP.restart();
-
-  // Register callback, comment if not used
-  CGridShell::GetInstance().RegisterEventCallback(GridShellCB);
 
   // Start OTA if enabled
 #ifdef ENABLE_OTA
@@ -234,7 +204,6 @@ void setup()
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 #endif
 
-
   digitalWrite(LED_BUILTIN, LOW);
 }
 ///////////////////////////////////
@@ -253,7 +222,10 @@ void loop()
   /////////////////////////////
   // Keep working on the grid//
   /////////////////////////////
+
+  digitalWrite(LED_BUILTIN, HIGH);
   CGridShell::GetInstance().Tick();
+  digitalWrite(LED_BUILTIN, LOW);
 
   // Check if WiFi available, if not just boot.
   if (WiFi.status() != WL_CONNECTED)
@@ -277,27 +249,40 @@ void loop()
       strMAC.replace(":", "");
       strMAC.toLowerCase();
 
-      float fBatteryLevel = map(analogRead(ANALOG_PIN), 0.0f, 4095.0f, 0, 100);
-      float fInternTempSensor =  (temprature_sens_read() - 32) / 1.8; // Celsius
-      String strFileName = "DT" + strMAC + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday);
-      String strAppend = "1";
-      String strPayload = strFileName + ",";
+      // Read the battery level on analog pin
+      float fBatteryLevel     = map(analogRead(ANALOG_PIN), 0.0f, 4095.0f, 0, 100);
 
-      strPayload += strAppend + ",";
-      strPayload += String(tTimeSinceEpoch) + ",";
-      strPayload += String(fBatteryLevel) + ",";
-      strPayload += String(SPIFFS.totalBytes()) + ",";
-      strPayload += String(SPIFFS.usedBytes()) + ",";
-      strPayload += String(WiFi.RSSI()) + ",";
-      strPayload += String(ESP.getFreeHeap()) + ",";
-      strPayload += String(fInternTempSensor) + "\n";
+      // Read the CPU temperature and convert to C
+      float fInternTempSensor =  (temprature_sens_read() - 32) / 1.8;
 
-      CGridShell::GetInstance().AddTask("write", strPayload);
+      // Generate file name
+      String strFileName      = "DT" + strMAC + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday);
+
+      // Append it
+      String strAppend        = "1";
+
+      // Set filename and append option
+      String strFileSettings       = strFileName + ",";
+      strFileSettings += strAppend + ",";
+
+      // Build user data to write
+      String strUserData = String(tTimeSinceEpoch) + ",";
+      strUserData += String(fBatteryLevel) + ",";
+      strUserData += String(SPIFFS.totalBytes()) + ",";
+      strUserData += String(SPIFFS.usedBytes()) + ",";
+      strUserData += String(WiFi.RSSI()) + ",";
+      strUserData += String(ESP.getFreeHeap()) + ",";
+      strUserData += String(fInternTempSensor) + "\n";
+
+      // Combine all for task payload
+      String strTaskPayload = strFileSettings + CGridShell::GetInstance().EncodeBase64(strUserData) + ",";
+      
+      // Then submit task to the grid
+      CGridShell::GetInstance().AddTask("writedfs", strTaskPayload);
     }
     uiLastTelemetry = millis();
   }
 #endif
-
 
   // Your Normal Sketch things
   if (millis() - m_uiLastHB > 1000)
