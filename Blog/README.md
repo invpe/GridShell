@@ -1,4 +1,8 @@
 # 📰 Series of blog entries for GridShell
+## 🗒️ 7/9/2023 - V06 Deployment
+
+We are moving to `06` today, and will upload latest sources EOD, please ensure to update your nodes as
+we're changing things, see latest  [GIP](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0011-ShellSync1.md).
 
 ## ➡️ 4/9/2023 - ShellSync and Explorer migration
 
