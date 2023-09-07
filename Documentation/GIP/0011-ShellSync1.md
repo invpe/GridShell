@@ -1,6 +1,6 @@
 # GIP 0011 - Distributing telemetry storage
 - Author(s): GridShell
-- Date: --/-/----
+- Date: 7/9/2023
 
 # Synopsis
 Implement ShellSync - a distributed filesystem for telemetry storage.
