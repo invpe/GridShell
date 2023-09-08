@@ -35,11 +35,9 @@ CGridShell& CGridShell::GetInstance() {
 //  - Purpose   : Helper
 //
 // -----------------------------------------------------------------------------
-void CGridShell::Stop() {
-  m_Client.flush();
+void CGridShell::Stop() {  
   close(m_Client.fd());
-  m_Client.stop();
-  delay(500);
+  m_Client.stop();  
   if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_DISCONNECTED);
 }
 // --[  Method  ]---------------------------------------------------------------
