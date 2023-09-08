@@ -43,6 +43,7 @@ Welcome to GridShell, an innovative distributed computing solution powered by ES
 
 ## 🗃️ Key Features
 - Distributed Computing Power: Leverage the collective computing strength of ESP32 nodes for efficient task execution.
+- Distributed Storage: All telemetry data is stored on the network nodes
 - Telemetry Data Processing: Store and process telemetry data from IoT devices, enabling deep analysis and insights.
 - Custom Script Execution: Empower users to execute custom scripts and calculations on telemetry data.
 - Real-time Visualization: Integrate with Grafana dashboards for real-time and historical data insights.
@@ -64,6 +65,9 @@ Your Shell tokens are your key to accessing GridShell's full potential. Submit t
 
 ## 🧮 Data-Driven Computations:
 GridShell introduces a new dimension to computing through the capability for tasks to read/write telemetry files. Tasks can utilize telemetry data as input, enhancing the network's ability to perform complex computations that draw insights from real-world data.
+
+## 🧑‍🤝‍🧑 Distributed Telemetry Storage (ShellSync)
+Users can write and store telemetry data in a collaborative, distributed manner. Telemetry entries, referred to as "chunks," are seamlessly stored on available nodes. In cases where nodes disconnect, the server handles replication, ensuring the availability of telemetry data. The server also maintains a local copy as a fallback option.
 
 ## 👁️‍🗨️ Empowering Insights:
 By allowing tasks to access telemetry files, GridShell bridges the gap between raw data and powerful insights. Users can perform computations that leverage real-world telemetry data, enhancing the precision and relevance of their analyses.
