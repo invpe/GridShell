@@ -31,6 +31,7 @@ Ensure your node runs the same version
 `110` is the number of tasks waiting to execute.
 
 `739` is the number of tasks waiting for validation.
+
 `148722804` Server `public key` value
 
 ----
@@ -43,6 +44,7 @@ Ensure your node runs the same version
 5. `BASE64ENCODE(XOR(user_hash, SHA1(symmetric_key)))` - to encode the cipher with base64
 6. Send `JOB,node_public_key,base64_cipher,VERSION,IDENT` - to identify with GridShell server
  
+Where `IDENT` is a 12 character identifier of your node.
 
 When Number of tasks to execute is equal to `0`, you can put your device to sleep.
 There is absolutely no need to keep them up and running if there is nothing to process. Wake them up sporadically
