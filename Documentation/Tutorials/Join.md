@@ -28,7 +28,12 @@ Lets try to make it in three simple steps to get you up and running.
 
 1. Download the sketch https://github.com/invpe/GridShell/tree/main/Sources/Node/ClientESP32
 2. Download GridShell library [here](https://github.com/invpe/GridShell/tree/main/Sources/GridShell) and put all files into sketch folder
-3. Update the sketch with account details, WiFi credentials & compile 
+
+
+# Configure the node
+Once uploaded to your device, continue setup by following [release manual](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Release.md#configuring-the-node) 
+to configure your node.
+
 
 # Monitoring
 Access your account details with the expolorer page here:
