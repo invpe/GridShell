@@ -38,9 +38,11 @@ This approach offers several advantages:
 
 # User-Hosted Software Disclaimer
 
-It's important to note that users have the option to host their own software alongside the GridShell library. 
-However, in such cases, the network will not be responsible for any losses, interruptions, or issues that may arise as a result of this choice. 
-Users are encouraged to exercise caution and ensure compatibility when combining their software with our network.
+> **Warning**
+It's crucial to mention that the OTA (Over-The-Air) update process comes with the important caveat that it will erase all data on the node during the update.
+
+It's worth emphasizing that users do have the option to host their own software alongside the GridShell library. However, it's important to note that in such instances, the network cannot assume responsibility for any potential losses, interruptions, or issues that may arise as a result of this choice. We strongly advise users to exercise caution and verify compatibility when integrating their software with Vanilla nodes.
+
 
 In summary, the introduction of OTA functionality and the transition to Vanilla Nodes starting from version 07 of our GridShell network project 
 represent a pivotal step forward. This approach ensures the network's robustness, scalability, and ease of maintenance.
