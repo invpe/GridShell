@@ -37,6 +37,7 @@
 #include <Update.h>
 #include "SPIFFS.h"
 #include "my_basic.hpp"
+#include "mbedtls/md.h"
 #include "mbedtls/base64.h"
 #include "MD5Builder.h"
 #include "CBigInteger.h"
@@ -85,6 +86,7 @@ class CGridShell {
     bool Connected();
     void Stop();
     void RegisterEventCallback(void (*pFunc)(uint8_t));
+    String GetNodeID() const;
 
     // MyBasic Exposed Methods
     bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
@@ -100,13 +102,14 @@ class CGridShell {
 
   private:
     CGridShell();
+    void Reboot();
     void OTA();
     void CleanFS();
     bool StreamFile(const String& rstrURL, const String& rstrPath);
     void Send(const String& strData);
 
     String m_strUsername;
-    String m_strMACAddress;
+    String m_strUniqueID;
     uint32_t m_uiLastHB;
     uint32_t m_uiLastReconnection;
     uint32_t m_uiTaskStart;

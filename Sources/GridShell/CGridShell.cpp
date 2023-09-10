@@ -12,6 +12,28 @@ CGridShell::CGridShell() {
   m_uiLastHB = 0;
   m_uiLastReconnection = millis() + (10 * GNODE_RECON_TIMER);
   m_pCallback = NULL;
+ 
+  // Get the unique MAC address from eFuse
+  uint8_t mac[6];
+  esp_read_mac(mac, ESP_MAC_WIFI_STA);
+
+  m_strUniqueID = "";
+  for (int i = 0; i < 6; i++) m_strUniqueID += String(mac[i], HEX);
+
+  // Generate hash & truncate to 12
+  m_strUniqueID = sha1HW(m_strUniqueID);
+  m_strUniqueID = m_strUniqueID.substring(0, 12);
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   :
+//
+// -----------------------------------------------------------------------------
+String CGridShell::GetNodeID() const{
+  return m_strUniqueID;
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -59,19 +81,27 @@ bool CGridShell::Init(const String& strUsername) {
     return false;
   }
 
-  // Obtain MAC for ident purposes
-  m_strMACAddress = WiFi.macAddress();
-  m_strMACAddress.replace(":", "");
 
   // Remove telemetry chunks, prepare space for new
   CleanFS();
 
   GDEBUG("Init OK");
-  GDEBUG("SPIFFS: " + String(SPIFFS.totalBytes()));
-  GDEBUG("SPIFFSU: " + String(SPIFFS.usedBytes()));
-  GDEBUG("VERSION: "GNODE_VERSION);
+  
   //
   return true;
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   : Perform reboot
+//
+// -----------------------------------------------------------------------------
+void CGridShell::Reboot()
+{
+  Stop();
+  ESP.restart();
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -167,7 +197,7 @@ void CGridShell::Tick() {
           GDEBUG("VMismatch " + strVersion + " != " GNODE_VERSION);
           Stop();
           OTA();
-          ESP.restart();
+          Reboot();
           return;
         }
 
@@ -206,7 +236,7 @@ void CGridShell::Tick() {
 
 
         // Pass my Public Key and GUID encoded
-        Send("JOB," + String(uiMyPublicKey.GetInteger().c_str()) + "," + strBase64EncodedGUID + "," + GNODE_VERSION + "," + m_strMACAddress + "\r\n");
+        Send("JOB," + String(uiMyPublicKey.GetInteger().c_str()) + "," + strBase64EncodedGUID + "," + GNODE_VERSION + "," + m_strUniqueID + "\r\n");
 
         GDEBUG("Ident");
 
@@ -234,7 +264,8 @@ void CGridShell::Tick() {
       GDEBUG("Server: " + strJobType);
 
       // Task coming
-      if (strJobType == "EXEC") {
+      if (strJobType == "EXEC")
+      {
 
         if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_WORK);
 
@@ -292,7 +323,6 @@ void CGridShell::Tick() {
           mb_register_func(bas, "B64E", _b64e);
           mb_register_func(bas, "XOR", _xor);
           mb_register_func(bas, "DEL", _del);
-
 
           // Enable step by step execution to keep alive with the server
           mb_debug_set_stepped_handler(bas, CGridShell::MBStep);
@@ -573,7 +603,7 @@ bool CGridShell::StreamFile(const String& rstrURL, const String& rstrPath) {
     return true;
 
   } else {
-    Serial.printf("Cant GET: %d\n", httpCode);
+    GDEBUG("Cant GET: " + String(httpCode));
   }
 
   httpClient.end();
