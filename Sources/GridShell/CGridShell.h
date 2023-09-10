@@ -5,35 +5,58 @@
 //
 //  - Purpose   : GridShell Arduino Library  https://www.gridshell.net/
 //
+// MIT License
+//
+// Copyright (c) 2022-2023 GridShell.net
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
+//
 // -----------------------------------------------------------------------------
-#ifndef __CLIB_GRID__
-#define __CLIB_GRID__
+#ifndef __CLIB_GRIDSHELL__
+#define __CLIB_GRIDSHELL__
 /*---------*/
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include <Update.h>
 #include "SPIFFS.h"
 #include "my_basic.hpp"
 #include "mbedtls/base64.h"
 #include "MD5Builder.h"
 #include "CBigInteger.h"
 /*---------*/
-#define GNODE_MAX_PAYLOAD_LEN 256
+#define GNODE_WRITE_MAX 512
+#define GNODE_READ_MAX 512
+#define GNODE_PING_TIME 30000
+#define GNODE_RECON_TIMER (1000 * 60)
+#define GNODE_POOL_PORT 1911
+#define GNODE_RET_TERMINATED 777
+#define GNODE_FIRMWARE_URL "https://github.com/invpe/GridShell/releases/latest/download/latest.bin"
 #define GNODE_TASK_SERVER_NAME "https://api.gridshell.net/scripts/"
 #define GNODE_FS_SERVER "https://api.gridshell.net/fs/"
 #define GNODE_FILE_PREFIX "GS"
 #define GNODE_SERVER "work.gridshell.net"
-#define GNODE_VERSION "06"
-#define GNODE_TELEMETRY_FILENAME "/TELEMETRY"
-#define GNODE_PING_TIME 30000
-#define GNODE_RECON_TIMER (1000 * 60)
-#define GNODE_POOL_PORT 1911
-#define GNODE_WRITE_MAX 512
-#define GNODE_READ_MAX 512
-#define GNODE_RET_TERMINATED 777
-#define GNODE_ARCH "ESP32"
+#define GNODE_VERSION "07"
+#define GNODE_TELEMETRY_FILENAME "/"GNODE_FILE_PREFIX"TELEMETRY"
 /*---------*/
 // Enable to dump debug informations to the serial
-//#define GNODE_DEBUG 1
+#define GNODE_DEBUG 1
 #ifdef GNODE_DEBUG
 #define GDEBUG Serial.println
 #else
@@ -54,7 +77,7 @@ class CGridShell {
     };
     static CGridShell& GetInstance();
     static int MBStep(struct mb_interpreter_t* s, void** l, const char* f, int p, unsigned short row, unsigned short col);
-    bool Init(const String& strUsername, const bool& rbExecFlag);
+    bool Init(const String& strUsername);
     uint32_t GetTaskTimeout();
     uint32_t GetTaskStartTime();
     void Pong();
@@ -62,33 +85,55 @@ class CGridShell {
     bool Connected();
     void Stop();
     void RegisterEventCallback(void (*pFunc)(uint8_t));
+
+    // MyBasic Exposed Methods
     bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
     void Delete(const String& rstrName);
-    uint32_t AddTask(const String& rstrScript, const String& rstrInputPayload);
     String EncodeBase64(const String& strString);
     String DecodeBase64(const String& strString);
     String GetSHA1(const String& rstrFile);
     String GetMD5(const String& rstrFile);
     String sha1HW(String payload);
     String sha1HW(unsigned char* payload, int len);
+    String XOR(const String& toEncrypt, const String& rstrKey);
     ~CGridShell();
 
   private:
     CGridShell();
+    void OTA();
     void CleanFS();
-    bool StreamScript(const String& rstrURL, const String& rstrPath);
-    String XOR(const String& toEncrypt, const String& rstrKey);
+    bool StreamFile(const String& rstrURL, const String& rstrPath);
     void Send(const String& strData);
+
     String m_strUsername;
     String m_strMACAddress;
-    uint8_t m_bExecFlag;
     uint32_t m_uiLastHB;
     uint32_t m_uiLastReconnection;
     uint32_t m_uiTaskStart;
-    uint32_t m_uiTaskTimeout; 
+    uint32_t m_uiTaskTimeout;
     WiFiClient m_Client;
     void (*m_pCallback)(uint8_t);
 };
+/*---------*/
+static int _xor(struct mb_interpreter_t* s, void** l) {
+  int result = MB_FUNC_OK;
+
+  mb_check(mb_attempt_open_bracket(s, l));
+
+  char* m;
+  char* n;
+
+  mb_check(mb_pop_string(s, l, &m));
+  mb_check(mb_pop_string(s, l, &n));
+  mb_check(mb_attempt_close_bracket(s, l));
+
+  String strRes = CGridShell::GetInstance().XOR(m, n);
+  char buf[strRes.length()];
+  sprintf(buf, "%s", strRes.c_str());
+
+  mb_check(mb_push_string(s, l, mb_memdup(buf, (unsigned)(strlen(buf) + 1))));
+  return result;
+}
 
 /*---------*/
 static int _b64e(struct mb_interpreter_t* s, void** l) {

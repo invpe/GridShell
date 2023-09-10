@@ -10,7 +10,6 @@
 CGridShell::CGridShell() {
   m_strUsername = "";
   m_uiLastHB = 0;
-  m_bExecFlag = true;
   m_uiLastReconnection = millis() + (10 * GNODE_RECON_TIMER);
   m_pCallback = NULL;
 }
@@ -24,7 +23,6 @@ CGridShell::CGridShell() {
 // -----------------------------------------------------------------------------
 CGridShell& CGridShell::GetInstance() {
   static CGridShell sInstance;
-
   return sInstance;
 }
 // --[  Method  ]---------------------------------------------------------------
@@ -35,9 +33,9 @@ CGridShell& CGridShell::GetInstance() {
 //  - Purpose   : Helper
 //
 // -----------------------------------------------------------------------------
-void CGridShell::Stop() {  
+void CGridShell::Stop() {
   close(m_Client.fd());
-  m_Client.stop();  
+  m_Client.stop();
   if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_DISCONNECTED);
 }
 // --[  Method  ]---------------------------------------------------------------
@@ -48,11 +46,9 @@ void CGridShell::Stop() {
 //  - Purpose   : Set things up internally
 //
 // -----------------------------------------------------------------------------
-bool CGridShell::Init(const String& strUsername, const bool& rbExecFlag) {
-  GDEBUG("Lib start");
+bool CGridShell::Init(const String& strUsername) {
+  GDEBUG("Start");
 
-  //
-  m_bExecFlag = rbExecFlag;
   m_strUsername = strUsername;
 
   // Validate username length
@@ -70,8 +66,10 @@ bool CGridShell::Init(const String& strUsername, const bool& rbExecFlag) {
   // Remove telemetry chunks, prepare space for new
   CleanFS();
 
-  GDEBUG("Init completed");
-
+  GDEBUG("Init OK");
+  GDEBUG("SPIFFS: " + String(SPIFFS.totalBytes()));
+  GDEBUG("SPIFFSU: " + String(SPIFFS.usedBytes()));
+  GDEBUG("VERSION: "GNODE_VERSION);
   //
   return true;
 }
@@ -85,20 +83,8 @@ bool CGridShell::Init(const String& strUsername, const bool& rbExecFlag) {
 // -----------------------------------------------------------------------------
 void CGridShell::CleanFS()
 {
-  GDEBUG("Cleaning GDFS");
-
-  // List all files in SPIFFS
-  File root = SPIFFS.open("/");
-  File file = root.openNextFile();
-
-  while (file) {
-    String fileName = file.name();
-    if (fileName.startsWith(GNODE_FILE_PREFIX)) {
-      GDEBUG("Deleting file: " + fileName);
-      SPIFFS.remove("/" + fileName);
-    }
-    file = root.openNextFile();
-  }
+  GDEBUG("Format");
+  SPIFFS.format();
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -112,7 +98,6 @@ void CGridShell::Pong() {
   // Keep Alive
   if (m_Client.connected()) {
     if (millis() - m_uiLastHB >= GNODE_PING_TIME) {
-      GDEBUG("HEAP: " + String(ESP.getFreeHeap()));
       Send("PONG\r\n");
       m_uiLastHB = millis();
       if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_PONG);
@@ -152,7 +137,7 @@ void CGridShell::Tick() {
       //
       m_uiLastReconnection = millis();
 
-      GDEBUG("Reconnecting to server");
+      GDEBUG("Connecting");
 
       //
       Stop();
@@ -162,26 +147,27 @@ void CGridShell::Tick() {
 
         if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_CONNECTED);
 
-
         // Ident and provide payload if any, this is base64 encoded already by ::Init
         String strVersion = m_Client.readStringUntil(',');
         String strWelcome = m_Client.readStringUntil(',');
         String strTasksToExecute = m_Client.readStringUntil(',');
         String strTasksToValidate = m_Client.readStringUntil(',');
-        String strTemp = m_Client.readStringUntil('\n');
+        String strServerPublicKey = m_Client.readStringUntil('\n');
+
 
         // Safety check
-        if (strVersion.isEmpty() || strWelcome.isEmpty() || strTasksToExecute.isEmpty() || strTasksToValidate.isEmpty()) {
+        if (strVersion.isEmpty() || strWelcome.isEmpty() || strTasksToExecute.isEmpty() || strTasksToValidate.isEmpty() || strServerPublicKey.isEmpty()) {
           Stop();
-          GDEBUG("No response, cancelled");
+          GDEBUG("Throttled");
           return;
         }
-
         // Confirm versions
         if (strVersion != GNODE_VERSION) {
           if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_VERSIONS_MISMATCH);
-          GDEBUG("Versions mismatch " + strVersion + " != " GNODE_VERSION);
+          GDEBUG("VMismatch " + strVersion + " != " GNODE_VERSION);
           Stop();
+          OTA();
+          ESP.restart();
           return;
         }
 
@@ -189,16 +175,6 @@ void CGridShell::Tick() {
         // Diffie-Hellman Key Exchange
         // ****************************
 
-        // Get Server public key for our node
-        String strServerPublicKey = m_Client.readStringUntil('\n');
-        GDEBUG("Got ServPubKey=" + strServerPublicKey);
-
-        // Failure, drop.
-        if (strServerPublicKey.isEmpty()) {
-          GDEBUG("No response, cancelled");
-          Stop();
-          return;
-        }
 
         CBigInteger uiP = std::string("9840485683654561415963922255243388377177431468711912621027980528684674331318089597310841532159423071472940950709936601452503154610443618922381114939628259");
         CBigInteger uiG = std::string("2");
@@ -230,9 +206,9 @@ void CGridShell::Tick() {
 
 
         // Pass my Public Key and GUID encoded
-        Send("JOB," + String(uiMyPublicKey.GetInteger().c_str()) + "," + strBase64EncodedGUID + "," + GNODE_VERSION + "," + m_strMACAddress + "," + GNODE_ARCH + "," + String(m_bExecFlag) + "\r\n");
+        Send("JOB," + String(uiMyPublicKey.GetInteger().c_str()) + "," + strBase64EncodedGUID + "," + GNODE_VERSION + "," + m_strMACAddress + "\r\n");
 
-        GDEBUG("Sent Ident");
+        GDEBUG("Ident");
 
         // Nothing to execute
         if (strTasksToExecute.toInt() == 0)
@@ -255,7 +231,7 @@ void CGridShell::Tick() {
       String strJobType = m_Client.readStringUntil(',');
 
       //
-      GDEBUG("Server request " + strJobType);
+      GDEBUG("Server: " + strJobType);
 
       // Task coming
       if (strJobType == "EXEC") {
@@ -276,32 +252,23 @@ void CGridShell::Tick() {
         String strURLPath = GNODE_TASK_SERVER_NAME + strScriptName + ".bas";
         String strFSPath = "/" + strScriptName + ".bas";
 
-
-        //
-        GDEBUG("URL: '" + strURLPath + "'");
-        GDEBUG("PATH:'" + strFSPath + "'");
-        GDEBUG("HASHA:" + strTaskHash);
-        GDEBUG("HASHB:" + GetSHA1(strFSPath));
-
-
         // Hash does not match, download the script
         if (strTaskHash != GetSHA1(strFSPath)) {
           SPIFFS.remove(strFSPath);
 
-          GDEBUG("Diff hashes");
+          GDEBUG("Diff Hash");
 
           // Get the task file
-          if (StreamScript(strURLPath, strFSPath) == true)
-            GDEBUG("Download completed");
+          if (StreamFile(strURLPath, strFSPath) == true) {}
           else GDEBUG("Download failed");
-        } else GDEBUG("Hashes OK");
+        }
 
         File fScriptFile = SPIFFS.open(strFSPath, "r");
         if (fScriptFile) {
           String strScript = fScriptFile.readStringUntil('\0');
           fScriptFile.close();
 
-          GDEBUG("Script Starting for " + String(m_uiTaskTimeout) + " ms ");
+          GDEBUG("Exe " + String(m_uiTaskTimeout) + " ms ");
 
           // Update task start timer
           m_uiTaskStart = millis();
@@ -323,6 +290,7 @@ void CGridShell::Tick() {
           mb_register_func(bas, "FMD5", _fmd5);
           mb_register_func(bas, "B64D", _b64d);
           mb_register_func(bas, "B64E", _b64e);
+          mb_register_func(bas, "XOR", _xor);
           mb_register_func(bas, "DEL", _del);
 
 
@@ -333,7 +301,6 @@ void CGridShell::Tick() {
           if (mb_load_string(bas, strScript.c_str(), true) == MB_FUNC_OK) {
             // payload check and upload
             if (strPayload != "") {
-              GDEBUG("Added payload");
               mb_value_t valAdd;
               valAdd.type = MB_DT_STRING;
               valAdd.value.string = (char*)strPayload.c_str();
@@ -352,7 +319,7 @@ void CGridShell::Tick() {
               strOutput = String(valGet.value.string);
           }
 
-          GDEBUG("Script completed in " + String(millis() - uiStart) + " ms, RESCODE: " + String(iRetCode) + ", MEM: " + String(ESP.getFreeHeap()) + " OUTP: '" + strOutput + "'");
+          GDEBUG("Done " + String(millis() - uiStart) + " ms, RESCODE: " + String(iRetCode) + ", MEM: " + String(ESP.getFreeHeap()) + " OUTP: '" + strOutput + "'");
 
           mb_close(&bas);
           mb_dispose();
@@ -361,7 +328,7 @@ void CGridShell::Tick() {
           strOutput = "";
           iRetCode = 0;
         }
-        GDEBUG("Pushing results " + String(strOutput.length()));
+        GDEBUG("Result " + String(strOutput.length()));
 
         // Results can be long, so we treat them differently
         if (strOutput.length() > 0) {
@@ -551,7 +518,6 @@ String CGridShell::sha1HW(unsigned char* payload, int len) {
 
   return hashStr;
 }
-
 // --[  Method  ]---------------------------------------------------------------
 //
 //  - Class     : CGridShell
@@ -568,32 +534,34 @@ String CGridShell::XOR(const String& toEncrypt, const String& rstrKey) {
 
   return output;
 }
-
 // --[  Method  ]---------------------------------------------------------------
 //
 //  - Class     : CGridShell
 //  - Prototype :
 //
-//  - Purpose   : Obtains the source of the task to execute via streaming
+//  - Purpose   : Obtains the source of the task to execute from API server over HTTPS
 //
 // -----------------------------------------------------------------------------
-bool CGridShell::StreamScript(const String& rstrURL, const String& rstrPath) {
+bool CGridShell::StreamFile(const String& rstrURL, const String& rstrPath) {
+
+  GDEBUG("SF: " + rstrURL + " " + rstrPath);
 
   HTTPClient httpClient;
-
+  httpClient.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
+  httpClient.setTimeout(10000);
   httpClient.begin(rstrURL);
   int httpCode = httpClient.GET();
 
   if (httpCode == HTTP_CODE_OK) {
     File file = SPIFFS.open(rstrPath, FILE_WRITE);
     if (!file) {
-      GDEBUG("Failed to write a file " + rstrPath);
+      GDEBUG("Cant write " + rstrPath);
       httpClient.end();
       return false;
     }
 
     WiFiClient* stream = httpClient.getStreamPtr();
-    uint8_t buffer[128] = { 0 };
+    uint8_t buffer[2048] = { 0 };
     int bytesRead = 0;
 
     while (httpClient.connected() && (bytesRead = stream->readBytes(buffer, sizeof(buffer))) > 0) {
@@ -605,7 +573,7 @@ bool CGridShell::StreamScript(const String& rstrURL, const String& rstrPath) {
     return true;
 
   } else {
-    Serial.printf("Failed to download file. HTTP error code: %d\n", httpCode);
+    Serial.printf("Cant GET: %d\n", httpCode);
   }
 
   httpClient.end();
@@ -648,7 +616,6 @@ String CGridShell::GetSHA1(const String& rstrFile) {
   File fScriptFile = SPIFFS.open(rstrFile, "r");
   if (!fScriptFile)
     return "";
-
   String strScript = fScriptFile.readString();
   fScriptFile.close();
 
@@ -659,7 +626,7 @@ String CGridShell::GetSHA1(const String& rstrFile) {
 //  - Class     : CGridShell
 //  - Prototype :
 //
-//  - Purpose   : Write a chunk of the telemetry
+//  - Purpose   : Delete a chunk of the telemetry
 //
 // -----------------------------------------------------------------------------
 void CGridShell::Delete(const String& rstrName)
@@ -671,12 +638,10 @@ void CGridShell::Delete(const String& rstrName)
 //  - Class     : CGridShell
 //  - Prototype :
 //
-//  - Purpose   : Write a chunk of the telemetry
+//  - Purpose   : Write a chunk of the telemetry to the local storage
 //
 // -----------------------------------------------------------------------------
 bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const bool& bAppend) {
-
-  GDEBUG("Write " + rstrName);
 
   File fTelemetry;
 
@@ -686,12 +651,13 @@ bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const boo
     fTelemetry = SPIFFS.open(rstrName, "w");
 
   if (!fTelemetry)
+  {
     return false;
+  }
 
   fTelemetry.print(rstrWhat);
   fTelemetry.close();
 
-  GDEBUG("Write OK");
   return true;
 }
 // --[  Method  ]---------------------------------------------------------------
@@ -699,26 +665,39 @@ bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const boo
 //  - Class     : CGridShell
 //  - Prototype :
 //
-//  - Purpose   : Returns 
+//  - Purpose   : OTA
 //
 // -----------------------------------------------------------------------------
-uint32_t CGridShell::AddTask(const String& rstrScript, const String& rstrInputPayload) {
-  if (!Connected()) return 0;
-  if (rstrScript.length() <= 0) return 0;
-  if (rstrInputPayload.length() <= 0) return 0;
-  if (rstrInputPayload.length() > GNODE_MAX_PAYLOAD_LEN) return 0;
+void CGridShell::OTA()
+{
+  GDEBUG("OTA");
 
-  String strInputBase = EncodeBase64(rstrInputPayload);
-  String strCommand = "ADDT," + rstrScript + "," + strInputBase + "\r\n";
+  // Since we have a clean FS, we download the binary and upload from there
+  if (StreamFile(GNODE_FIRMWARE_URL, "/GSFirmware") == true)
+  {
+    GDEBUG("Downloaded");
 
-  Send(strCommand);
+    // Open the firmware binary file from SPIFFS
+    File firmwareFile = SPIFFS.open("/GSFirmware", "r");
+    if (!firmwareFile) {
+      GDEBUG("Cant open FMW");
+      return;
+    }
+    size_t fileSize = firmwareFile.size();
+    GDEBUG("FMW size: " + String(fileSize));
+    Update.begin(fileSize);
+    Update.writeStream(firmwareFile);
 
-  String strReturn = m_Client.readStringUntil('\n'); 
+    firmwareFile.close();
 
-  GDEBUG("AddTask : " + strReturn);
- 
-
-  return 0;
+    // Finish the firmware update process
+    if (Update.end()) {
+      GDEBUG("OTA Done");
+    } else {
+      GDEBUG(String(Update.getError()));
+    }
+  }
+  else GDEBUG("Download failed");
 }
 // --[  Method  ]---------------------------------------------------------------
 //
