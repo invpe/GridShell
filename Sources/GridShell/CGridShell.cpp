@@ -55,8 +55,7 @@ CGridShell& CGridShell::GetInstance() {
 //  - Purpose   : Helper
 //
 // -----------------------------------------------------------------------------
-void CGridShell::Stop() {
-  close(m_Client.fd());
+void CGridShell::Stop() { 
   m_Client.stop();
   if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_DISCONNECTED);
 }
@@ -159,8 +158,11 @@ void CGridShell::Tick() {
     int iTimer = millis() - m_uiLastReconnection;
 
     // Check if user set and reconnection timer is expired
-    if (m_strUsername.length() == 40 && abs(iTimer) > GNODE_RECON_TIMER) {
-
+    if (m_strUsername.length() == 40 && abs(iTimer) > GNODE_RECON_TIMER) 
+    {
+      //
+      Stop();
+      
       // Remove telemetry chunks, prepare space for new
       CleanFS();
 
@@ -169,8 +171,6 @@ void CGridShell::Tick() {
 
       GDEBUG("Connecting");
 
-      //
-      Stop();
 
       // Connect
       if (m_Client.connect(GNODE_SERVER, GNODE_POOL_PORT)) {
