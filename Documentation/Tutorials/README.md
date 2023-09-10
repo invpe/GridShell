@@ -40,5 +40,8 @@ Check how to integrate with the current TestNet GridShell network [here](https:/
 # EXPLORER
 Grafana Visualization endpoint [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md)
 
+# Use
+Read how to use the GridShell network [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Use.md)
+
 # TestNet
 How is this running today [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/GTN.md)
