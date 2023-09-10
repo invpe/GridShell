@@ -42,6 +42,8 @@ _Image by Sparkfun_
 ![image](https://github.com/invpe/GridShell/assets/106522950/14812e2d-0b9b-4d1d-ad14-d386ac10e669)
 
 
+# Configuring the node
+
 11. Open the serial monitor [https://serial.huhn.me/](https://serial.huhn.me/)
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/eeaca9d8-475a-4c31-9531-816f41eae5f5)
