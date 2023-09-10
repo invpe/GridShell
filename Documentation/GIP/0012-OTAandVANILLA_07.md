@@ -1,6 +1,6 @@
 # GIP 0012 - Introducing OTA Functionality and Emphasizing Vanilla Nodes
 - Author(s): GridShell
-- Date: -/-/2023
+- Date: -/9/2023
 
 # Synopsis
 
