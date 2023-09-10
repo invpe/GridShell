@@ -50,7 +50,7 @@ void setup()
 
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
-  
+
   Serial.println("Mounting FS...");
   while (!SPIFFS.begin())
   {
@@ -61,6 +61,12 @@ void setup()
 
   // Load config
   LoadConfig();
+
+  //
+  Serial.println("NODEID: " + CGridShell::GetInstance().GetNodeID());
+  Serial.println("SPIFFS: " + String(SPIFFS.totalBytes()));
+  Serial.println("SPIFFSU: " + String(SPIFFS.usedBytes()));
+  Serial.println("VERSION: "GNODE_VERSION);
 
   // Check if necessary creds given
   if (WIFI_SSID == "" || GRID_USERHASH == "")
@@ -128,8 +134,8 @@ void setup()
   {
     Serial.println("The GridShell didn't init properly, rebooting");
     ESP.restart();
-  }
-
+  } 
+  
   digitalWrite(LED_BUILTIN, LOW);
 }
 ///////////////////////////////////
