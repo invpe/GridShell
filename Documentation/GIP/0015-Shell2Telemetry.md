@@ -34,7 +34,3 @@ We're enthusiastic about the potential of Telemetry Slot Redemption and are comm
 - Analyze network workload dynamics.
 - Ensure that the rate aligns with our goal of fostering a thriving and equitable ecosystem.
 
-# Join the Discussion
-We encourage all GridShell users to join the discussion on this proposal. 
-Share your thoughts, insights, and suggestions about the introduction of Telemetry Slot Redemption and the potential conversion rate. 
-Together, we can shape the future of GridShell's tokenomics model to benefit everyone.
