@@ -1,7 +1,7 @@
 # GIP 0013 - Protocol V007 Version
 
 - Author(s): gridshell
-- Date: --/9/2023
+- Date: 11/9/2023
 
 # Synopsis
 Protocol update to version 007, revoking logic for ARCH and EXEC parameters but also
