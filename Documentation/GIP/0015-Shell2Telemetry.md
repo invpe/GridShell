@@ -1,7 +1,7 @@
 # GIP 0015 - Introducing Telemetry Slot Redemption
 
 - Author(s): gridshell
-- Date: --/9/2023
+- Date: 11/9/2023
 
 # Synopsis
 As GridShell continues to evolve and grow, we believe in empowering our community and enhancing the utility of Shell tokens. 
