@@ -1,3 +1,9 @@
+
+> [!WARNING]  
+> This sketch is **not** a Vanilla Node and it is not using automatic OTA as introduced in [GIP0014](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0014-OTA.md)
+> When new version is introduced of the Vanilla Node, this sketch will not update as it would have to wipe out the binary (Whale sketch) and replace with GridShell Node.
+> Updates will have to be performed by the user. 
+  
   # :ocean: Pool temperature sensor :whale:
 
 Become GridShell computing volunteer while swimming in your pool like a :fish:.
