@@ -21,6 +21,8 @@ or leave for more of your sensors to burn them!
 
 # 📰 Update
 
+Bumped up to `V07` and disabled automatic updates.
+
 Added `DEEP SLEEP` feature to keep your Whale operating on the Solar.
 Just enable or disable it in the code 
 
