@@ -28,6 +28,8 @@ Lets try to make it in three simple steps to get you up and running.
 
 1. Download the sketch https://github.com/invpe/GridShell/tree/main/Sources/Node/ClientESP32
 2. Download GridShell library [here](https://github.com/invpe/GridShell/tree/main/Sources/GridShell) and put all files into sketch folder
+3. Set `Default partitioning`
+4. Compile & Upload the code
 
 
 # Configure the node
