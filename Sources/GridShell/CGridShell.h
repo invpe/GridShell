@@ -36,7 +36,7 @@
 #include <HTTPClient.h>
 #include <Update.h>
 #include "SPIFFS.h"
-#include "my_basic.hpp" 
+#include "my_basic.hpp"
 #include "mbedtls/base64.h"
 #include "MD5Builder.h"
 #include "CBigInteger.h"
@@ -77,7 +77,7 @@ class CGridShell {
     };
     static CGridShell& GetInstance();
     static int MBStep(struct mb_interpreter_t* s, void** l, const char* f, int p, unsigned short row, unsigned short col);
-    bool Init(const String& strUsername);
+    bool Init(const String& strUsername, const bool& bAutoUpdate = true);
     uint32_t GetTaskTimeout();
     uint32_t GetTaskStartTime();
     void Pong();
@@ -86,6 +86,7 @@ class CGridShell {
     void Stop();
     void RegisterEventCallback(void (*pFunc)(uint8_t));
     String GetNodeID() const;
+    uint32_t AddTask(const String& rstrScript, const String& rstrInputPayload);
 
     // MyBasic Exposed Methods
     bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
@@ -106,7 +107,7 @@ class CGridShell {
     void CleanFS();
     bool StreamFile(const String& rstrURL, const String& rstrPath);
     void Send(const String& strData);
-
+    bool m_bAutoUpdate;
     String m_strUsername;
     String m_strUniqueID;
     uint32_t m_uiLastHB;

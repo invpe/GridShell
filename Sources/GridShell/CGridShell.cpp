@@ -8,11 +8,12 @@
 //
 // -----------------------------------------------------------------------------
 CGridShell::CGridShell() {
+  m_bAutoUpdate = true;
   m_strUsername = "";
   m_uiLastHB = 0;
   m_uiLastReconnection = millis() + (10 * GNODE_RECON_TIMER);
   m_pCallback = NULL;
- 
+
   // Get the unique MAC address from eFuse
   uint8_t mac[6];
   esp_read_mac(mac, ESP_MAC_WIFI_STA);
@@ -32,7 +33,7 @@ CGridShell::CGridShell() {
 //  - Purpose   :
 //
 // -----------------------------------------------------------------------------
-String CGridShell::GetNodeID() const{
+String CGridShell::GetNodeID() const {
   return m_strUniqueID;
 }
 // --[  Method  ]---------------------------------------------------------------
@@ -55,7 +56,7 @@ CGridShell& CGridShell::GetInstance() {
 //  - Purpose   : Helper
 //
 // -----------------------------------------------------------------------------
-void CGridShell::Stop() { 
+void CGridShell::Stop() {
   m_Client.stop();
   if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_DISCONNECTED);
 }
@@ -67,9 +68,10 @@ void CGridShell::Stop() {
 //  - Purpose   : Set things up internally
 //
 // -----------------------------------------------------------------------------
-bool CGridShell::Init(const String& strUsername) {
+bool CGridShell::Init(const String& strUsername, const bool& bAutoUpdate) {
   GDEBUG("Start");
 
+  m_bAutoUpdate = bAutoUpdate;
   m_strUsername = strUsername;
 
   // Validate username length
@@ -85,7 +87,7 @@ bool CGridShell::Init(const String& strUsername) {
   CleanFS();
 
   GDEBUG("Init OK");
-  
+
   //
   return true;
 }
@@ -158,11 +160,11 @@ void CGridShell::Tick() {
     int iTimer = millis() - m_uiLastReconnection;
 
     // Check if user set and reconnection timer is expired
-    if (m_strUsername.length() == 40 && abs(iTimer) > GNODE_RECON_TIMER) 
+    if (m_strUsername.length() == 40 && abs(iTimer) > GNODE_RECON_TIMER)
     {
       //
       Stop();
-      
+
       // Remove telemetry chunks, prepare space for new
       CleanFS();
 
@@ -195,8 +197,14 @@ void CGridShell::Tick() {
         if (strVersion != GNODE_VERSION) {
           if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_VERSIONS_MISMATCH);
           GDEBUG("VMismatch " + strVersion + " != " GNODE_VERSION);
+
           Stop();
-          OTA();
+
+          // Guard users utilizing library in their sketches from
+          // wiping out their firmware
+          if (m_bAutoUpdate)
+            OTA();
+
           Reboot();
           return;
         }
@@ -728,6 +736,29 @@ void CGridShell::OTA()
     }
   }
   else GDEBUG("Download failed");
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   : Returns
+//
+// -----------------------------------------------------------------------------
+uint32_t CGridShell::AddTask(const String& rstrScript, const String& rstrInputPayload) {
+  if (!Connected()) return -1;
+
+  String strInputBase = EncodeBase64(rstrInputPayload);
+  String strCommand = "ADDT," + rstrScript + "," + strInputBase + "\r\n";
+
+  Send(strCommand);
+
+  String strReturn = m_Client.readStringUntil('\n');
+
+  GDEBUG("AddTask : " + strReturn);
+
+
+  return 0;
 }
 // --[  Method  ]---------------------------------------------------------------
 //
