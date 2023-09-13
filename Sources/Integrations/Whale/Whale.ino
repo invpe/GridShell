@@ -2,15 +2,12 @@
 #include <DallasTemperature.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
-#include <ArduinoOTA.h>
 #include <chrono>
 #include <vector>
 #include "SPIFFS.h"
 #include <ctime>
 /*------------------*/
 #include "CGridShell.h"
-// Put your username here to submit daily average tasks for Your Whale sensor
-//#define GRID_USERNAME "PocNetGroupMiners00000000000000000000001"
 #define GRID_U ""
 /*------------------*/
 #define WIFI_A ""
@@ -89,49 +86,21 @@ void setup() {
 
   Serial.println("Connected " + WiFi.localIP().toString());
 
-  ArduinoOTA
-  .onStart([]() {
-    String type;
-    if (ArduinoOTA.getCommand() == U_FLASH)
-      type = "sketch";
-    else  // U_SPIFFS
-      type = "filesystem";
-  })
-  .onEnd([]() {
-    Serial.println(F("\nEnd"));
-  })
-  .onProgress([](unsigned int progress, unsigned int total) {
-    //Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
-  })
-  .onError([](ota_error_t error) {
-    Serial.printf("Error[%u]: ", error);
-    if (error == OTA_AUTH_ERROR)
-      Serial.println(F("Auth Failed"));
-    else if (error == OTA_BEGIN_ERROR)
-      Serial.println(F("Begin Failed"));
-    else if (error == OTA_CONNECT_ERROR)
-      Serial.println(F("Connect Failed"));
-    else if (error == OTA_RECEIVE_ERROR)
-      Serial.println(F("Receive Failed"));
-    else if (error == OTA_END_ERROR)
-      Serial.println(F("End Failed"));
-    esp_restart();
-  });
-
-  ArduinoOTA.setHostname("GSWHALE");
-  ArduinoOTA.begin();
-
-
   // Start up the library
+  Serial.println("SENSOR");
   sensors.begin();
 
   ///////////////////////////////////////////////////
   // Initialize GridShell Node with your user hash//
   ///////////////////////////////////////////////////
-  if (CGridShell::GetInstance().Init(GRID_U, true) == true) {
+  Serial.println("GRID");
+
+  // Do not enable Auto Updates
+  if (CGridShell::GetInstance().Init(GRID_U, false) == true) {
   } else
     ESP.restart();
 
+  Serial.println("NTP");
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 
 }
@@ -149,10 +118,6 @@ void loop()
 
   // Tick the GS
   CGridShell::GetInstance().Tick();
-
-  // Handle OTA
-  ArduinoOTA.handle();
-
 
   // Extract the time from NTP server
   tm local_tm;
@@ -177,76 +142,49 @@ void loop()
 
       Serial.println("GridShell is up");
 
-      // Are we past midnight ? Submit daily averages for yesterday
-      if (local_tm.tm_hour == 00 && local_tm.tm_min <= 30)
-      {
-#ifdef GRID_USERNAME
-        time_t timeOneDay = 24 * 60 * 60;
-        time_t yesterdayTime = timeSinceEpoch - timeOneDay;
+      Serial.println("Time to push data");
 
-        struct tm *yesterdayTm = localtime(&yesterdayTime);
+      // Get temperature
+      sensors.requestTemperatures();
+      float fTempC = sensors.getTempCByIndex(0);
 
-        // Extract the year, month, and day from the struct tm
-        int year = yesterdayTm->tm_year + 1900;
-        int month = yesterdayTm->tm_mon + 1;
-        int day = yesterdayTm->tm_mday;
+      // Check if reading was successful and submit telemetry task
+      if (fTempC != DEVICE_DISCONNECTED_C) {
+        Serial.println("Sensor reading OK");
+      } else {
+        fTempC = 0;
 
-        strPayload = GRID_USERNAME "," + GetMACAddress(0) + "," + String(year) + String(month) + String(day) + ",6,";
-        Serial.println(strPayload);
-        uiTaskID = CGridShell::GetInstance().AddTask("whaledavg", strPayload);
-        Serial.println("Average task :" + String(uiTaskID));
-#endif
+        Serial.println("Error: Could not read temperature data");
       }
-      else
-      {
-        Serial.println("Time to push data");
 
-        // Get temperature
-        sensors.requestTemperatures();
-        float fTempC = sensors.getTempCByIndex(0);
+      float fBatteryLevel = map(analogRead(ANALOG_PIN), 0.0f, 4095.0f, 0, 100);
+      uint32_t uiSpace = SPIFFS.totalBytes() - SPIFFS.usedBytes();
 
-        // Check if reading was successful and submit telemetry task
-        if (fTempC != DEVICE_DISCONNECTED_C) {
-          Serial.println("Sensor reading OK");
-        } else {
-          fTempC = 0;
+      String strFileSettings = "POOLT" + GetMACAddress(0) + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday) + ",1,";
+      strPayload = String(timeSinceEpoch) + ",";
+      strPayload += String(local_tm.tm_hour) + ",";
+      strPayload += String(local_tm.tm_min) + ",";
+      strPayload += String(WiFi.RSSI()) + ",";
+      strPayload += String(uiSpace) + ",";
+      strPayload += String(ESP.getFreeHeap()) + ",";
+      strPayload += String(fTempC) + ",";
+      strPayload += String(fBatteryLevel) + "\n";
 
-          Serial.println("Error: Could not read temperature data");
-        }
+      // Write CSV telemetry data (append)
+      String strTaskPayload = strFileSettings + CGridShell::GetInstance().EncodeBase64(strPayload) + ",";
+      CGridShell::GetInstance().AddTask("writedfs", strTaskPayload); 
 
-        float fBatteryLevel = map(analogRead(ANALOG_PIN), 0.0f, 4095.0f, 0, 100);
-        uint32_t uiSpace = SPIFFS.totalBytes() - SPIFFS.usedBytes();
+      // Write JSON data (overwrite)
+      strFileSettings = "POOLT" + GetMACAddress(0) + "J,0,";
+      strPayload = "{\"Sensor\": \"" + GetMACAddress(0) + "\",";
+      strPayload += "\"Temperature\": " + String(fTempC) + ",";
+      strPayload += "\"Battery\": " + String(fBatteryLevel) + ",";
+      strPayload += "\"Epoch\": " + String(timeSinceEpoch) + ",";
+      strPayload += "\"Time\": \"" + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday) + " " + String(local_tm.tm_hour) + ":" + String(local_tm.tm_min) + "\"";
+      strPayload += "}";
 
-        String strFileSettings = "POOLT" + GetMACAddress(0) + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday) + ",1,";
-        strPayload = String(timeSinceEpoch) + ",";
-        strPayload += String(local_tm.tm_hour) + ",";
-        strPayload += String(local_tm.tm_min) + ",";
-        strPayload += String(WiFi.RSSI()) + ",";
-        strPayload += String(uiSpace) + ",";
-        strPayload += String(ESP.getFreeHeap()) + ",";
-        strPayload += String(fTempC) + ",";
-        strPayload += String(fBatteryLevel) + "\n";
-        
-        // Write CSV telemetry data   (append)
-        String strTaskPayload = strFileSettings + CGridShell::GetInstance().EncodeBase64(strPayload) + ",";        
-        uiTaskID = CGridShell::GetInstance().AddTask("writedfs", strTaskPayload);
-        Serial.println("Write task :" + String(uiTaskID));
-
-        
-
-        // Write JSON data (overwrite)
-        strFileSettings = "POOLT" + GetMACAddress(0) + "J,0,";
-        strPayload = "{\"Sensor\": \"" + GetMACAddress(0) + "\",";
-        strPayload += "\"Temperature\": " + String(fTempC) + ",";
-        strPayload += "\"Battery\": " + String(fBatteryLevel) + ",";
-        strPayload += "\"Epoch\": " + String(timeSinceEpoch) + ",";
-        strPayload += "\"Time\": \"" + String(local_tm.tm_year + 1900) + String(local_tm.tm_mon + 1) + String(local_tm.tm_mday) + " " + String(local_tm.tm_hour) + ":" + String(local_tm.tm_min) + "\"";
-        strPayload += "}";
-
-        strTaskPayload = strFileSettings + CGridShell::GetInstance().EncodeBase64(strPayload) + ",";
-        uiTaskID = CGridShell::GetInstance().AddTask("writedfs", strPayload);
-        Serial.println("Json task: " + String(uiTaskID));
-      }
+      strTaskPayload = strFileSettings + CGridShell::GetInstance().EncodeBase64(strPayload) + ",";
+      CGridShell::GetInstance().AddTask("writedfs", strTaskPayload); 
     }
 
     Serial.println("Waiting for next cycle");
