@@ -10,10 +10,10 @@
  
 
 <div align="center">
-
-<a href=https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Join.md><img src="https://badgen.net/static/>/Connect/34ebd5?scale=2?"></a> 
-<a href=https://github.com/invpe/GridShell/tree/main/Documentation/API><img src="https://badgen.net/static/>/API/34ebd5?scale=2?"></a>
-<a href=https://github.com/invpe/GridShell/tree/main/Sources/Integrations><img src="https://badgen.net/static/>/Integrations/34ebd5?scale=2?"></a>
+<a href=https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Use.md><img src="https://badgen.net/static/>/Use GridShell/34ebd5?scale=2?"></a>  
+  
+<a href=https://github.com/invpe/GridShell/tree/main/Documentation/API><img src="https://badgen.net/static/>/API/ebcf34?scale=2?"></a>
+<a href=https://github.com/invpe/GridShell/tree/main/Sources/Integrations><img src="https://badgen.net/static/>/Integrations/ebcf34?scale=2?"></a>
 
 <a href=https://github.com/invpe/gridshell/tree/main/Documentation><img src="https://badgen.net/static/>/Documentation/ebcf34?scale=2"></a>
 <a href=https://github.com/invpe/gridshell/tree/main/Sources><img src="https://badgen.net/static/>/Sources/ebcf34?scale=2?"></a>
