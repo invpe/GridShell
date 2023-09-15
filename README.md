@@ -7,9 +7,9 @@
 <p align="center">
   <i>Join your arduino sketch to iot powered distributed volunteer computing network</i>
 </p> 
- 
 
 <div align="center">
+
 <a href=https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Use.md><img src="https://badgen.net/static/>/Use GridShell/34ebd5?scale=2?"></a>  
 <a href=https://github.com/invpe/GridShell/discussions><img src="https://badgen.net/static/>/Community/34ebd5?scale=2?"></a>  
   
@@ -20,8 +20,18 @@
 <a href=https://github.com/invpe/gridshell/tree/main/Sources><img src="https://badgen.net/static/>/Sources/ebcf34?scale=2?"></a>
 <a href=https://gridshell.grafana.net/><img src="https://badgen.net/static/>/Explorer/ebcf34?scale=2?"></a>
 <a href=https://github.com/paladin-t/my_basic><img src="https://badgen.net/static/>/MyBasic/ebcf34?scale=2?"></a><BR>
-  
+
 </div> 
+
+
+  
+<div align="center">
+
+  <img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.gridshell.net%2Fcurrent.json&query=Nodes&style=plastic&label=Nodes%20Online">
+<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.gridshell.net%2Fcurrent.json&query=TotalTasks&style=plastic&label=Tasks%20completed&color=%2399ff99">
+<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.gridshell.net%2Fcurrent.json&query=UsersCount&style=plastic&label=Volunteers&color=%23ffffff">
+<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.gridshell.net%2Fcurrent.json&query=Utilization&suffix=%25&style=plastic&label=Utilization&color=%23eeee88">
+</div>
 
 --- 
 # :seedling: Welcome
