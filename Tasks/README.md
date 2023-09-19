@@ -10,6 +10,7 @@ Every task requires specific `INPUTPAYLOAD` and examples of usage are given belo
 Input: `FILENAME,APPEND?,BASE64(TEXT_TO_WRITE),`
 
 Example: `MyTelemetry,0,BASE64("Ovewrites the file\n"),`
+
 Example: `MyTelemetry,1,BASE64("Appends the file\n"),`
 
 Cost: 🐚
