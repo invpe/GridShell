@@ -75,7 +75,7 @@ The widget link you can use is listed on explorer below.
 ![image](https://github.com/invpe/GridShell/assets/106522950/d25c72fe-0447-4c55-bf32-0779d339041d)
 
 
-Access your sensor via [Explorer](https://gridshell.grafana.net/d/ca74c27d-03f9-4f18-8017-001d013b93ce/whale?orgId=1)
+Access your sensor via [Explorer](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md)
 
 
 
