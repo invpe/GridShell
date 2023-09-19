@@ -4,6 +4,8 @@ Easy visualization is one of the key concepts of using GridShell, that's why we'
 
 [https://explorer.gridshell.net:3000/](https://explorer.gridshell.net)
 
+Login with: `explorer/gridshellexplorer`
+
 # List of dashboards to use
 
 ## GridShell Core [link](https://explorer.gridshell.net:3000/d/e66e2a62-ef5d-482b-aeee-3dc8a3bb6e2b/core)
