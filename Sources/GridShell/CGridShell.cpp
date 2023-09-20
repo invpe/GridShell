@@ -746,16 +746,26 @@ void CGridShell::OTA()
 //
 // -----------------------------------------------------------------------------
 uint32_t CGridShell::AddTask(const String& rstrScript, const String& rstrInputPayload) {
-  if (!Connected()) return -1;
+  if (!Connected()) return 0;
 
   String strInputBase = EncodeBase64(rstrInputPayload);
-  String strCommand = "ADDT," + rstrScript + "," + strInputBase + "\r\n";
+  String strCommand   = "ADDT," + rstrScript + "," + strInputBase + "\r\n";
 
   Send(strCommand);
 
   String strReturn = m_Client.readStringUntil('\n');
 
   GDEBUG("AddTask : " + strReturn);
+
+  // Return the task ID or 0 if failed
+  // Split the server response by comma
+  String taskType = strReturn.substring(0, strReturn.indexOf(","));
+  String taskValue = strReturn.substring(strReturn.indexOf(",") + 1);
+
+  if (taskType == "ADDT" && taskValue != "BAD")
+  {
+    return taskValue.toInt();
+  }
 
 
   return 0;
