@@ -7,5 +7,13 @@
 # Sending via LoRA to Helium and pushing to GridShell
 
 We will store the sensors telemetry on the GridShell network by sending them to Helium and using integrating (over HTTP) with the GridShell network.
+Here are some basic assumptions:
 
-TBD
+1. For this example we will use [Lora Environmental sensor](https://www.hackster.io/astagiulio/lora-environmental-monitoring-lorem-41675c)
+2. We will have access to Helium Console
+3. We will have a web server running that will host [PHP](https://github.com/invpe/GridShell/tree/main/Sources/PHP) experimental library
+4. We will have account created and some shells for use on GridShell
+
+
+
+
