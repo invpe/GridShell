@@ -48,7 +48,7 @@ Welcome to GridShell, an innovative distributed computing solution powered by ES
 - Real-time Visualization: Integrate with Grafana dashboards for real-time and historical data insights.
 - API and Integration: Provide HTTPS API access for seamless integration with external applications.
 - Renewable Energy Compatibility: Operate on renewable energy sources or at zero cost, promoting sustainability.
-- Zero hosting: Use existing GridShell platform to store,read,compute and visualize data.
+- Zero hosting/go serverless: Use existing GridShell platform to store,read,compute and visualize data.
 
 ## 🧑‍🏭 Workload Suitability:
 GridShell is best suited for high-throughput computing scenarios where the emphasis lies in achieving a high rate of job completion. It excels with workloads involving large job groups or streams, prioritizing efficient job processing over low job turnaround time. While GridShell is versatile, it may be less suitable for workloads demanding extensive memory or storage resources or those with a notably high ratio of network communication to computing.
