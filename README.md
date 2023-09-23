@@ -123,39 +123,5 @@ If you encounter any issues, have suggestions, or experience any uncertainties f
 
 GridShell is being developed ~~few months~~ a year now by single me, ironing out issues, optimizing the platform, creating a seamless experience, building the logic behind.
 With your support and understanding, I am confident that this hobby project will continue to evolve into something much bigger than i initially thought.
-
-# :running: Where do i go next
-
-- **Connect** your first node [link](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Join.md)
-- **Use** GridShell [link](https://github.com/invpe/GridShell/tree/main/Documentation/Tutorials/Examples) 
-- Checkout the **sources** [link](https://github.com/invpe/GridShell/tree/main/Sources)
-- Checkout the **explorer** [link](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md)
-
-
-
-# 🗃️ License
-```
-MIT License
-
-Copyright (c) 2023 GridShell.net
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
- 
+  
 
