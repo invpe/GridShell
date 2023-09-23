@@ -74,6 +74,10 @@ By allowing tasks to access telemetry files, GridShell bridges the gap between r
 ## ⭐ Value Proposition:
 GridShell empowers through innovation, sustainability, and community collaboration. High-throughput computing and renewable energy compatibility drive optimized processes and decisions.
 
+## 🔌 Serverless Devices and Applications
+GridShell empowers the creation of serverless devices and applications. 
+By hosting computation, storage, and visualization within the GridShell ecosystem, users can build and deploy serverless solutions without the need for external hosting services.
+
 # :sparkles: How does it work 
 
 Please see documentation for more detailed explanation. In simple words, it works as follows:
