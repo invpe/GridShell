@@ -3,6 +3,18 @@
 Here is a list of projects that are using GridShell on daily basis, hopefully as the time flies 
 we will see some of these products mature and go to market being operated totally on the network without in-between hostings.
 
+# 🌲 LookO2 Air Quality Sensor 
+
+https://github.com/invpe/LookO2
+
+_LookO2 specializes in manufacturing high quality smog sensors. Both large metropolises and smaller cities are struggling with increasing air pollution, which negatively influences the health of people of all ages. The main feature of devices produced by LookO2 is simple and intuitive operation_ [🌐](looko2.com/)
+
+We're integrating their sensors to GridShell network, hop in - check it out!
+
+
+
+
+
 # :whale: Whale
 
 https://github.com/invpe/GridShell/tree/main/Sources/Integrations/Whale
