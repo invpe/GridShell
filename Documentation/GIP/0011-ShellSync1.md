@@ -37,6 +37,9 @@ Whenever a node goes offline, its file system undergoes a clearing process, whic
 
 In cases where a telemetry chunk cannot be written, typically due to insufficient storage space, the process will adhere to the standard task execution procedure. It will make up to three attempts on different nodes to locate a suitable one with sufficient available space to store the chunk in its filesystem. A failure in this scenario, akin to any other task execution failure, results in a reduction of the User Performance Factor (UPF). This encourages volunteers to maintain their nodes in an available state for telemetry writes at all times.
 
+![image](https://github.com/invpe/GridShell/assets/106522950/0230a3ac-c3e5-4652-a344-7c98fb7ea3ef)
+
+
 # What is new ?
 - We will now use different DH numbers, so an update to your node is mandatory
 - Commands `FMD5` `B64D` `B64E` `DEL` exposed to MyBasic
@@ -48,11 +51,12 @@ In cases where a telemetry chunk cannot be written, typically due to insufficien
 - `Explorer` will render the `TELEMETRY` with it's `CHUNK`s allocaton for visualization/debugging purposes
 
 
- # What will stay fro the old telemetry ?
+ # What will stay from the old telemetry ?
 - Submitting write tasks
 
 - Server will still serve data from local storage for computation, visualization and API purposes while keeping Shell Sync in the processing pipeline.
 However i am targeting to move to serving data from Shell Sync in the next releases of Shell Sync.
+
    
 
 
