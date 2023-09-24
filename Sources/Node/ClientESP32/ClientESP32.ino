@@ -7,7 +7,7 @@
 #include <Preferences.h>
 #include <HTTPClient.h>
 #include "SPIFFS.h"
-#include "CGridShell.h"
+#include "CGridShell.h" 
 ///////////////////////////////////
 // NVRAM Prefs                   //
 ///////////////////////////////////
@@ -134,9 +134,37 @@ void setup()
   {
     Serial.println("The GridShell didn't init properly, rebooting");
     ESP.restart();
-  } 
-  
+  }
+
+  // Register callback
+  CGridShell::GetInstance().RegisterEventCallback(GridShellCB);
+
   digitalWrite(LED_BUILTIN, LOW);
+}
+///////////////////////////////////
+// Callback                      //
+///////////////////////////////////
+void GridShellCB(uint8_t  uiEventType)
+{
+  switch (uiEventType)
+  { 
+    ///////////////////////////////////
+    // Node is executing a task     //
+    ///////////////////////////////////
+    case CGridShell::eEvent::EVENT_WORK:
+      {
+        digitalWrite(LED_BUILTIN, HIGH);
+      }
+      break;
+    ///////////////////////////////////
+    // Node is idling               //
+    ///////////////////////////////////
+    case CGridShell::eEvent::EVENT_IDLE:
+      {
+        digitalWrite(LED_BUILTIN, LOW);
+      }
+      break;
+  }
 }
 ///////////////////////////////////
 // Sketch loop                   //
@@ -146,10 +174,8 @@ void loop()
   /////////////////////////////
   // Keep working on the grid//
   /////////////////////////////
-  digitalWrite(LED_BUILTIN, HIGH);
   CGridShell::GetInstance().Tick();
-  digitalWrite(LED_BUILTIN, LOW);
-
+  
   // Check if WiFi available, if not just boot.
   if (WiFi.status() != WL_CONNECTED)
   {
