@@ -13,6 +13,9 @@ Adding this for the users will allow for additional gamification in the system i
   
 - Establishing Expertise: Higher-ranked users may be seen as experts or leaders in the community. Newcomers or those seeking assistance are more likely to turn to higher-ranked users for guidance, leading to a more supportive environment.
 
+![image](https://github.com/invpe/GridShell/assets/106522950/0d67280b-0241-4af1-950b-a231eac07255)
+
+
 # Details
 
 In the initial version of the ranking system, each user will have a rank assigned based on a simple metric made of:
