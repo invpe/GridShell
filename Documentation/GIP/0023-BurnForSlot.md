@@ -1,6 +1,6 @@
 # GIP 0023 - Create a chain and task for increasing telemetry slots
 - Author(s): gridshell
-- Date: --/9/23
+- Date: --/--/23
 
 # Synopsis
 Allow users to spend Shells for Telemetry Slots submitting a dedicated task to the network.
