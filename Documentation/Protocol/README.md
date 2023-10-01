@@ -1,11 +1,11 @@
-# 🔡 GridShell work protocol (v07)
+# 🔡 GridShell work protocol (v08)
 
 
 
 ## Generic assumptions
 - The work protocol is plain text in the current version of GridShell 
 - All nodes connect to a central server
-- All nodes have to heartbeat every **30**s 
+- All nodes have to heartbeat every **10**s 
 - Any misuse of the protocol, executing or incorrect behaviour will get you temporarily blocked or permanently banned
 
 ## Keep your nodes safe!
@@ -20,7 +20,7 @@ Most important are numbers representing workload needing processing, see below f
 
 1. Connect to `work.gridshell.net` port `1911`
 
-The server will send `01,108,110,739,148722804`
+The server will send `01,108,110,739`
 
 `01` is the version
 
@@ -32,17 +32,9 @@ Ensure your node runs the same version
 
 `739` is the number of tasks waiting for validation.
 
-`148722804` Server `public key` value
 
 ----
- 
-
-
-2. Calculate node `Public`, `Private key` and `symmetric key`
-3. `SHA1(symmetric_key)` - to generate a XOR key
-4. `XOR(user_hash with SHA1(symmetric_key))` - to generate cipher
-5. `BASE64ENCODE(XOR(user_hash, SHA1(symmetric_key)))` - to encode the cipher with base64
-6. Send `JOB,node_public_key,base64_cipher,VERSION,IDENT` - to identify with GridShell server
+2. Send `JOB,base64(grid user hash),VERSION,IDENT` - to identify with GridShell server
  
 Where `IDENT` is a 12 character identifier of your node.
 
@@ -54,12 +46,12 @@ Same as above but validators only, do not waste energy - come back in a moment.
 
 ----
 
-7. Heartbeat by sending `PONG` to the server, every `30` seconds
-8. Wait for a task to be provided in a format of
+3. Heartbeat by sending `PONG` to the server, every `30` seconds
+4. Wait for a task to be provided in a format of
 `EXEC,BASE64(https://api.gridshell.net/task/name.bas),BASE64(payload),TIMEOUT` 
-9. Execute a task with MYBASIC interpreter, timeout when `TIMEOUT` reached during execution
-10. Once completed return task payload with RESULTS 
+5. Execute a task with MYBASIC interpreter, timeout when `TIMEOUT` reached during execution
+6. Once completed return task payload with RESULTS 
 `RESULTS,RETCODE,BASE64(results)` 
-11. Go to point 9
+7. Go to point 3
 
  
