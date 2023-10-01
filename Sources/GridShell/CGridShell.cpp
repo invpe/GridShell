@@ -65,7 +65,7 @@ void CGridShell::Stop() {
 //  - Class     : CGridShell
 //  - Prototype :
 //
-//  - Purpose   : Download CA.CRT 
+//  - Purpose   : Download CA.CRT
 //
 // -----------------------------------------------------------------------------
 String CGridShell::GetCertificate()
@@ -205,7 +205,7 @@ void CGridShell::Tick() {
 
       // Get latest CA crt from github
       String strCert = GetCertificate();
-      m_Client.setCACert(strCert.c_str());
+      m_Client.setCACert(strCert.c_str()); 
 
       GDEBUG("Connecting");
 
@@ -227,11 +227,11 @@ void CGridShell::Tick() {
           GDEBUG("Throttled");
           return;
         }
-        
+
         // Confirm versions
         if (strVersion != GNODE_VERSION) {
           if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_VERSIONS_MISMATCH);
-          
+
           GDEBUG("VMismatch " + strVersion + " != " GNODE_VERSION);
 
           Stop();
