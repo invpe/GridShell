@@ -58,7 +58,7 @@ void setup()
   ///////////////////////////////////////////////////
   // Initialize GridShell Node with your user hash//
   ///////////////////////////////////////////////////
-  if (CGridShell::GetInstance().Init(GRID_U, true) == true)
+  if (CGridShell::GetInstance().Init(GRID_U, false) == true)
   {
   }
   else
