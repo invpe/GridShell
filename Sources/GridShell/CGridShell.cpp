@@ -65,6 +65,39 @@ void CGridShell::Stop() {
 //  - Class     : CGridShell
 //  - Prototype :
 //
+//  - Purpose   : Download CA.CRT 
+//
+// -----------------------------------------------------------------------------
+String CGridShell::GetCertificate()
+{
+  HTTPClient httpClient;
+  httpClient.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
+  httpClient.setTimeout(10000);
+  GDEBUG("Downloading CA certificate...");
+
+  if (httpClient.begin(GNODE_CACERT_URL)) {
+    int httpCode = httpClient.GET();
+
+    if (httpCode == HTTP_CODE_OK)
+    {
+      GDEBUG("CA certificate downloaded successfully.");
+      return httpClient.getString();
+    }
+    else
+      GDEBUG("Failed to download CA certificate.");
+
+    httpClient.end();
+  }
+  else  GDEBUG("HTTP client failed to begin.");
+
+
+  return "";
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
 //  - Purpose   : Set things up internally
 //
 // -----------------------------------------------------------------------------
@@ -82,8 +115,7 @@ bool CGridShell::Init(const String& strUsername, const bool& bAutoUpdate) {
     return false;
   }
 
-
-  // Remove telemetry chunks, prepare space for new
+  // Remove telemetry chunks
   CleanFS();
 
   GDEBUG("Init OK");
@@ -127,12 +159,12 @@ void CGridShell::CleanFS()
 // -----------------------------------------------------------------------------
 void CGridShell::Pong() {
   // Keep Alive
-  if (m_Client.connected()) {
-    if (millis() - m_uiLastHB >= GNODE_PING_TIME) {
+  if (millis() - m_uiLastHB >= GNODE_PING_TIME) {
+    if (m_Client.connected()) {
       Send("PONG\r\n");
-      m_uiLastHB = millis();
       if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_PONG);
     }
+    m_uiLastHB = millis();
   }
 }
 // --[  Method  ]---------------------------------------------------------------
@@ -155,27 +187,31 @@ bool CGridShell::Connected() {
 //
 // -----------------------------------------------------------------------------
 void CGridShell::Tick() {
-  // Are we up?
-  if (m_Client.connected() == false) {
-    int iTimer = millis() - m_uiLastReconnection;
 
+  // Are we up?
+  if (m_Client.connected() == false)
+  {
     // Check if user set and reconnection timer is expired
-    if (m_strUsername.length() == 40 && abs(iTimer) > GNODE_RECON_TIMER)
+    if (millis() - m_uiLastReconnection >= GNODE_RECON_TIMER)
     {
+      //
+      m_uiLastReconnection = millis();
+
       //
       Stop();
 
       // Remove telemetry chunks, prepare space for new
       CleanFS();
 
-      //
-      m_uiLastReconnection = millis();
+      // Get latest CA crt from github
+      String strCert = GetCertificate();
+      m_Client.setCACert(strCert.c_str());
 
       GDEBUG("Connecting");
 
-
       // Connect
-      if (m_Client.connect(GNODE_SERVER, GNODE_POOL_PORT)) {
+      if (m_Client.connect(GNODE_SERVER, GNODE_POOL_PORT))
+      {
 
         if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_CONNECTED);
 
@@ -183,19 +219,19 @@ void CGridShell::Tick() {
         String strVersion = m_Client.readStringUntil(',');
         String strWelcome = m_Client.readStringUntil(',');
         String strTasksToExecute = m_Client.readStringUntil(',');
-        String strTasksToValidate = m_Client.readStringUntil(',');
-        String strServerPublicKey = m_Client.readStringUntil('\n');
-
+        String strTasksToValidate = m_Client.readStringUntil('\n');
 
         // Safety check
-        if (strVersion.isEmpty() || strWelcome.isEmpty() || strTasksToExecute.isEmpty() || strTasksToValidate.isEmpty() || strServerPublicKey.isEmpty()) {
+        if (strVersion.isEmpty() || strWelcome.isEmpty() || strTasksToExecute.isEmpty() || strTasksToValidate.isEmpty()) {
           Stop();
           GDEBUG("Throttled");
           return;
         }
+        
         // Confirm versions
         if (strVersion != GNODE_VERSION) {
           if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_VERSIONS_MISMATCH);
+          
           GDEBUG("VMismatch " + strVersion + " != " GNODE_VERSION);
 
           Stop();
@@ -209,42 +245,15 @@ void CGridShell::Tick() {
           return;
         }
 
-        // ****************************
-        // Diffie-Hellman Key Exchange
-        // ****************************
-
-
-        CBigInteger uiP = std::string("9840485683654561415963922255243388377177431468711912621027980528684674331318089597310841532159423071472940950709936601452503154610443618922381114939628259");
-        CBigInteger uiG = std::string("2");
-        CBigInteger uiServerPublicKey = strServerPublicKey.c_str();
-
-        // Calculate our private key
-        CBigInteger uiMyPrivateKey = std::to_string(esp_random());
-
-        // Calculate our public key
-        CBigInteger uiMyPublicKey = uiG.powMod(uiMyPrivateKey, uiP);
-
-        // Compute symmetric (shared secret) key
-        CBigInteger uiKey = uiServerPublicKey.powMod(uiMyPrivateKey, uiP);
-
-        // ****************************
-        // SHA1
-        // ****************************
-        String sha1HashKey = sha1HW(String(uiKey.GetInteger().c_str()));
-
-        // ****************************
-        // XOR
-        // ****************************
-        String strCipher = XOR(m_strUsername, sha1HashKey);
 
         // ****************************
         // BASE64ENCODE
         // ****************************
-        String strBase64EncodedGUID = EncodeBase64(strCipher);
+        String strBase64EncodedGUID = EncodeBase64(m_strUsername);
 
 
         // Pass my Public Key and GUID encoded
-        Send("JOB," + String(uiMyPublicKey.GetInteger().c_str()) + "," + strBase64EncodedGUID + "," + GNODE_VERSION + "," + m_strUniqueID + "\r\n");
+        Send("JOB," + strBase64EncodedGUID + "," + GNODE_VERSION + "," + m_strUniqueID + "\r\n");
 
         GDEBUG("Ident");
 
@@ -255,7 +264,6 @@ void CGridShell::Tick() {
         // Nothing to validate
         if (strTasksToValidate.toInt() == 0)
           if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_NO_TASKS_TO_VALIDATE);
-
 
         //
         if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_IDLE);
@@ -387,11 +395,11 @@ void CGridShell::Tick() {
           strOutput = "";
 
           // Send
-          m_Client.write("RESULTS,", 8);
-          m_Client.write(String(iRetCode).c_str(), String(iRetCode).length());
-          m_Client.write(",", 1);
+          Send("RESULTS,");
+          Send(String(iRetCode));
+          Send(",");
           m_Client.write(encodedData, stLen);
-          m_Client.write("\r\n", 2);
+          Send("\r\n");
 
           // Delete
           delete[] encodedData;
@@ -427,7 +435,7 @@ void CGridShell::RegisterEventCallback(void (*pFunc)(uint8_t)) {
 //
 // -----------------------------------------------------------------------------
 void CGridShell::Send(const String& strData) {
-  m_Client.write(strData.c_str(), strData.length());
+  m_Client.print(strData);
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -441,7 +449,6 @@ String CGridShell::EncodeBase64(const String& strString) {
   if (strString.length() > 0) {
     size_t stLen = 0;
     mbedtls_base64_encode(NULL, 0, &stLen, (unsigned char*)strString.c_str(), strString.length());
-
     unsigned char ucEncoded[stLen];
     mbedtls_base64_encode(ucEncoded, stLen, &stLen, (unsigned char*)strString.c_str(), strString.length());
     return String((char*)ucEncoded);
@@ -460,7 +467,6 @@ String CGridShell::DecodeBase64(const String& strString) {
   if (strString.length() > 0) {
     size_t stLen = 0;
     mbedtls_base64_decode(NULL, 0, &stLen, (unsigned char*)strString.c_str(), strString.length());
-
     unsigned char ucDecoded[stLen];
     mbedtls_base64_decode(ucDecoded, stLen, &stLen, (unsigned char*)strString.c_str(), strString.length());
     ucDecoded[stLen] = '\0';
@@ -742,7 +748,7 @@ void CGridShell::OTA()
 //  - Class     : CGridShell
 //  - Prototype :
 //
-//  - Purpose   : Returns
+//  - Purpose   : Returns new task ID or 0 if failed
 //
 // -----------------------------------------------------------------------------
 uint32_t CGridShell::AddTask(const String& rstrScript, const String& rstrInputPayload) {
@@ -766,7 +772,6 @@ uint32_t CGridShell::AddTask(const String& rstrScript, const String& rstrInputPa
   {
     return taskValue.toInt();
   }
-
 
   return 0;
 }

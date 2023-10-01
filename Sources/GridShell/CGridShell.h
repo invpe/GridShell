@@ -33,26 +33,27 @@
 #define __CLIB_GRIDSHELL__
 /*---------*/
 #include <WiFi.h>
+#include <WiFiClientSecure.h>
 #include <HTTPClient.h>
 #include <Update.h>
 #include "SPIFFS.h"
 #include "my_basic.hpp"
 #include "mbedtls/base64.h"
-#include "MD5Builder.h"
-#include "CBigInteger.h"
+#include "MD5Builder.h" 
 /*---------*/
 #define GNODE_WRITE_MAX 512
 #define GNODE_READ_MAX 512
-#define GNODE_PING_TIME 30000
-#define GNODE_RECON_TIMER (1000 * 60)
+#define GNODE_PING_TIME 10000
+#define GNODE_RECON_TIMER 60000
 #define GNODE_POOL_PORT 1911
 #define GNODE_RET_TERMINATED 777
+#define GNODE_CACERT_URL "https://raw.githubusercontent.com/invpe/GridShell/main/Sources/GridShell/ca.crt"
 #define GNODE_FIRMWARE_URL "https://github.com/invpe/GridShell/releases/latest/download/latest.bin"
 #define GNODE_TASK_SERVER_NAME "https://api.gridshell.net/scripts/"
 #define GNODE_FS_SERVER "https://api.gridshell.net/fs/"
 #define GNODE_FILE_PREFIX "GS"
 #define GNODE_SERVER "work.gridshell.net"
-#define GNODE_VERSION "07"
+#define GNODE_VERSION "08"
 #define GNODE_TELEMETRY_FILENAME "/"GNODE_FILE_PREFIX"TELEMETRY"
 /*---------*/
 // Enable to dump debug informations to the serial
@@ -106,6 +107,7 @@ class CGridShell {
     void OTA();
     void CleanFS();
     bool StreamFile(const String& rstrURL, const String& rstrPath);
+    String GetCertificate();
     void Send(const String& strData);
     bool m_bAutoUpdate;
     String m_strUsername;
@@ -114,7 +116,7 @@ class CGridShell {
     uint32_t m_uiLastReconnection;
     uint32_t m_uiTaskStart;
     uint32_t m_uiTaskTimeout;
-    WiFiClient m_Client;
+    WiFiClientSecure m_Client;
     void (*m_pCallback)(uint8_t);
 };
 /*---------*/
