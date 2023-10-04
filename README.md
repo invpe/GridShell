@@ -32,6 +32,12 @@
 # :seedling: Welcome
 
 With billions of IOT devices connected today there is a huge potential of computing power ready for use at minimal or even zero cost. These tiny computers are capable of operating on renewable energies like solar power, giving tremendous opportunities for utilizing their computing capabilities without impacting environment. We all have WiFi enabled sensors, smart bulbs, sockets, plugs... which idle for most of their time - why not connect them together and use as one big computer to solve our problems ?
+
+![image](https://github.com/invpe/GridShell/assets/106522950/2130ee5d-800e-4710-9cd1-2be6315d3c06)
+https://www.gnd.io/some-thoughts-on-idle-iot-devices-and-rent-economies/
+
+
+
  
 Welcome to GridShell, an innovative distributed computing solution powered by ESP32 nodes. Designed to address high-throughput computing challenges, GridShell seamlessly integrates data processing, analysis, and visualization for a wide array of applications.
 
