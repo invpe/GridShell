@@ -8,7 +8,7 @@
 - - - - - - - - - - - - 
 
 # Whitepaper
-One day i hope i'll find time to have a one pager done ;-)
+A living document [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Whitepaper.md)
 
 # Connect and join the Grid 
 Read the simple techinical tutorial on how to join the grid with couple of clicks [here](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Join.md) 
