@@ -21,6 +21,8 @@ Input: `AMOUNT,RECEIVER`
 
 Example: `1000,PocNetGroupMiners00000000000000000000001`
 
+Limit: `1` task at a time
+
 Cost: 🐚
 
 
