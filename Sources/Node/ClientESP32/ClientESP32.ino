@@ -5,9 +5,8 @@
 //
 #include <WiFi.h>
 #include <Preferences.h>
-#include <HTTPClient.h>
 #include "SPIFFS.h"
-#include "CGridShell.h" 
+#include "CGridShell.h"   
 ///////////////////////////////////
 // NVRAM Prefs                   //
 ///////////////////////////////////
