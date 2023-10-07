@@ -14,11 +14,12 @@ Arduino needs to be able to upload sketches to your ESP32, therefore ensure that
 When creating account, you have been given three values, ensure to keep them noted
 as it is impossible to recreate them if lost.
 
-![Account](https://github.com/invpe/GridShell/blob/main/Resources/Tut6A.png?raw=true)
+![image](https://github.com/invpe/GridShell/assets/106522950/1554ed72-c04d-4ba0-99c4-6025a16ed07c)
+
 
 * Username (Public) - this is cool to share with others
-* UserHash (Private) - never share it - used for the sketch to ident
-* UserKey (Private) - never share it - might be used later on
+* UserHash (Private) - never share it, note it down - used for the sketch to ident
+* Recovery Seed (Private) - never share it, note it down - if you forget your hash, this is used to recover it
 
 # Setup from a release file
 Open [Documentation/Tutorials/Release.md](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Release.md) to simply upload release binaries to your ESP32.
