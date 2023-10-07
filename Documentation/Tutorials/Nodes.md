@@ -6,6 +6,12 @@
  
 # 💻 Nodes: The Building Blocks of GridShell's Power
 
+
+![GridShellSolar](https://github.com/invpe/GridShell/assets/106522950/b13d384b-88f8-4f78-8592-42eef684ba22)
+<div align="center"><tt>Vanilla GridShell nodes running off the solar energy.</tt></div>
+
+
+
 ## Introduction to Nodes:
 In the dynamic world of GridShell, nodes are the elemental units that collectively empower the entire system. These nodes, powered by ESP32 devices, form the backbone of GridShell's distributed computing architecture, enabling collaborative and impactful computing endeavors.
 
