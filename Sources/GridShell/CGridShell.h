@@ -98,6 +98,9 @@ class CGridShell {
     String GetMD5(const String& rstrFile);
     String sha1HW(String payload);
     String sha1HW(unsigned char* payload, int len);
+    
+    String sha256HW(unsigned char* payload, int len);
+    String sha256HW(String payload);
     String XOR(const String& toEncrypt, const String& rstrKey);
     ~CGridShell();
 
@@ -206,6 +209,24 @@ static int _sha1(struct mb_interpreter_t* s, void** l) {
   mb_check(mb_attempt_close_bracket(s, l));
 
   String strRes =  CGridShell::GetInstance().sha1HW(m);
+  char buf[strRes.length()];
+  sprintf(buf, "%s", strRes.c_str());
+
+  mb_check(mb_push_string(s, l, mb_memdup(buf, (unsigned)(strlen(buf) + 1))));
+  return result;
+}
+/*---------*/
+static int _sha256(struct mb_interpreter_t* s, void** l) {
+  int result = MB_FUNC_OK;
+
+  mb_check(mb_attempt_open_bracket(s, l));
+
+  char* m;
+
+  mb_check(mb_pop_string(s, l, &m));
+  mb_check(mb_attempt_close_bracket(s, l));
+
+  String strRes =  CGridShell::GetInstance().sha256HW(m);
   char buf[strRes.length()];
   sprintf(buf, "%s", strRes.c_str());
 

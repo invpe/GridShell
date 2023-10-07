@@ -21,7 +21,7 @@ CGridShell::CGridShell() {
   m_strUniqueID = "";
   for (int i = 0; i < 6; i++) m_strUniqueID += String(mac[i], HEX);
 
-  // Generate hash & truncate to 12
+  // Generate hash & truncate to 12"
   m_strUniqueID = sha1HW(m_strUniqueID);
   m_strUniqueID = m_strUniqueID.substring(0, 12);
 }
@@ -108,9 +108,7 @@ bool CGridShell::Init(const String& strUsername, const bool& bAutoUpdate) {
   m_strUsername = strUsername;
 
   // Validate username length
-  if (m_strUsername.length() != 40) {
-    m_strUsername = "";
-
+  if (m_strUsername.isEmpty()) { 
     GDEBUG("Username is wrong");
     return false;
   }
@@ -205,7 +203,7 @@ void CGridShell::Tick() {
 
       // Get latest CA crt from github
       String strCert = GetCertificate();
-      m_Client.setCACert(strCert.c_str()); 
+      m_Client.setCACert(strCert.c_str());
 
       GDEBUG("Connecting");
 
@@ -243,16 +241,10 @@ void CGridShell::Tick() {
 
           Reboot();
           return;
-        }
-
-
-        // ****************************
-        // BASE64ENCODE
-        // ****************************
+        } 
+        
         String strBase64EncodedGUID = EncodeBase64(m_strUsername);
-
-
-        // Pass my Public Key and GUID encoded
+        
         Send("JOB," + strBase64EncodedGUID + "," + GNODE_VERSION + "," + m_strUniqueID + "\r\n");
 
         GDEBUG("Ident");
@@ -332,6 +324,7 @@ void CGridShell::Tick() {
           mb_register_func(bas, "READ", _read);
           mb_register_func(bas, "WRITE", _write);
           mb_register_func(bas, "SHA1", _sha1);
+          mb_register_func(bas, "SHA256", _sha256);
           mb_register_func(bas, "DOWNLOAD", _download);
           mb_register_func(bas, "TSIZE", _tsize);
           mb_register_func(bas, "FMD5", _fmd5);
@@ -703,6 +696,54 @@ bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const boo
   fTelemetry.close();
 
   return true;
+}
+
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   : HW SHA256
+//
+// -----------------------------------------------------------------------------
+String CGridShell::sha256HW(String payload) {
+  return sha256HW((unsigned char*)payload.c_str(), payload.length());
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   : HW SHA256
+//
+// -----------------------------------------------------------------------------
+String CGridShell::sha256HW(unsigned char* payload, int len)
+{
+  byte shaResult[32]; // SHA-256 produces a 32-byte hash
+
+  mbedtls_md_context_t ctx;
+  mbedtls_md_type_t md_type = MBEDTLS_MD_SHA256;
+
+  const size_t payloadLength = len;
+
+  mbedtls_md_init(&ctx);
+  mbedtls_md_setup(&ctx, mbedtls_md_info_from_type(md_type), 0);
+  mbedtls_md_starts(&ctx);
+  mbedtls_md_update(&ctx, payload, payloadLength);
+  mbedtls_md_finish(&ctx, shaResult);
+  mbedtls_md_free(&ctx);
+
+  String hashStr = "";
+
+  for (uint16_t i = 0; i < 32; i++) { // SHA-256 produces a 32-byte hash
+    String hex = String(shaResult[i], HEX);
+    if (hex.length() < 2) {
+      hex = "0" + hex;
+    }
+    hashStr += hex;
+  }
+
+  return hashStr;
 }
 // --[  Method  ]---------------------------------------------------------------
 //
