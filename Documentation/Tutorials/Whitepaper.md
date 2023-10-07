@@ -5,6 +5,7 @@ GridShell is a collaborative distributed computing system designed to harness th
 ## Introduction
 In today's world, millions of IoT devices, such as ESP32 sensors, are underutilized, idling away their processing capabilities while performing simple tasks. GridShell was born out of the realization that we can do more with these devices—much more. It envisions a world where these devices come together, forming a dynamic ecosystem that offers distributed computing power, storage, and serverless capabilities.
 By harnessing the untapped processing power of idle IoT devices, GridShell not only maximizes the potential of underutilized hardware but also brings substantial advantages to the table. From cost reduction and collaborative data analysis to seamless integration and serverless device creation, GridShell empowers users to make the most of their IoT investments.
+
 ## Problem Statement
 Many IoT devices are limited by single-use applications or idle for the majority of their lifecycle. This underutilization is wasteful in terms of both computational resources and energy consumption. GridShell addresses this issue by repurposing idle devices for distributed computing tasks, creating a collaborative network that benefits from their collective power.
 
@@ -75,5 +76,15 @@ GridShell's development roadmap includes:
   
 - Go full open source: Long-term vision includes transitioning GridShell to a fully open-source platform, inviting the community to actively contribute to its development.
 
-GridShell is more than a distributed computing platform; it's a vision of collaborative computing where every IoT device has a role to play. 
-By joining GridShell, you become part of a movement to maximize the potential of underutilized devices, reduce waste, and create a dynamic computing ecosystem.
+# Conclusion
+
+![image](https://github.com/invpe/GridShell/assets/106522950/bd571961-79b3-4519-98e9-ce548418501f)
+
+
+In conclusion, GridShell represents more than just a project; it embodies a vision of a smarter, more sustainable future. 
+Envision a world where your IoT-connected smart home appliances not only enhance convenience but also generate income. 
+As the value of GridShell Tokens continues to rise, this vision transforms into reality.
+
+GridShell breathes life into your idle devices, converting them into valuable assets that contribute to a greener, more interconnected future. 
+Unlock the true potential of IoT, reduce waste, and revolutionize the landscape of ultra low power distributed computing.
+Construct a world where every device, every action, and every contribution matters. Join and change your IoT devices to work for you, and for the betterment of our planet.
