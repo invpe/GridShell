@@ -31,8 +31,8 @@ _Image by Sparkfun_
 
 8. Provide files to flash
 
-   ![Screenshot from 2023-08-29 09-43-16](https://github.com/invpe/GridShell/assets/106522950/14b788eb-9c38-4256-adca-d174008f68de)
-
+![Screenshot from 2023-10-08 15-05-22](https://github.com/invpe/GridShell/assets/106522950/67f47bf0-49d6-4abe-aefa-260ea24fcd44)
+ 
 9. Click **PROGRAM**
 
 ![Screenshot from 2023-08-29 09-43-40](https://github.com/invpe/GridShell/assets/106522950/ac02ce31-1c87-4009-b0f5-75bfb0920b80)
