@@ -24,35 +24,31 @@ _Image by Sparkfun_
 6. Connect
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/6217a0fc-a1f9-4575-97ca-cdf6eed8110c)
-
-7. Click **ERASE**
-
-![image](https://github.com/invpe/GridShell/assets/106522950/7ebc1077-c6a5-4e7e-9479-1dd27ef8a34b)
-
-8. Provide files to flash
+ 
+7. Provide files to flash
 
 ![Screenshot from 2023-10-08 15-05-22](https://github.com/invpe/GridShell/assets/106522950/67f47bf0-49d6-4abe-aefa-260ea24fcd44)
  
-9. Click **PROGRAM**
+8. Click **PROGRAM**
 
 ![Screenshot from 2023-08-29 09-43-40](https://github.com/invpe/GridShell/assets/106522950/ac02ce31-1c87-4009-b0f5-75bfb0920b80)
 
-10. Reset the device
+9. Reset the device
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/14812e2d-0b9b-4d1d-ad14-d386ac10e669)
 
 
 # Configuring the node
 
-11. Open the serial monitor [https://serial.huhn.me/](https://serial.huhn.me/)
+1. Open the serial monitor [https://serial.huhn.me/](https://serial.huhn.me/)
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/eeaca9d8-475a-4c31-9531-816f41eae5f5)
 
-12. Send "HELLO" via Serial terminal 
+2. Send "HELLO" via Serial terminal 
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/b22120d6-3bcc-450b-85a5-e3b14f542e80)
 
-13. The Node will ask config questions, provide all the answers
+3. The Node will ask config questions, provide all the answers
 
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/77c5b265-a98a-40db-8bbf-9ed6e0dbca19)
