@@ -1,3 +1,7 @@
+<img src="https://github.com/invpe/GridShell/assets/106522950/f8ecc335-7358-4b62-9c80-6a5f18ebbac6">
+<div align=center><tt>GridShell nodes</tt></div>
+
+
 # GridShell Whitepaper
 ## Abstract
 GridShell is a collaborative distributed computing system designed to harness the idle processing power of underutilized IoT devices. This whitepaper provides an overview of GridShell's architecture, features, and its potential applications in the world of distributed computing.
@@ -77,9 +81,6 @@ GridShell's development roadmap includes:
 - Go full open source: Long-term vision includes transitioning GridShell to a fully open-source platform, inviting the community to actively contribute to its development.
 
 # Conclusion
-
-![image](https://github.com/invpe/GridShell/assets/106522950/bd571961-79b3-4519-98e9-ce548418501f)
-
 
 In conclusion, GridShell represents more than just a project; it embodies a vision of a smarter, more sustainable future. 
 Envision a world where your IoT-connected smart home appliances not only enhance convenience but also generate income. 
