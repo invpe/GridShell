@@ -1,2 +1,3 @@
-![m2](https://github.com/invpe/GridShell/assets/106522950/5dcb9ab1-c8b0-434d-9781-189e27e2c5b7)
+<img src="https://github.com/invpe/GridShell/assets/106522950/8a5a6d08-80f5-43f9-bc68-f40428d302e0">
+
 <div align="center"><tt>GridShell vanilla nodes working</tt></div>
