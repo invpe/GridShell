@@ -25,5 +25,10 @@ Limit: `1` task at a time
 
 Cost: 🐚
 
+## l2daily - Calculate IJP (Air Quality Index) for the last hour
 
+Input: `TELEMETRY FILE`
 
+Example: `JadeChartreuseDromiceiomimusLOOKO24c7525a25d82023109`
+
+Cost: 🐚
