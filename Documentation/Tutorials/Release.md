@@ -33,7 +33,7 @@ _Image by Sparkfun_
 
 ![Screenshot from 2023-08-29 09-43-40](https://github.com/invpe/GridShell/assets/106522950/ac02ce31-1c87-4009-b0f5-75bfb0920b80)
 
-9. Reset the device
+9. Reset the device (remove from USB, plug in again)
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/14812e2d-0b9b-4d1d-ad14-d386ac10e669)
 
