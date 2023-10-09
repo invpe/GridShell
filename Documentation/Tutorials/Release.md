@@ -58,7 +58,7 @@ _Image by Sparkfun_
 ![image](https://github.com/invpe/GridShell/assets/106522950/77c5b265-a98a-40db-8bbf-9ed6e0dbca19)
 
 # 🍏 Success
-The configuration is now saved to SPIFFS, you are good to go 👍
+The configuration is now saved, you are good to go 👍
 
 # 🤬 Made a mistake?
 Don't worry, just follow the steps again ! 🤝
