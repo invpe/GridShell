@@ -1,3 +1,6 @@
+<img src="https://github.com/invpe/GridShell/assets/106522950/ad0ffc49-d470-45f9-923d-86fc8966c7b7">
+<div align=center><tt>GridShell nodes</tt></div>
+
 # 📘 Using GridShell
 
 Indepentent of what makes you move, if you are here then you are looking for ways to utilize the GridShell network.
