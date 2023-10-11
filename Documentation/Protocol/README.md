@@ -56,6 +56,6 @@ Same as above but validators only, do not waste energy - come back in a moment.
 
 ## Commands
 
-`SEND,100,SomeGridShellUserName` - send `100` tokens to `SomeGridShellUserName`
+`SEND,SomeGridShellUserName,100` - send `100` tokens to `SomeGridShellUserName`
 
  
