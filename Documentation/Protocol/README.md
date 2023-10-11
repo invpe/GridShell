@@ -53,4 +53,9 @@ Same as above but validators only, do not waste energy - come back in a moment.
 `RESULTS,RETCODE,BASE64(results)` 
 7. Go to point 3
 
+
+## Commands
+
+`SEND,100,SomeGridShellUserName` - send `100` tokens to `SomeGridShellUserName`
+
  
