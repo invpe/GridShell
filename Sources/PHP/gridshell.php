@@ -38,8 +38,26 @@ function GS_Login($uid, $nodeid = NULL) {
 
     echo "[GS:Login] Login completed\n";
     return true;
+}  
+function GS_Send($amt,$receiver)
+{ 
+     fputs($GLOBALS['grid_socket'],"SEND,".$receiver.",".$amt."\r\n");
 } 
-
+function GS_Pong()
+{ 
+    echo "[GS:Pong]\n";
+    if (feof($GLOBALS['grid_socket']) === true) 
+    {
+        echo "[GS:Pong] Pong failed on socket\n";
+        return false;
+    }
+    if(time() - $GLOBALS['lastpong'] > 30)
+    {
+        echo "[GS:Pong] Pong\r\n";
+        fputs($GLOBALS['grid_socket'],"PONG\r\n");
+        $GLOBALS['lastpong'] = time();
+    }
+} 
 function GS_GetStateString($state) {
     if ($state == 0) return "New";
     if ($state == 1) return "Running";
