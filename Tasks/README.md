@@ -19,6 +19,13 @@ Input: `FILENAME,IDX,`
 
 Example: `UsernameTelemetryfile,6,`
 
+## kalmanc - Apply Kalman filter on column
+
+Input: `FILENAME,IDX,`
+
+Example: `UsernameTelemetryFile,6,`
+
+
 ## l2daily - Calculate IJP (Air Quality Index) for the last hour
 
 Input: `TELEMETRY FILE`
