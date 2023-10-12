@@ -13,12 +13,14 @@ Example: `MyTelemetry,0,BASE64("Ovewrites the file\n"),`
 
 Example: `MyTelemetry,1,BASE64("Appends the file\n"),`
 
-Cost: 🐚
- 
+## avgc - Average column
+
+Input: `FILENAME,IDX,`
+
+Example: `UsernameTelemetryfile,6,`
+
 ## l2daily - Calculate IJP (Air Quality Index) for the last hour
 
 Input: `TELEMETRY FILE`
 
 Example: `JadeChartreuseDromiceiomimusLOOKO24c7525a25d82023109`
-
-Cost: 🐚
