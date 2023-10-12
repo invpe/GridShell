@@ -1,4 +1,4 @@
-# GIP 9999 - A reference for numbers
+# GIP 9999 - A reference to important numbers
 
 - Author(s): gridshell
 - Date: 12/10/2023
