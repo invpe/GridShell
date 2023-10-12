@@ -29,6 +29,7 @@ To centralize numerical data for easier user reference.
 
 | Type  | Shell tokens | Description |
 | ------------- | ------------- | ------------- | 
-| replicate  | 0  | Replication of a chunk |
-| delete  | 0 | Removal of a chunk |
-| void  | 0 | Void tasks (send,burn) |
+| replicatedfs  | 0  | Replication of a chunk |
+| deletedfs  | 0 | Removal of a chunk |
+| send  | 0 | Void task |
+| burn  | 0 | Void task |
