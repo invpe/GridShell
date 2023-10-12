@@ -5,7 +5,7 @@
 
 # Synopsis
 This GIP serves as a foundation for accessing the operational costs and rewards, denominated in GridShell tokens, which encompass both execution and usage within the network. 
-Please note that, given the evolving nature of the project and its current phase, these costs are subject to change. However, this document will be consistently updated to reflect the latest information.
+Please note that, given the evolving nature of the project and its current phase, these numbers are subject to change. However, this document will be consistently updated to reflect the latest information.
 
 # Rationale
 To centralize numerical data for easier user reference.
