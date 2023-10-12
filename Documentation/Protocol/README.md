@@ -56,6 +56,6 @@ Same as above but validators only, do not waste energy - come back in a moment.
 
 ## Commands
 
-`SEND,SomeGridShellUserName,100` - send `100` tokens to `SomeGridShellUserName`
-
+- `SEND,SomeGridShellUserName,100` - send `100` tokens to `SomeGridShellUserName` [GIP0025](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0025-SEND.md)
+- `BURN,TSLOT` - Telemetry Slot Redemtpion [GIP0015](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0015-Shell2Telemetry.md) [GIP0026](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0026-BURN.md) 
  
