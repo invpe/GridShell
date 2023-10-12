@@ -11,7 +11,7 @@ or you just want to send the data from your sensor and display it - getting Grid
 
 Start off with getting yourself account created on the network, simply use [this link](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Join.md#create-account-on-the-testnet) to get yourself covered. All things with GridShell require account, so having one is a good way to start.
 
-# 🥬 Do you feel like you want to join a node ?
+# 🥬 No need to join a node ?
 
 Maybe at this moment you're ready to go, not everyone has nodes connected - some of us are just sending tasks without connecting any devices.
 In situations where you want to simply store telemetry data on the GridShell network without connecting any nodes, an account created in previous step is all that you need.
