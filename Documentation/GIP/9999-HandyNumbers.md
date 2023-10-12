@@ -25,10 +25,10 @@ To centralize numerical data for easier user reference.
 | Valid task  | 1  | For valid task execution  |
 | Airdrop  | 1  | For single airdrop  |
 
-# Core execution chain
+# Void execution 
 
 | Type  | Shell tokens | Description |
-| ------------- | ------------- | ------------- |
+| ------------- | ------------- | ------------- | 
 | replicate  | 0  | Replication of a chunk |
 | delete  | 0 | Removal of a chunk |
 | void  | 0 | Void tasks (send,burn) |
