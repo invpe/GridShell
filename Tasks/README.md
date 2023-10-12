@@ -25,6 +25,11 @@ Input: `FILENAME,IDX,`
 
 Example: `UsernameTelemetryFile,6,`
 
+## sha1 - Generate SHA1 from input
+
+Input: `THIS_IS_A_TEXT`
+
+Example: `Generate SHA1 from this message` 
 
 ## l2daily - Calculate IJP (Air Quality Index) for the last hour
 
