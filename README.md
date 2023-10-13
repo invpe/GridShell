@@ -73,5 +73,5 @@ With your support and understanding, I am confident that this hobby project will
   
 # 🤙 Donate
 
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/gbraad](https://www.buymeacoffee.com/gridshell)https://www.buymeacoffee.com/gridshell)
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/gridshell)https://www.buymeacoffee.com/gridshell)
 
