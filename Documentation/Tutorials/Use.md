@@ -56,6 +56,8 @@ In your main loop just [::Tick](https://github.com/invpe/GridShell/blob/17ae6bf0
 
 Your sensor device will now be part of the network executing tasks and earning rewards!
 
+Additionaly you can see how [Whale](https://github.com/invpe/GridShell/tree/main/Sources/Integrations/Whale) is integrated, it is exactly a device sensor that contributes to the network.
+
 # 🧑‍🍳 Time to store telemetry ?
 
 That's a great idea, let's not wait with that.
@@ -86,5 +88,9 @@ Then link a dashboard and visualize your great work without spending a minute mo
 Familiarize yourself with the [documentation](https://github.com/invpe/GridShell/tree/main/Documentation/Tutorials), enjoy and have lot of fun building and coding your stuff without spending a minute on the boring things that drag you from the creative part of what you enjoy the most.
 
 🧑‍🤝‍🧑 Keep in touch, ask questions and play as much as you can by contributing to the GridShell network and using it for your needs 
+
+# ❔ All questions are welcome !
+
+Don't feel like you're alone, post questions if any and get answers to your concerns.
 
 
