@@ -36,3 +36,9 @@ Example: `Generate SHA1 from this message`
 Input: `TELEMETRY FILE`
 
 Example: `JadeChartreuseDromiceiomimusLOOKO24c7525a25d82023109`
+
+## widgeridoo - Geneate a simple JSON for use with [Widgeridoo](https://apps.apple.com/us/app/widgeridoo/id1531359008)
+
+Input: `TITLE,VALUE,`
+
+Example: `My Sensor, 123,`
