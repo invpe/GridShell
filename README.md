@@ -66,9 +66,12 @@ As we stride forward in reshaping the landscape of ultra low power distributed c
 While we continue to innovate and refine our systems, it's only natural that you might encounter occasional hiccups or challenges along the way and i recognize that unforeseen issues might arise as we work to enhance the platform's capabilities.
 
 During this development phase, all feedback is invaluable to me. 
-If you encounter any issues, have suggestions, or experience any uncertainties feel free to reach out to me - because, as the old adage goes, there's nothing quite like the synergy that arises when two minds come together to innovate and solve challenges.
+If you encounter any issues, have suggestions, or experience any uncertainties feel free to reach out to me - because, as the old adage goes, there's nothing quite like the synergy that arises when two minds come together to innovate and solve challenges.  
 
 GridShell is being developed ~~few months~~ a year now by single me, ironing out issues, optimizing the platform, creating a seamless experience, building the logic behind.
 With your support and understanding, I am confident that this hobby project will continue to evolve into something much bigger than i initially thought.
   
+# 🤙 Donate
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/gbraad](https://www.buymeacoffee.com/gridshell)https://www.buymeacoffee.com/gridshell)
 
