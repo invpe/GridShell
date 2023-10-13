@@ -14,3 +14,5 @@ Together, we can make GridShell more accessible, efficient, and user-friendly.
 
 So, if you're passionate about any of these concepts, don't hesitate to pick them up, develop your solutions, and share them with the world.
 Your contributions will help pave the way for an even more vibrant and user-friendly GridShell ecosystem.
+
+All submissions will be rewarded :-)
