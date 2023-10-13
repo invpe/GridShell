@@ -29,7 +29,12 @@
 <img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.gridshell.net%2Fcurrent.json&query=TotalTasks&style=plastic&label=Tasks%20completed&color=%2399ff99">
 <img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.gridshell.net%2Fcurrent.json&query=UsersCount&style=plastic&label=Volunteers&color=%23ffffff">
 <img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.gridshell.net%2Fcurrent.json&query=Utilization&suffix=%25&style=plastic&label=Utilization&color=%23eeee88">
+
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/invpe) 
+ 
 </div>
+ 
 
 --- 
 # :seedling: Welcome
@@ -70,8 +75,5 @@ If you encounter any issues, have suggestions, or experience any uncertainties f
 
 GridShell is being developed ~~few months~~ a year now by single me, ironing out issues, optimizing the platform, creating a seamless experience, building the logic behind.
 With your support and understanding, I am confident that this hobby project will continue to evolve into something much bigger than i initially thought.
-  
-# 🤙 Donate
-
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/invpe) 
+   
 
