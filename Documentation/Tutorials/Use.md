@@ -35,6 +35,27 @@ This way or another you should end up with a programmed ESP32 with latest [Vanil
 
 Good job, if you just joined - don't forget to send us a welcome message 😄
 
+# 💻 You want to join your existing device ?
+
+Amazing, sharing the idle power with the network is the key concept in the GridShell!
+
+Simply [download](https://github.com/invpe/GridShell/tree/main/Sources/GridShell) the library and store it in your sketch folder. 
+
+Grab only these files, from the repo:
+
+```
+CGridShell.cpp
+CGridShell.h
+my_basic.cpp
+my_basic.hpp
+```
+
+Next initiate the GridShell with a call to [::Init](https://github.com/invpe/GridShell/blob/17ae6bf044d357150c0bae0ab921022d1807206e/Sources/Integrations/Whale/Whale.ino#L99) setting the "Auto update flag to FALSE" and providing your User Hash from [Step 1](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Use.md#-setup-your-account-first)
+
+In your main loop just [::Tick](https://github.com/invpe/GridShell/blob/17ae6bf044d357150c0bae0ab921022d1807206e/Sources/Integrations/Whale/Whale.ino#L120) the network to start contributing and executing the network tasks, that's how simple it is!
+
+Your sensor device will now be part of the network executing tasks and earning rewards!
+
 # 🧑‍🍳 Time to store telemetry ?
 
 That's a great idea, let's not wait with that.
