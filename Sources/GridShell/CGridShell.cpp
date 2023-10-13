@@ -68,8 +68,7 @@ void CGridShell::Stop() {
 //  - Purpose   : Download CA.CRT
 //
 // -----------------------------------------------------------------------------
-String CGridShell::GetCertificate()
-{
+String CGridShell::GetCertificate() {
   HTTPClient httpClient;
   httpClient.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
   httpClient.setTimeout(10000);
@@ -78,17 +77,14 @@ String CGridShell::GetCertificate()
   if (httpClient.begin(GNODE_CACERT_URL)) {
     int httpCode = httpClient.GET();
 
-    if (httpCode == HTTP_CODE_OK)
-    {
+    if (httpCode == HTTP_CODE_OK) {
       GDEBUG("CA certificate downloaded successfully.");
       return httpClient.getString();
-    }
-    else
+    } else
       GDEBUG("Failed to download CA certificate.");
 
     httpClient.end();
-  }
-  else  GDEBUG("HTTP client failed to begin.");
+  } else GDEBUG("HTTP client failed to begin.");
 
 
   return "";
@@ -108,7 +104,7 @@ bool CGridShell::Init(const String& strUsername, const bool& bAutoUpdate) {
   m_strUsername = strUsername;
 
   // Validate username length
-  if (m_strUsername.isEmpty()) { 
+  if (m_strUsername.isEmpty()) {
     GDEBUG("Username is wrong");
     return false;
   }
@@ -129,8 +125,7 @@ bool CGridShell::Init(const String& strUsername, const bool& bAutoUpdate) {
 //  - Purpose   : Perform reboot
 //
 // -----------------------------------------------------------------------------
-void CGridShell::Reboot()
-{
+void CGridShell::Reboot() {
   Stop();
   ESP.restart();
 }
@@ -142,8 +137,7 @@ void CGridShell::Reboot()
 //  - Purpose   : Remove telemetry chunks prefixed with GS
 //
 // -----------------------------------------------------------------------------
-void CGridShell::CleanFS()
-{
+void CGridShell::CleanFS() {
   GDEBUG("Format");
   SPIFFS.format();
 }
@@ -187,11 +181,9 @@ bool CGridShell::Connected() {
 void CGridShell::Tick() {
 
   // Are we up?
-  if (m_Client.connected() == false)
-  {
+  if (m_Client.connected() == false) {
     // Check if user set and reconnection timer is expired
-    if (millis() - m_uiLastReconnection >= GNODE_RECON_TIMER)
-    {
+    if (millis() - m_uiLastReconnection >= GNODE_RECON_TIMER) {
       //
       m_uiLastReconnection = millis();
 
@@ -208,8 +200,7 @@ void CGridShell::Tick() {
       GDEBUG("Connecting");
 
       // Connect
-      if (m_Client.connect(GNODE_SERVER, GNODE_POOL_PORT))
-      {
+      if (m_Client.connect(GNODE_SERVER, GNODE_POOL_PORT)) {
 
         if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_CONNECTED);
 
@@ -241,10 +232,10 @@ void CGridShell::Tick() {
 
           Reboot();
           return;
-        } 
-        
+        }
+
         String strBase64EncodedGUID = EncodeBase64(m_strUsername);
-        
+
         Send("JOB," + strBase64EncodedGUID + "," + GNODE_VERSION + "," + m_strUniqueID + "\r\n");
 
         GDEBUG("Ident");
@@ -272,8 +263,7 @@ void CGridShell::Tick() {
       GDEBUG("Server: " + strJobType);
 
       // Task coming
-      if (strJobType == "EXEC")
-      {
+      if (strJobType == "EXEC") {
 
         if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_WORK);
 
@@ -298,8 +288,8 @@ void CGridShell::Tick() {
           GDEBUG("Diff Hash");
 
           // Get the task file
-          if (StreamFile(strURLPath, strFSPath) == true) {}
-          else GDEBUG("Download failed");
+          if (StreamFile(strURLPath, strFSPath) == true) {
+          } else GDEBUG("Download failed");
         }
 
         File fScriptFile = SPIFFS.open(strFSPath, "r");
@@ -358,7 +348,7 @@ void CGridShell::Tick() {
               strOutput = String(valGet.value.string);
           }
 
-          GDEBUG("Done " + String(millis() - uiStart) + " ms, RESCODE: " + String(iRetCode) + ", MEM: " + String(ESP.getFreeHeap()) + " OUTP: '" + strOutput + "'");
+          GDEBUG("Done " + String(millis() - uiStart) + " ms, RESCODE: " + String(iRetCode) + ", MEM: " + String(ESP.getFreeHeap()) + " OUTP: '" + strOutput + "' FS: " + String(SPIFFS.usedBytes()));
 
           mb_close(&bas);
           mb_dispose();
@@ -625,11 +615,10 @@ bool CGridShell::StreamFile(const String& rstrURL, const String& rstrPath) {
 //  - Purpose   : Return MD5 of the given file
 //
 // -----------------------------------------------------------------------------
-String CGridShell::GetMD5(const String& rstrFile)
-{
+String CGridShell::GetMD5(const String& rstrFile) {
   GDEBUG("MD5 " + rstrFile);
   File fFile = SPIFFS.open(rstrFile, "r");
-  if (!fFile)return String();
+  if (!fFile) return String();
 
   if (fFile.seek(0, SeekSet)) {
     MD5Builder md5;
@@ -666,8 +655,7 @@ String CGridShell::GetSHA1(const String& rstrFile) {
 //  - Purpose   : Delete a chunk of the telemetry
 //
 // -----------------------------------------------------------------------------
-void CGridShell::Delete(const String& rstrName)
-{
+void CGridShell::Delete(const String& rstrName) {
   SPIFFS.remove(rstrName);
 }
 // --[  Method  ]---------------------------------------------------------------
@@ -687,8 +675,7 @@ bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const boo
   else
     fTelemetry = SPIFFS.open(rstrName, "w");
 
-  if (!fTelemetry)
-  {
+  if (!fTelemetry) {
     return false;
   }
 
@@ -717,9 +704,8 @@ String CGridShell::sha256HW(String payload) {
 //  - Purpose   : HW SHA256
 //
 // -----------------------------------------------------------------------------
-String CGridShell::sha256HW(unsigned char* payload, int len)
-{
-  byte shaResult[32]; // SHA-256 produces a 32-byte hash
+String CGridShell::sha256HW(unsigned char* payload, int len) {
+  byte shaResult[32];  // SHA-256 produces a 32-byte hash
 
   mbedtls_md_context_t ctx;
   mbedtls_md_type_t md_type = MBEDTLS_MD_SHA256;
@@ -735,7 +721,7 @@ String CGridShell::sha256HW(unsigned char* payload, int len)
 
   String hashStr = "";
 
-  for (uint16_t i = 0; i < 32; i++) { // SHA-256 produces a 32-byte hash
+  for (uint16_t i = 0; i < 32; i++) {  // SHA-256 produces a 32-byte hash
     String hex = String(shaResult[i], HEX);
     if (hex.length() < 2) {
       hex = "0" + hex;
@@ -753,13 +739,11 @@ String CGridShell::sha256HW(unsigned char* payload, int len)
 //  - Purpose   : OTA
 //
 // -----------------------------------------------------------------------------
-void CGridShell::OTA()
-{
+void CGridShell::OTA() {
   GDEBUG("OTA");
 
   // Since we have a clean FS, we download the binary and upload from there
-  if (StreamFile(GNODE_FIRMWARE_URL, "/GSFirmware") == true)
-  {
+  if (StreamFile(GNODE_FIRMWARE_URL, "/GSFirmware") == true) {
     GDEBUG("Downloaded");
 
     // Open the firmware binary file from SPIFFS
@@ -781,8 +765,7 @@ void CGridShell::OTA()
     } else {
       GDEBUG(String(Update.getError()));
     }
-  }
-  else GDEBUG("Download failed");
+  } else GDEBUG("Download failed");
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -796,7 +779,7 @@ uint32_t CGridShell::AddTask(const String& rstrScript, const String& rstrInputPa
   if (!Connected()) return 0;
 
   String strInputBase = EncodeBase64(rstrInputPayload);
-  String strCommand   = "ADDT," + rstrScript + "," + strInputBase + "\r\n";
+  String strCommand = "ADDT," + rstrScript + "," + strInputBase + "\r\n";
 
   Send(strCommand);
 
@@ -809,12 +792,59 @@ uint32_t CGridShell::AddTask(const String& rstrScript, const String& rstrInputPa
   String taskType = strReturn.substring(0, strReturn.indexOf(","));
   String taskValue = strReturn.substring(strReturn.indexOf(",") + 1);
 
-  if (taskType == "ADDT" && taskValue != "BAD")
-  {
+  if (taskType == "ADDT" && taskValue != "BAD") {
     return taskValue.toInt();
   }
 
   return 0;
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   : SEND tokens
+//
+// -----------------------------------------------------------------------------
+bool CGridShell::Send(const String& rstrReceipent, const uint32_t& ruiValue) {
+
+  if (rstrReceipent.isEmpty())
+    return false;
+
+  if (ruiValue == 0)
+    return false;
+
+  String strCommand = "SEND," + rstrReceipent + "," + String(ruiValue) + "\r\n";
+  Send(strCommand);
+  return true;
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   : BURN tokens
+//
+// -----------------------------------------------------------------------------
+bool CGridShell::Burn(const CGridShell::eBurn& rWhat) {
+  String strCommand = "";
+  switch (rWhat) {
+    case CGridShell::eBurn::BURN_TELEMETRY_SLOT:
+      {
+        strCommand = "BURN,TSLOT\r\n";
+      }
+      break;
+    default:
+      {
+      }
+      break;
+  }
+
+  if (strCommand.isEmpty())
+    return false;
+
+  Send(strCommand);
+  return true;
 }
 // --[  Method  ]---------------------------------------------------------------
 //

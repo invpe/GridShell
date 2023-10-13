@@ -39,7 +39,7 @@
 #include "SPIFFS.h"
 #include "my_basic.hpp"
 #include "mbedtls/base64.h"
-#include "MD5Builder.h" 
+#include "MD5Builder.h"
 /*---------*/
 #define GNODE_WRITE_MAX 512
 #define GNODE_READ_MAX 512
@@ -54,7 +54,7 @@
 #define GNODE_FILE_PREFIX "GS"
 #define GNODE_SERVER "work.gridshell.net"
 #define GNODE_VERSION "08"
-#define GNODE_TELEMETRY_FILENAME "/"GNODE_FILE_PREFIX"TELEMETRY"
+#define GNODE_TELEMETRY_FILENAME "/" GNODE_FILE_PREFIX "TELEMETRY"
 /*---------*/
 // Enable to dump debug informations to the serial
 #define GNODE_DEBUG 1
@@ -65,62 +65,69 @@
 #endif
 /*---------*/
 class CGridShell {
-  public:
-    enum eEvent {
-      EVENT_IDLE = 0,
-      EVENT_WORK,
-      EVENT_DISCONNECTED,
-      EVENT_CONNECTED,
-      EVENT_NO_TASKS_TO_EXECUTE,
-      EVENT_NO_TASKS_TO_VALIDATE,
-      EVENT_VERSIONS_MISMATCH,
-      EVENT_PONG
-    };
-    static CGridShell& GetInstance();
-    static int MBStep(struct mb_interpreter_t* s, void** l, const char* f, int p, unsigned short row, unsigned short col);
-    bool Init(const String& strUsername, const bool& bAutoUpdate = true);
-    uint32_t GetTaskTimeout();
-    uint32_t GetTaskStartTime();
-    void Pong();
-    void Tick();
-    bool Connected();
-    void Stop();
-    void RegisterEventCallback(void (*pFunc)(uint8_t));
-    String GetNodeID() const;
-    uint32_t AddTask(const String& rstrScript, const String& rstrInputPayload);
+public:
+  enum eBurn {
+    BURN_TELEMETRY_SLOT,
+    BURN_TOTAL
+  };
 
-    // MyBasic Exposed Methods
-    bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
-    void Delete(const String& rstrName);
-    String EncodeBase64(const String& strString);
-    String DecodeBase64(const String& strString);
-    String GetSHA1(const String& rstrFile);
-    String GetMD5(const String& rstrFile);
-    String sha1HW(String payload);
-    String sha1HW(unsigned char* payload, int len);
-    
-    String sha256HW(unsigned char* payload, int len);
-    String sha256HW(String payload);
-    String XOR(const String& toEncrypt, const String& rstrKey);
-    ~CGridShell();
+  enum eEvent {
+    EVENT_IDLE = 0,
+    EVENT_WORK,
+    EVENT_DISCONNECTED,
+    EVENT_CONNECTED,
+    EVENT_NO_TASKS_TO_EXECUTE,
+    EVENT_NO_TASKS_TO_VALIDATE,
+    EVENT_VERSIONS_MISMATCH,
+    EVENT_PONG
+  };
+  static CGridShell& GetInstance();
+  static int MBStep(struct mb_interpreter_t* s, void** l, const char* f, int p, unsigned short row, unsigned short col);
+  bool Init(const String& strUsername, const bool& bAutoUpdate = true);
+  uint32_t GetTaskTimeout();
+  uint32_t GetTaskStartTime();
+  void Pong();
+  void Tick();
+  bool Connected();
+  void Stop();
+  void RegisterEventCallback(void (*pFunc)(uint8_t));
+  String GetNodeID() const;
+  uint32_t AddTask(const String& rstrScript, const String& rstrInputPayload);
+  bool Send(const String& rstrReceipent, const uint32_t& ruiValue);
+  bool Burn(const CGridShell::eBurn& rWhat);
 
-  private:
-    CGridShell();
-    void Reboot();
-    void OTA();
-    void CleanFS();
-    bool StreamFile(const String& rstrURL, const String& rstrPath);
-    String GetCertificate();
-    void Send(const String& strData);
-    bool m_bAutoUpdate;
-    String m_strUsername;
-    String m_strUniqueID;
-    uint32_t m_uiLastHB;
-    uint32_t m_uiLastReconnection;
-    uint32_t m_uiTaskStart;
-    uint32_t m_uiTaskTimeout;
-    WiFiClientSecure m_Client;
-    void (*m_pCallback)(uint8_t);
+  // MyBasic Exposed Methods
+  bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
+  void Delete(const String& rstrName);
+  String EncodeBase64(const String& strString);
+  String DecodeBase64(const String& strString);
+  String GetSHA1(const String& rstrFile);
+  String GetMD5(const String& rstrFile);
+  String sha1HW(String payload);
+  String sha1HW(unsigned char* payload, int len);
+
+  String sha256HW(unsigned char* payload, int len);
+  String sha256HW(String payload);
+  String XOR(const String& toEncrypt, const String& rstrKey);
+  ~CGridShell();
+
+private:
+  CGridShell();
+  void Reboot();
+  void OTA();
+  void CleanFS();
+  bool StreamFile(const String& rstrURL, const String& rstrPath);
+  String GetCertificate();
+  void Send(const String& strData);
+  bool m_bAutoUpdate;
+  String m_strUsername;
+  String m_strUniqueID;
+  uint32_t m_uiLastHB;
+  uint32_t m_uiLastReconnection;
+  uint32_t m_uiTaskStart;
+  uint32_t m_uiTaskTimeout;
+  WiFiClientSecure m_Client;
+  void (*m_pCallback)(uint8_t);
 };
 /*---------*/
 static int _xor(struct mb_interpreter_t* s, void** l) {
@@ -154,7 +161,7 @@ static int _b64e(struct mb_interpreter_t* s, void** l) {
   mb_check(mb_pop_string(s, l, &m));
   mb_check(mb_attempt_close_bracket(s, l));
 
-  String strRes =  CGridShell::GetInstance().EncodeBase64(m);
+  String strRes = CGridShell::GetInstance().EncodeBase64(m);
   char buf[strRes.length()];
   sprintf(buf, "%s", strRes.c_str());
 
@@ -172,7 +179,7 @@ static int _b64d(struct mb_interpreter_t* s, void** l) {
   mb_check(mb_pop_string(s, l, &m));
   mb_check(mb_attempt_close_bracket(s, l));
 
-  String strRes =  CGridShell::GetInstance().DecodeBase64(m);
+  String strRes = CGridShell::GetInstance().DecodeBase64(m);
   char buf[strRes.length()];
   sprintf(buf, "%s", strRes.c_str());
 
@@ -208,7 +215,7 @@ static int _sha1(struct mb_interpreter_t* s, void** l) {
   mb_check(mb_pop_string(s, l, &m));
   mb_check(mb_attempt_close_bracket(s, l));
 
-  String strRes =  CGridShell::GetInstance().sha1HW(m);
+  String strRes = CGridShell::GetInstance().sha1HW(m);
   char buf[strRes.length()];
   sprintf(buf, "%s", strRes.c_str());
 
@@ -226,7 +233,7 @@ static int _sha256(struct mb_interpreter_t* s, void** l) {
   mb_check(mb_pop_string(s, l, &m));
   mb_check(mb_attempt_close_bracket(s, l));
 
-  String strRes =  CGridShell::GetInstance().sha256HW(m);
+  String strRes = CGridShell::GetInstance().sha256HW(m);
   char buf[strRes.length()];
   sprintf(buf, "%s", strRes.c_str());
 
