@@ -14,6 +14,8 @@ Hop in - check it out!
 
 
 
+Achievements: 🌱 - 100% eco | ☁️ - no hosting | 💵 - zero costs |
+
 
 
 # :whale: Whale
