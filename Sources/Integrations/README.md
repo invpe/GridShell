@@ -7,7 +7,7 @@ we will see some of these products mature and go to market being operated totall
 
 https://github.com/invpe/LookO2
 
-_LookO2 specializes in manufacturing high quality smog sensors. Both large metropolises and smaller cities are struggling with increasing air pollution, which negatively influences the health of people of all ages. The main feature of devices produced by LookO2 is simple and intuitive operation_ [🌐](looko2.com/)
+_LookO2 specializes in manufacturing high quality smog sensors. Both large metropolises and smaller cities are struggling with increasing air pollution, which negatively influences the health of people of all ages. The main feature of devices produced by LookO2 is simple and intuitive operation_ [🌐](https://looko2.com/)
 
 We're integrating their sensors to GridShell network, bringing another #serverless solution to the place.
 Hop in - check it out!
