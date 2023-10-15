@@ -1,5 +1,5 @@
 // Example sketch integrating BME280 and storing a simple telemetry with the readouts every 10 minutes.
-// https://www.instructables.com/GridShell-Your-Fist-Sensor-on-the-Network/ 
+// https://www.instructables.com/GridShell-Your-Fist-Sensor-on-the-Network/
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
 #include <Wire.h>
@@ -10,9 +10,9 @@
 #define TELEMETRY_MINUTES 60000ULL * 10
 // !!!! UPDATE WITH YOUR CREDENTIALS HERE !!!! ////
 // !!!! UPDATE WITH YOUR CREDENTIALS HERE !!!! ////
-#define WIFI_ACCESSPOINT "xxx"
-#define WIFI_PASSWORD "yyy"
-#define GRID_U "zzz"
+#define WIFI_ACCESSPOINT "xxxx"
+#define WIFI_PASSWORD "yyyy"
+#define GRID_U "zzzz"
 
 Adafruit_BME280 m_BMESensor;
 uint64_t m_uiLastSend = 0;
@@ -55,7 +55,9 @@ void loop() {
 
       String strFilename = "BME280";
       String strAppend = "0";
-      String strWriteText = String(m_BMESensor.readTemperature()) + "," + String(m_BMESensor.readHumidity()) + "\n";
+      String strWriteText = "{\"Temperature\": " + String(m_BMESensor.readTemperature()) + ",\n";
+      strWriteText += "\"Humidity\": " + String(m_BMESensor.readHumidity()) + "\n";
+      strWriteText += "}";
 
       String strTaskPayload = strFilename + "," + strAppend + "," + CGridShell::GetInstance().EncodeBase64(strWriteText) + ",";
       uint32_t uiTaskId = CGridShell::GetInstance().AddTask("writedfs", strTaskPayload);
