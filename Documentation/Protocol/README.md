@@ -45,7 +45,7 @@ Same as above but validators only, do not waste energy - come back in a moment.
 
 ----
 
-3. Heartbeat by sending `PONG` to the server, every `30` seconds
+3. Heartbeat by sending `PONG` to the server, every `10` seconds
 4. Wait for a task to be provided in a format of
 `EXEC,BASE64(https://api.gridshell.net/task/name.bas),BASE64(payload),TIMEOUT` 
 5. Execute a task with MYBASIC interpreter, timeout when `TIMEOUT` reached during execution
