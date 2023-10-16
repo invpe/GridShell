@@ -16,3 +16,4 @@ All data is returned in JSON format and the endpoint is working with the `GTN` (
 | List user details | `https://api.gridshell.net/user/PocNetGroupMiners00000000000000000000001.json` |
 | Get Telemetry File | `https://api.gridshell.net/fs/PocNetGroupMiners00000000000000000000001filename` |
 | Get user executed tasks | `https://api.gridshell.net/user/details/PocNetGroupMiners00000000000000000000001` |
+| Current All Data | `https://api.gridshell.net/current.json` |
