@@ -1,3 +1,7 @@
+# 🕐 This needs to be revised and updated!
+
+--------
+
 # 📔 Writing scripts(tasks) for GridShell
 One important thing at the very start: This is a WIP document, needs more time to work on it.
 
