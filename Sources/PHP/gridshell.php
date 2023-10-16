@@ -39,6 +39,10 @@ function GS_Login($uid, $nodeid = NULL) {
     echo "[GS:Login] Login completed\n";
     return true;
 }  
+function GS_Burn($what)
+{ 
+     fputs($GLOBALS['grid_socket'],"BURN,".$what."\r\n");
+} 
 function GS_Send($amt,$receiver)
 { 
      fputs($GLOBALS['grid_socket'],"SEND,".$receiver.",".$amt."\r\n");
