@@ -10,7 +10,7 @@ Simply execute:
 ```
 python3 esptool.py --chip esp32 --port "/dev/ttyUSB1" --baud 1500000  erase_flash
 
-python3 esptool.py --chip esp32 --port "/dev/ttyUSB1" --baud 1500000  --before default_reset --after hard_reset write_flash  -z --flash_mode dio --flash_freq 80m --flash_size 4MB 0x10000 gridshellmerged.bin
+python3 esptool.py --chip esp32 --port "/dev/ttyUSB1" --baud 1500000  --before default_reset --after hard_reset write_flash  -z --flash_mode dio --flash_freq 80m --flash_size 4MB 0x0 gridshellmerged.bin
 ```
 
 Remembering to replace `/dev/ttyUSB1` with your port.
