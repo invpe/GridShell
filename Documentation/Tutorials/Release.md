@@ -27,7 +27,7 @@ Remembering to replace `/dev/ttyUSB1` with your port.
 ![image](https://github.com/invpe/GridShell/assets/106522950/8fe54ed2-7c97-4e25-802f-f3aef100e364)
 
    
-2. Plug in your ESP32 device, set 115200 and click connect.
+2. Plug in your ESP32 device to USB, set port speed to 115200 and click connect.
   
 
 3. Select **Serial port**
@@ -52,7 +52,8 @@ Remembering to replace `/dev/ttyUSB1` with your port.
 ![image](https://github.com/invpe/GridShell/assets/106522950/2878acfe-2b8c-4f07-b4ea-b2e78f7a8baa)
 
     
-10. Reset the device (remove from USB, plug in again)
+10. Wait for the flasher to complete
+11. Reset the device (remove from USB, plug in again)
  
 
 # Configuring the node
