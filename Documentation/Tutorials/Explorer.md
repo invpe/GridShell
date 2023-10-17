@@ -8,6 +8,8 @@ Login with: `explorer/gridshellexplorer`
 
 # List of dashboards to use
 
+## GridShell Community Leaderboard [link](https://explorer.gridshell.net:3000/d/b032899f-fffa-47fc-b38e-4a58be40197b/community-leaderboard?orgId=1)
+
 ## GridShell Core [link](https://explorer.gridshell.net:3000/d/e66e2a62-ef5d-482b-aeee-3dc8a3bb6e2b/core)
 This one is a core stats of the server
 
