@@ -4,7 +4,13 @@ Follow the tutorial below, to program your board and configure the node in few s
 
 1. Download latest release files [https://github.com/invpe/GridShell/releases](https://github.com/invpe/GridShell/releases)
 
-## Use esptool
+
+> [!IMPORTANT]  
+> Download **gridshellmerged.bin** to flash, this file combines Bootloader, Partition (4MB) and Vanilla node.
+
+
+
+## Use esptool - flashing from command line
 Simply execute: 
 
 ```
@@ -15,7 +21,7 @@ python3 esptool.py --chip esp32 --port "/dev/ttyUSB1" --baud 1500000  --before d
 
 Remembering to replace `/dev/ttyUSB1` with your port.
 
-## Use web flasher 
+## Use web flasher - flashing from the web page (Chrome)
 1. Open [https://espressif.github.io/esptool-js/](https://espressif.github.io/esptool-js/)
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/8fe54ed2-7c97-4e25-802f-f3aef100e364)
