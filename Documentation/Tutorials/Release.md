@@ -16,40 +16,38 @@ python3 esptool.py --chip esp32 --port "/dev/ttyUSB1" --baud 1500000  --before d
 Remembering to replace `/dev/ttyUSB1` with your port.
 
 ## Use web flasher 
-1. Open [https://esp.huhn.me/](https://esp.huhn.me/)
-2. Plug in your ESP32 device
+1. Open [https://espressif.github.io/esptool-js/](https://espressif.github.io/esptool-js/)
 
-![image](https://github.com/invpe/GridShell/assets/106522950/81c7c593-cba8-4829-95ed-0ca9fe7d6fea)
+![image](https://github.com/invpe/GridShell/assets/106522950/8fe54ed2-7c97-4e25-802f-f3aef100e364)
 
-_Image by Sparkfun_
+   
+2. Plug in your ESP32 device, set 115200 and click connect.
+  
 
+3. Select **Serial port**
 
-3. Select **Connect**
+ ![image](https://github.com/invpe/GridShell/assets/106522950/b4c4cc90-5754-4c20-a9ef-2ad43951313f)
 
-   ![image](https://github.com/invpe/GridShell/assets/106522950/a34b65f8-e819-4e6b-a45e-9bbb7cb38ec5)
+4. Provide files to flash (gridshellmerged.bin)
 
+ ![image](https://github.com/invpe/GridShell/assets/106522950/72c01d34-1de1-42a0-8099-ea1fb0357021)
 
-4. Select **Serial port**
-
-![image](https://github.com/invpe/GridShell/assets/106522950/b8681ded-7dc3-4a4e-a4a9-6afa42fdcf36)
-
-
-5. Connect
-
-![image](https://github.com/invpe/GridShell/assets/106522950/6217a0fc-a1f9-4575-97ca-cdf6eed8110c)
  
-6. Provide files to flash
+7. Click **Erase Flash**
 
-![Screenshot from 2023-10-08 15-05-22](https://github.com/invpe/GridShell/assets/106522950/67f47bf0-49d6-4abe-aefa-260ea24fcd44)
+ ![image](https://github.com/invpe/GridShell/assets/106522950/f3eacfce-4dc5-47b7-a103-3987213284c3)
+
+8. Set flash address to **0x0**
+
+![image](https://github.com/invpe/GridShell/assets/106522950/bae179f6-e717-4e95-9634-e1216239cab5)
+
+9. Click **Program**
+
+![image](https://github.com/invpe/GridShell/assets/106522950/2878acfe-2b8c-4f07-b4ea-b2e78f7a8baa)
+
+    
+10. Reset the device (remove from USB, plug in again)
  
-7. Click **PROGRAM**
-
-![Screenshot from 2023-08-29 09-43-40](https://github.com/invpe/GridShell/assets/106522950/ac02ce31-1c87-4009-b0f5-75bfb0920b80)
-
-8. Reset the device (remove from USB, plug in again)
-
-![image](https://github.com/invpe/GridShell/assets/106522950/14812e2d-0b9b-4d1d-ad14-d386ac10e669)
-
 
 # Configuring the node
 
