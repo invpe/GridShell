@@ -3,37 +3,46 @@ If youre not planning to work with sources, the most convienient way to setup a 
 Follow the tutorial below, to program your board and configure the node in few simple steps.
 
 1. Download latest release files [https://github.com/invpe/GridShell/releases](https://github.com/invpe/GridShell/releases)
-2. Open [https://esp.huhn.me/](https://esp.huhn.me/)
-3. Plug in your ESP32 device
+
+## Use esptool
+Simply execute: 
+
+`python3 esptool.py --chip esp32 --port "/dev/ttyUSB1" --baud 1500000  --before default_reset --after hard_reset write_flash  -z --flash_mode dio --flash_freq 80m --flash_size 4MB 0x10000 latest.bin`
+
+Remembering to replace `/dev/ttyUSB1` with your port.
+
+## Use web flasher 
+1. Open [https://esp.huhn.me/](https://esp.huhn.me/)
+2. Plug in your ESP32 device
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/81c7c593-cba8-4829-95ed-0ca9fe7d6fea)
 
 _Image by Sparkfun_
 
 
-4. Select **Connect**
+3. Select **Connect**
 
    ![image](https://github.com/invpe/GridShell/assets/106522950/a34b65f8-e819-4e6b-a45e-9bbb7cb38ec5)
 
 
-5. Select **Serial port**
+4. Select **Serial port**
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/b8681ded-7dc3-4a4e-a4a9-6afa42fdcf36)
 
 
-6. Connect
+5. Connect
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/6217a0fc-a1f9-4575-97ca-cdf6eed8110c)
  
-7. Provide files to flash
+6. Provide files to flash
 
 ![Screenshot from 2023-10-08 15-05-22](https://github.com/invpe/GridShell/assets/106522950/67f47bf0-49d6-4abe-aefa-260ea24fcd44)
  
-8. Click **PROGRAM**
+7. Click **PROGRAM**
 
 ![Screenshot from 2023-08-29 09-43-40](https://github.com/invpe/GridShell/assets/106522950/ac02ce31-1c87-4009-b0f5-75bfb0920b80)
 
-9. Reset the device (remove from USB, plug in again)
+8. Reset the device (remove from USB, plug in again)
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/14812e2d-0b9b-4d1d-ad14-d386ac10e669)
 
