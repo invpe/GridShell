@@ -2,7 +2,7 @@
 If youre not planning to work with sources, the most convienient way to setup a GS Node is to upload release to the board.
 Follow the tutorial below, to program your board and configure the node in few simple steps.
 
-1. Download latest release files [https://github.com/invpe/GridShell/releases](https://github.com/invpe/GridShell/releases)
+1. Download latest merged release file [https://github.com/invpe/GridShell/releases/latest/download/gridshellmerged.bin](https://github.com/invpe/GridShell/releases/latest/download/gridshellmerged.bin)
 
 
 > [!IMPORTANT]  
