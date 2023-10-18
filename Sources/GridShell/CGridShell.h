@@ -70,7 +70,6 @@ public:
     BURN_TELEMETRY_SLOT,
     BURN_TOTAL
   };
-
   enum eEvent {
     EVENT_IDLE = 0,
     EVENT_WORK,
@@ -95,7 +94,7 @@ public:
   uint32_t AddTask(const String& rstrScript, const String& rstrInputPayload);
   bool Send(const String& rstrReceipent, const uint32_t& ruiValue);
   bool Burn(const CGridShell::eBurn& rWhat);
-
+  std::tuple<int, String> Run(const String& rstrBASFile,const String& rstrInputPayload, const uint32_t& ruiTaskTimeout);
   // MyBasic Exposed Methods
   bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
   void Delete(const String& rstrName);
@@ -105,7 +104,6 @@ public:
   String GetMD5(const String& rstrFile);
   String sha1HW(String payload);
   String sha1HW(unsigned char* payload, int len);
-
   String sha256HW(unsigned char* payload, int len);
   String sha256HW(String payload);
   String XOR(const String& toEncrypt, const String& rstrKey);

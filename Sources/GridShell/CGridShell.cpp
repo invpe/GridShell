@@ -264,7 +264,6 @@ void CGridShell::Tick() {
 
       // Task coming
       if (strJobType == "EXEC") {
-
         if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_WORK);
 
         //
@@ -272,11 +271,10 @@ void CGridShell::Tick() {
         String strOutput = "";
 
         //
-        String strScriptName = DecodeBase64(m_Client.readStringUntil(','));
-        String strPayload = DecodeBase64(m_Client.readStringUntil(','));
-        String strTimeout = m_Client.readStringUntil(',');
-        String strTaskHash = m_Client.readStringUntil(',');
-        m_uiTaskTimeout = strTimeout.toInt();
+        String strScriptName  = DecodeBase64(m_Client.readStringUntil(','));
+        String strPayload     = DecodeBase64(m_Client.readStringUntil(','));
+        String strTimeout     = m_Client.readStringUntil(',');
+        String strTaskHash    = m_Client.readStringUntil(','); 
 
         String strURLPath = GNODE_TASK_SERVER_NAME + strScriptName + ".bas";
         String strFSPath = "/" + strScriptName + ".bas";
@@ -284,96 +282,26 @@ void CGridShell::Tick() {
         // Hash does not match, download the script
         if (strTaskHash != GetSHA1(strFSPath)) {
           SPIFFS.remove(strFSPath);
-
           GDEBUG("Diff Hash");
-
-          // Get the task file
           if (StreamFile(strURLPath, strFSPath) == true) {
           } else GDEBUG("Download failed");
         }
 
-        File fScriptFile = SPIFFS.open(strFSPath, "r");
-        if (fScriptFile) {
-          String strScript = fScriptFile.readStringUntil('\0');
-          fScriptFile.close();
-
-          GDEBUG("Exe " + String(m_uiTaskTimeout) + " ms ");
-
-          // Update task start timer
-          m_uiTaskStart = millis();
-
-          uint32_t uiStart = millis();
-          void** l = NULL;
-          struct mb_interpreter_t* bas = NULL;
-
-          // Initialize MYBASIC
-          mb_init();
-          mb_open(&bas);
-
-          // Additional functions registration
-          mb_register_func(bas, "READ", _read);
-          mb_register_func(bas, "WRITE", _write);
-          mb_register_func(bas, "SHA1", _sha1);
-          mb_register_func(bas, "SHA256", _sha256);
-          mb_register_func(bas, "DOWNLOAD", _download);
-          mb_register_func(bas, "TSIZE", _tsize);
-          mb_register_func(bas, "FMD5", _fmd5);
-          mb_register_func(bas, "B64D", _b64d);
-          mb_register_func(bas, "B64E", _b64e);
-          mb_register_func(bas, "XOR", _xor);
-          mb_register_func(bas, "DEL", _del);
-
-          // Enable step by step execution to keep alive with the server
-          mb_debug_set_stepped_handler(bas, CGridShell::MBStep);
-
-          // Load up the script
-          if (mb_load_string(bas, strScript.c_str(), true) == MB_FUNC_OK) {
-            // payload check and upload
-            if (strPayload != "") {
-              mb_value_t valAdd;
-              valAdd.type = MB_DT_STRING;
-              valAdd.value.string = (char*)strPayload.c_str();
-              mb_add_var(bas, l, "INPUTPAYLOAD", valAdd, true);
-            } else GDEBUG("No payload?");
-
-            // Run
-            iRetCode = mb_run(bas, true);
-
-            // Obtain output
-            mb_value_t valGet;
-            mb_get_value_by_name(bas, l, "OUTPUTPAYLOAD", &valGet);
-
-            // Needs to be a string
-            if (valGet.type == MB_DT_STRING)
-              strOutput = String(valGet.value.string);
-          }
-
-          GDEBUG("Done " + String(millis() - uiStart) + " ms, RESCODE: " + String(iRetCode) + ", MEM: " + String(ESP.getFreeHeap()) + " OUTP: '" + strOutput + "' FS: " + String(SPIFFS.usedBytes()));
-
-          mb_close(&bas);
-          mb_dispose();
-        } else {
-          GDEBUG("Failed to load script");
-          strOutput = "";
-          iRetCode = 0;
+        if (strPayload.isEmpty()) {
+          GDEBUG("Empty payload");
         }
-        GDEBUG("Result " + String(strOutput.length()));
 
-        // Results can be long, so we treat them differently
+        uint32_t uiStart = millis();
+        auto aResults = Run(strFSPath, strPayload, strTimeout.toInt());
+        iRetCode = std::get<0>(aResults);
+        strOutput = std::get<1>(aResults);
+        GDEBUG("Done " + String(millis() - uiStart) + " ms, RESCODE: " + String(iRetCode) + ", MEM: " + String(ESP.getFreeHeap()) + " OUTP: '" + strOutput + "' FS: " + String(SPIFFS.usedBytes()));
+
         if (strOutput.length() > 0) {
-          // Get Len
           size_t stLen = 0;
           mbedtls_base64_encode(NULL, 0, &stLen, (unsigned char*)strOutput.c_str(), strOutput.length());
-
-          GDEBUG("B64 Length: " + String(stLen));
-
-          // Heap
           unsigned char* encodedData = new unsigned char[stLen + 1];
-
-          // Encode
           mbedtls_base64_encode(encodedData, stLen, &stLen, (unsigned char*)strOutput.c_str(), strOutput.length());
-
-          // Clea
           encodedData[stLen] = '\0';
           strOutput = "";
 
@@ -384,7 +312,6 @@ void CGridShell::Tick() {
           m_Client.write(encodedData, stLen);
           Send("\r\n");
 
-          // Delete
           delete[] encodedData;
         } else
           Send("RESULTS," + String(iRetCode) + ",\r\n");
@@ -392,12 +319,81 @@ void CGridShell::Tick() {
         if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_IDLE);
       }
     }
-
-    // Keep alive
-    Pong();
   }
-}
 
+  // Keep alive
+  Pong();
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   : Executes the BAS file stored on SPIFFS and returns ret code + outputpayload
+//
+// -----------------------------------------------------------------------------
+std::tuple<int, String> CGridShell::Run(const String& rstrBASFile, const String& rstrInputPayload, const uint32_t& ruiTaskTimeout) {
+  String strOutputPayload;
+  int iRetCode = MB_FUNC_ERR;
+
+  File fScriptFile = SPIFFS.open(rstrBASFile, "r");
+  if (fScriptFile) {
+    String strScript = fScriptFile.readStringUntil('\0');
+    fScriptFile.close();
+
+    GDEBUG("Exe " + rstrBASFile + " Tout: " + String(ruiTaskTimeout) + "ms ");
+
+    // Update task start timer
+    m_uiTaskStart = millis();
+    m_uiTaskTimeout = ruiTaskTimeout;
+    void** l = NULL;
+    struct mb_interpreter_t* bas = NULL;
+
+    // Initialize MYBASIC
+    mb_init();
+    mb_open(&bas);
+
+    // Additional functions registration
+    mb_register_func(bas, "READ", _read);
+    mb_register_func(bas, "WRITE", _write);
+    mb_register_func(bas, "SHA1", _sha1);
+    mb_register_func(bas, "SHA256", _sha256);
+    mb_register_func(bas, "DOWNLOAD", _download);
+    mb_register_func(bas, "TSIZE", _tsize);
+    mb_register_func(bas, "FMD5", _fmd5);
+    mb_register_func(bas, "B64D", _b64d);
+    mb_register_func(bas, "B64E", _b64e);
+    mb_register_func(bas, "XOR", _xor);
+    mb_register_func(bas, "DEL", _del);
+
+    // Enable step by step execution to keep alive with the server
+    mb_debug_set_stepped_handler(bas, CGridShell::MBStep);
+
+    // Load up the script
+    if (mb_load_string(bas, strScript.c_str(), true) == MB_FUNC_OK) {
+      if (rstrInputPayload != "") {
+        mb_value_t valAdd;
+        valAdd.type = MB_DT_STRING;
+        valAdd.value.string = (char*)rstrInputPayload.c_str();
+        mb_add_var(bas, l, "INPUTPAYLOAD", valAdd, true);
+      }
+
+      iRetCode = mb_run(bas, true);
+
+      mb_value_t valGet;
+      mb_get_value_by_name(bas, l, "OUTPUTPAYLOAD", &valGet);
+
+      if (valGet.type == MB_DT_STRING)
+        strOutputPayload = String(valGet.value.string);
+    }
+
+    mb_close(&bas);
+    mb_dispose();
+  }
+
+
+  return std::make_tuple(iRetCode, strOutputPayload);
+}
 // --[  Method  ]---------------------------------------------------------------
 //
 //  - Class     : CGridShell
