@@ -5,4 +5,7 @@ At long last, a straightforward playground environment where you can explore, le
 
 By uploading this basic sketch to your ESP32 device, you can transform it into a web server that hosts an offline node. This node is capable of receiving and executing tasks you submit. Remember to share your creations and contribute to the GridShell repository, ensuring that we can all benefit from your innovations in our daily tasks!
 
+BTW, have a look at the WIP documentation about writing scripts [here](https://github.com/invpe/GridShell/blob/main/Documentation/Scripts/README.md).
+This can get you started quickly!
+
 ![image](https://github.com/invpe/GridShell/assets/106522950/01bd3f88-6694-4d3a-bf1f-abf7df00f496)
