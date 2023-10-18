@@ -1,7 +1,5 @@
 
-# 📔 Writing scripts(tasks) for GridShell
-One important thing at the very start: This is a WIP document, needs more time to work on it.
-
+# 📔 Writing scripts(tasks) for GridShell  
 Even though writing tasks for GridShell is like writing MyBasic scripts, there are small additions that you need to be aware of.
 Before going anywhere further, ensure to note down these resources - key to the concept of writing tasks for the network.
 
