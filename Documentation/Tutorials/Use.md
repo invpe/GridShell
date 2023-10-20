@@ -86,7 +86,9 @@ The dashboard you will be looking at is called [GridShell Your Telemetry](https:
 
 # 🤾‍♂️ Want to play with the scripting ?
 Absolutely good idea, download the Playground sketch and change your ESP32 to become a scripting environment,
-dont forget to share you creations !
+dont forget to share you4 creations !
+
+Maybe even turn them into tasks if you are ready !
 
 - [Playground](https://github.com/invpe/GridShell/tree/main/Sources/Playground)
 
