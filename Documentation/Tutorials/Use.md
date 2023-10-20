@@ -22,6 +22,9 @@ In situations where you want to simply store telemetry data on the GridShell net
 Of course you will need [Shells](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Shells.md) to submit work to the Grid - but don't worry,
 if you don't have any, we will get you some for free for a start, let us know !
 
+- [Just use it with PHP](https://github.com/invpe/GridShell/tree/main/Sources/PHP)
+- [Just use it with ESP32](https://github.com/invpe/GridShell/tree/main/Sources/Integrations)
+
 # 🔌 Maybe you want to connect nodes to contribute and get Shells for a reward?
 
 This is the way to go, where you connect your ultra low power ESP32 [nodes](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Nodes.md) that contribute to the network, 
@@ -80,6 +83,12 @@ Nobody likes plain text, and nobody cares about reading them - so instead of try
 Just follow the telemetry guidelines as mentioned in the documentation above, and you're set.
 
 The dashboard you will be looking at is called [GridShell Your Telemetry](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md#gridshell-your-telemetry-link).
+
+# 🤾‍♂️ Want to play with the scripting ?
+Absolutely good idea, download the Playground sketch and change your ESP32 to become a scripting environment,
+dont forget to share you creations !
+
+- [Playground](https://github.com/invpe/GridShell/tree/main/Sources/Playground)
 
 # ⛹️‍♂️ What more ?
 
