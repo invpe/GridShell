@@ -37,12 +37,10 @@
 #include <HTTPClient.h>
 #include <Update.h>
 #include "SPIFFS.h"
-#include "my_basic.hpp"
+#include "my_basic.h"
 #include "mbedtls/base64.h"
 #include "MD5Builder.h"
 /*---------*/
-#define GNODE_WRITE_MAX 512
-#define GNODE_READ_MAX 512
 #define GNODE_PING_TIME 10000
 #define GNODE_RECON_TIMER 60000
 #define GNODE_POOL_PORT 1911
@@ -56,7 +54,6 @@
 #define GNODE_VERSION "08"
 #define GNODE_TELEMETRY_FILENAME "/" GNODE_FILE_PREFIX "TELEMETRY"
 /*---------*/
-// Enable to dump debug informations to the serial
 #define GNODE_DEBUG 1
 #ifdef GNODE_DEBUG
 #define GDEBUG Serial.println
@@ -94,7 +91,9 @@ public:
   uint32_t AddTask(const String& rstrScript, const String& rstrInputPayload);
   bool Send(const String& rstrReceipent, const uint32_t& ruiValue);
   bool Burn(const CGridShell::eBurn& rWhat);
-  std::tuple<int, String> Run(const String& rstrBASFile,const String& rstrInputPayload, const uint32_t& ruiTaskTimeout);
+  std::tuple<int, String> Run(const String& rstrBASFile, const String& rstrInputPayload, const uint32_t& ruiTaskTimeout);
+  HTTPClient* GetHTTPClient();
+
   // MyBasic Exposed Methods
   bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
   void Delete(const String& rstrName);
@@ -111,10 +110,10 @@ public:
 
 private:
   CGridShell();
+  bool StreamFile(const String& rstrURL, const String& rstrPath);
   void Reboot();
   void OTA();
   void CleanFS();
-  bool StreamFile(const String& rstrURL, const String& rstrPath);
   String GetCertificate();
   void Send(const String& strData);
   bool m_bAutoUpdate;
@@ -125,6 +124,8 @@ private:
   uint32_t m_uiTaskStart;
   uint32_t m_uiTaskTimeout;
   WiFiClientSecure m_Client;
+  HTTPClient m_HttpClient;
+  MD5Builder m_MD5;
   void (*m_pCallback)(uint8_t);
 };
 /*---------*/
@@ -185,24 +186,6 @@ static int _b64d(struct mb_interpreter_t* s, void** l) {
   return result;
 }
 /*---------*/
-static int _fmd5(struct mb_interpreter_t* s, void** l) {
-  int result = MB_FUNC_OK;
-
-  mb_check(mb_attempt_open_bracket(s, l));
-
-  char* m;
-
-  mb_check(mb_pop_string(s, l, &m));
-  mb_check(mb_attempt_close_bracket(s, l));
-
-  String strRes = CGridShell::GetInstance().GetMD5(m);
-
-  char buf[strRes.length()];
-  sprintf(buf, "%s", strRes.c_str());
-  mb_check(mb_push_string(s, l, mb_memdup(buf, (unsigned)(strlen(buf) + 1))));
-  return result;
-}
-/*---------*/
 static int _sha1(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
 
@@ -240,7 +223,7 @@ static int _sha256(struct mb_interpreter_t* s, void** l) {
 }
 static int _read(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
-
+  const uint16_t GNODE_READ_MAX = 512;
   int_t iStart = 0;
   int_t iCount = 0;
 
@@ -359,6 +342,7 @@ static int _del(struct mb_interpreter_t* s, void** l) {
 }
 static int _write(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
+ 
   char* cFilename;
   char* cText;
 
@@ -371,7 +355,24 @@ static int _write(struct mb_interpreter_t* s, void** l) {
   // We don't append chunks
   int_t iSuccess = CGridShell::GetInstance().Write(String(cFilename), String(cText), false);
 
-  mb_check(mb_push_int(s, l, iSuccess));
+  mb_check(mb_push_int(s, l, iSuccess)); 
+  return result;
+} 
+static int _fmd5(struct mb_interpreter_t* s, void** l) {
+  int result = MB_FUNC_OK;
+ 
+  mb_check(mb_attempt_open_bracket(s, l));
+
+  char* m;
+
+  mb_check(mb_pop_string(s, l, &m));
+  mb_check(mb_attempt_close_bracket(s, l));
+
+  String strRes = CGridShell::GetInstance().GetMD5(m);
+
+  char buf[strRes.length()];
+  sprintf(buf, "%s", strRes.c_str());
+  mb_check(mb_push_string(s, l, mb_memdup(buf, (unsigned)(strlen(buf) + 1)))); 
   return result;
 }
 static int _download(struct mb_interpreter_t* s, void** l) {
@@ -386,26 +387,25 @@ static int _download(struct mb_interpreter_t* s, void** l) {
   // Fixed name for overwriting (so we don't keep downloaded files)
   String strPath = GNODE_TELEMETRY_FILENAME;
 
-  GDEBUG("HTTPS Getting " GNODE_FS_SERVER + String(cFilename));
+  GDEBUG("HTTPS Getting " GNODE_FS_SERVER + String(cFilename) + " RSSI:" + String(WiFi.RSSI()) + " HEAP:" + String(ESP.getFreeHeap()));
 
-  HTTPClient httpClient;
-  uint32_t uiBytesWritten = 0;
-  httpClient.begin(GNODE_FS_SERVER + String(cFilename));
-  int httpCode = httpClient.GET();
+  uint32_t uiBytesWritten = 0; 
+  CGridShell::GetInstance().GetHTTPClient()->begin(GNODE_FS_SERVER + String(cFilename));
+  int httpCode = CGridShell::GetInstance().GetHTTPClient()->GET();
 
   if (httpCode == HTTP_CODE_OK) {
     File file = SPIFFS.open(strPath, FILE_WRITE);
     if (!file) {
       GDEBUG("Failed to write a file " + strPath);
-      httpClient.end();
+      CGridShell::GetInstance().GetHTTPClient()->end();
       return false;
     }
 
-    WiFiClient* stream = httpClient.getStreamPtr();
+    WiFiClient* stream = CGridShell::GetInstance().GetHTTPClient()->getStreamPtr();
     uint8_t buffer[128] = { 0 };
     int bytesRead = 0;
 
-    while (httpClient.connected() && (bytesRead = stream->readBytes(buffer, sizeof(buffer))) > 0) {
+    while (CGridShell::GetInstance().GetHTTPClient()->connected() && (bytesRead = stream->readBytes(buffer, sizeof(buffer))) > 0) {
       file.write(buffer, bytesRead);
       uiBytesWritten += bytesRead;
     }
@@ -413,9 +413,9 @@ static int _download(struct mb_interpreter_t* s, void** l) {
     file.close();
     GDEBUG(strPath + " Saved");
   } else
-    GDEBUG("HTTPS Failed downloading " + String(httpCode));
+    GDEBUG("HTTPS Failed downloading " + String(httpCode) + " " + CGridShell::GetInstance().GetHTTPClient()->getString());
 
-  httpClient.end();
+  CGridShell::GetInstance().GetHTTPClient()->end();
 
   mb_check(mb_push_int(s, l, uiBytesWritten));
   return result;

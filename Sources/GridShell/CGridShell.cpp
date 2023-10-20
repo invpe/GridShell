@@ -24,6 +24,10 @@ CGridShell::CGridShell() {
   // Generate hash & truncate to 12"
   m_strUniqueID = sha1HW(m_strUniqueID);
   m_strUniqueID = m_strUniqueID.substring(0, 12);
+
+  m_HttpClient.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
+  m_HttpClient.setTimeout(10000);
+  m_HttpClient.setReuse(false);
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -69,25 +73,21 @@ void CGridShell::Stop() {
 //
 // -----------------------------------------------------------------------------
 String CGridShell::GetCertificate() {
-  HTTPClient httpClient;
-  httpClient.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
-  httpClient.setTimeout(10000);
   GDEBUG("Downloading CA certificate...");
-
-  if (httpClient.begin(GNODE_CACERT_URL)) {
-    int httpCode = httpClient.GET();
-
+  String strCert = "";
+  if (m_HttpClient.begin(GNODE_CACERT_URL)) {
+    int httpCode = m_HttpClient.GET();
     if (httpCode == HTTP_CODE_OK) {
       GDEBUG("CA certificate downloaded successfully.");
-      return httpClient.getString();
+      strCert = m_HttpClient.getString();
     } else
       GDEBUG("Failed to download CA certificate.");
 
-    httpClient.end();
   } else GDEBUG("HTTP client failed to begin.");
 
 
-  return "";
+  m_HttpClient.end();
+  return strCert;
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -260,7 +260,7 @@ void CGridShell::Tick() {
       String strJobType = m_Client.readStringUntil(',');
 
       //
-      GDEBUG("Server: " + strJobType);
+      GDEBUG("Server: " + strJobType + " MEM: " + String(ESP.getFreeHeap()) + " FS: " + String(SPIFFS.usedBytes()));
 
       // Task coming
       if (strJobType == "EXEC") {
@@ -271,10 +271,10 @@ void CGridShell::Tick() {
         String strOutput = "";
 
         //
-        String strScriptName  = DecodeBase64(m_Client.readStringUntil(','));
-        String strPayload     = DecodeBase64(m_Client.readStringUntil(','));
-        String strTimeout     = m_Client.readStringUntil(',');
-        String strTaskHash    = m_Client.readStringUntil(','); 
+        String strScriptName = DecodeBase64(m_Client.readStringUntil(','));
+        String strPayload = DecodeBase64(m_Client.readStringUntil(','));
+        String strTimeout = m_Client.readStringUntil(',');
+        String strTaskHash = m_Client.readStringUntil(',');
 
         String strURLPath = GNODE_TASK_SERVER_NAME + strScriptName + ".bas";
         String strFSPath = "/" + strScriptName + ".bas";
@@ -333,6 +333,8 @@ void CGridShell::Tick() {
 //
 // -----------------------------------------------------------------------------
 std::tuple<int, String> CGridShell::Run(const String& rstrBASFile, const String& rstrInputPayload, const uint32_t& ruiTaskTimeout) {
+
+  GDEBUG("Exe " + rstrBASFile + " Tout: " + String(ruiTaskTimeout) + "ms Heap: " + String(ESP.getFreeHeap()));
   String strOutputPayload;
   int iRetCode = MB_FUNC_ERR;
 
@@ -340,8 +342,6 @@ std::tuple<int, String> CGridShell::Run(const String& rstrBASFile, const String&
   if (fScriptFile) {
     String strScript = fScriptFile.readStringUntil('\0');
     fScriptFile.close();
-
-    GDEBUG("Exe " + rstrBASFile + " Tout: " + String(ruiTaskTimeout) + "ms ");
 
     // Update task start timer
     m_uiTaskStart = millis();
@@ -353,7 +353,7 @@ std::tuple<int, String> CGridShell::Run(const String& rstrBASFile, const String&
     mb_init();
     mb_open(&bas);
 
-    // Additional functions registration
+    // Additional functions
     mb_register_func(bas, "READ", _read);
     mb_register_func(bas, "WRITE", _write);
     mb_register_func(bas, "SHA1", _sha1);
@@ -367,16 +367,21 @@ std::tuple<int, String> CGridShell::Run(const String& rstrBASFile, const String&
     mb_register_func(bas, "DEL", _del);
 
     // Enable step by step execution to keep alive with the server
-    mb_debug_set_stepped_handler(bas, CGridShell::MBStep);
+    //mb_debug_set_stepped_handler(bas, CGridShell::MBStep);
+    mb_debug_set_stepped_handler(bas, CGridShell::MBStep, NULL);
 
     // Load up the script
     if (mb_load_string(bas, strScript.c_str(), true) == MB_FUNC_OK) {
+
       if (rstrInputPayload != "") {
         mb_value_t valAdd;
         valAdd.type = MB_DT_STRING;
         valAdd.value.string = (char*)rstrInputPayload.c_str();
         mb_add_var(bas, l, "INPUTPAYLOAD", valAdd, true);
       }
+      strScript.clear();
+
+      GDEBUG("Exe Loaded " + rstrBASFile + " Tout: " + String(ruiTaskTimeout) + "ms Heap: " + String(ESP.getFreeHeap()));
 
       iRetCode = mb_run(bas, true);
 
@@ -386,11 +391,9 @@ std::tuple<int, String> CGridShell::Run(const String& rstrBASFile, const String&
       if (valGet.type == MB_DT_STRING)
         strOutputPayload = String(valGet.value.string);
     }
-
     mb_close(&bas);
     mb_dispose();
   }
-
 
   return std::make_tuple(iRetCode, strOutputPayload);
 }
@@ -484,6 +487,9 @@ uint32_t CGridShell::GetTaskStartTime() {
 //
 // ---------------------------------------------------------------------------
 int CGridShell::MBStep(struct mb_interpreter_t* s, void** l, const char* f, int p, unsigned short row, unsigned short col) {
+
+  // GDEBUG("BAS: "+String(row)+"/"+String(col)+" MEM: "+String(ESP.getFreeHeap()));
+
   // Avoid endless loops
   if (millis() - CGridShell::GetInstance().GetTaskStartTime() > CGridShell::GetInstance().GetTaskTimeout())
     return GNODE_RET_TERMINATED;
@@ -562,46 +568,46 @@ String CGridShell::XOR(const String& toEncrypt, const String& rstrKey) {
 //  - Class     : CGridShell
 //  - Prototype :
 //
+//  - Purpose   : Exposed for scripts to use the HTTPClient object
+//
+// -----------------------------------------------------------------------------
+HTTPClient* CGridShell::GetHTTPClient() {
+  return &m_HttpClient;
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
 //  - Purpose   : Obtains the source of the task to execute from API server over HTTPS
 //
 // -----------------------------------------------------------------------------
 bool CGridShell::StreamFile(const String& rstrURL, const String& rstrPath) {
 
-  GDEBUG("SF: " + rstrURL + " " + rstrPath);
-
-  HTTPClient httpClient;
-  httpClient.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
-  httpClient.setTimeout(10000);
-  httpClient.begin(rstrURL);
-  int httpCode = httpClient.GET();
-
+  m_HttpClient.begin(rstrURL);
+  int httpCode = m_HttpClient.GET();
+  bool bSuccess = false;
   if (httpCode == HTTP_CODE_OK) {
     File file = SPIFFS.open(rstrPath, FILE_WRITE);
     if (!file) {
       GDEBUG("Cant write " + rstrPath);
-      httpClient.end();
-      return false;
+    } else {
+      WiFiClient* stream = m_HttpClient.getStreamPtr();
+      uint8_t buffer[2048] = { 0 };
+      int bytesRead = 0;
+
+      while (m_HttpClient.connected() && (bytesRead = stream->readBytes(buffer, sizeof(buffer))) > 0) {
+        file.write(buffer, bytesRead);
+      }
+
+      file.close();
+      GDEBUG(rstrPath + " Saved");
+      bSuccess = true;
     }
-
-    WiFiClient* stream = httpClient.getStreamPtr();
-    uint8_t buffer[2048] = { 0 };
-    int bytesRead = 0;
-
-    while (httpClient.connected() && (bytesRead = stream->readBytes(buffer, sizeof(buffer))) > 0) {
-      file.write(buffer, bytesRead);
-    }
-
-    file.close();
-    GDEBUG(rstrPath + " Saved");
-    return true;
-
-  } else {
-    GDEBUG("Cant GET: " + String(httpCode));
   }
-
-  httpClient.end();
-  GDEBUG("HTTPS Failed");
-  return false;
+  m_HttpClient.end();
+  GDEBUG("HTTPS GET Code: " + String(httpCode));
+  return bSuccess;
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -612,16 +618,14 @@ bool CGridShell::StreamFile(const String& rstrURL, const String& rstrPath) {
 //
 // -----------------------------------------------------------------------------
 String CGridShell::GetMD5(const String& rstrFile) {
-  GDEBUG("MD5 " + rstrFile);
   File fFile = SPIFFS.open(rstrFile, "r");
   if (!fFile) return String();
 
   if (fFile.seek(0, SeekSet)) {
-    MD5Builder md5;
-    md5.begin();
-    md5.addStream(fFile, fFile.size());
-    md5.calculate();
-    return md5.toString();
+    m_MD5.begin();
+    m_MD5.addStream(fFile, fFile.size());
+    m_MD5.calculate();
+    return m_MD5.toString();
   }
 
   return String();
@@ -752,7 +756,6 @@ void CGridShell::OTA() {
     GDEBUG("FMW size: " + String(fileSize));
     Update.begin(fileSize);
     Update.writeStream(firmwareFile);
-
     firmwareFile.close();
 
     // Finish the firmware update process
