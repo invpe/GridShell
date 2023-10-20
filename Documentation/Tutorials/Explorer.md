@@ -28,6 +28,8 @@ This is a generic dashboard you can use to visualize the data, but ensure to kee
 |1688087963|11|32|32|41|
 |...|...|...|...|...|
 
+![image](https://github.com/invpe/GridShell/assets/106522950/4a0d32ff-8329-4e2d-b819-faa8aa69b4a3)
+
 This is not the end, as this dashboard also supports JSON data, so just unfold the category for the telemetry format you are storing and you're good.
 
 ## Ideas ?
