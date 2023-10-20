@@ -9,7 +9,11 @@ or you just want to send the data from your sensor and display it - getting Grid
 
 # 👨‍🦲 Setup your account first
 
-Start off with getting yourself account created on the network, simply use [this link](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Join.md#create-account-on-the-testnet) to get yourself covered. All things with GridShell require account, so having one is a good way to start.
+Start off with getting yourself account created on the network, simply use [this link](https://api.gridshell.net/getuser/) to get yourself covered. 
+All things with GridShell require account, so having one is a good way to start.
+
+- [https://api.gridshell.net/getuser/](Create user account)
+- [Read more](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Join.md#create-account-on-the-testnet)
 
 # 🥬 No need to join a node ?
 
