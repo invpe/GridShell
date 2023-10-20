@@ -593,7 +593,7 @@ bool CGridShell::StreamFile(const String& rstrURL, const String& rstrPath) {
       GDEBUG("Cant write " + rstrPath);
     } else {
       WiFiClient* stream = m_HttpClient.getStreamPtr();
-      uint8_t buffer[2048] = { 0 };
+      uint8_t buffer[GNODE_IO_SIZE] = { 0 };
       int bytesRead = 0;
 
       while (m_HttpClient.connected() && (bytesRead = stream->readBytes(buffer, sizeof(buffer))) > 0) {
@@ -765,6 +765,44 @@ void CGridShell::OTA() {
       GDEBUG(String(Update.getError()));
     }
   } else GDEBUG("Download failed");
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   : Helper
+//
+// -----------------------------------------------------------------------------
+String CGridShell::ReadFile(const String& rstrFile, const size_t& startPosition, const size_t& byteCount) {
+
+  File file = SPIFFS.open(rstrFile, "r");
+  if (!file) {
+    return String();
+  }
+  if (startPosition < 0 || byteCount <= 0) {
+    return String();
+  }
+  size_t fileSize = file.size();
+
+  if (startPosition >= fileSize) {
+    file.close();
+    return String();
+  }
+
+  size_t limitedByteCount = (byteCount > GNODE_IO_SIZE) ? GNODE_IO_SIZE : byteCount;
+  if (startPosition + limitedByteCount > fileSize) {
+    limitedByteCount = fileSize - startPosition;
+  }
+
+  char buffer[GNODE_IO_SIZE];
+  file.seek(startPosition);
+  size_t bytesActuallyRead = file.readBytes(buffer, limitedByteCount);
+  file.close();
+
+  buffer[bytesActuallyRead] = '\0'; 
+  
+  return String(buffer);
 }
 // --[  Method  ]---------------------------------------------------------------
 //

@@ -52,6 +52,7 @@
 #define GNODE_FILE_PREFIX "GS"
 #define GNODE_SERVER "work.gridshell.net"
 #define GNODE_VERSION "08"
+#define GNODE_IO_SIZE 128
 #define GNODE_TELEMETRY_FILENAME "/" GNODE_FILE_PREFIX "TELEMETRY"
 /*---------*/
 #define GNODE_DEBUG 1
@@ -93,6 +94,8 @@ public:
   bool Burn(const CGridShell::eBurn& rWhat);
   std::tuple<int, String> Run(const String& rstrBASFile, const String& rstrInputPayload, const uint32_t& ruiTaskTimeout);
   HTTPClient* GetHTTPClient();
+  bool StreamFile(const String& rstrURL, const String& rstrPath);
+  String ReadFile(const String& rstrFile, const size_t& startPosition, const size_t& byteCount);
 
   // MyBasic Exposed Methods
   bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
@@ -110,7 +113,6 @@ public:
 
 private:
   CGridShell();
-  bool StreamFile(const String& rstrURL, const String& rstrPath);
   void Reboot();
   void OTA();
   void CleanFS();
@@ -221,128 +223,50 @@ static int _sha256(struct mb_interpreter_t* s, void** l) {
   mb_check(mb_push_string(s, l, mb_memdup(buf, (unsigned)(strlen(buf) + 1))));
   return result;
 }
+/*---------*/
 static int _read(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
-  const uint16_t GNODE_READ_MAX = 512;
   int_t iStart = 0;
-  int_t iCount = 0;
+  int_t iCount = 0; 
 
-  // Pop variables
   mb_check(mb_attempt_open_bracket(s, l));
   mb_check(mb_pop_int(s, l, &iStart));
   mb_check(mb_pop_int(s, l, &iCount));
   mb_check(mb_attempt_close_bracket(s, l));
-
-  // Returned upon failure
-  char buf[] = { 0x00 };
-
-  // Check for start less than 0
-  if (iStart < 0) {
-    mb_check(mb_push_string(s, l, mb_memdup(buf, 1)));
-    GDEBUG("Read count <= 0");
-    return result;
-  }
-
-  // Check for read size > 0
-  if (iCount <= 0) {
-    mb_check(mb_push_string(s, l, mb_memdup(buf, 1)));
-    GDEBUG("Read count <= 0");
-    return result;
-  }
-
-  // Check for count > chunk limit
-  if (iCount > GNODE_READ_MAX) {
-    mb_check(mb_push_string(s, l, mb_memdup(buf, 1)));
-    GDEBUG("Read count > GNODE_READ_MAX");
-    return result;
-  }
-
-  // Check if exists
-  File fFile = SPIFFS.open(GNODE_TELEMETRY_FILENAME);
-  if (!fFile) {
-    mb_check(mb_push_string(s, l, mb_memdup(buf, 1)));
-    GDEBUG("Read file doesnt exist GNODE_TELEMETRY_FILENAME");
-    return result;
-  }
-
-  // Check for start boundary
-  if (iStart > fFile.size()) {
-    mb_check(mb_push_string(s, l, mb_memdup(buf, 1)));
-    GDEBUG("Read Start boundary " + String(iStart) + " past " + String(fFile.size()));
-    return result;
-  }
-
-  // Check for count boundary
-  if (iCount > fFile.size()) {
-    mb_check(mb_push_string(s, l, mb_memdup(buf, 1)));
-    GDEBUG("Read Count boundary " + String(iCount) + " past " + String(fFile.size()));
-    return result;
-  }
-
-  // Check for start+count boundary vs size
-  if (iStart + iCount > fFile.size()) {
-    mb_check(mb_push_string(s, l, mb_memdup(buf, 1)));
-    GDEBUG("Read boundary " + String(iStart + iCount) + " past " + String(fFile.size()));
-    return result;
-  }
-
-  // Finaly read the file
-  GDEBUG("Reading file " + String(GNODE_TELEMETRY_FILENAME));
-
-  //
-  byte bReadBuffer[GNODE_READ_MAX + 1];
-  memset(bReadBuffer, 0x00, sizeof(bReadBuffer));
-  uint32_t uiBytesRead = 0;
-
-  fFile.seek(iStart, SeekSet);
-  uiBytesRead = fFile.readBytes((char*)bReadBuffer, iCount);
-  fFile.close();
-
-  // We add one more byte for NULL terminator as basic likes strings not bytes
-  bReadBuffer[uiBytesRead] = '\0';
-
-  GDEBUG("READ " + String(uiBytesRead) + " of " + String(iCount) + " requested");
-
-  mb_check(mb_push_string(s, l, mb_memdup((char*)bReadBuffer, (unsigned)(uiBytesRead + 1))));
-
+  String strRed = CGridShell::GetInstance().ReadFile(GNODE_TELEMETRY_FILENAME, iStart, iCount);
+  const char* cstrRed = strRed.c_str();
+  mb_check(mb_push_string(s, l, mb_memdup(cstrRed, strlen(cstrRed) + 1))); 
   return result;
 }
+/*---------*/
 static int _tsize(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
-  int_t iSize = 0;
-
+  int_t iSize = 0; 
   mb_check(mb_attempt_open_bracket(s, l));
-  mb_check(mb_attempt_close_bracket(s, l));
-
+  mb_check(mb_attempt_close_bracket(s, l)); 
   File fTele = SPIFFS.open(GNODE_TELEMETRY_FILENAME);
   if (fTele) {
     iSize = fTele.size();
-    GDEBUG("TELEMETRY Size: " + String(fTele.size()));
     fTele.close();
-  } else
-    GDEBUG("TELEMETRY file doesnt exist");
-
-  mb_check(mb_push_int(s, l, iSize));
-
+  } 
+  mb_check(mb_push_int(s, l, iSize)); 
   return result;
 }
 /*---------*/
 static int _del(struct mb_interpreter_t* s, void** l) {
-  int result = MB_FUNC_OK;
-
-  mb_check(mb_attempt_open_bracket(s, l));
-
-  char* m;
-
+  int result = MB_FUNC_OK; 
+  mb_check(mb_attempt_open_bracket(s, l)); 
+  char* m; 
   mb_check(mb_pop_string(s, l, &m));
   mb_check(mb_attempt_close_bracket(s, l));
   CGridShell::GetInstance().Delete(String(m));
   mb_check(mb_push_int(s, l, 0));
   return result;
 }
+/*---------*/
 static int _write(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
- 
+
   char* cFilename;
   char* cText;
 
@@ -355,12 +279,13 @@ static int _write(struct mb_interpreter_t* s, void** l) {
   // We don't append chunks
   int_t iSuccess = CGridShell::GetInstance().Write(String(cFilename), String(cText), false);
 
-  mb_check(mb_push_int(s, l, iSuccess)); 
+  mb_check(mb_push_int(s, l, iSuccess));
   return result;
-} 
+}
+/*---------*/
 static int _fmd5(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
- 
+
   mb_check(mb_attempt_open_bracket(s, l));
 
   char* m;
@@ -372,9 +297,10 @@ static int _fmd5(struct mb_interpreter_t* s, void** l) {
 
   char buf[strRes.length()];
   sprintf(buf, "%s", strRes.c_str());
-  mb_check(mb_push_string(s, l, mb_memdup(buf, (unsigned)(strlen(buf) + 1)))); 
+  mb_check(mb_push_string(s, l, mb_memdup(buf, (unsigned)(strlen(buf) + 1))));
   return result;
 }
+/*---------*/
 static int _download(struct mb_interpreter_t* s, void** l) {
 
   int result = MB_FUNC_OK;
@@ -386,36 +312,12 @@ static int _download(struct mb_interpreter_t* s, void** l) {
 
   // Fixed name for overwriting (so we don't keep downloaded files)
   String strPath = GNODE_TELEMETRY_FILENAME;
-
-  GDEBUG("HTTPS Getting " GNODE_FS_SERVER + String(cFilename) + " RSSI:" + String(WiFi.RSSI()) + " HEAP:" + String(ESP.getFreeHeap()));
-
-  uint32_t uiBytesWritten = 0; 
-  CGridShell::GetInstance().GetHTTPClient()->begin(GNODE_FS_SERVER + String(cFilename));
-  int httpCode = CGridShell::GetInstance().GetHTTPClient()->GET();
-
-  if (httpCode == HTTP_CODE_OK) {
-    File file = SPIFFS.open(strPath, FILE_WRITE);
-    if (!file) {
-      GDEBUG("Failed to write a file " + strPath);
-      CGridShell::GetInstance().GetHTTPClient()->end();
-      return false;
-    }
-
-    WiFiClient* stream = CGridShell::GetInstance().GetHTTPClient()->getStreamPtr();
-    uint8_t buffer[128] = { 0 };
-    int bytesRead = 0;
-
-    while (CGridShell::GetInstance().GetHTTPClient()->connected() && (bytesRead = stream->readBytes(buffer, sizeof(buffer))) > 0) {
-      file.write(buffer, bytesRead);
-      uiBytesWritten += bytesRead;
-    }
-
-    file.close();
-    GDEBUG(strPath + " Saved");
-  } else
-    GDEBUG("HTTPS Failed downloading " + String(httpCode) + " " + CGridShell::GetInstance().GetHTTPClient()->getString());
-
-  CGridShell::GetInstance().GetHTTPClient()->end();
+  int_t uiBytesWritten = 0;
+  if (CGridShell::GetInstance().StreamFile(GNODE_FS_SERVER + String(cFilename), GNODE_TELEMETRY_FILENAME) == true) {
+    File fTelemetry = SPIFFS.open(GNODE_TELEMETRY_FILENAME, "r");
+    uiBytesWritten = fTelemetry.size();
+    fTelemetry.close();
+  }
 
   mb_check(mb_push_int(s, l, uiBytesWritten));
   return result;
