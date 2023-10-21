@@ -84,7 +84,7 @@ GridShell's development roadmap includes:
 
 In conclusion, GridShell represents more than just a project; it embodies a vision of a smarter, more sustainable future. 
 Envision a world where your IoT-connected smart home appliances not only enhance convenience but also generate income. 
-As the value of GridShell Tokens continues to rise, this vision transforms into reality.
+As the value of GridShell Tokens continues to rise their value, this vision hopefully transforms into reality.
 
 GridShell breathes life into your idle devices, converting them into valuable assets that contribute to a greener, more interconnected future. 
 Unlock the true potential of IoT, reduce waste, and revolutionize the landscape of ultra low power distributed computing.
