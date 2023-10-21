@@ -1,7 +1,7 @@
 # 🎊 Example GridShell integrations
- 
-Here is a list of projects that are using GridShell on daily basis, hopefully as the time flies 
-we will see some of these products mature and go to market being operated totally on the network without in-between hostings.
+
+A compilation of sketches and gadgets currently utilizing GridShell for their operations. We anticipate this collection will expand over time. If you employ GridShell on your device, please feel free to contribute your solution. Likewise, if you've constructed any of the items in our repository, we'd love to hear from you!
+
 
 # 🌲 LookO2 Air Quality Sensor 
 
@@ -33,3 +33,23 @@ Achievements:
 :dollar: - zero costs |
 
 
+# 🌻 Four Digits Display
+
+https://github.com/invpe/GridShell/tree/main/Sources/Integrations/4DigitsDisplay
+
+Occasionally, when we're feeling a bit bored, we seek something to tinker with. Here's an incredibly straightforward sketch that, when finished, will exhibit chosen statistics extracted from the GridShell API. If you happen to have a display of this nature on hand, investing just 10 minutes can brighten your day. Moreover, if you own a 3D printer, you can elevate the experience by creating an attractive casing for the device. In this sketch, we're not only showcasing data but also actively participating in the network by executing background tasks.
+
+
+Achievements:
+:seedling: - 100% eco 
+
+# 🌥️ Temperature and Humidity sensor
+
+https://github.com/invpe/GridShell/tree/main/Sources/Integrations/BME280
+
+At times, you might find yourself wanting to connect a couple of temperature sensors for various purposes, whether it's to monitor room temperature or experiment with available boards in your vicinity. Dive right in and transform them into fully integrated GridShell-connected sensors. In just a matter of minutes, you can set them up for deployment and leverage their JSON data output, which seamlessly integrates with GridShell's telemetry storage. You can either create a widget from the JSON data or seamlessly integrate them into your smart home system.
+
+
+:seedling: - 100% eco | 
+:cloud: - no hosting | 
+:dollar: - zero costs |
