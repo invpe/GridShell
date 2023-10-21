@@ -53,8 +53,8 @@ Glad you're asking, everything.
 
 # :frog: Can i buy it ?
 
-If you don't want to build it, you can buy it.
-Jump here and you'll get it all setup and ready to work.
+If you prefer not to construct it yourself, rest assured that within our community, there are highly skilled members available to build it on your behalf!
+
 
 # :turtle: Prerequisites?
 
