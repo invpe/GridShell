@@ -1,20 +1,6 @@
 # 🩹 What is Test Net
-GridShell in its current version is being continously developed, updated, improved and fixed and patched and crashed ;-)
-But in order to make it better we need to test it somehow, allow people to join and execute tasks, allow people to crash it and allow it to fail here and there.
+The current version of GridShell is under continuous development, with ongoing updates, improvements, bug fixes, and occasional crashes. To enhance its performance, we require a robust testing environment where people can participate, execute tasks, intentionally stress test it, and allow for occasional failures.
 
-The TestNet aka `GTN` (Gridshell Test Net) is running on a simple VPS server that i host for few bucks,
-all nodes are currently connecting to it via `work.gridshell.net` on port `1911`.
+Our testing environment, known as the GridShell TestNet or "GTN," is hosted on a VPS server. All nodes connect to it via the address "work.gridshell.net" and use port "1911." Despite being a testing environment, we have invested significant effort to ensure its high availability.
 
-The server might go down from time to time, either due to DoS attacks or just because of a crash that i need to fix.
-Nevertheless everyone that is contributing by connecting their nodes to the server and getting tokens for tasks executions will have their shells  transferred to a final network once we get there.
-
-It is important to note that this is a development environment and some things might not work as expected / at all.
-Until the project matuers enough things will mostly stay that way.
-
-There are many ways to help advance this forward i.e:
-
-- Help with server source code - work on securing the protocol, implement pooling, anti DoS, and all the server-related matters that can fail.
-- Help with executing tasks - by joining your sketch with the GridShell network to crunch tasks and earn shells.
-
-Any help is appreciated, thanks in advance.
-
+You can monitor the availability status of the Work server by visiting the UptimeRobot dashboard here: [GridShell Work Availability](https://stats.uptimerobot.com/NyDyVSVPD1).
