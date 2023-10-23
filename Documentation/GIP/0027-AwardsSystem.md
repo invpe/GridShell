@@ -15,7 +15,7 @@ we empower our users to play a central role in the evolution of the GridShell pr
 
 # Categories and Milestones
 
-In this revision awards in the shape of a medal will be visible on the Grafana dashboard and generated for the following categories:
+In this revision awards in the shape of a medal will be visible on the Grafana dashboard and will be generated for the following categories:
 
     Submissions:
         Bronze: Awarded for the first task submitted.
