@@ -1,7 +1,7 @@
 # GIP 0027 - Introducing GridShell Award System
 
 - Author(s): gridshell
-- Date: --/--/2023
+- Date: 23/10/2023
 
 # Synopsis
 GridShell is taking a step forward in recognizing and rewarding the contributions of our valued users. With the proposed GridShell Award System, we aim to acknowledge and incentivize users who actively participate in the GridShell ecosystem.
