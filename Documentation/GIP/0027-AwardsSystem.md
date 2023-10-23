@@ -49,3 +49,6 @@ The awards system is designed to celebrate the achievements of our GridShell com
 
 All categories and values in the respective numbers 0 None - 3 Gold will be available on the Explorer endpoint but also in the users JSON file hosted on API endpoint,
 making it easy to read and integrate within users solutions.
+
+
+![image](https://github.com/invpe/GridShell/assets/106522950/0f3c1a6d-519d-4d93-b824-5435c29a2201)
