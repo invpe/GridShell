@@ -44,3 +44,8 @@ As we progress forward, this can be updated with new categories but also values 
 The award system operates seamlessly within the GridShell server logic. As users progress, their medals will adapt to their current status. This approach motivates users to continue their contributions to the network.
 
 The awards system is designed to celebrate the achievements of our GridShell community and inspire further engagement within the network. 
+
+# Availability
+
+All categories and values in the respective numbers 0 None - 3 Gold will be available on the Explorer endpoint but also in the users JSON file hosted on API endpoint,
+making it easy to read and integrate within users solutions.
