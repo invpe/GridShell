@@ -1,4 +1,4 @@
-# GIP 0027 - Introducing GridShell Award System
+# GIP 0027 - Introducing GridShell Award System: Achievements
 
 - Author(s): gridshell
 - Date: 23/10/2023
@@ -8,7 +8,7 @@ GridShell is taking a step forward in recognizing and rewarding the contribution
 
 # Rationale
 Award System will track user activity, including task submissions, successful executions, length of involvement, telemetry desynchs, and more. 
-Based on predefined criteria, users will receive Shell Tokens as awards, allowing them to unlock additional benefits within the GridShell network.
+Based on predefined criteria, users will [receive Shell Tokens as awards](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0028-AwardsSystemRewards.md), allowing them to unlock additional benefits within the GridShell network.
 
 The GridShell Award System not only promotes active user engagement but also fosters a sense of community and collaboration. By rewarding contributions,
 we empower our users to play a central role in the evolution of the GridShell project.
