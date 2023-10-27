@@ -54,3 +54,8 @@ Name each of the plan in the code, by updating [Line](https://github.com/invpe/G
 `Malus Haliana with crab apples connected to GridShell`
 
 The moisture is measured every 30 mintues and reported as a telemetry (append) to GridShell.
+
+## Contribution
+
+This sensor will also contribute to the GridShell network, to make use of it's idle time in between readings.
+You can update the code to put the device to sleep, however with its logic if woken up and given task it will still contribute before going to sleep 👍
