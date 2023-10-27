@@ -37,8 +37,20 @@ Following hardware is used to enable this project:
 ## Visualization
 A dedicated Explorer dashboard called [Flora](https://explorer.gridshell.net:3000/d/ef6c31a6-961c-4dac-89f8-c166c4d8691d/flora?orgId=1) has been created.
 
+![image](https://github.com/invpe/GridShell/assets/106522950/5a4161fb-6bcc-4df1-b531-c5adad69a8b0)
+
 ## Storage
 All plants report data to a single CSV formatted file
 
+![image](https://github.com/invpe/GridShell/assets/106522950/b23ec046-90b6-48d1-9527-23a2be469ef4)
+
 ## Customizations
-Name each of the plan in the code, by updating 
+Name each of the plan in the code, by updating [Line](https://github.com/invpe/GridShell/blob/eba05847577363e3436357e1c8fcb2e89ab9236a/Sources/Integrations/Flora/Soil.ino#L14) in the sketch.
+
+
+## Measurements
+
+![image](https://github.com/invpe/GridShell/assets/106522950/1818e861-6471-43e8-af7b-8c55c4f031a3)
+`Malus Haliana with crab apples connected to GridShell`
+
+The moisture is measured every 30 mintues and reported as a telemetry (append) to GridShell.
