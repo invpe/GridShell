@@ -17,6 +17,7 @@ To centralize numerical data for easier user reference.
 | Add Task  | 1  | Submitting a task to the network  |
 | Send  | 1  | Transferring shell tokens  |
 | Burn Telemetry Slot  | 1000  | Redeeming shells for additional telemetry slot |
+| Burn Telemetry Size  | 1000  | Redeeming shells for additional telemetry size (+1000b) |
 
 # Rewards
 
