@@ -12,6 +12,13 @@ Use [Playground](https://github.com/invpe/GridShell/tree/main/Sources/Playground
 
 ----
 
+## mcpi - Calculate Pi with Monte Carlo
+
+Input: `num_points,seed,`
+
+Output: `count of points inside,total count`
+
+
 ## writedfs - Submit a telemetry to the network.
 
 Input: `FILENAME,APPEND?,BASE64(TEXT_TO_WRITE),`
