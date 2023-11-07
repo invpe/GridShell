@@ -5,8 +5,11 @@
 ----------------
 
 # What you will need ?
-This tutorial assumes that you have an ESP32 device ready to join the GridShell and that you have Arduino application installed.
-Arduino needs to be able to upload sketches to your ESP32, therefore ensure that this is all working before moving forward.
+This tutorial assumes that you have an ESP32 device ready to join the GridShell.
+
+Then depending on the option you choose either [Setup from release file](https://github.com/invpe/GridShell/edit/main/Documentation/Tutorials/Join.md#setup-from-a-release-file) or [Setup from sources](https://github.com/invpe/GridShell/edit/main/Documentation/Tutorials/Join.md#setup-from-sources) you need either a browser or [Arduino IDE](https://www.arduino.cc/en/software/) installed for the sources option.
+
+The simplest way to join a vanilla node is to use the Release setup process, but if you want to modify the code or join your existing sensor as a GridShell node, then definitely reach for the sources tutorial.
 
 # Create account on the testnet
 [https://api.gridshell.net/getuser/](https://api.gridshell.net/getuser/)
