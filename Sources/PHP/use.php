@@ -11,7 +11,7 @@ function PrintHelp()
 {
     echo "Use with following options:\n";
     echo "<YOURHASH> SEND <AMOUNT> <RECEIPENT>\n";
-    echo "<YOURHASH> BURN <TSLOT>\n"; 
+    echo "<YOURHASH> BURN <TSLOT/TSIZE>\n"; 
 }
 
 function PrintExit()
