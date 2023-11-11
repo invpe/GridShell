@@ -80,6 +80,16 @@ else if($command=="BURN")
                 PrintExit();
             } else echo "Something went wrong, throttled ?\n";
         }
+        else if($argument=="TSIZE")
+        {
+            echo "Burn requested for 1k Telemetry Size\n";
+            if(GS_Login($grid_owner))
+            { 
+                GS_Burn("TSIZE"); 
+                GS_Disconnect();
+                PrintExit();
+            } else echo "Something went wrong, throttled ?\n";
+        }
     }
 }
 ?>
