@@ -61,3 +61,16 @@ Occasionally, when we're feeling a bit bored, we seek something to tinker with. 
 
 Achievements:
 :seedling: - 100% eco 
+
+# 🪴 Flora
+
+https://github.com/invpe/GridShell/tree/main/Sources/Integrations/Flora
+
+Monitoring plants soil moisture with GridShell.
+In this example project, i will introduce you to the world of Bonsai, where the wisdom of nature's ancient guardians meets the innovation of modern technology. As first step - we will be monitoring the soil moisture levels of these venerable Bonsai trees, ensuring that their care aligns perfectly with their unique needs.
+
+
+:seedling: - 100% eco | 
+:cloud: - no hosting | 
+:dollar: - zero costs |
+
