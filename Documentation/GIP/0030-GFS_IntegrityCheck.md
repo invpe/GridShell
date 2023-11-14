@@ -34,10 +34,6 @@ Once both parties return their computed hashes, compare them to ensure integrity
 If either the node or the validator is unavailable, or if either has lost the chunk due to disconnection or other reasons, postpone the integrity check for that chunk.
 In the meantime, trigger a replication process to restore the chunk on another node or validator as needed.
 
-## Automated Response to Integrity Failures [GIP0032](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0031-GFS_Integrity_Discrepancy_Handling_and_Replication.md)
-
-If an integrity check fails (i.e., mismatched MD5 hashes), automatically initiate procedures to resolve the discrepancy. This could involve re-uploading the chunk from a trusted source or redistributing it to other nodes. 
-
 ## Continous
 
 The integrity check process within Gridshell is designed to be continuous and unending. This ensures that data integrity is maintained over time, and any tampering or data degradation is promptly identified and addressed.
@@ -51,6 +47,12 @@ To avoid predictability in the checking process, the selection of data chunks fo
 ## Periodic Comprehensive Checks
 
 Schedule regular, comprehensive integrity checks across the network to ensure overall data consistency and reliability.
+
+## Sucessfull checks [GIP0032](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0032-GFS_IntegrityCheckSuccess.md)
+
+## Automated Response to Integrity Failures [GIP0032](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0031-GFS_Integrity_Discrepancy_Handling_and_Replication.md)
+
+If an integrity check fails (i.e., mismatched MD5 hashes), automatically initiate procedures to resolve the discrepancy. This could involve re-uploading the chunk from a trusted source or redistributing it to other nodes. 
 
 # Conclusion
 
