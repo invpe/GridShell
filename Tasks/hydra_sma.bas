@@ -1,4 +1,4 @@
-''Exponential Moving Average
+''Simple Moving Average (SMA)
 ''Dataset File: EPOCH,CLOSING_PRICE,
 OUTPUTPAYLOAD = ""
 CURS = 0
