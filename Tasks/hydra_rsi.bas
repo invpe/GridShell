@@ -1,4 +1,4 @@
-''Exponential Moving Average
+''Relative Strength Index (RSI)
 ''Dataset File: EPOCH,CLOSING_PRICE,
 OUTPUTPAYLOAD = ""
 CURS = 0
