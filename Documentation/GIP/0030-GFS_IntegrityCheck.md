@@ -1,7 +1,7 @@
 # GIP 0030 - Conducting Integrity Checks in Gridshell telemetry
 
 - Author(s): gridshell
-- Date: --/11/2023
+- Date: 10/11/2023
 
 # Synopsis
 This GIP outlines a systematic approach for conducting integrity checks within the Gridshell system. 
