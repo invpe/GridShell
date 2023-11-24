@@ -1,7 +1,7 @@
 # GIP 0031 - Handling Failed Integrity Checks
 
 - Author(s): gridshell
-- Date: --/11/2023
+- Date: 11/11/2023
 
 ## Identification of Discrepancy
 Regular integrity checks are conducted on chunks stored on nodes.
