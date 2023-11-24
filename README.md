@@ -64,6 +64,14 @@ Welcome to GridShell, an innovative distributed computing solution powered by ES
 - Renewable Energy Compatibility: Operate on renewable energy sources or at zero cost, promoting sustainability.
 - Zero hosting/go serverless: Use existing GridShell platform to store,read,compute and visualize data.
 
+
+
+![GridShellCube](https://github.com/invpe/GridShell/assets/106522950/a7e99269-b7fa-4bdd-a20a-bd308fd801be)
+
+<p align="center">
+  <i>Artistic vision of 64 ESP32 validator nodes powered from the sun</i>
+</p> 
+
 # :boom: Message from the author
 
 I am excited to work on this project and have you visiting and joining the GridShell. 
