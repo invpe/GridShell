@@ -12,6 +12,7 @@ function PrintHelp()
     echo "Use with following options:\n";
     echo "<YOURHASH> SEND <AMOUNT> <RECEIPENT>\n";
     echo "<YOURHASH> BURN <TSLOT/TSIZE>\n"; 
+    echo "<YOURHASH> SUBMIT <task> <payload>\n";      
 }
 
 function PrintExit()
@@ -92,4 +93,21 @@ else if($command=="BURN")
         }
     }
 }
+else if($command=="SUBMIT")
+{
+    if($argc != 5)
+    {
+        PrintHelp();
+        exit(0);
+    }
+
+    echo "Task submission\n";
+    if(GS_Login($grid_owner))
+    { 
+        GS_AddTask($argv[3],$argv[4]); 
+        GS_Disconnect();
+        PrintExit();
+    } else echo "Something went wrong, throttled ?\n";  
+    
+} 
 ?>
