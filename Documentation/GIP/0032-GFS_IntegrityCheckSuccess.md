@@ -1,7 +1,7 @@
 # GIP 0032 - Handling Successful Integrity Checks
 
 - Author(s): gridshell
-- Date: --/11/2023
+- Date: 11/11/2023
 
 In the scenario where the DFS integrity check is successful, meaning the hash of a chunk on a node matches the hash on the validator, the following actions will be taken:
 
