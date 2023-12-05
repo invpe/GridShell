@@ -32,5 +32,6 @@ To centralize numerical data for easier user reference.
 | ------------- | ------------- | ------------- | 
 | replicatedfs  | 0  | Replication of a chunk |
 | deletedfs  | 0 | Removal of a chunk |
+| md5dfs  | 0 | Chunk checksum check |
 | send  | 0 | Void task |
 | burn  | 0 | Void task |
