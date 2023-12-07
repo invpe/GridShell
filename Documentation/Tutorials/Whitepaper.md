@@ -45,6 +45,8 @@ GridShell offers several key features:
 # Use Cases
 GridShell's applications are diverse:
 
+- Educational Projects: Use the network to teach concepts of distributed computing, sensor networks, and data collection.
+
 - IoT Sensor Networks: IoT devices can contribute to distributed computing tasks while performing their primary sensing functions.
   Imagine a vast air quality operation where IoT sensors continuously collect data on atmospheric pollutants levels. GridShell allows these sensors to not only perform their primary
   functions but also contribute their idle processing power to predictive analytics, reporting and visualization of the data.
@@ -87,5 +89,6 @@ Envision a world where your IoT-connected smart home appliances not only enhance
 As the value of GridShell Tokens continues to rise their value, this vision hopefully transforms into reality.
 
 GridShell breathes life into your idle devices, converting them into valuable assets that contribute to a greener, more interconnected future. 
+
 Unlock the true potential of IoT, reduce waste, and revolutionize the landscape of ultra low power distributed computing.
 Construct a world where every device, every action, and every contribution matters. Join and change your IoT devices to work for you, and for the betterment of our planet.
