@@ -70,6 +70,11 @@ GridShell's applications are diverse:
 
 - Simplify IOT data storage: Submit telemetry to GridShell from all of your nodes then access it via API or visualize with Explorer endpoint.
 
+## Extending GridShell to Other Platforms
+GridShell is designed with extensibility in mind. While its current focus is on ESP32 microcontrollers to showcase the concept, it can seamlessly integrate with other platforms like Raspberry Pi. The flexibility of GridShell means it can be adapted to various hardware environments, opening up a broader range of use cases and possibilities.
+
+Incorporating GridShell into platforms like Raspberry Pi unlocks even more potential, making it suitable for a wider array of applications and projects. As GridShell evolves, so does its ability to work with different hardware, creating a versatile and adaptable ecosystem for distributed computing and IoT.
+
 # Roadmap
 GridShell's development roadmap includes:
 
