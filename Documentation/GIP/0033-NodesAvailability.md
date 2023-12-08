@@ -48,7 +48,7 @@ Adaptive System: The ability to dynamically adjust replication strategies and us
 ## Next Steps:
 
 * Implement nodes availability metrics rendering on the explorer endpoint.
-* (Finalize and define the threshold for the UPF adjustment)[https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0034-AvailabilityUPFAdjustment.md]
+* Finalize and define the threshold for the UPF adjustment [Here](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0034-AvailabilityUPFAdjustment.md)
    
 
 
