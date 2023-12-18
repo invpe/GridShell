@@ -140,7 +140,7 @@ void CGridShell::CleanFS() {
 
   File root = SPIFFS.open("/");
   if (!root) {
-    Serial.println("Failed to open directory");
+    GDEBUG("Failed to open directory");
     return;
   }
   File file = root.openNextFile();
@@ -150,9 +150,9 @@ void CGridShell::CleanFS() {
     if (fileName.indexOf("/" GNODE_FILE_PREFIX) != -1) {
       // Delete the file
       if (SPIFFS.remove(fileName)) {
-        Serial.println("Deleted file: " + fileName);
+        GDEBUG("Deleted file: " + fileName);
       } else {
-        Serial.println("Failed to delete file: " + fileName);
+        GDEBUG("Failed to delete file: " + fileName);
       }
     }
     file = root.openNextFile();
