@@ -109,9 +109,6 @@ bool CGridShell::Init(const String& strUsername, const bool& bAutoUpdate) {
     return false;
   }
 
-  // Remove telemetry chunks
-  CleanFS();
-
   GDEBUG("Init OK");
 
   //
@@ -138,8 +135,28 @@ void CGridShell::Reboot() {
 //
 // -----------------------------------------------------------------------------
 void CGridShell::CleanFS() {
-  GDEBUG("Format");
-  SPIFFS.format();
+  GDEBUG("Chunks removal");
+  //SPIFFS.format();
+
+  File root = SPIFFS.open("/");
+  if (!root) {
+    Serial.println("Failed to open directory");
+    return;
+  }
+  File file = root.openNextFile();
+  while (file) {
+    String fileName = file.name();
+    // Check if filename contains GNODE_FILE_PREFIX
+    if (fileName.indexOf("/" GNODE_FILE_PREFIX) != -1) {
+      // Delete the file
+      if (SPIFFS.remove(fileName)) {
+        Serial.println("Deleted file: " + fileName);
+      } else {
+        Serial.println("Failed to delete file: " + fileName);
+      }
+    }
+    file = root.openNextFile();
+  }
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -800,8 +817,8 @@ String CGridShell::ReadFile(const String& rstrFile, const size_t& startPosition,
   size_t bytesActuallyRead = file.readBytes(buffer, limitedByteCount);
   file.close();
 
-  buffer[bytesActuallyRead] = '\0'; 
-  
+  buffer[bytesActuallyRead] = '\0';
+
   return String(buffer);
 }
 // --[  Method  ]---------------------------------------------------------------
