@@ -131,12 +131,12 @@ void CGridShell::Reboot() {
 //  - Class     : CGridShell
 //  - Prototype :
 //
-//  - Purpose   : Remove telemetry chunks prefixed with GS
+//  - Purpose   : Remove telemetry chunks prefixed with GS and script files, avoid formatting
 //
 // -----------------------------------------------------------------------------
 void CGridShell::CleanFS() {
-  GDEBUG("Chunks removal");
-  //SPIFFS.format();
+  GDEBUG("Chunks & Scripts removal");
+  std::vector<std::string> patterns = { GNODE_FILE_PREFIX, ".bas" };
 
   File root = SPIFFS.open("/");
   if (!root) {
@@ -146,14 +146,17 @@ void CGridShell::CleanFS() {
   File file = root.openNextFile();
   while (file) {
     String fileName = file.name();
-    GDEBUG("Found: " + fileName);
-    // Check if filename contains GNODE_FILE_PREFIX
-    if (fileName.indexOf(GNODE_FILE_PREFIX) != -1) {
-      // Delete the file
-      if (SPIFFS.remove("/" + fileName)) {
-        GDEBUG("Deleted file: " + fileName);
-      } else {
-        GDEBUG("Failed to delete file: " + fileName);
+
+    // Check if filename contains any pattern from the vector
+    for (const std::string& pattern : patterns) {
+      if (fileName.indexOf(pattern.c_str()) != -1) {
+        // Delete the file
+        if (SPIFFS.remove("/" + fileName)) {
+          GDEBUG("Deleted file: " + fileName + " " + file.size());
+          break;  // Break the loop if file is found and deleted
+        } else {
+          GDEBUG("Failed to delete file: " + fileName);
+        }
       }
     }
     file = root.openNextFile();
