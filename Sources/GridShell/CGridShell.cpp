@@ -146,10 +146,11 @@ void CGridShell::CleanFS() {
   File file = root.openNextFile();
   while (file) {
     String fileName = file.name();
+    GDEBUG("Found: " + fileName);
     // Check if filename contains GNODE_FILE_PREFIX
-    if (fileName.indexOf("/" GNODE_FILE_PREFIX) != -1) {
+    if (fileName.indexOf(GNODE_FILE_PREFIX) != -1) {
       // Delete the file
-      if (SPIFFS.remove(fileName)) {
+      if (SPIFFS.remove("/" + fileName)) {
         GDEBUG("Deleted file: " + fileName);
       } else {
         GDEBUG("Failed to delete file: " + fileName);
