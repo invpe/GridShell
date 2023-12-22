@@ -8,6 +8,9 @@ Improve the reliability and efficiency of our distributed file system by impleme
 This system will allow us to intelligently replicate data chunks, prioritizing nodes with higher availability. 
 Additionally, a periodic review of node performance to potentially adjust user performance factor based on availability metrics.
 
+![image](https://github.com/invpe/GridShell/assets/106522950/3f6e4466-8d21-49ad-84c8-a877d52fff91)
+
+
 ## Implementation Details:
 
 - Node Availability Tracking:
