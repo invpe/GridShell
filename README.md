@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <i>Join your arduino sketch to iot powered distributed volunteer computing network</i>
+  <i>Supercharge Your IoT: Harness Idle Power, Earn Rewards</i>
 </p> 
 
 <div align="center">
@@ -44,8 +44,6 @@ With billions of IOT devices connected today there is a huge potential of comput
 ![image](https://github.com/invpe/GridShell/assets/106522950/2130ee5d-800e-4710-9cd1-2be6315d3c06)
 https://www.gnd.io/some-thoughts-on-idle-iot-devices-and-rent-economies/
 
-
-
  
 Welcome to GridShell, an innovative distributed computing solution powered by ESP32 nodes. Designed to address high-throughput computing challenges, GridShell seamlessly integrates data processing, analysis, and visualization for a wide array of applications.
 
@@ -64,8 +62,6 @@ Welcome to GridShell, an innovative distributed computing solution powered by ES
 - Renewable Energy Compatibility: Operate on renewable energy sources or at zero cost, promoting sustainability.
 - Zero hosting/go serverless: Use existing GridShell platform to store,read,compute and visualize data.
 
-
-
 ![GridShellCube](https://github.com/invpe/GridShell/assets/106522950/a7e99269-b7fa-4bdd-a20a-bd308fd801be)
 
 <p align="center">
@@ -73,15 +69,10 @@ Welcome to GridShell, an innovative distributed computing solution powered by ES
 </p> 
 
 # :boom: Message from the author
+I'm thrilled to have you as part of the GridShell community. While we're actively shaping the world of ultra-low-power distributed computing, it's important to note that GridShell is in a developmental phase. During this journey, occasional challenges may arise, and your feedback is invaluable.
 
-I am excited to work on this project and have you visiting and joining the GridShell. 
-As we stride forward in reshaping the landscape of ultra low power distributed computing, I want to acknowledge that this project is still in its development phase.
-While we continue to innovate and refine our systems, it's only natural that you might encounter occasional hiccups or challenges along the way and i recognize that unforeseen issues might arise as we work to enhance the platform's capabilities.
+If you encounter any issues, have suggestions, or simply want to share your thoughts, don't hesitate to reach out. Collaboration and innovation thrive when we work together.
 
-During this development phase, all feedback is invaluable to me. 
-If you encounter any issues, have suggestions, or experience any uncertainties feel free to reach out to me - because, as the old adage goes, there's nothing quite like the synergy that arises when two minds come together to innovate and solve challenges.  
+GridShell, developed over the past year, is a labor of love. With your support, this project will continue to grow beyond my initial vision. Welcome to the exciting journey ahead!
 
-GridShell is being developed ~~few months~~ a year now by single me, ironing out issues, optimizing the platform, creating a seamless experience, building the logic behind.
-With your support and understanding, I am confident that this hobby project will continue to evolve into something much bigger than i initially thought.
-   
-
+2022-2023
