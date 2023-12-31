@@ -379,6 +379,9 @@ std::tuple<int, String> CGridShell::Run(const String& rstrBASFile, const String&
     mb_register_func(bas, "WRITE", _write);
     mb_register_func(bas, "SHA1", _sha1);
     mb_register_func(bas, "SHA256", _sha256);
+    mb_register_func(bas, "SHA256H", _sha256H);
+    mb_register_func(bas, "HEXTOBIN", _hextobin);
+    mb_register_func(bas, "SECONDS", _seconds);
     mb_register_func(bas, "DOWNLOAD", _download);
     mb_register_func(bas, "TSIZE", _tsize);
     mb_register_func(bas, "FMD5", _fmd5);
@@ -388,7 +391,6 @@ std::tuple<int, String> CGridShell::Run(const String& rstrBASFile, const String&
     mb_register_func(bas, "DEL", _del);
 
     // Enable step by step execution to keep alive with the server
-    //mb_debug_set_stepped_handler(bas, CGridShell::MBStep);
     mb_debug_set_stepped_handler(bas, CGridShell::MBStep, NULL);
 
     // Load up the script

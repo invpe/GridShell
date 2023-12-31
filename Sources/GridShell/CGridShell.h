@@ -55,7 +55,7 @@
 #define GNODE_IO_SIZE 128
 #define GNODE_TELEMETRY_FILENAME "/" GNODE_FILE_PREFIX "TELEMETRY"
 /*---------*/
-#define GNODE_DEBUG 1
+//#define GNODE_DEBUG 1
 #ifdef GNODE_DEBUG
 #define GDEBUG Serial.println
 #else
@@ -108,6 +108,8 @@ public:
   String sha1HW(unsigned char* payload, int len);
   String sha256HW(unsigned char* payload, int len);
   String sha256HW(String payload);
+
+
   String XOR(const String& toEncrypt, const String& rstrKey);
   ~CGridShell();
 
@@ -206,13 +208,74 @@ static int _sha1(struct mb_interpreter_t* s, void** l) {
   return result;
 }
 /*---------*/
-static int _sha256(struct mb_interpreter_t* s, void** l) {
+static int _hextobin(struct mb_interpreter_t* s, void** l) {
+  int result = MB_FUNC_OK;
+
+  mb_check(mb_attempt_open_bracket(s, l));
+
+  char* hashed_block_hex;
+
+  mb_check(mb_pop_string(s, l, &hashed_block_hex));
+  mb_check(mb_attempt_close_bracket(s, l));
+
+  String strHashedBlock = String(hashed_block_hex);
+  String binaryHashedBlock = "";
+  mb_value_t val;
+  mb_make_nil(val);
+
+  mb_value_t coll;
+  coll.type = MB_DT_LIST;
+  mb_init_coll(s, l, &coll);
+
+  int feedback_index = 0;
+  for (unsigned int i = 0; i < strHashedBlock.length(); i += 2) {
+    String byteString = strHashedBlock.substring(i, i + 2);
+    unsigned char byte = static_cast<unsigned char>(strtoul(byteString.c_str(), nullptr, 16));
+    binaryHashedBlock += byte;
+    mb_value_t mb_feedback_index;
+    mb_value_t feedback_value;
+    mb_make_int(mb_feedback_index, feedback_index++);
+    mb_make_int(feedback_value, static_cast<int>(byte));
+    mb_set_coll(s, l, coll, mb_feedback_index, feedback_value);
+  }
+
+
+  // Push the comparison result onto the stack
+  mb_check(mb_push_value(s, l, coll));
+  return result;
+}
+
+static int _sha256H(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
 
   mb_check(mb_attempt_open_bracket(s, l));
 
   char* m;
 
+  mb_check(mb_pop_string(s, l, &m));
+  mb_check(mb_attempt_close_bracket(s, l));
+
+  String strHexData = String(m);
+  String binaryData = "";
+  for (unsigned int i = 0; i < strHexData.length(); i += 2) {
+    String byteString = strHexData.substring(i, i + 2);
+    char byte = static_cast<char>(strtoul(byteString.c_str(), nullptr, 16));
+    binaryData += byte;
+  }
+
+  String strRes = CGridShell::GetInstance().sha256HW(binaryData);
+  char buf[strRes.length()];
+  sprintf(buf, "%s", strRes.c_str());
+
+  mb_check(mb_push_string(s, l, mb_memdup(buf, (unsigned)(strlen(buf) + 1))));
+  return result;
+}
+static int _sha256(struct mb_interpreter_t* s, void** l) {
+  int result = MB_FUNC_OK;
+
+  mb_check(mb_attempt_open_bracket(s, l));
+
+  char* m;
   mb_check(mb_pop_string(s, l, &m));
   mb_check(mb_attempt_close_bracket(s, l));
 
@@ -227,7 +290,7 @@ static int _sha256(struct mb_interpreter_t* s, void** l) {
 static int _read(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
   int_t iStart = 0;
-  int_t iCount = 0; 
+  int_t iCount = 0;
 
   mb_check(mb_attempt_open_bracket(s, l));
   mb_check(mb_pop_int(s, l, &iStart));
@@ -235,28 +298,36 @@ static int _read(struct mb_interpreter_t* s, void** l) {
   mb_check(mb_attempt_close_bracket(s, l));
   String strRed = CGridShell::GetInstance().ReadFile(GNODE_TELEMETRY_FILENAME, iStart, iCount);
   const char* cstrRed = strRed.c_str();
-  mb_check(mb_push_string(s, l, mb_memdup(cstrRed, strlen(cstrRed) + 1))); 
+  mb_check(mb_push_string(s, l, mb_memdup(cstrRed, strlen(cstrRed) + 1)));
+  return result;
+}
+/*---------*/
+static int _seconds(struct mb_interpreter_t* s, void** l) {
+  int result = MB_FUNC_OK;
+  mb_check(mb_attempt_open_bracket(s, l));
+  mb_check(mb_attempt_close_bracket(s, l));
+  mb_check(mb_push_int(s, l, static_cast<int>(millis() / 1000)));
   return result;
 }
 /*---------*/
 static int _tsize(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
-  int_t iSize = 0; 
+  int_t iSize = 0;
   mb_check(mb_attempt_open_bracket(s, l));
-  mb_check(mb_attempt_close_bracket(s, l)); 
+  mb_check(mb_attempt_close_bracket(s, l));
   File fTele = SPIFFS.open(GNODE_TELEMETRY_FILENAME);
   if (fTele) {
     iSize = fTele.size();
     fTele.close();
-  } 
-  mb_check(mb_push_int(s, l, iSize)); 
+  }
+  mb_check(mb_push_int(s, l, iSize));
   return result;
 }
 /*---------*/
 static int _del(struct mb_interpreter_t* s, void** l) {
-  int result = MB_FUNC_OK; 
-  mb_check(mb_attempt_open_bracket(s, l)); 
-  char* m; 
+  int result = MB_FUNC_OK;
+  mb_check(mb_attempt_open_bracket(s, l));
+  char* m;
   mb_check(mb_pop_string(s, l, &m));
   mb_check(mb_attempt_close_bracket(s, l));
   CGridShell::GetInstance().Delete(String(m));
