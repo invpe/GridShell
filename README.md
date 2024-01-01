@@ -50,23 +50,6 @@ Welcome to GridShell, an innovative distributed computing solution powered by ES
 
 <img src=https://github.com/invpe/gridshell/blob/main/Resources/GSEP.png>
 <div align="center"><tt>GridShell cluster operating 192 nodes in ULP mode</tt></div>
- 
-
-## 🗃️ Key Features
-- Distributed Computing Power: Leverage the collective computing strength of ESP32 nodes for efficient task execution.
-- Distributed Storage: All telemetry data is stored on the network nodes
-- Telemetry Data Processing: Store and process telemetry data from IoT devices, enabling deep analysis and insights.
-- Custom Script Execution: Empower users to execute custom scripts and calculations on telemetry data.
-- Real-time Visualization: Integrate with Grafana dashboards for real-time and historical data insights.
-- API and Integration: Provide HTTPS API access for seamless integration with external applications.
-- Renewable Energy Compatibility: Operate on renewable energy sources or at zero cost, promoting sustainability.
-- Zero hosting/go serverless: Use existing GridShell platform to store,read,compute and visualize data.
-
-![GridShellCube](https://github.com/invpe/GridShell/assets/106522950/a7e99269-b7fa-4bdd-a20a-bd308fd801be)
-
-<p align="center">
-  <i>Artistic vision of 64 ESP32 validator nodes powered from the sun</i>
-</p> 
 
 # :boom: Message from the author
 I'm thrilled to have you as part of the GridShell community. While we're actively shaping the world of ultra-low-power distributed computing, it's important to note that GridShell is in a developmental phase. During this journey, occasional challenges may arise, and your feedback is invaluable.
@@ -75,4 +58,12 @@ If you encounter any issues, have suggestions, or simply want to share your thou
 
 GridShell, developed over the past year, is a labor of love. With your support, this project will continue to grow beyond my initial vision. Welcome to the exciting journey ahead!
 
-2022-2023
+
+
+![GridShellCube](https://github.com/invpe/GridShell/assets/106522950/a7e99269-b7fa-4bdd-a20a-bd308fd801be)
+
+<p align="center">
+  <i>Artistic vision of 64 ESP32 validator nodes powered from the sun</i>
+</p> 
+
+2022-2023-2024
