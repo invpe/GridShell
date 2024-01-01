@@ -40,7 +40,9 @@ GridShell offers several key features:
   - Burning Tokens: Every time a user submits a task for execution within the GridShell network, they "burn" a Shell Token. This mechanism ensures that tokens are used as intended, promoting fair and active participation in the ecosystem.
   
 - Serverless Device and Application Building: GridShell enables the creation of serverless devices and applications, reducing the need for external hosting services.
+  
 - Easy integration: Simple API endpoint allows for quick integration with other applications. The GridShell library can contribute to and use the GridShell network at the same time
+
 
 # Use Cases
 GridShell's applications are diverse:
@@ -70,6 +72,11 @@ GridShell's applications are diverse:
 
 - Simplify IOT data storage: Submit telemetry to GridShell from all of your nodes then access it via API or visualize with Explorer endpoint.
 
+- Personalized Instances: Tailor GridShell to your needs by creating customized instances. Build and manage your own simple distributed computing solutions on IoT devices.
+
+- Ultra Low Power Cryptocurrency Mining: GridShell has demonstrated its capabilities in participating in cryptocurrency mining activities. Users have successfully harnessed the power of distributed IoT devices for tasks like Bitcoin Lottery and other Coins mining. While GridShell operates at an ultra-low power scale, it showcases its adaptability to various computational purposes, even within the cryptocurrency realm.
+  
+  
 ## Extending GridShell to Other Platforms
 GridShell is designed with extensibility in mind. While its current focus is on ESP32 microcontrollers to showcase the concept, it can seamlessly integrate with other platforms like Raspberry Pi. The flexibility of GridShell means it can be adapted to various hardware environments, opening up a broader range of use cases and possibilities.
 
@@ -87,6 +94,9 @@ GridShell's development roadmap includes:
   
 - Go full open source: Long-term vision includes transitioning GridShell to a fully open-source platform, inviting the community to actively contribute to its development.
 
+- Transition to Real-Value Rewards: GridShell aims to empower its volunteers to transition Shell Tokens into real rewards. This strategic shift encourages volunteers to actively participate in establishing real value for Shell Tokens, fostering a mutually beneficial ecosystem.
+
+  
 # Conclusion
 
 In conclusion, GridShell represents more than just a project; it embodies a vision of a smarter, more sustainable future. 
@@ -97,3 +107,5 @@ GridShell breathes life into your idle devices, converting them into valuable as
 
 Unlock the true potential of IoT, reduce waste, and revolutionize the landscape of ultra low power distributed computing.
 Construct a world where every device, every action, and every contribution matters. Join and change your IoT devices to work for you, and for the betterment of our planet.
+
+Inspired by the history of BOINC and its ambitious pursuit of volunteer computing, GridShell aims to carry forward the spirit of distributed volunteer computing into the realm of IoT devices. (Reference: [BOINC History](https://continuum-hypothesis.com/boinc_history.php))
