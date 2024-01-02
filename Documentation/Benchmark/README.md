@@ -30,11 +30,46 @@ Time of execution 	`5731/300000 ms`
 Generate SHA1 from a string
 
 ```
-HASH = SHA1("THIS IS A PLAIN TEXT") 
+TSTART=SECONDS()
+FOR Z = 0 TO 100000
+SHA1("GRIDSHELL")
+NEXT Z
+TEND=SECONDS()
+OUTPUTPAYLOAD="TIME: "+STR(TEND-TSTART) 
+------------------------------
+87802458:225668 Starting
+87802458:225652 Inputpayload: sss
+87802458:225620 Saving script
+87802464:227496 Starting script
+87869546:228360 Script ended after 67079ms
+87869546:228312 Return code: 0
+87869546:228280 Outputpayload: TIME: 67
+87869546:228248 End
+ ------------------------------
 ```
 
-Time of execution 	`46/300000 ms`
+## SHA256
+Generate SHA256 from a string
 
+```
+TSTART=SECONDS()
+FOR Z = 0 TO 100000
+SHA256("GRIDSHELL")
+NEXT Z
+TEND=SECONDS()
+OUTPUTPAYLOAD="TIME: "+STR(TEND-TSTART)
+ ------------------------------
+87963429:226560 Starting
+87963429:226540 Inputpayload: sss
+87963429:226512 Saving script
+87963435:228380 Starting script
+88035046:228476 Script ended after 71608ms
+88035046:228428 Return code: 0
+88035046:228396 Outputpayload: TIME: 72
+88035046:228364 End
+ ------------------------------
+
+```
 
 ## DOWNLOAD
 Download `3757` bytes of `TELEMETRY` to local `SPIFFS`
