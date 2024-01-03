@@ -39,6 +39,8 @@
 #include "SPIFFS.h"
 #include "my_basic.h"
 #include "mbedtls/base64.h"
+#include "mbedtls/sha1.h"
+#include "mbedtls/sha256.h"
 #include "MD5Builder.h"
 /*---------*/
 #define GNODE_PING_TIME 10000

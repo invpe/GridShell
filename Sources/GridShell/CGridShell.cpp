@@ -542,33 +542,29 @@ String CGridShell::sha1HW(String payload) {
 //
 // -----------------------------------------------------------------------------
 String CGridShell::sha1HW(unsigned char* payload, int len) {
-  //
-  int size = 20;
-  byte shaResult[size];
+    mbedtls_sha1_context ctx;
+    unsigned char shaResult[20]; // SHA1 produces a 20-byte hash
 
-  mbedtls_md_context_t ctx;
-  mbedtls_md_type_t md_type = MBEDTLS_MD_SHA1;
+    mbedtls_sha1_init(&ctx);
 
-  const size_t payloadLength = len;
+    // Perform SHA1 hash
+    mbedtls_sha1_starts_ret(&ctx);
+    mbedtls_sha1_update_ret(&ctx, payload, len);
+    mbedtls_sha1_finish_ret(&ctx, shaResult);
 
-  mbedtls_md_init(&ctx);
-  mbedtls_md_setup(&ctx, mbedtls_md_info_from_type(md_type), 0);
-  mbedtls_md_starts(&ctx);
-  mbedtls_md_update(&ctx, (const unsigned char*)payload, payloadLength);
-  mbedtls_md_finish(&ctx, shaResult);
-  mbedtls_md_free(&ctx);
+    mbedtls_sha1_free(&ctx);
 
-  String hashStr = "";
+    String hashStr = "";
 
-  for (uint16_t i = 0; i < size; i++) {
-    String hex = String(shaResult[i], HEX);
-    if (hex.length() < 2) {
-      hex = "0" + hex;
+    for (uint16_t i = 0; i < 20; i++) {
+        String hex = String(shaResult[i], HEX);
+        if (hex.length() < 2) {
+            hex = "0" + hex;
+        }
+        hashStr += hex;
     }
-    hashStr += hex;
-  }
 
-  return hashStr;
+    return hashStr;
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -707,7 +703,6 @@ bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const boo
 
   return true;
 }
-
 // --[  Method  ]---------------------------------------------------------------
 //
 //  - Class     : CGridShell
@@ -728,31 +723,29 @@ String CGridShell::sha256HW(String payload) {
 //
 // -----------------------------------------------------------------------------
 String CGridShell::sha256HW(unsigned char* payload, int len) {
-  byte shaResult[32];  // SHA-256 produces a 32-byte hash
+    unsigned char shaResult[32]; // SHA256 produces a 32-byte hash
+    mbedtls_sha256_context ctx;
 
-  mbedtls_md_context_t ctx;
-  mbedtls_md_type_t md_type = MBEDTLS_MD_SHA256;
+    mbedtls_sha256_init(&ctx);
 
-  const size_t payloadLength = len;
+    // Perform SHA256 hash
+    mbedtls_sha256_starts_ret(&ctx, 0); // 0 for SHA256
+    mbedtls_sha256_update_ret(&ctx, payload, len);
+    mbedtls_sha256_finish_ret(&ctx, shaResult);
 
-  mbedtls_md_init(&ctx);
-  mbedtls_md_setup(&ctx, mbedtls_md_info_from_type(md_type), 0);
-  mbedtls_md_starts(&ctx);
-  mbedtls_md_update(&ctx, payload, payloadLength);
-  mbedtls_md_finish(&ctx, shaResult);
-  mbedtls_md_free(&ctx);
+    mbedtls_sha256_free(&ctx);
 
-  String hashStr = "";
+    String hashStr = "";
 
-  for (uint16_t i = 0; i < 32; i++) {  // SHA-256 produces a 32-byte hash
-    String hex = String(shaResult[i], HEX);
-    if (hex.length() < 2) {
-      hex = "0" + hex;
+    for (uint16_t i = 0; i < 32; i++) {
+        String hex = String(shaResult[i], HEX);
+        if (hex.length() < 2) {
+            hex = "0" + hex;
+        }
+        hashStr += hex;
     }
-    hashStr += hex;
-  }
 
-  return hashStr;
+    return hashStr;
 }
 // --[  Method  ]---------------------------------------------------------------
 //
