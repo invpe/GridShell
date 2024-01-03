@@ -32,5 +32,7 @@ UPFExecutionsCount=100
 LoggerPath=logs/
 BaseValue=0.1
 TasksHistory=100
+AllowScripts=airdrop,writedfs,burn,send
+CoreScripts=airdrop,deldfs,replicatedfs,md5dfs,deluser,writedfs
 DISABLED_GIP36ChunkDroppedMaxReduction=10
 DISABLED_GIP38MaxChunksPerNode=10
