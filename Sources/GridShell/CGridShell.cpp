@@ -378,6 +378,7 @@ std::tuple<int, String> CGridShell::Run(const String& rstrBASFile, const String&
     // Additional functions
     mb_register_func(bas, "READ", _read); // V08
     mb_register_func(bas, "READLINE", _readline); // V081
+    mb_register_func(bas, "CSV2LIST", _csvtolist); // V081
     mb_register_func(bas, "WRITE", _write);  // V08
     mb_register_func(bas, "SHA1", _sha1); // V08
     mb_register_func(bas, "SHA256", _sha256); // V08

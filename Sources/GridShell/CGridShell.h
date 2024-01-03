@@ -198,7 +198,6 @@ static int _sha1(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
 
   mb_check(mb_attempt_open_bracket(s, l));
-
   char* m;
 
   mb_check(mb_pop_string(s, l, &m));
@@ -211,6 +210,53 @@ static int _sha1(struct mb_interpreter_t* s, void** l) {
   mb_check(mb_push_string(s, l, mb_memdup(buf, (unsigned)(strlen(buf) + 1))));
   return result;
 }
+/*---------*/
+static int _csvtolist(struct mb_interpreter_t* s, void** l) {
+  int result = MB_FUNC_OK;
+
+  mb_check(mb_attempt_open_bracket(s, l));
+
+  char* strInputString;
+
+  mb_check(mb_pop_string(s, l, &strInputString));
+  mb_check(mb_attempt_close_bracket(s, l));
+
+  std::vector<String> vValues;
+  String strInput(strInputString);
+  int start = 0;
+  int end = strInput.indexOf(',');
+
+  while (end != -1) {
+    vValues.push_back(strInput.substring(start, end));
+    start = end + 1;
+    end = strInput.indexOf(',', start);
+  }
+
+  // Add the last substring (or the entire string if no comma was found)
+  vValues.push_back(strInput.substring(start));
+
+  mb_value_t val;
+  mb_make_nil(val);
+
+  mb_value_t coll;
+  coll.type = MB_DT_LIST;
+  mb_init_coll(s, l, &coll);
+
+  int feedback_index = 0;
+  for (size_t i = 0; i < vValues.size(); ++i) {
+    mb_value_t mb_feedback_index;
+    mb_value_t feedback_value;
+    mb_make_int(mb_feedback_index, feedback_index++);
+    mb_make_string(feedback_value, const_cast<char*>(vValues[i].c_str()));
+    mb_set_coll(s, l, coll, mb_feedback_index, feedback_value);
+  }
+
+
+  // Push the comparison result onto the stack
+  mb_check(mb_push_value(s, l, coll));
+  return result;
+}
+
 /*---------*/
 static int _hextobin(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
