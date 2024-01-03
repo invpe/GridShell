@@ -106,6 +106,28 @@ NEXT I
  
 Time of execution 	`187/300000 ms`
 
+## READ Line by line (V081)
+
+``` 
+DOWNLOAD("telemetry_file")
+PRINT "TELEMETRY SIZE: ",TSIZE(); 
+
+' Measure file parsing time
+TSTART=SECONDS()
+WHILE TRUE
+
+	B=READLINE()
+	IF B = "" THEN 	 	
+	 	EXIT
+	ENDIF
+
+WEND
+PRINT "TIME TAKEN: ",SECONDS()-TSTART;
+------------------------------
+23:07:36.076 -> TELEMETRY SIZE: 48649
+23:07:44.734 -> TIME TAKEN: 8
+```
+
 ## TOKENIZE string to list
 Split string by `,` to LIST object
 
