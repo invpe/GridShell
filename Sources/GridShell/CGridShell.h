@@ -97,7 +97,8 @@ public:
   std::tuple<int, String> Run(const String& rstrBASFile, const String& rstrInputPayload, const uint32_t& ruiTaskTimeout);
   HTTPClient* GetHTTPClient();
   bool StreamFile(const String& rstrURL, const String& rstrPath);
-  String ReadFile(const String& rstrFile, const size_t& startPosition, const size_t& byteCount);
+  String ReadFile(const size_t& startPosition, const size_t& byteCount);
+  String ReadFileLine();
 
   // MyBasic Exposed Methods
   bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
@@ -132,6 +133,7 @@ private:
   WiFiClientSecure m_Client;
   HTTPClient m_HttpClient;
   MD5Builder m_MD5;
+  uint32_t m_uiCurrentFilePosition;
   void (*m_pCallback)(uint8_t);
 };
 /*---------*/
@@ -289,6 +291,16 @@ static int _sha256(struct mb_interpreter_t* s, void** l) {
   return result;
 }
 /*---------*/
+static int _readline(struct mb_interpreter_t* s, void** l) {
+  int result = MB_FUNC_OK;
+
+  mb_check(mb_attempt_open_bracket(s, l));
+  mb_check(mb_attempt_close_bracket(s, l));
+  String strRed = CGridShell::GetInstance().ReadFileLine();
+  const char* cstrRed = strRed.c_str();
+  mb_check(mb_push_string(s, l, mb_memdup(cstrRed, strlen(cstrRed) + 1)));
+  return result;
+}
 static int _read(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
   int_t iStart = 0;
@@ -298,7 +310,7 @@ static int _read(struct mb_interpreter_t* s, void** l) {
   mb_check(mb_pop_int(s, l, &iStart));
   mb_check(mb_pop_int(s, l, &iCount));
   mb_check(mb_attempt_close_bracket(s, l));
-  String strRed = CGridShell::GetInstance().ReadFile(GNODE_TELEMETRY_FILENAME, iStart, iCount);
+  String strRed = CGridShell::GetInstance().ReadFile(iStart, iCount);
   const char* cstrRed = strRed.c_str();
   mb_check(mb_push_string(s, l, mb_memdup(cstrRed, strlen(cstrRed) + 1)));
   return result;
@@ -375,7 +387,6 @@ static int _fmd5(struct mb_interpreter_t* s, void** l) {
 }
 /*---------*/
 static int _download(struct mb_interpreter_t* s, void** l) {
-
   int result = MB_FUNC_OK;
   char* cFilename;
 

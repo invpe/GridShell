@@ -8,6 +8,7 @@
 //
 // -----------------------------------------------------------------------------
 CGridShell::CGridShell() {
+  m_uiCurrentFilePosition = 0;
   m_bAutoUpdate = true;
   m_strUsername = "";
   m_uiLastHB = 0;
@@ -375,20 +376,21 @@ std::tuple<int, String> CGridShell::Run(const String& rstrBASFile, const String&
     mb_open(&bas);
 
     // Additional functions
-    mb_register_func(bas, "READ", _read);
-    mb_register_func(bas, "WRITE", _write);
-    mb_register_func(bas, "SHA1", _sha1);
-    mb_register_func(bas, "SHA256", _sha256);
-    mb_register_func(bas, "SHA256H", _sha256H);
-    mb_register_func(bas, "HEXTOBIN", _hextobin);
-    mb_register_func(bas, "SECONDS", _seconds);
-    mb_register_func(bas, "DOWNLOAD", _download);
-    mb_register_func(bas, "TSIZE", _tsize);
-    mb_register_func(bas, "FMD5", _fmd5);
-    mb_register_func(bas, "B64D", _b64d);
-    mb_register_func(bas, "B64E", _b64e);
-    mb_register_func(bas, "XOR", _xor);
-    mb_register_func(bas, "DEL", _del);
+    mb_register_func(bas, "READ", _read); // V08
+    mb_register_func(bas, "READLINE", _readline); // V081
+    mb_register_func(bas, "WRITE", _write);  // V08
+    mb_register_func(bas, "SHA1", _sha1); // V08
+    mb_register_func(bas, "SHA256", _sha256); // V08
+    mb_register_func(bas, "SHA256H", _sha256H); // V081
+    mb_register_func(bas, "HEXTOBIN", _hextobin); // V081
+    mb_register_func(bas, "SECONDS", _seconds); // V081
+    mb_register_func(bas, "DOWNLOAD", _download); // V08
+    mb_register_func(bas, "TSIZE", _tsize); // V08
+    mb_register_func(bas, "FMD5", _fmd5); // V08
+    mb_register_func(bas, "B64D", _b64d); // V08
+    mb_register_func(bas, "B64E", _b64e); // V08
+    mb_register_func(bas, "XOR", _xor); // V08
+    mb_register_func(bas, "DEL", _del); // V08
 
     // Enable step by step execution to keep alive with the server
     mb_debug_set_stepped_handler(bas, CGridShell::MBStep, NULL);
@@ -542,29 +544,29 @@ String CGridShell::sha1HW(String payload) {
 //
 // -----------------------------------------------------------------------------
 String CGridShell::sha1HW(unsigned char* payload, int len) {
-    mbedtls_sha1_context ctx;
-    unsigned char shaResult[20]; // SHA1 produces a 20-byte hash
+  mbedtls_sha1_context ctx;
+  unsigned char shaResult[20];  // SHA1 produces a 20-byte hash
 
-    mbedtls_sha1_init(&ctx);
+  mbedtls_sha1_init(&ctx);
 
-    // Perform SHA1 hash
-    mbedtls_sha1_starts_ret(&ctx);
-    mbedtls_sha1_update_ret(&ctx, payload, len);
-    mbedtls_sha1_finish_ret(&ctx, shaResult);
+  // Perform SHA1 hash
+  mbedtls_sha1_starts_ret(&ctx);
+  mbedtls_sha1_update_ret(&ctx, payload, len);
+  mbedtls_sha1_finish_ret(&ctx, shaResult);
 
-    mbedtls_sha1_free(&ctx);
+  mbedtls_sha1_free(&ctx);
 
-    String hashStr = "";
+  String hashStr = "";
 
-    for (uint16_t i = 0; i < 20; i++) {
-        String hex = String(shaResult[i], HEX);
-        if (hex.length() < 2) {
-            hex = "0" + hex;
-        }
-        hashStr += hex;
+  for (uint16_t i = 0; i < 20; i++) {
+    String hex = String(shaResult[i], HEX);
+    if (hex.length() < 2) {
+      hex = "0" + hex;
     }
+    hashStr += hex;
+  }
 
-    return hashStr;
+  return hashStr;
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -603,6 +605,10 @@ HTTPClient* CGridShell::GetHTTPClient() {
 // -----------------------------------------------------------------------------
 bool CGridShell::StreamFile(const String& rstrURL, const String& rstrPath) {
 
+  // Reset the file position for ReadFileLine
+  m_uiCurrentFilePosition = 0;
+
+  //
   m_HttpClient.begin(rstrURL);
   int httpCode = m_HttpClient.GET();
   bool bSuccess = false;
@@ -723,29 +729,29 @@ String CGridShell::sha256HW(String payload) {
 //
 // -----------------------------------------------------------------------------
 String CGridShell::sha256HW(unsigned char* payload, int len) {
-    unsigned char shaResult[32]; // SHA256 produces a 32-byte hash
-    mbedtls_sha256_context ctx;
+  unsigned char shaResult[32];  // SHA256 produces a 32-byte hash
+  mbedtls_sha256_context ctx;
 
-    mbedtls_sha256_init(&ctx);
+  mbedtls_sha256_init(&ctx);
 
-    // Perform SHA256 hash
-    mbedtls_sha256_starts_ret(&ctx, 0); // 0 for SHA256
-    mbedtls_sha256_update_ret(&ctx, payload, len);
-    mbedtls_sha256_finish_ret(&ctx, shaResult);
+  // Perform SHA256 hash
+  mbedtls_sha256_starts_ret(&ctx, 0);  // 0 for SHA256
+  mbedtls_sha256_update_ret(&ctx, payload, len);
+  mbedtls_sha256_finish_ret(&ctx, shaResult);
 
-    mbedtls_sha256_free(&ctx);
+  mbedtls_sha256_free(&ctx);
 
-    String hashStr = "";
+  String hashStr = "";
 
-    for (uint16_t i = 0; i < 32; i++) {
-        String hex = String(shaResult[i], HEX);
-        if (hex.length() < 2) {
-            hex = "0" + hex;
-        }
-        hashStr += hex;
+  for (uint16_t i = 0; i < 32; i++) {
+    String hex = String(shaResult[i], HEX);
+    if (hex.length() < 2) {
+      hex = "0" + hex;
     }
+    hashStr += hex;
+  }
 
-    return hashStr;
+  return hashStr;
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -787,12 +793,37 @@ void CGridShell::OTA() {
 //  - Class     : CGridShell
 //  - Prototype :
 //
-//  - Purpose   : Helper
+//  - Purpose   : Helper, reads file line by line (\n)
 //
 // -----------------------------------------------------------------------------
-String CGridShell::ReadFile(const String& rstrFile, const size_t& startPosition, const size_t& byteCount) {
+String CGridShell::ReadFileLine() {
+  File file = SPIFFS.open(GNODE_TELEMETRY_FILENAME, "r");
+  if (!file) {
+    return String();
+  }
 
-  File file = SPIFFS.open(rstrFile, "r");
+  if (file.size() <= m_uiCurrentFilePosition) {
+    file.close();
+    return String();
+  }
+
+  file.seek(m_uiCurrentFilePosition);
+  String line = file.readStringUntil('\n');
+  m_uiCurrentFilePosition += line.length() + 1;  // +1 for \n
+  file.close();
+  return line;
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   : Helper reads file from to byte
+//
+// -----------------------------------------------------------------------------
+String CGridShell::ReadFile(const size_t& startPosition, const size_t& byteCount) {
+
+  File file = SPIFFS.open(GNODE_TELEMETRY_FILENAME, "r");
   if (!file) {
     return String();
   }
@@ -811,7 +842,7 @@ String CGridShell::ReadFile(const String& rstrFile, const size_t& startPosition,
     limitedByteCount = fileSize - startPosition;
   }
 
-  char buffer[GNODE_IO_SIZE];
+  char buffer[GNODE_IO_SIZE + 1];
   file.seek(startPosition);
   size_t bytesActuallyRead = file.readBytes(buffer, limitedByteCount);
   file.close();
