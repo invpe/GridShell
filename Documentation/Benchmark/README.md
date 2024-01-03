@@ -217,3 +217,31 @@ TOKENIZE(CSVLIST,STRCSV)
 Time of execution 	`348/300000 ms`
 
 
+## CSV2STR V081
+```
+' Benchtest
+' Measure parsing and LIST creation time
+' The list created with CSV2LIST allows for
+' Getting values by indexes to the list
+
+CSV=LIST()
+DOWNLOAD("telemetry_file")
+PRINT "TELEMETRY SIZE: ",TSIZE(); 
+TSTART=SECONDS()
+WHILE TRUE
+
+	B=READLINE()
+	IF B = "" THEN 	 	
+	 	EXIT
+	ELSE
+		CLEAR(CSV)
+		CSV=CSV2LIST(B)  
+	ENDIF
+
+WEND
+PRINT "TIME TAKEN: ",SECONDS()-TSTART;
+------------------------------
+23:34:57.893 -> TELEMETRY SIZE: 48649
+23:35:07.580 -> TIME TAKEN: 9
+```
+
