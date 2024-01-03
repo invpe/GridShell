@@ -217,7 +217,7 @@ TOKENIZE(CSVLIST,STRCSV)
 Time of execution 	`348/300000 ms`
 
 
-## CSV2STR V081
+## CSV2LIST V081
 ```
 ' Benchtest
 ' Measure parsing and LIST creation time
