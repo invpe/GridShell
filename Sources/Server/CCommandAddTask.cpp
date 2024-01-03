@@ -53,10 +53,15 @@ bool CCommandAddTask::Validate(const std::vector<std::string>& vData,CServer& rS
     {                                   
         CLogger::GetInstance().Log(SERVER_LOG_WARRNING,pUser->GetUsername()+" ("+pNode->GetIdent()+") Bad script name"); 
         return false;
-    }  
-    if(rServer.IsCoreTask(strScript) && !pUser->IsValidator())
+    }            
+    if(!rServer.IsLoadedScript(strScript))
+    {                                            
+        CLogger::GetInstance().Log(SERVER_LOG_WARRNING,pUser->GetUsername()+" ("+pNode->GetIdent()+") Unknown script");
+        return false; 
+    } 
+    if(rServer.IsCoreScript(strScript) && !pUser->IsValidator())
     {  
-        CLogger::GetInstance().Log(SERVER_LOG_WARRNING,pUser->GetUsername()+" ("+pNode->GetIdent()+") Disallowed"); 
+        CLogger::GetInstance().Log(SERVER_LOG_WARRNING,pUser->GetUsername()+" ("+pNode->GetIdent()+") Disallowed script"); 
         return false;             
     }     
     if(strPayload.empty())
@@ -69,12 +74,6 @@ bool CCommandAddTask::Validate(const std::vector<std::string>& vData,CServer& rS
         CLogger::GetInstance().Log(SERVER_LOG_WARRNING,pUser->GetUsername()+" ("+pNode->GetIdent()+") Payload len exceeded "+std::to_string(strPayload.length()));
         return false;                         
     } 
-    if(!CSystemUtil::FileExists("scripts/"+strScript+".bas"))
-    {                                            
-        CLogger::GetInstance().Log(SERVER_LOG_WARRNING,pUser->GetUsername()+" ("+pNode->GetIdent()+") Unknown script");
-        return false; 
-    } 
-
 
     // Does the user happen to have enough shells?
     if(pUser->GetBalance()>=std::stoul(rServer.GetConfigParameter("TaskCreationCost")))

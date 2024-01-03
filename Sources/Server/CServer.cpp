@@ -143,11 +143,7 @@ bool CServer::Start()
     m_mCommandsMap["RESULTS"]= std::make_unique<CCommandResults>();
     m_mCommandsMap["ADDUSER"]= std::make_unique<CCommandAddUser>();
     m_mCommandsMap["GETTASK"]= std::make_unique<CCommandGetTask>();
-    
-    m_vCoreTasks.push_back("deldfs");
-    m_vCoreTasks.push_back("replicatedfs");
-    m_vCoreTasks.push_back("md5dfs");
-    m_vCoreTasks.push_back("deluser");
+     
 
     CLogger::GetInstance().Log(SERVER_LOG_INFO,"Rolling");
     
@@ -2402,19 +2398,6 @@ std::vector<std::string> CServer::GetWordList()
 //  - Class     : CServer
 //  - Prototype :
 //
-//  - Purpose   : Returns if a task is marked as 'core'
-//
-// -----------------------------------------------------------------------------
-bool CServer::IsCoreTask(const std::string& rstrTaskName)
-{ 
-    auto it = std::find(m_vCoreTasks.begin(), m_vCoreTasks.end(), rstrTaskName); 
-    return it != m_vCoreTasks.end();
-}
-// --[  Method  ]---------------------------------------------------------------
-//
-//  - Class     : CServer
-//  - Prototype :
-//
 //  - Purpose   : Adds entry to nodes availability
 //
 // -----------------------------------------------------------------------------
@@ -2557,6 +2540,50 @@ std::string CServer::GetTaskHistory(const uint32_t& ruiTaskId)
     auto it = m_mTasksHistory.find(ruiTaskId);
     if(it != m_mTasksHistory.end()) return it->second;
     return "";    
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CServer
+//  - Prototype :
+//
+//  - Purpose   : Check if a script is allowed (loaded)
+//
+// -----------------------------------------------------------------------------
+bool CServer::IsLoadedScript(const std::string& rstrScriptName)
+{
+    std::stringstream ss(m_uConfigParameters["AllowedScripts"]);
+    std::string script;
+    std::vector<std::string> scripts;
+
+    // Split the allowedScripts string by comma
+    while (getline(ss, script, ',')) {
+        scripts.push_back(script);
+    }
+
+    // Check if scriptToCheck is in the list of scripts
+    return std::find(scripts.begin(), scripts.end(), rstrScriptName) != scripts.end();
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CServer
+//  - Prototype :
+//
+//  - Purpose   : Check if a script is core 
+//
+// -----------------------------------------------------------------------------
+bool CServer::IsCoreScript(const std::string& rstrScriptName)
+{
+    std::stringstream ss(m_uConfigParameters["CoreScripts"]);
+    std::string script;
+    std::vector<std::string> scripts;
+
+    // Split the allowedScripts string by comma
+    while (getline(ss, script, ',')) {
+        scripts.push_back(script);
+    }
+
+    // Check if scriptToCheck is in the list of scripts
+    return std::find(scripts.begin(), scripts.end(), rstrScriptName) != scripts.end();
 }
 // --[  Method  ]---------------------------------------------------------------
 //

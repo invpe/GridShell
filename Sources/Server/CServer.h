@@ -144,8 +144,9 @@ public:
     bool IsAllowed(const std::string& strIP);     
     bool SendTo(CNode* pClient, const std::string& rstrData); 
     bool SendTo(CNode* pClient, std::vector<uint8_t> rvData); 
-    void AddUser(CUser *pUser);
-    bool IsCoreTask(const std::string& rstrTaskName);
+    void AddUser(CUser *pUser);    
+    bool IsLoadedScript(const std::string& rstrScriptName);
+    bool IsCoreScript(const std::string& rstrScriptName);
     bool TransferShellTokens(const std::string& rstrFrom, const std::string& rstrTo, const uint32_t& ruiValue);
     uint32_t SubmitTask(const std::string& rstrScript, const std::string& rstrPayload64, const std::string& rstrOwnerUsername, const bool& bReward, CNode *pAssignTo, const std::vector<std::string>& rvCorePayload );
     std::vector<std::string> GetWordList();
@@ -222,6 +223,9 @@ private:
 
     // Core tasks
     std::vector<std::string> m_vCoreTasks; 
+
+    // Scripts
+    std::vector<std::string> m_vScripts;
 
     // Nodes Availability map
     std::map<std::string, std::vector<uint32_t>> m_mNodesAvailability;
