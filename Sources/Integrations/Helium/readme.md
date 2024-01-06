@@ -70,3 +70,8 @@ Now add a http GET connection for your integration in helium console.
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/f2d3c590-95ec-4837-9b3e-f78899161777)
 
+
+# Done
+
+Your device now will transimt data over Lora to Helium network which will then through the integration we've built push to your web server that will communicate
+with gridshell.
