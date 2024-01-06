@@ -1,5 +1,8 @@
 # GridShell Explorer
 
+![image](https://github.com/invpe/GridShell/assets/106522950/d6a24352-07ed-4f94-9059-23dfb5fbc743)
+
+
 Easy visualization is one of the key concepts of using GridShell, that's why we've got Grafana to get you covered.
 
 [https://explorer.gridshell.net:3000/](https://explorer.gridshell.net)
@@ -7,6 +10,8 @@ Easy visualization is one of the key concepts of using GridShell, that's why we'
 Login with: `explorer/gridshellexplorer`
 
 # List of dashboards to use
+
+![image](https://github.com/invpe/GridShell/assets/106522950/b9156906-e3a7-45ee-ba3f-d5e51b0ab4fc)
 
 ## GridShell Community Leaderboard [link](https://explorer.gridshell.net:3000/d/b032899f-fffa-47fc-b38e-4a58be40197b/community-leaderboard?orgId=1)
 
