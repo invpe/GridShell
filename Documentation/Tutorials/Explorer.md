@@ -15,8 +15,14 @@ Login with: `explorer/gridshellexplorer`
 
 ## GridShell Community Leaderboard [link](https://explorer.gridshell.net:3000/d/b032899f-fffa-47fc-b38e-4a58be40197b/community-leaderboard?orgId=1)
 
+![image](https://github.com/invpe/GridShell/assets/106522950/542e3f87-e780-4bf2-8d0b-067b84d02680)
+
+
 ## GridShell Core [link](https://explorer.gridshell.net:3000/d/e66e2a62-ef5d-482b-aeee-3dc8a3bb6e2b/core)
 This one is a core stats of the server
+
+![image](https://github.com/invpe/GridShell/assets/106522950/c9432390-e87f-4a50-ad4c-9469444df72b)
+
 
 ## GridShell Whale [link](https://explorer.gridshell.net:3000/d/ca74c27d-03f9-4f18-8017-001d013b93ce/whale)
 This one is a dashboard created for Whale Pool Temperature sensors integration.
@@ -24,7 +30,14 @@ This one is a dashboard created for Whale Pool Temperature sensors integration.
 ## GridShell User [link](https://explorer.gridshell.net:3000/d/cd4c7abe-f622-4384-8a6d-348f3bffde47/user)
 This one is to help getting user details
 
+![image](https://github.com/invpe/GridShell/assets/106522950/a8e827ea-c2a8-4322-90fa-4704b444a341)
+
+
 ## GridShell Your Telemetry [link](https://explorer.gridshell.net:3000/d/cf9d5f97-9f02-488a-b49a-28409bdc1593/your-telemetry)
+
+![image](https://github.com/invpe/GridShell/assets/106522950/e840abb4-af37-45f1-93af-9514c3cc080e)
+
+
 This is a generic dashboard you can use to visualize the data, but ensure to keep your telemetry data aligned to the following CSV format:
 
 |unix epoch|valueA|valueB|valueC|valueD|
