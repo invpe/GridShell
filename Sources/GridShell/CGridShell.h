@@ -89,6 +89,7 @@ public:
   void Tick();
   bool Connected();
   void Stop();
+  void ResetFilePosition();
   void RegisterEventCallback(void (*pFunc)(uint8_t));
   String GetNodeID() const;
   uint32_t AddTask(const String& rstrScript, const String& rstrInputPayload);
@@ -452,4 +453,15 @@ static int _download(struct mb_interpreter_t* s, void** l) {
   mb_check(mb_push_int(s, l, uiBytesWritten));
   return result;
 }
+/*---------*/
+static int _resetfilepos(struct mb_interpreter_t* s, void** l) {
+
+  int result = MB_FUNC_OK;
+  mb_check(mb_attempt_open_bracket(s, l));
+  mb_check(mb_attempt_close_bracket(s, l));
+  CGridShell::GetInstance().ResetFilePosition();
+  mb_check(mb_push_int(s, l, 1));
+  return result;
+}
+
 #endif
