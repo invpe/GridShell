@@ -29,6 +29,6 @@ Example:
 # :crystal_ball: Additional helper functions
 
 GridShell exposes few more internal functions that you can use in your scripting.
-The best way to find them is to [look](https://github.com/invpe/GridShell/blob/bf7d8c47b384a4d4cc06de98340da7cf90961900/Sources/GridShell/CGridShell.cpp#L313) in the library sources.
+The best way to find them is to [look](https://github.com/invpe/GridShell/blob/main/Sources/GridShell/CGridShell.cpp#L379) in the library sources.
 
  
