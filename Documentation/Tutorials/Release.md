@@ -1,25 +1,12 @@
 # ⏩ Setting up from a release file
-If youre not planning to work with sources, the most convienient way to setup a GS Node is to upload release to the board.
+If you're not planning to work with sources, the most convienient way to setup a GS Node is to upload release to the board.
+
 Follow the tutorial below, to program your board and configure the node in few simple steps.
 
-1. Download latest merged release file [https://github.com/invpe/GridShell/releases/latest/download/gridshellmerged.bin](https://github.com/invpe/GridShell/releases/latest/download/gridshellmerged.bin)
+## Download latest merged release file 
+Click [https://github.com/invpe/GridShell/releases/latest/download/gridshellmerged.bin](https://github.com/invpe/GridShell/releases/latest/download/gridshellmerged.bin) and download 
+all in one binary file, which you can simply upload to your esp32 device over WEB (simplest) or command line (advanced).
 
-
-> [!IMPORTANT]  
-> Download **gridshellmerged.bin** to flash, this file combines Bootloader, Partition (4MB) and Vanilla node.
-
-
-
-## Use esptool - flashing from command line
-Simply execute: 
-
-```
-python3 esptool.py --chip esp32 --port "/dev/ttyUSB1" --baud 1500000  erase_flash
-
-python3 esptool.py --chip esp32 --port "/dev/ttyUSB1" --baud 1500000  --before default_reset --after hard_reset write_flash  -z --flash_mode dio --flash_freq 80m --flash_size 4MB 0x0 gridshellmerged.bin
-```
-
-Remembering to replace `/dev/ttyUSB1` with your port.
 
 ## Use web flasher - flashing from the web page (Chrome)
 1. Open [https://espressif.github.io/esptool-js/](https://espressif.github.io/esptool-js/)
@@ -54,7 +41,21 @@ Remembering to replace `/dev/ttyUSB1` with your port.
     
 10. Wait for the flasher to complete
 11. Reset the device (remove from USB, plug in again)
- 
+
+
+
+## Use esptool - flashing from command line (advanced)
+Simply execute: 
+
+```
+python3 esptool.py --chip esp32 --port "/dev/ttyUSB1" --baud 1500000  erase_flash
+
+python3 esptool.py --chip esp32 --port "/dev/ttyUSB1" --baud 1500000  --before default_reset --after hard_reset write_flash  -z --flash_mode dio --flash_freq 80m --flash_size 4MB 0x0 gridshellmerged.bin
+```
+
+Remembering to replace `/dev/ttyUSB1` with your port.
+
+
 
 # Configuring the node
 
@@ -70,6 +71,9 @@ Remembering to replace `/dev/ttyUSB1` with your port.
 
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/77c5b265-a98a-40db-8bbf-9ed6e0dbca19)
+
+
+
 
 # 🍏 Success
 The configuration is now saved, you are good to go 👍
