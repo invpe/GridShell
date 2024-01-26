@@ -217,7 +217,8 @@ void CGridShell::Tick() {
 
       // Get latest CA crt from github
       String strCert = GetCertificate();
-
+      m_Client.setCACert(strCert.c_str());
+      
       GDEBUG("Connecting");
 
       // Connect
