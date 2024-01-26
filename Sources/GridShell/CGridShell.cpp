@@ -993,6 +993,14 @@ String CGridShell::Read(const String& rstrTelemetry, const uint32_t& ruiStart, c
 
   return "";
 }
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   : Read exec payload of the task
+//
+// -----------------------------------------------------------------------------
 String CGridShell::GetTask(const uint32_t& ruiTask) {
   if (!Connected()) return "";
 
