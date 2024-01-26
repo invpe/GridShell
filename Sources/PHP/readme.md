@@ -13,3 +13,9 @@
 
 # Send
 `php use.php your_hash SEND 500 GRIDSHELLCoreValidators1`
+
+# Submit and Persist
+`php use.php your_hash SUBMITPERSIST task payload` - To submit and immediately flag for peristance
+
+# Read 
+`php use.php your_hash READ telemetry_filename start_bytes count_bytes` - To read telemetry file
