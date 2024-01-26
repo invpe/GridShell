@@ -45,3 +45,6 @@ Read how to use the GridShell network [here](https://github.com/invpe/GridShell/
 
 # TestNet
 How is this running today [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/GTN.md)
+
+# Release
+Read how to upload the release firmware to your nodes [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Release.md)
