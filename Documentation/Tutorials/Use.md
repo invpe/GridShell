@@ -99,6 +99,13 @@ Maybe even turn them into tasks if you are ready !
 
 - [Playground](https://github.com/invpe/GridShell/tree/main/Sources/Playground)
 
+## 🧮 Monitor your tasks and user
+
+The explorer endpoint allows to monitor all aspects of the network using Grafana.
+Familiarize yourself with the metrics and get most out of it for you.
+
+- [GridShell Explorer](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md) documentation
+
 # ⛹️‍♂️ What more ?
 
 Only fun, and keep it that way.
