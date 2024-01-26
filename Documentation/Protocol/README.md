@@ -63,5 +63,5 @@ All comannds can be sent every `3` seconds to avoid throttling.
 - `BURN,TSIZE` - Telemetry Size increase [GIP0026](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0026-BURN.md)
 - `READ,START,COUNT` - Read telemetry [GIP0063](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0063-V9CommandREAD.md)
 - `PERSIST,TASKID,FLAG` - Flag task for persisting OUTPUTTELEMETRY [GIP0062](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0062-V9Persist.md)
-  
+- `GETTASK,TASKID` - Retrieve last exec task payload  
  
