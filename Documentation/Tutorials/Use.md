@@ -106,12 +106,22 @@ Familiarize yourself with the metrics and get most out of it for you.
 
 - [GridShell Explorer](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md) documentation
 
+## ⚗️ Run your own GridShell instance
+
+You can get your own server up and running in few seconds, maybe there's things you want to test, fuzz, play or simply adjust to fit your needs.
+
+## ❇️ Share ideas, contribute
+
+This is an open source project, feel free to contribute share ideas and provide feedback.
+There are many areas which can be improved in the current version of the GridShell project, lots of tools that could be built and even more integrations that could be done.
+Feel free to contribute at any point in time!
+
 # ⛹️‍♂️ What more ?
 
 Only fun, and keep it that way.
 
 Build something: a sensor, a network of sensors, a device, anything that you wanted to make but always dragged due to all the backend and frontend work required.
-You don't have to rent servers, configure instances, deploy services, host visualizations, keep things up to date. Just focus on your product and send whatever you need to GridShell.
+You don't have to rent servers, configure instances, deploy services, host visualizations, keep things up to date, register anywhere. Just focus on your product and send whatever you need to GridShell.
 Then link a dashboard and visualize your great work without spending a minute more on anything else but your product only.
 
 Familiarize yourself with the [documentation](https://github.com/invpe/GridShell/tree/main/Documentation/Tutorials), enjoy and have lot of fun building and coding your stuff without spending a minute on the boring things that drag you from the creative part of what you enjoy the most.
