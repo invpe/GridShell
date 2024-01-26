@@ -217,7 +217,6 @@ void CGridShell::Tick() {
 
       // Get latest CA crt from github
       String strCert = GetCertificate();
-      m_Client.setCACert(strCert.c_str());
 
       GDEBUG("Connecting");
 
@@ -226,7 +225,6 @@ void CGridShell::Tick() {
 
         if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_CONNECTED);
 
-        // Ident and provide payload if any, this is base64 encoded already by ::Init
         String strVersion = m_Client.readStringUntil(',');
         String strWelcome = m_Client.readStringUntil(',');
         String strTasksToExecute = m_Client.readStringUntil(',');
@@ -275,71 +273,56 @@ void CGridShell::Tick() {
       }
     }
   } else {
-    // Wait for server to post a message
-    if (m_Client.available()) {
+    //
+    String strJobType = m_Client.readStringUntil(',');
+
+    //
+    GDEBUG("Server: " + strJobType + " MEM: " + String(ESP.getFreeHeap()) + " FS: " + String(SPIFFS.usedBytes()));
+
+    // Task coming
+    if (strJobType == "EXEC") {
+
+      if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_WORK);
 
       //
-      String strJobType = m_Client.readStringUntil(',');
+      int iRetCode = MB_FUNC_ERR;
+      String strOutput = "";
 
       //
-      GDEBUG("Server: " + strJobType + " MEM: " + String(ESP.getFreeHeap()) + " FS: " + String(SPIFFS.usedBytes()));
+      String strPayload = DecodeBase64(m_Client.readStringUntil(','));
+      String strTimeout = m_Client.readStringUntil(',');
+      String strScript = DecodeBase64(m_Client.readStringUntil('\n'));
 
-      // Task coming
-      if (strJobType == "EXEC") {
-        if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_WORK);
-
-        //
-        int iRetCode = MB_FUNC_ERR;
-        String strOutput = "";
-
-        //
-        String strScriptName = DecodeBase64(m_Client.readStringUntil(','));
-        String strPayload = DecodeBase64(m_Client.readStringUntil(','));
-        String strTimeout = m_Client.readStringUntil(',');
-        String strTaskHash = m_Client.readStringUntil(',');
-
-        String strURLPath = GNODE_TASK_SERVER_NAME + strScriptName + ".bas";
-        String strFSPath = "/" + strScriptName + ".bas";
-
-        // Hash does not match, download the script
-        if (strTaskHash != GetSHA1(strFSPath)) {
-          SPIFFS.remove(strFSPath);
-          GDEBUG("Diff Hash");
-          if (StreamFile(strURLPath, strFSPath) == true) {
-          } else GDEBUG("Download failed");
-        }
-
-        if (strPayload.isEmpty()) {
-          GDEBUG("Empty payload");
-        }
-
-        uint32_t uiStart = millis();
-        auto aResults = Run(strFSPath, strPayload, strTimeout.toInt());
-        iRetCode = std::get<0>(aResults);
-        strOutput = std::get<1>(aResults);
-        GDEBUG("Done " + String(millis() - uiStart) + " ms, RESCODE: " + String(iRetCode) + ", MEM: " + String(ESP.getFreeHeap()) + " OUTP: '" + strOutput + "' FS: " + String(SPIFFS.usedBytes()));
-
-        if (strOutput.length() > 0) {
-          size_t stLen = 0;
-          mbedtls_base64_encode(NULL, 0, &stLen, (unsigned char*)strOutput.c_str(), strOutput.length());
-          unsigned char* encodedData = new unsigned char[stLen + 1];
-          mbedtls_base64_encode(encodedData, stLen, &stLen, (unsigned char*)strOutput.c_str(), strOutput.length());
-          encodedData[stLen] = '\0';
-          strOutput = "";
-
-          // Send
-          Send("RESULTS,");
-          Send(String(iRetCode));
-          Send(",");
-          m_Client.write(encodedData, stLen);
-          Send("\r\n");
-
-          delete[] encodedData;
-        } else
-          Send("RESULTS," + String(iRetCode) + ",\r\n");
-
-        if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_IDLE);
+      if (strPayload.isEmpty()) {
+        GDEBUG("Empty payload");
       }
+
+      uint32_t uiStart = millis();
+      auto aResults = Run(strScript, strPayload, strTimeout.toInt());
+      iRetCode = std::get<0>(aResults);
+      strOutput = std::get<1>(aResults);
+      GDEBUG("Done " + String(millis() - uiStart) + " ms, RESCODE: " + String(iRetCode) + ", MEM: " + String(ESP.getFreeHeap()) + " OUTP: '" + strOutput + "' FS: " + String(SPIFFS.usedBytes()));
+
+      if (strOutput.length() > 0) {
+        size_t stLen = 0;
+        mbedtls_base64_encode(NULL, 0, &stLen, (unsigned char*)strOutput.c_str(), strOutput.length());
+        unsigned char* encodedData = new unsigned char[stLen + 1];
+        mbedtls_base64_encode(encodedData, stLen, &stLen, (unsigned char*)strOutput.c_str(), strOutput.length());
+        encodedData[stLen] = '\0';
+        strOutput = "";
+
+        // Send
+        Send("RESULTS,");
+        Send(String(iRetCode));
+        Send(",");
+        m_Client.write(encodedData, stLen);
+        Send("\r\n");
+
+        delete[] encodedData;
+      } else
+        Send("RESULTS," + String(iRetCode) + ",\r\n");
+
+      if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_IDLE);
     }
   }
 
@@ -354,76 +337,117 @@ void CGridShell::Tick() {
 //  - Purpose   : Executes the BAS file stored on SPIFFS and returns ret code + outputpayload
 //
 // -----------------------------------------------------------------------------
-std::tuple<int, String> CGridShell::Run(const String& rstrBASFile, const String& rstrInputPayload, const uint32_t& ruiTaskTimeout) {
+std::tuple<int, String> CGridShell::Run(String& rstrScript, const String& rstrInputPayload, const uint32_t& ruiTaskTimeout) {
 
-  GDEBUG("Exe " + rstrBASFile + " Tout: " + String(ruiTaskTimeout) + "ms Heap: " + String(ESP.getFreeHeap()));
+  GDEBUG("---------\n" + rstrScript + "\n------------\n");
+  GDEBUG("PAYLOAD: " + rstrInputPayload + "\n");
+  GDEBUG("Exe Tout: " + String(ruiTaskTimeout) + "ms Heap: " + String(ESP.getFreeHeap()));
   String strOutputPayload;
   int iRetCode = MB_FUNC_ERR;
 
-  File fScriptFile = SPIFFS.open(rstrBASFile, "r");
-  if (fScriptFile) {
-    String strScript = fScriptFile.readStringUntil('\0');
-    fScriptFile.close();
+  // Update task start timer
+  m_uiTaskStart = millis();
+  m_uiTaskTimeout = ruiTaskTimeout;
+  void** l = NULL;
+  struct mb_interpreter_t* bas = NULL;
 
-    // Update task start timer
-    m_uiTaskStart = millis();
-    m_uiTaskTimeout = ruiTaskTimeout;
-    void** l = NULL;
-    struct mb_interpreter_t* bas = NULL;
+  // Initialize MYBASIC
+  mb_init();
+  mb_open(&bas);
 
-    // Initialize MYBASIC
-    mb_init();
-    mb_open(&bas);
+  // Additional functions
+  mb_register_func(bas, "READ", _read);               // V08
+  mb_register_func(bas, "READLINE", _readline);       // V081
+  mb_register_func(bas, "RESETFPOS", _resetfilepos);  // V081
+  mb_register_func(bas, "CSV2LIST", _csvtolist);      // V081
+  mb_register_func(bas, "WRITE", _write);             // V08
+  mb_register_func(bas, "SHA1", _sha1);               // V08
+  mb_register_func(bas, "SHA256", _sha256);           // V08
+  mb_register_func(bas, "SHA256H", _sha256H);         // V081
+  mb_register_func(bas, "HEXTOBIN", _hextobin);       // V081
+  mb_register_func(bas, "SECONDS", _seconds);         // V081
+  mb_register_func(bas, "DOWNLOAD", _download);       // V08
+  mb_register_func(bas, "TSIZE", _tsize);             // V08
+  mb_register_func(bas, "FMD5", _fmd5);               // V08
+  mb_register_func(bas, "B64D", _b64d);               // V08
+  mb_register_func(bas, "B64E", _b64e);               // V08
+  mb_register_func(bas, "XOR", _xor);                 // V08
+  mb_register_func(bas, "DEL", _del);                 // V08
 
-    // Additional functions
-    mb_register_func(bas, "READ", _read); // V08
-    mb_register_func(bas, "READLINE", _readline); // V081
-    mb_register_func(bas, "RESETFPOS", _resetfilepos); // V081
-    mb_register_func(bas, "CSV2LIST", _csvtolist); // V081
-    mb_register_func(bas, "WRITE", _write);  // V08
-    mb_register_func(bas, "SHA1", _sha1); // V08
-    mb_register_func(bas, "SHA256", _sha256); // V08
-    mb_register_func(bas, "SHA256H", _sha256H); // V081
-    mb_register_func(bas, "HEXTOBIN", _hextobin); // V081
-    mb_register_func(bas, "SECONDS", _seconds); // V081
-    mb_register_func(bas, "DOWNLOAD", _download); // V08
-    mb_register_func(bas, "TSIZE", _tsize); // V08
-    mb_register_func(bas, "FMD5", _fmd5); // V08
-    mb_register_func(bas, "B64D", _b64d); // V08
-    mb_register_func(bas, "B64E", _b64e); // V08
-    mb_register_func(bas, "XOR", _xor); // V08
-    mb_register_func(bas, "DEL", _del); // V08
+  // Enable step by step execution to keep alive with the server
+  mb_debug_set_stepped_handler(bas, CGridShell::MBStep, NULL);
 
-    // Enable step by step execution to keep alive with the server
-    mb_debug_set_stepped_handler(bas, CGridShell::MBStep, NULL);
+  // Load up the script
+  if (mb_load_string(bas, rstrScript.c_str(), true) == MB_FUNC_OK) {
 
-    // Load up the script
-    if (mb_load_string(bas, strScript.c_str(), true) == MB_FUNC_OK) {
+    rstrScript.clear();
 
-      if (rstrInputPayload != "") {
-        mb_value_t valAdd;
-        valAdd.type = MB_DT_STRING;
-        valAdd.value.string = (char*)rstrInputPayload.c_str();
-        mb_add_var(bas, l, "INPUTPAYLOAD", valAdd, true);
-      }
-      strScript.clear();
-
-      GDEBUG("Exe Loaded " + rstrBASFile + " Tout: " + String(ruiTaskTimeout) + "ms Heap: " + String(ESP.getFreeHeap()));
-
-      iRetCode = mb_run(bas, true);
-
-      mb_value_t valGet;
-      mb_get_value_by_name(bas, l, "OUTPUTPAYLOAD", &valGet);
-
-      if (valGet.type == MB_DT_STRING)
-        strOutputPayload = String(valGet.value.string);
+    if (rstrInputPayload != "") {
+      mb_value_t valAdd;
+      valAdd.type = MB_DT_STRING;
+      valAdd.value.string = (char*)rstrInputPayload.c_str();
+      mb_add_var(bas, l, "INPUTPAYLOAD", valAdd, true);
     }
-    mb_close(&bas);
-    mb_dispose();
+
+    GDEBUG("Exe Loaded Tout: " + String(ruiTaskTimeout) + "ms Heap: " + String(ESP.getFreeHeap()));
+
+    iRetCode = mb_run(bas, true);
+
+    mb_value_t valGet;
+    mb_get_value_by_name(bas, l, "OUTPUTPAYLOAD", &valGet);
+
+    if (valGet.type == MB_DT_STRING)
+      strOutputPayload = String(valGet.value.string);
   }
+  mb_close(&bas);
+  mb_dispose();
 
   return std::make_tuple(iRetCode, strOutputPayload);
 }
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   : Get telemetry file from the server to local storage
+//
+// -----------------------------------------------------------------------------
+int CGridShell::GetTelemetry(const String& rstrFile) {
+  GDEBUG("Getting telemetry " + rstrFile);
+
+  int iTotal = 0;
+  if (Connected()) {
+    int iOffset = 0;  // Offset to keep track of the position in the file
+    bool bContinueReading = true;
+    File fTele = SPIFFS.open(GNODE_TELEMETRY_FILENAME, "w");
+
+    while (bContinueReading) {
+      // Request a chunk of the file
+      Send("READ," + rstrFile + "," + String(iOffset) + "," + String(GNODE_IO_SIZE) + "\r\n");
+
+      // Read the response
+      String strJobType = m_Client.readStringUntil(',');
+      String strContent = DecodeBase64(m_Client.readStringUntil('\n'));
+      int iBytesRead = strContent.length();
+      iTotal += iBytesRead;
+      GDEBUG("Got " + String(iBytesRead) + "b");
+
+      // Check if the chunk is empty or an error occurred
+      if (iBytesRead == 0) {
+        bContinueReading = false;  // Stop if no more data to read or error
+      } else {
+        // Write the chunk to the file
+        fTele.print(strContent);
+        iOffset += iBytesRead;  // Update the offset
+      }
+    }
+
+    fTele.close();
+  }
+  GDEBUG("Total read: " + String(iTotal));
+  return iTotal;
+}
+
 // --[  Method  ]---------------------------------------------------------------
 //
 //  - Class     : CGridShell
@@ -894,6 +918,8 @@ uint32_t CGridShell::AddTask(const String& rstrScript, const String& rstrInputPa
 // -----------------------------------------------------------------------------
 bool CGridShell::Send(const String& rstrReceipent, const uint32_t& ruiValue) {
 
+  if (!Connected()) return false;
+
   if (rstrReceipent.isEmpty())
     return false;
 
@@ -913,11 +939,19 @@ bool CGridShell::Send(const String& rstrReceipent, const uint32_t& ruiValue) {
 //
 // -----------------------------------------------------------------------------
 bool CGridShell::Burn(const CGridShell::eBurn& rWhat) {
+
+  if (!Connected()) return false;
+
   String strCommand = "";
   switch (rWhat) {
     case CGridShell::eBurn::BURN_TELEMETRY_SLOT:
       {
         strCommand = "BURN,TSLOT\r\n";
+      }
+      break;
+    case CGridShell::eBurn::BURN_TELEMETRY_TSIZE:
+      {
+        strCommand = "BURN,TSIZE\r\n";
       }
       break;
     default:
@@ -937,11 +971,48 @@ bool CGridShell::Burn(const CGridShell::eBurn& rWhat) {
 //  - Class     : CGridShell
 //  - Prototype :
 //
+//  - Purpose   : Read telemetry from server, data returned in b64
+//
+// -----------------------------------------------------------------------------
+String CGridShell::Read(const String& rstrTelemetry, const uint32_t& ruiStart, const uint32_t& ruiCount) {
+
+  if (!Connected()) return "";
+
+  String strCommand = "READ," + rstrTelemetry + "," + String(ruiStart) + "," + String(ruiCount) + "\r\n";
+
+  Send(strCommand);
+
+  String strReturn = m_Client.readStringUntil('\n');
+  String retType = strReturn.substring(0, strReturn.indexOf(","));
+  String retVal = strReturn.substring(strReturn.indexOf(",") + 1);
+
+  if (retType == "READ") {
+    return retVal;
+  }
+
+  return "";
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   : Set Persist flag to the task
+//
+// -----------------------------------------------------------------------------
+void CGridShell::Persist(const uint32_t& ruiTask, const uint32_t& ruiFlag) {
+  String strCommand = "PERSIST," + String(ruiTask) + "," + String(ruiFlag) + "\r\n";
+  Send(strCommand);
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
 //  - Purpose   : DTOR
 //
 // -----------------------------------------------------------------------------
-void CGridShell::ResetFilePosition()
-{
+void CGridShell::ResetFilePosition() {
   m_uiCurrentFilePosition = 0;
 }
 // --[  Method  ]---------------------------------------------------------------

@@ -48,16 +48,14 @@
 #define GNODE_POOL_PORT 1911
 #define GNODE_RET_TERMINATED 777
 #define GNODE_CACERT_URL "https://raw.githubusercontent.com/invpe/GridShell/main/Sources/GridShell/ca.crt"
-#define GNODE_FIRMWARE_URL "https://github.com/invpe/GridShell/releases/latest/download/latest.bin"
-#define GNODE_TASK_SERVER_NAME "https://api.gridshell.net/scripts/"
-#define GNODE_FS_SERVER "https://api.gridshell.net/fs/"
+#define GNODE_FIRMWARE_URL "https://github.com/invpe/GridShell/releases/latest/download/latest.bin"  
 #define GNODE_FILE_PREFIX "GS"
 #define GNODE_SERVER "work.gridshell.net"
-#define GNODE_VERSION "08"
-#define GNODE_IO_SIZE 128
+#define GNODE_VERSION "09"
+#define GNODE_IO_SIZE 1024
 #define GNODE_TELEMETRY_FILENAME "/" GNODE_FILE_PREFIX "TELEMETRY"
 /*---------*/
-//#define GNODE_DEBUG 1
+// #define GNODE_DEBUG 1
 #ifdef GNODE_DEBUG
 #define GDEBUG Serial.println
 #else
@@ -68,6 +66,7 @@ class CGridShell {
 public:
   enum eBurn {
     BURN_TELEMETRY_SLOT,
+    BURN_TELEMETRY_TSIZE,
     BURN_TOTAL
   };
   enum eEvent {
@@ -95,13 +94,14 @@ public:
   uint32_t AddTask(const String& rstrScript, const String& rstrInputPayload);
   bool Send(const String& rstrReceipent, const uint32_t& ruiValue);
   bool Burn(const CGridShell::eBurn& rWhat);
-  std::tuple<int, String> Run(const String& rstrBASFile, const String& rstrInputPayload, const uint32_t& ruiTaskTimeout);
+  void Persist(const uint32_t& ruiTask, const uint32_t& ruiFlag);
+  String Read(const String& rstrTelemetry, const uint32_t& ruiStart, const uint32_t& ruiCount);
+  std::tuple<int, String> Run(String& rstrBASFile, const String& rstrInputPayload, const uint32_t& ruiTaskTimeout);
   HTTPClient* GetHTTPClient();
-  bool StreamFile(const String& rstrURL, const String& rstrPath);
+  
+  int GetTelemetry(const String& rstrFile);
   String ReadFile(const size_t& startPosition, const size_t& byteCount);
   String ReadFileLine();
-
-  // MyBasic Exposed Methods
   bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
   void Delete(const String& rstrName);
   String EncodeBase64(const String& strString);
@@ -111,9 +111,7 @@ public:
   String sha1HW(String payload);
   String sha1HW(unsigned char* payload, int len);
   String sha256HW(unsigned char* payload, int len);
-  String sha256HW(String payload);
-
-
+  String sha256HW(String payload); 
   String XOR(const String& toEncrypt, const String& rstrKey);
   ~CGridShell();
 
@@ -123,6 +121,7 @@ private:
   void OTA();
   void CleanFS();
   String GetCertificate();
+  bool StreamFile(const String& rstrURL, const String& rstrPath);
   void Send(const String& strData);
   bool m_bAutoUpdate;
   String m_strUsername;
@@ -436,21 +435,14 @@ static int _fmd5(struct mb_interpreter_t* s, void** l) {
 static int _download(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
   char* cFilename;
-
+  
   mb_check(mb_attempt_open_bracket(s, l));
   mb_check(mb_pop_string(s, l, &cFilename));
   mb_check(mb_attempt_close_bracket(s, l));
-
-  // Fixed name for overwriting (so we don't keep downloaded files)
+  
   String strPath = GNODE_TELEMETRY_FILENAME;
-  int_t uiBytesWritten = 0;
-  if (CGridShell::GetInstance().StreamFile(GNODE_FS_SERVER + String(cFilename), GNODE_TELEMETRY_FILENAME) == true) {
-    File fTelemetry = SPIFFS.open(GNODE_TELEMETRY_FILENAME, "r");
-    uiBytesWritten = fTelemetry.size();
-    fTelemetry.close();
-  }
-
-  mb_check(mb_push_int(s, l, uiBytesWritten));
+  int_t uiBytesWritten = CGridShell::GetInstance().GetTelemetry(String(cFilename));
+  mb_check(mb_push_int(s, l, uiBytesWritten)); 
   return result;
 }
 /*---------*/
