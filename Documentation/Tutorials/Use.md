@@ -18,7 +18,7 @@ All things with GridShell require account, so having one is a good way to start.
 # 🥬 Use straight away ?
 
 Maybe at this moment you're ready to go, not everyone has nodes connected - some of us are just sending tasks without connecting any devices.
-In situations where you want to simply store telemetry data on the GridShell network without connecting any nodes, an account created in previous step is all that you need.
+In situations where you want to simply store telemetry data or run tasks on the GridShell network without connecting any nodes, an account created in previous step is all that you need.
 Of course you will need Shells to submit work to the Grid - but don't worry,
 if you don't have any, we will get you some for free for a start, let us know !
 
@@ -75,6 +75,13 @@ That's a great idea, at any point in time if you want to store telemetry from wi
  
 👁️‍🗨️ [See here](https://github.com/invpe/GridShell/blob/4646432a7b02208b37f3177719b95c06f6a19a03/Sources/Integrations/Whale/Whale.ino#L175) how it is implemented.
 
+
+## 📜 Need to execute tasks ?
+
+Absolutely, simply use the same `CGridShell::AddTask` [method](https://github.com/invpe/GridShell/blob/main/Sources/GridShell/CGridShell.h#L94) from the library to submit a task to the network.
+This time instead of submitting `writedfs` you submit whatever task you want to run on the network.
+
+If you see there is a functionality missing or you want to write your own script - do not hesitate to build it and post [here](https://github.com/invpe/GridShell/discussions/3) so together we will convert this to a task that everyone can use. 
 
 ## 📱 Need to visualize the telemetry ?
 
