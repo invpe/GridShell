@@ -218,7 +218,7 @@ void CGridShell::Tick() {
       // Get latest CA crt from github
       String strCert = GetCertificate();
       m_Client.setCACert(strCert.c_str());
-      
+
       GDEBUG("Connecting");
 
       // Connect
@@ -989,6 +989,23 @@ String CGridShell::Read(const String& rstrTelemetry, const uint32_t& ruiStart, c
 
   if (retType == "READ") {
     return retVal;
+  }
+
+  return "";
+}
+String CGridShell::GetTask(const uint32_t& ruiTask) {
+  if (!Connected()) return "";
+
+  String strCommand = "GETTASK," + String(ruiTask) + "\r\n";
+
+  Send(strCommand);
+
+  String strReturn = m_Client.readStringUntil('\n');
+  String retType = strReturn.substring(0, strReturn.indexOf(","));
+  String retVal = strReturn.substring(strReturn.indexOf(",") + 1);
+
+  if (retType == "GETTASK") {
+    return retType;
   }
 
   return "";
