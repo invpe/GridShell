@@ -9,10 +9,10 @@
 #include <HTTPClient.h>
 #include "SPIFFS.h"
 #include "CGridShell.h"
-
 #define BUILTIN_LED 27
-#define WIFI_SSID "xxxxxxxxxxxxx"
-#define WIFI_PWD "yyyyyyyyyyyy"
+#define WIFI_SSID ""
+#define WIFI_PWD ""
+#define UID ""
 #define ENABLE_OTA 1
 
 WebServer WWWServer(80);
@@ -141,7 +141,7 @@ void setup() {
     fScriptFile.close();
 
     strOutputText += String(millis()) + ":" + String(ESP.getFreeHeap()) + " Starting script\n";
-    auto aResults = CGridShell::GetInstance().Run("/last.bas", strInput, 120000);
+    auto aResults = CGridShell::GetInstance().Run(strScript, strInput, 120000);
     int iRetCode = std::get<0>(aResults);
     String strOutput = std::get<1>(aResults);
 
@@ -214,7 +214,7 @@ void setup() {
   ArduinoOTA.begin();
 #endif
 
-
+  CGridShell::GetInstance().Init(UID, false);
   digitalWrite(BUILTIN_LED, LOW);
   Serial.println("Ready, serving on " + WiFi.localIP().toString());
 }
@@ -227,6 +227,8 @@ void loop() {
     ESP.restart();
   }
 
+  CGridShell::GetInstance().Tick();
+  
 #ifdef ENABLE_OTA
   ArduinoOTA.handle();
 #endif
