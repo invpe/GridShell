@@ -47,7 +47,7 @@ Same as above but validators only, do not waste energy - come back in a moment.
 
 3. Heartbeat by sending `PONG` to the server, every `10` seconds
 4. Wait for a task to be provided in a format of
-`EXEC,BASE64(https://api.gridshell.net/task/name.bas),BASE64(payload),TIMEOUT` 
+`EXEC,BASE64(script),BASE64(payload),TIMEOUT` 
 5. Execute a task with MYBASIC interpreter, timeout when `TIMEOUT` reached during execution
 6. Once completed return task payload with RESULTS 
 `RESULTS,RETCODE,BASE64(results)` 
@@ -59,5 +59,9 @@ Same as above but validators only, do not waste energy - come back in a moment.
 All comannds can be sent every `3` seconds to avoid throttling.
 
 - `SEND,SomeGridShellUserName,100` - send `100` tokens to `SomeGridShellUserName` [GIP0025](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0025-SEND.md)
-- `BURN,TSLOT` - Telemetry Slot Redemtpion [GIP0015](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0015-Shell2Telemetry.md) [GIP0026](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0026-BURN.md) 
+- `BURN,TSLOT` - Telemetry Slot Redemtpion [GIP0015](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0015-Shell2Telemetry.md) [GIP0026](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0026-BURN.md)
+- `BURN,TSIZE` - Telemetry Size increase [GIP0026](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0026-BURN.md)
+- `READ,START,COUNT` - Read telemetry [GIP0063](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0063-V9CommandREAD.md)
+- `PERSIST,TASKID,FLAG` - Flag task for persisting OUTPUTTELEMETRY [GIP0062](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0062-V9Persist.md)
+  
  
