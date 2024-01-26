@@ -22,3 +22,6 @@
 
 # Persist
 `php use.php your_hash PERSIST task_id` - To flag task for persistance
+
+# Get task payload
+`php use.php your_hash GETTASK task_id` - To retrieve last exec task payload
