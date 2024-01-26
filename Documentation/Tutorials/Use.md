@@ -106,11 +106,11 @@ Familiarize yourself with the metrics and get most out of it for you.
 
 - [GridShell Explorer](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md) documentation
 
-## ⚗️ Run your own GridShell instance
+# ⚗️ Run your own GridShell instance
 
 You can get your own server up and running in few seconds, maybe there's things you want to test, fuzz, play or simply adjust to fit your needs.
 
-## ❇️ Share ideas, contribute
+# ❇️ Share ideas, contribute
 
 This is an open source project, feel free to contribute share ideas and provide feedback.
 There are many areas which can be improved in the current version of the GridShell project, lots of tools that could be built and even more integrations that could be done.
