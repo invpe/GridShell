@@ -19,3 +19,6 @@
 
 # Read 
 `php use.php your_hash READ telemetry_filename start_bytes count_bytes` - To read telemetry file
+
+# Persist
+`php use.php your_hash PERSIST task_id` - To flag task for persistance
