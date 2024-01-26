@@ -12,19 +12,21 @@ function PrintHelp()
     echo "Use with following options:\n";
     echo "<YOURHASH> SEND <AMOUNT> <RECEIPENT>\n";
     echo "<YOURHASH> BURN <TSLOT/TSIZE>\n"; 
-    echo "<YOURHASH> SUBMIT <task> <payload>\n";      
+    echo "<YOURHASH> SUBMIT <task> <payload>\n";       
+    echo "<YOURHASH> GETTASK <task>\n";       
+    echo "<YOURHASH> READ <telemetryname> <start> <count>\n";   
+    echo "<YOURHASH> PERSIST <task> <append?>\n";
+    echo "<YOURHASH> SUBMITPERSIST <task> <payload> <append?>\n";
 }
 
 function PrintExit()
 {
-    echo "Done, if all criteria met you can see your execution in the user dashboard on explorer endpoint.\n";
-    echo "Head to: https://explorer.gridshell.net:3000/d/cd4c7abe-f622-4384-8a6d-348f3bffde47/user?orgId=1\n";
-    echo "To track the exeuction of the command\n";
+    echo "Done\n";
 }
 
 system("clear");
 echo "----------------------------------------\n";
-echo "-- PHP GridShell command line tool 08 --\n";
+echo "-- PHP GridShell command line tool ".$GLOBALS['version']." --\n";
 echo "----------------------------------------\n";
 echo "   https://github.com/invpe/GridShell   \n";
 echo "----------------------------------------\n";
@@ -104,10 +106,89 @@ else if($command=="SUBMIT")
     echo "Task submission\n";
     if(GS_Login($grid_owner))
     { 
-        GS_AddTask($argv[3],$argv[4]); 
+        print_r(GS_AddTask($argv[3],$argv[4]));
+        
         GS_Disconnect();
         PrintExit();
     } else echo "Something went wrong, throttled ?\n";  
     
+}else if($command=="READ")
+{
+    if($argc != 6)
+    {
+        PrintHelp();
+        exit(0);
+    }
+    
+    echo "Reading ".$argv[3]." starting at ".$argv[4]." to ".$argv[5]." bytes\n";
+    if(GS_Login($grid_owner))
+    { 
+        $output=GS_Read($argv[3],$argv[4],$argv[5]);
+        print_r($output);
+        GS_Disconnect();
+        PrintExit();
+    } else echo "Something went wrong, throttled ?\n";  
+
 } 
+// Data comes base64encoded
+else if($command=="GETTASK")
+{
+    if($argc != 4)
+    {
+        PrintHelp();
+        exit(0);
+    }
+    
+    echo "Getting Task ".$argv[3]."\n";    
+    
+    if(GS_Login($grid_owner))
+    { 
+        $output=GS_GetTask($argv[3]);
+        print_r($output);
+        GS_Disconnect();
+        PrintExit();
+    } else echo "Something went wrong, throttled ?\n";  
+
+}else if($command=="PERSIST")
+{
+    if($argc != 5)
+    {
+        PrintHelp();
+        exit(0);
+    }
+    else
+    {
+        $t = $argv[3];
+        $receipent = $argv[4];
+
+        echo "Set persist flag ".$argv[4]." on ".$argv[3]."\n";
+       
+        if(GS_Login($grid_owner))
+        { 
+            GS_Persist($argv[3], $argv[4]);
+            GS_Disconnect();
+            PrintExit();
+        } else echo "Something went wrong, throttled ?\n";
+    }
+}
+else if($command=="SUBMITPERSIST")
+{
+    if($argc != 6)
+    {
+        PrintHelp();
+        exit(0);
+    }
+    else
+    { 
+        if(GS_Login($grid_owner))
+        { 
+            $ooo = GS_AddTask($argv[3],$argv[4]);
+            GS_Persist($ooo['1'],$argv[5]);
+ 
+            GS_Disconnect();
+            PrintExit();
+        } else echo "Something went wrong, throttled ?\n";
+    }
+}
+GS_Disconnect();
 ?>
