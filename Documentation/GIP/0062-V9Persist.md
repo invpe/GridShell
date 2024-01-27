@@ -22,13 +22,13 @@ Following the implementation of the PERSIST command in the protocol, users can n
 
 ```
 SUBMIT <task> <payload>
-PERSIST <task>
+PERSIST <task> <append?> <filename>
 ```
 
 4. Limitations
 
-Currently, all tasks set for persistence will store their telemetry under the filename `USERtask_id`. 
-Future GIPs may introduce options to customize the telemetry file name and decide whether to append the payload (flag 1/0). 
+~~Currently, all tasks set for persistence will store their telemetry under the filename `USERtask_id`.~~ 
+~~Future GIPs may introduce options to customize the telemetry file name and decide whether to append the payload (flag 1/0).~~ 
 Note that tasks can only be marked for persistence `if their state is neither TASK_STATE_FAILED nor TASK_STATE_VALIDATED`.
 
 
