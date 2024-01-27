@@ -94,12 +94,12 @@ function GS_Read($tname,$start,$count)
     $returned = explode(',', $incoming);
     return $returned;
 }
-function GS_Persist($task,$flag)
+function GS_Persist($task,$flag,$fname)
 { 
     if (!SOCKET_IsOnline($GLOBALS['grid_socket'])) {        
         return false;
     } 
-    fputs($GLOBALS['grid_socket'],"PERSIST,".$task.",".$flag."\r\n");    
+    fputs($GLOBALS['grid_socket'],"PERSIST,".$task.",".$flag.",".$fname."\r\n");    
     return NULL;
 }  
 function GS_Pong()

@@ -15,10 +15,9 @@ function PrintHelp()
     echo "<YOURHASH> SUBMIT <task> <payload>\n";       
     echo "<YOURHASH> GETTASK <task>\n";       
     echo "<YOURHASH> READ <telemetryname> <start> <count>\n";   
-    echo "<YOURHASH> PERSIST <task> <append?>\n";
-    echo "<YOURHASH> SUBMITPERSIST <task> <payload> <append?>\n";
+    echo "<YOURHASH> PERSIST <task> <append?> <fname>\n";
+    echo "<YOURHASH> SUBMITPERSIST <task> <payload> <append?> <fname>\n";
 }
-
 function PrintExit()
 {
     echo "Done\n";
@@ -151,7 +150,7 @@ else if($command=="GETTASK")
 
 }else if($command=="PERSIST")
 {
-    if($argc != 5)
+    if($argc != 6)
     {
         PrintHelp();
         exit(0);
@@ -161,11 +160,11 @@ else if($command=="GETTASK")
         $t = $argv[3];
         $receipent = $argv[4];
 
-        echo "Set persist flag ".$argv[4]." on ".$argv[3]."\n";
+        echo "Set persist flag ".$argv[4]." on ".$argv[3]." as ".$argv[5]."\n";
        
         if(GS_Login($grid_owner))
         { 
-            GS_Persist($argv[3], $argv[4]);
+            GS_Persist($argv[3], $argv[4],$argv[5]);
             GS_Disconnect();
             PrintExit();
         } else echo "Something went wrong, throttled ?\n";
@@ -173,7 +172,7 @@ else if($command=="GETTASK")
 }
 else if($command=="SUBMITPERSIST")
 {
-    if($argc != 6)
+    if($argc != 7)
     {
         PrintHelp();
         exit(0);
@@ -183,7 +182,7 @@ else if($command=="SUBMITPERSIST")
         if(GS_Login($grid_owner))
         { 
             $ooo = GS_AddTask($argv[3],$argv[4]);
-            GS_Persist($ooo['1'],$argv[5]);
+            GS_Persist($ooo['1'],$argv[5],$argv[6]);
  
             GS_Disconnect();
             PrintExit();
