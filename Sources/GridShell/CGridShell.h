@@ -94,7 +94,7 @@ public:
   uint32_t AddTask(const String& rstrScript, const String& rstrInputPayload);
   bool Send(const String& rstrReceipent, const uint32_t& ruiValue);
   bool Burn(const CGridShell::eBurn& rWhat);
-  void Persist(const uint32_t& ruiTask, const uint32_t& ruiFlag);
+  void Persist(const uint32_t& ruiTask, const uint32_t& ruiFlag, const String& rstrFilename);
   String GetTask(const uint32_t& ruiTask);
   String Read(const String& rstrTelemetry, const uint32_t& ruiStart, const uint32_t& ruiCount);
   std::tuple<int, String> Run(String& rstrBASFile, const String& rstrInputPayload, const uint32_t& ruiTaskTimeout);
