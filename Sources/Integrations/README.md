@@ -18,7 +18,11 @@ Oh 🤭 btw, did i mention this sensor works on solar panels ? This makes it ZER
 
 Achievements: 🌱 - 100% eco | ☁️ - no hosting | 💵 - zero costs |
 
+# 🌫️ EtherFog
 
+https://github.com/invpe/ETHERFOG
+
+Open-source device designed to monitor and visualize the density of WiFi traffic in a given area, referred to as "WiFi pollution."
 
 # :whale: Whale
 
