@@ -423,6 +423,9 @@ int CGridShell::GetTelemetry(const String& rstrFile) {
     File fTele = SPIFFS.open(GNODE_TELEMETRY_FILENAME, "w");
 
     while (bContinueReading) {
+      // Pong
+      Pong();
+
       // Request a chunk of the file
       Send("READ," + rstrFile + "," + String(iOffset) + "," + String(GNODE_IO_SIZE) + "\r\n");
 
