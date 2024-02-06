@@ -6,7 +6,7 @@
 
 1. Abstract
 
-In light of recent enhancements to our server that enable direct user access to data, the necessity for an intermediary API server has been obviated. 
+In light of recent enhancements to our server/lib that enable direct user access to data, the necessity for an intermediary API server has been obviated. 
 Considering the minimal user engagement with this system and the associated maintenance and operational costs, I've decided to decommission the API server. 
 This move will streamline our infrastructure and reduce expenses without impacting data accessibility for our users. 
 However, we will continue to maintain and update the explorer page (Grafana), adapting it to utilize the newly introduced commands 
