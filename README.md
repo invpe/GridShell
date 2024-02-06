@@ -19,21 +19,7 @@
 <a href=https://github.com/invpe/GridShell/tree/main/Sources/Integrations><img src="https://badgen.net/static/>/Integrations/ebcf34?scale=2?"></a><a href=https://github.com/invpe/gridshell/tree/main/Documentation><img src="https://badgen.net/static/>/Documentation/ebcf34?scale=2"></a>
 <a href=https://github.com/invpe/gridshell/tree/main/Sources><img src="https://badgen.net/static/>/Sources/ebcf34?scale=2?"></a><a href=https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md><img src="https://badgen.net/static/>/Explorer/ebcf34?scale=2?"></a><a href=https://github.com/paladin-t/my_basic><img src="https://badgen.net/static/>/MyBasic/ebcf34?scale=2?"></a><BR>
 
-</div> 
-
-
-  
-<div align="center">
-
-  <img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.gridshell.net%2Fcurrent.json&query=Nodes&style=plastic&label=Nodes%20Online">
-<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.gridshell.net%2Fcurrent.json&query=TotalTasks&style=plastic&label=Tasks%20completed&color=%2399ff99">
-<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.gridshell.net%2Fcurrent.json&query=UsersCount&style=plastic&label=Volunteers&color=%23ffffff">
-<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.gridshell.net%2Fcurrent.json&query=Utilization&suffix=%25&style=plastic&label=Utilization&color=%23eeee88">
-
-
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/invpe) 
- 
-</div>
+</div>  
  
 
 --- 
