@@ -5,7 +5,7 @@
 
 # Abstract
 
-This proposal introduces an automatic categorization system for GridShell nodes, leveraging the execution time of a benchmark task involving 5000xSHA256 hash calculations. The system aims to enhance architecture identification, optimize resource utilization, and ensure consistent task validation across the diverse range of IoT devices within the GridShell network.
+This proposal introduces an automatic categorization system for GridShell nodes, leveraging the execution time of a benchmark task involving 20000xSHA256 hash calculations. The system aims to enhance architecture identification, optimize resource utilization, and ensure consistent task validation across the diverse range of IoT devices within the GridShell network.
  
 # Introduction
 
