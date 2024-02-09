@@ -25,6 +25,7 @@ To centralize numerical data for easier user reference.
 | ------------- | ------------- | ------------- |
 | Valid task  | 1  | For valid task execution  |
 | Airdrop  | 1  | For single airdrop  |
+| autocat  | 1 | For valid execution |
 
 # Void execution 
 
