@@ -10,19 +10,16 @@ This tutorial assumes that you have an ESP32 device ready to join the GridShell.
 Then depending on the option you choose either [Setup from release file](https://github.com/invpe/GridShell/edit/main/Documentation/Tutorials/Join.md#setup-from-a-release-file) or [Setup from sources](https://github.com/invpe/GridShell/edit/main/Documentation/Tutorials/Join.md#setup-from-sources) you need either a browser or [Arduino IDE](https://www.arduino.cc/en/software/) installed for the sources option.
 
 The simplest way to join a vanilla node is to use the Release setup process, but if you want to modify the code or join your existing sensor as a GridShell node, then definitely reach for the sources tutorial.
+ 
+# Setup your account first
 
-# Create account on the testnet
-[https://api.gridshell.net/getuser/](https://api.gridshell.net/getuser/)
+GridShell doesn't require any account creation process, you simply provide your 64 bytes long string, that is used as your account.
+Feel free to use [this tool](http://www.unit-conversion.info/texttools/random-string-generator/) to generate the string for you, just don't forget it later on!
 
-When creating account, you have been given three values, ensure to keep them noted
-as it is impossible to recreate them if lost.
+![image](https://github.com/invpe/GridShell/assets/106522950/3ed066e8-a72e-4654-941f-94a94bf8496b)
 
-![image](https://github.com/invpe/GridShell/assets/106522950/1554ed72-c04d-4ba0-99c4-6025a16ed07c)
+You can [read more](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0070-V09Accountless.md) in the GIP about the details.
 
-
-* Username (Public) - this is your public username it is ok to share with others
-* UserHash (Private) - **never** share it, **note** it down - used for all your nodes to ident
-* Recovery Seed (Private) - **never** share it, **note** it down - if you forget your hash, this is used to recover it
 
 # Setup from a release file
 Open [Documentation/Tutorials/Release.md](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Release.md) to simply upload release binaries to your ESP32.
