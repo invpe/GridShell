@@ -12,9 +12,6 @@ or you just want to send the data from your sensor and display it - getting Grid
 Start off with getting yourself account created on the network, simply use [this link](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0070-TODOAccountless.md) to get yourself covered. 
 All things with GridShell require account, so having one is a good way to start.
 
-- [Create account](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0070-TODOAccountless.md)
-- [Read more](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Join.md#create-account-on-the-testnet)
-
 # 🥬 Use straight away ?
 
 Maybe at this moment you're ready to go, not everyone has nodes connected - some of us are just sending tasks without connecting any devices.
