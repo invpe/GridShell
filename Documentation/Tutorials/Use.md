@@ -14,6 +14,7 @@ Feel free to use [this tool](http://www.unit-conversion.info/texttools/random-st
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/3ed066e8-a72e-4654-941f-94a94bf8496b)
 
+You can [read more](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0070-V09Accountless.md) in the GIP about the details.
 
 # 🥬 Use straight away ?
 
