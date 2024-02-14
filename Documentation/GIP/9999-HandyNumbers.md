@@ -36,3 +36,12 @@ To centralize numerical data for easier user reference.
 | md5dfs  | 0 | Chunk checksum check |
 | send  | 0 | Void task |
 | burn  | 0 | Void task |
+
+# UPF 
+
+| Type | Percentage |
+| ---- | ---------- |
+| UPFRequiredTaskSubmission | >51% |
+| UPFRequiredTransferTokens | >51% |
+| UPFRequiredBurn | >51% |
+| UPFRequiredOthers | >51% |
