@@ -9,7 +9,7 @@ or you just want to send the data from your sensor and display it - getting Grid
 
 # 👨‍🦲 Setup your account first
 
-Start off with getting yourself account created on the network, simply use [this link](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0070-TODOAccountless.md) to get yourself covered. 
+Start off with getting yourself account created on the network, simply use [this link](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0070-V09Accountless.md) to get yourself covered. 
 All things with GridShell require account, so having one is a good way to start.
 
 # 🥬 Use straight away ?
