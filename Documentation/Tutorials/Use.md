@@ -9,8 +9,11 @@ or you just want to send the data from your sensor and display it - getting Grid
 
 # 👨‍🦲 Setup your account first
 
-Start off with getting yourself account created on the network, simply use [this link](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0070-V09Accountless.md) to get yourself covered. 
-All things with GridShell require account, so having one is a good way to start.
+GridShell doesn't require any account creation process, you simply provide your 64 bytes long string, that is used as your account.
+Feel free to use [this tool](http://www.unit-conversion.info/texttools/random-string-generator/) to generate the string for you, just don't forget it later on!
+
+![image](https://github.com/invpe/GridShell/assets/106522950/3ed066e8-a72e-4654-941f-94a94bf8496b)
+
 
 # 🥬 Use straight away ?
 
