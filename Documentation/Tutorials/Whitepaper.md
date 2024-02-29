@@ -52,6 +52,8 @@ GridShell's applications are diverse:
 - IoT Sensor Networks: IoT devices can contribute to distributed computing tasks while performing their primary sensing functions.
   Imagine a vast air quality operation where IoT sensors continuously collect data on atmospheric pollutants levels. GridShell allows these sensors to not only perform their primary
   functions but also contribute their idle processing power to predictive analytics, reporting and visualization of the data.
+
+- Logic execution through GridShell enables the execution of scripts for device logic management, eliminating the need for hardcoding directly onto IoT sensors. This approach allows for the centralized management of hundreds of sensors using single or multiple scripts, significantly simplifying the process of updating and customizing device logic across a vast network.
   
 - Reducing costs: Solution can be used to zero out the cost at the entry stage of your product. No hosting needed, deploy & test with GridShell.
   Startups and entrepreneurs can eliminate hosting costs during the initial stages of product development by leveraging GridShell's serverless capabilities.
