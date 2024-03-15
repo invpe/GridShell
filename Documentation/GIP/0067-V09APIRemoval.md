@@ -22,4 +22,4 @@ Following are the Gridshell improvement proposals that went live, and an example
 
 2. Impact
 
-- User's creation is temporarily impossible - i am anyway planning to address this with https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0070-TODOAccountless.md.
+- User's creation  https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0070-V09Accountless.md
