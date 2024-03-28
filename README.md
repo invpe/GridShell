@@ -1,4 +1,12 @@
 
+> [!IMPORTANT]
+> The project is currently paused, but who knows, I might come back to it at a later time!
+
+
+
+
+
+
 
 <p align="center">
   <img  src="https://github.com/invpe/gridshell/blob/main/Resources/gridshell_small.png">
