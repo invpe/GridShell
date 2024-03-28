@@ -1,20 +1,14 @@
 
-> [!IMPORTANT]
-> The project is currently paused, but who knows, I might come back to it at a later time!
-
-
-
-
-
-
 
 <p align="center">
-  <img  src="https://github.com/invpe/gridshell/blob/main/Resources/gridshell_small.png">
+  <img  src="https://github.com/invpe/gridshell/blob/main/Resources/gridshell_small.png">  
 </p>
+
 
 <p align="center">
   <i>Supercharge Your IoT: Harness Idle Power, Earn Rewards</i>
-</p> 
+</p>  
+
 
 <div align="center">
 <a href=https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Whitepaper.md><img src="https://badgen.net/static/>/Whitepaper/34ebd5?scale=2?"></a> 
@@ -29,6 +23,12 @@
  
 
 --- 
+# ⏱️ On Hold
+
+> [!IMPORTANT]
+> The project is currently **paused**, but who knows, I might come back to it in the future!
+
+
 # :seedling: Welcome
 
 With billions of IOT devices connected today there is a huge potential of computing power ready for use at minimal or even zero cost. These tiny computers are capable of operating on renewable energies like solar power, giving tremendous opportunities for utilizing their computing capabilities without impacting environment. We all have WiFi enabled sensors, smart bulbs, sockets, plugs... which idle for most of their time - why not connect them together and use as one big computer to solve our problems ?
