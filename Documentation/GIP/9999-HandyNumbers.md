@@ -10,6 +10,10 @@ Please note that, given the evolving nature of the project and its current phase
 # Rationale
 To centralize numerical data for easier user reference.
 
+# Housekeeping
+
+Accounts are being removed if not seen for longer than `259200` seconds `3 days`.
+
 # Costs
 
 | Type  | Shell tokens | Description |
