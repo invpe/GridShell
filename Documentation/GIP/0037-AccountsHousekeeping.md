@@ -20,3 +20,5 @@ This improvement seeks to ensure that only active accounts are persisted and the
 A check already existing for never used accounts within `UserAutoRemovalTime` timeframes is removed and replaced with a logic to see when an account was used last time.
 If it hits the configured value defined in seconds as `UserNonActiveRemovalTime`, the account is marked for deletion and all it's resources are permanently removed from the system. 
 
+
+[Handy Numbers](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/9999-HandyNumbers.md#housekeeping) 
