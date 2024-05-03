@@ -34,10 +34,10 @@ Read about the Grid Improvement Proposal document, see released ones, comment an
 # Read about TELEMETRY
 What is GridShell Telemetry and what purpose does it serve ? [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Telemetry.md)
 
-# API
+# ~~API~~ (Decomissioned)
 Check how to integrate with the current TestNet GridShell network [here](https://github.com/invpe/GridShell/tree/main/Documentation/API)
 
-# EXPLORER
+# ~~EXPLORER~~ (Decomissioned)
 Grafana Visualization endpoint [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md)
 
 # Use
