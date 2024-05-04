@@ -1,48 +1,48 @@
 {
-"CPU": 8.271221,
+"CPU": 4.939449,
 "Starttime": 1714779634,
-"Epoch": 1714779634,
+"Epoch": 1714780235,
 "Version": "09",
 "MaxNodesPerDevice": 1,
-"Connections": 0,
-"Nodes": 0,
-"NodesFree": 0,
+"Connections": 2,
+"Nodes": 2,
+"NodesFree": 1,
 "NodesWorking": 0,
-"Validators": 0,
-"ValidatorsFree": 0,
+"Validators": 1,
+"ValidatorsFree": 1,
 "ValidatorsWorking": 0,
 "MaxNodes": 1024,
-"TV": 0.001000,
+"TV": 0.000500,
 "UsersCount": 4,
-"TotalBalance": 133381,
+"TotalBalance": 133387,
 "TaskTimeout": 120000 ,
-"Throttled": 0,
-"TasksCount": 2,
-"TasksNew": 2,
+"Throttled": 77,
+"TasksCount": 0,
+"TasksNew": 0,
 "TasksRunning": 0,
 "TasksFailed": 0,
 "TasksCompleted": 0,
 "TasksValidated": 0,
-"TotalTasks": 1035130,
+"TotalTasks": 1035138,
 "TelemetryRetention": 86400,
-"TelemetryCount": 3,
-"TelemetryChunks": 3,
+"TelemetryCount": 4,
+"TelemetryChunks": 4,
 "TelemetryChunksLost": 0,
-"TelemetrySize": 3663,
+"TelemetrySize": 3779,
 "Utilization": 0.000000,
 "Users":[
 {
 "Username": "FuchsiaChocolateChuanjiesaurus",
 "Rank": 26,
 "Created": 1691434053,
-"LastSeen": 1714552783,
-"Balance": 72039,
+"LastSeen": 1714780217,
+"Balance": 72042,
 "Good": 100,
 "Bad": 0,
 "UPF": 100,
-"Totals": 215716,
-"Submits": 62098,
-"TelemetryCount": 0,
+"Totals": 215723,
+"Submits": 62102,
+"TelemetryCount": 1,
 "TelemetryMax": 6,
 "TelemetrySize": 10000,
 "UPFDetais":"1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111","Retention": 86400,
@@ -67,6 +67,12 @@
 }
 ],
 "Telemetry":[
+{
+"Created": 1714780217,
+"Modified": 1714780217,
+"Size": "134",
+"Name": "FuchsiaChocolateChuanjiesaurusPOCNET"
+}
 ],
 "NodesList":[
 ]
@@ -75,19 +81,19 @@
 "Username": "GRIDSHELLCoreValidators1",
 "Rank": 10,
 "Created": 1664609779,
-"LastSeen": 1714552783,
+"LastSeen": 1714780231,
 "Balance": 1,
 "Good": 100,
 "Bad": 0,
 "UPF": 100,
 "Totals": 2,
-"Submits": 107233,
+"Submits": 107237,
 "TelemetryCount": 3,
 "TelemetryMax": 10,
 "TelemetrySize": 100000,
 "UPFDetais":"1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111","Retention": 172800,
 "Validator": 1,
-"Nodes": 0,
+"Nodes": 1,
 "Awards":[
 {
 "Category": 0,
@@ -99,7 +105,7 @@
 },
 {
 "Category": 2,
-"Medal": 0
+"Medal": 1
 },
 {
 "Category": 3,
@@ -108,32 +114,42 @@
 ],
 "Telemetry":[
 {
-"Created": 1714779613,
-"Modified": 1714779613,
-"Size": "3455",
+"Created": 1714779634,
+"Modified": 1714779634,
+"Size": "3340",
 "Name": "GRIDSHELLCoreValidators1CURRENT"
 },
 {
 "Created": 1714779613,
-"Modified": 1714779634,
-"Size": "194",
+"Modified": 1714780235,
+"Size": "291",
 "Name": "GRIDSHELLCoreValidators1STAT202454"
 },
 {
-"Created": 1714779613,
-"Modified": 1714779613,
+"Created": 1714779634,
+"Modified": 1714779634,
 "Size": "14",
 "Name": "GRIDSHELLCoreValidators1TASKS"
 }
 ],
 "NodesList":[
+{
+"Group": -1,
+"Version": "09",
+"Task": 0,
+"Validator": 1,
+"Executor": 1,
+"TelemetryChunks": 0,
+"Availability": 0.646991,
+"Ident": "0d2fd996bb4c"
+}
 ]
 },
 {
 "Username": "trialestesalamosaurustianzhenosaurus",
 "Rank": 0,
 "Created": 1708705684,
-"LastSeen": 1714551698,
+"LastSeen": 1714779872,
 "Balance": 872,
 "Good": 1,
 "Bad": 99,
@@ -173,19 +189,19 @@
 "Username": "JadeChartreuseDromiceiomimus",
 "Rank": 100,
 "Created": 1668685680,
-"LastSeen": 1714552783,
-"Balance": 60469,
+"LastSeen": 1714780228,
+"Balance": 60472,
 "Good": 100,
 "Bad": 0,
 "UPF": 100,
-"Totals": 668645,
+"Totals": 668648,
 "Submits": 353299,
 "TelemetryCount": 0,
 "TelemetryMax": 1001,
 "TelemetrySize": 1500000,
 "UPFDetais":"1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111","Retention": 604800,
 "Validator": 0,
-"Nodes": 0,
+"Nodes": 1,
 "Awards":[
 {
 "Category": 0,
@@ -197,7 +213,7 @@
 },
 {
 "Category": 2,
-"Medal": 0
+"Medal": 1
 },
 {
 "Category": 3,
@@ -207,6 +223,16 @@
 "Telemetry":[
 ],
 "NodesList":[
+{
+"Group": 0,
+"Version": "09",
+"Task": 0,
+"Validator": 0,
+"Executor": 1,
+"TelemetryChunks": 0,
+"Availability": 0.646991,
+"Ident": "761eb6b6a1be"
+}
 ]
 }
 ]
