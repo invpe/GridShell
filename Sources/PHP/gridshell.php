@@ -34,8 +34,7 @@ function GS_Login($uid, $nodeid = NULL)
     $context = stream_context_create(['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]]);
     $GLOBALS['grid_socket'] = stream_socket_client('ssl://' . $GLOBALS['server'] . ':' . $GLOBALS['port'], $errno, $errstr, 30, STREAM_CLIENT_CONNECT, $context);
 
-    if (!SOCKET_IsOnline($GLOBALS['grid_socket'])) {
-        echo "[GS:Login] Connection failed: " . $errstr . "\n";
+    if (!SOCKET_IsOnline($GLOBALS['grid_socket'])) { 
         return false;
     }
 
@@ -48,12 +47,10 @@ function GS_Login($uid, $nodeid = NULL)
     $command = "JOB," . $base64encodedUID . "," . $GLOBALS['version'] . "," . $nodeid . "\r\n"; 
     fputs($GLOBALS['grid_socket'], $command);
 
-    if (!SOCKET_IsOnline($GLOBALS['grid_socket'])) {
-        echo "[GS:Login] Cant authorize\n";
+    if (!SOCKET_IsOnline($GLOBALS['grid_socket'])) { 
         return false;
     }
-
-    echo "[GS:Login] Login completed\n";
+ 
     return true;
 }  
 function GS_Burn($what)
@@ -94,12 +91,12 @@ function GS_Read($tname,$start,$count)
     $returned = explode(',', $incoming);
     return $returned;
 }
-function GS_Persist($task,$flag,$fname)
+function GS_Persist($task,$flag)
 { 
     if (!SOCKET_IsOnline($GLOBALS['grid_socket'])) {        
         return false;
     } 
-    fputs($GLOBALS['grid_socket'],"PERSIST,".$task.",".$flag.",".$fname."\r\n");    
+    fputs($GLOBALS['grid_socket'],"PERSIST,".$task.",".$flag."\r\n");    
     return NULL;
 }  
 function GS_Pong()
@@ -108,8 +105,7 @@ function GS_Pong()
         return false;
     } 
     if(time() - $GLOBALS['lastpong'] >= 10)
-    {
-        echo "[GS:Pong] Pong\r\n";
+    { 
         fputs($GLOBALS['grid_socket'],"PONG\r\n");
         $GLOBALS['lastpong'] = time();
 
@@ -121,7 +117,7 @@ function GS_AddTask($script, $payload) {
         return false;
     }
 
-    fputs($GLOBALS['grid_socket'], "ADDT," . $script . "," . base64_encode($payload) . "\r\n");
+    fputs($GLOBALS['grid_socket'], "ADDT," . base64_encode($script) . "," . base64_encode($payload) . "\r\n");
     //echo "[GS:AddTask] Waiting for results:\n";
 
     $completeData = "";
