@@ -217,6 +217,11 @@ void CGridShell::Tick() {
 
       // Get latest CA crt from github
       String strCert = GetCertificate();
+      if (strCert.isEmpty()) {
+        Stop();
+        return;
+      }
+
       m_Client.setCACert(strCert.c_str());
 
       GDEBUG("Connecting");
@@ -550,7 +555,7 @@ int CGridShell::MBStep(struct mb_interpreter_t* s, void** l, const char* f, int 
     return GNODE_RET_TERMINATED;
 
   CGridShell::GetInstance().Pong();
-
+ 
   //
   return MB_FUNC_OK;
 }
@@ -893,7 +898,7 @@ uint32_t CGridShell::AddTask(const String& rstrScript, const String& rstrInputPa
   if (!Connected()) return 0;
 
   String strInputBase = EncodeBase64(rstrInputPayload);
-  String strCommand = "ADDT," + rstrScript + "," + strInputBase + "\r\n";
+  String strCommand = "ADDT," + EncodeBase64(rstrScript) + "," + strInputBase + "\r\n";
 
   Send(strCommand);
 
