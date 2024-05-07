@@ -49,3 +49,7 @@ Accounts are being removed if not seen for longer than `259200` seconds `3 days`
 | UPFRequiredTransferTokens | >51% |
 | UPFRequiredBurn | >51% |
 | UPFRequiredOthers | >51% |
+
+# Throttling & Rate limiting
+
+The system operates according to the configuration parameter `ExcessiveCommandTime`, which permits users to send messages to the server at a rate of `one message per second`. Should this threshold be exceeded, the system enforces a temporary throttling measure by disconnecting and blocking the sender for a randomized duration of time.
