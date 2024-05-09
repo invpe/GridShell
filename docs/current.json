@@ -1,46 +1,46 @@
 {
-"CPU": 1.385708,
+"CPU": 1.227610,
 "Starttime": 1715076448,
-"Epoch": 1715289803,
+"Epoch": 1715293409,
 "Version": "09",
 "MaxNodesPerDevice": 1,
-"Connections": 0,
-"Nodes": 0,
-"NodesFree": 0,
+"Connections": 4,
+"Nodes": 3,
+"NodesFree": 1,
 "NodesWorking": 0,
-"Validators": 0,
-"ValidatorsFree": 0,
+"Validators": 2,
+"ValidatorsFree": 2,
 "ValidatorsWorking": 0,
 "MaxNodes": 1024,
-"TV": 0.001000,
+"TV": 0.000250,
 "UsersCount": 5,
-"TotalBalance": 136968,
+"TotalBalance": 136969,
 "TaskTimeout": 120000 ,
-"Throttled": 76,
+"Throttled": 79,
 "TasksCount": 0,
 "TasksNew": 0,
 "TasksRunning": 0,
 "TasksFailed": 0,
 "TasksCompleted": 0,
 "TasksValidated": 0,
-"TotalTasks": 1044518,
+"TotalTasks": 1044548,
 "TelemetryRetention": 86400,
 "TelemetryCount": 8,
-"TelemetryChunks": 16,
-"TelemetryChunksLost": 8,
-"TelemetrySize": 57782,
+"TelemetryChunks": 14,
+"TelemetryChunksLost": 6,
+"TelemetrySize": 44754,
 "Utilization": 0.000000,
 "Users":[
 {
 "Username": "FuchsiaChocolateChuanjiesaurus",
 "Rank": 27,
 "Created": 1691434053,
-"LastSeen": 1715289709,
-"Balance": 72326,
+"LastSeen": 1715293311,
+"Balance": 72350,
 "Good": 100,
 "Bad": 0,
 "UPF": 100,
-"Totals": 217119,
+"Totals": 217143,
 "Submits": 63214,
 "TelemetryCount": 0,
 "TelemetryMax": 6,
@@ -75,19 +75,19 @@
 "Username": "GRIDSHELLCoreValidators1",
 "Rank": 10,
 "Created": 1664609779,
-"LastSeen": 1715289728,
+"LastSeen": 1715293408,
 "Balance": 1,
 "Good": 100,
 "Bad": 0,
 "UPF": 100,
 "Totals": 2,
-"Submits": 110849,
+"Submits": 110850,
 "TelemetryCount": 4,
 "TelemetryMax": 10,
 "TelemetrySize": 100000,
 "UPFDetais":"1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111","Retention": 172800,
 "Validator": 1,
-"Nodes": 0,
+"Nodes": 2,
 "Awards":[
 {
 "Category": 0,
@@ -99,7 +99,7 @@
 },
 {
 "Category": 2,
-"Medal": 0
+"Medal": 1
 },
 {
 "Category": 3,
@@ -108,31 +108,51 @@
 ],
 "Telemetry":[
 {
-"Created": 1715289202,
-"Modified": 1715289202,
-"Size": "4649",
+"Created": 1715292808,
+"Modified": 1715292808,
+"Size": "4947",
 "Name": "GRIDSHELLCoreValidators1CURRENT"
 },
 {
-"Created": 1715119720,
-"Modified": 1715205062,
-"Size": "14282",
-"Name": "GRIDSHELLCoreValidators1STAT202458"
+"Created": 1715292207,
+"Modified": 1715293409,
+"Size": "296",
+"Name": "GRIDSHELLCoreValidators1STAT2024510"
 },
 {
 "Created": 1715205663,
-"Modified": 1715289803,
-"Size": "14055",
+"Modified": 1715291606,
+"Size": "14356",
 "Name": "GRIDSHELLCoreValidators1STAT202459"
 },
 {
-"Created": 1715289202,
-"Modified": 1715289202,
-"Size": "22341",
+"Created": 1715292808,
+"Modified": 1715292808,
+"Size": "22701",
 "Name": "GRIDSHELLCoreValidators1TASKS"
 }
 ],
 "NodesList":[
+{
+"Group": -1,
+"Version": "09",
+"Task": 0,
+"Validator": 1,
+"Executor": 1,
+"TelemetryChunks": 0,
+"Availability": 81.060185,
+"Ident": "0d2fd996bb4c"
+},
+{
+"Group": -1,
+"Version": "09",
+"Task": 0,
+"Validator": 1,
+"Executor": 1,
+"TelemetryChunks": 0,
+"Availability": 80.135417,
+"Ident": "761eb6b6a1be"
+}
 ]
 },
 {
@@ -179,7 +199,7 @@
 "Username": "trialestesalamosaurustianzhenosaurus",
 "Rank": 0,
 "Created": 1708705684,
-"LastSeen": 1715289051,
+"LastSeen": 1715293287,
 "Balance": 872,
 "Good": 1,
 "Bad": 99,
@@ -219,19 +239,19 @@
 "Username": "JadeChartreuseDromiceiomimus",
 "Rank": 100,
 "Created": 1668685680,
-"LastSeen": 1715289727,
-"Balance": 63769,
+"LastSeen": 1715293406,
+"Balance": 63746,
 "Good": 100,
 "Bad": 0,
 "UPF": 100,
-"Totals": 675851,
-"Submits": 357205,
+"Totals": 675857,
+"Submits": 357234,
 "TelemetryCount": 4,
 "TelemetryMax": 1001,
 "TelemetrySize": 1500000,
 "UPFDetais":"1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111","Retention": 604800,
 "Validator": 0,
-"Nodes": 0,
+"Nodes": 1,
 "Awards":[
 {
 "Category": 0,
@@ -243,7 +263,7 @@
 },
 {
 "Category": 2,
-"Medal": 0
+"Medal": 1
 },
 {
 "Category": 3,
@@ -258,25 +278,35 @@
 "Name": "JadeChartreuseDromiceiomimusFLORA202454"
 },
 {
-"Created": 1715287441,
-"Modified": 1715287441,
-"Size": "180",
+"Created": 1715293321,
+"Modified": 1715293321,
+"Size": "179",
 "Name": "JadeChartreuseDromiceiomimusGMBTC"
 },
 {
-"Created": 1715287208,
-"Modified": 1715287212,
+"Created": 1715293205,
+"Modified": 1715293209,
 "Size": "2048",
 "Name": "JadeChartreuseDromiceiomimusGMCURRENT"
 },
 {
-"Created": 1715286961,
-"Modified": 1715286961,
+"Created": 1715292721,
+"Modified": 1715292721,
 "Size": "175",
 "Name": "JadeChartreuseDromiceiomimusGMDLTC"
 }
 ],
 "NodesList":[
+{
+"Group": -1,
+"Version": "09",
+"Task": 0,
+"Validator": 0,
+"Executor": 1,
+"TelemetryChunks": 0,
+"Availability": 82.334491,
+"Ident": "204afb6b9b58"
+}
 ]
 }
 ]
