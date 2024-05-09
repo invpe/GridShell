@@ -53,3 +53,14 @@ Accounts are being removed if not seen for longer than `259200` seconds `3 days`
 # Throttling & Rate limiting
 
 The system operates according to the configuration parameter `ExcessiveCommandTime`, which permits users to send messages to the server at a rate of `one message per second`. Should this threshold be exceeded, the system enforces a temporary throttling measure by disconnecting and blocking the sender for a randomized duration of time.
+
+# Telemetry
+
+Core telemetry files
+
+| Telemetry | Description |
+| --------- | ----------- |
+| GRIDSHELLCoreValidators1CURRENT | Uber JSON with latest snapshot including server stats, volunteers, tasks and nodes |
+| GRIDSHELLCoreValidators1TASKS | JSON with the recent tasks |
+| GRIDSHELLCoreValidators1STAT202459 | CSV file for easy graph creation, note the date at the end |
+
