@@ -200,9 +200,9 @@ extern "C" {
 #	define MB_PRINT_INPUT_CONTENT 0
 #endif /* MB_PRINT_INPUT_CONTENT */
 
-//#ifndef MB_PREFER_SPEED
-//#	define MB_PREFER_SPEED
-//#endif /* MB_PREFER_SPEED */
+#ifndef MB_PREFER_SPEED
+#	define MB_PREFER_SPEED
+#endif /* MB_PREFER_SPEED */
 
 #ifndef MB_COMPACT_MODE
 #	define MB_COMPACT_MODE
