@@ -32,11 +32,6 @@
 </div>
 
 --- 
-# ⏱️ On Hold
-
-> [!IMPORTANT]
-> The project is currently **paused**, but who knows, I might come back to it in the future!
-
 
 # :seedling: Welcome
 
