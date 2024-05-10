@@ -1,20 +1,20 @@
 {
-"CPU": 1.173232,
+"CPU": 1.448743,
 "Starttime": 1715076448,
-"Epoch": 1715376347,
+"Epoch": 1715379953,
 "Version": "09",
 "MaxNodesPerDevice": 1,
-"Connections": 5,
-"Nodes": 5,
-"NodesFree": 3,
+"Connections": 15,
+"Nodes": 15,
+"NodesFree": 13,
 "NodesWorking": 0,
 "Validators": 2,
 "ValidatorsFree": 2,
 "ValidatorsWorking": 0,
 "MaxNodes": 1024,
-"TV": 0.000200,
+"TV": 0.000067,
 "UsersCount": 5,
-"TotalBalance": 136991,
+"TotalBalance": 136992,
 "TaskTimeout": 120000 ,
 "Throttled": 79,
 "TasksCount": 0,
@@ -23,31 +23,31 @@
 "TasksFailed": 0,
 "TasksCompleted": 0,
 "TasksValidated": 0,
-"TotalTasks": 1045854,
+"TotalTasks": 1045894,
 "TelemetryRetention": 86400,
 "TelemetryCount": 8,
-"TelemetryChunks": 17,
-"TelemetryChunksLost": 9,
-"TelemetrySize": 60071,
+"TelemetryChunks": 15,
+"TelemetryChunksLost": 7,
+"TelemetrySize": 46567,
 "Utilization": 0.000000,
 "Users":[
 {
 "Username": "FuchsiaChocolateChuanjiesaurus",
 "Rank": 27,
 "Created": 1691434053,
-"LastSeen": 1715376324,
-"Balance": 73136,
+"LastSeen": 1715379952,
+"Balance": 73151,
 "Good": 100,
 "Bad": 0,
 "UPF": 100,
-"Totals": 217929,
+"Totals": 217944,
 "Submits": 63214,
 "TelemetryCount": 0,
 "TelemetryMax": 6,
 "TelemetrySize": 10000,
 "UPFDetais":"1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111","Retention": 86400,
 "Validator": 0,
-"Nodes": 0,
+"Nodes": 10,
 "Awards":[
 {
 "Category": 0,
@@ -59,7 +59,7 @@
 },
 {
 "Category": 2,
-"Medal": 0
+"Medal": 2
 },
 {
 "Category": 3,
@@ -69,19 +69,119 @@
 "Telemetry":[
 ],
 "NodesList":[
+{
+"Group": -1,
+"Version": "09",
+"Task": 0,
+"Validator": 0,
+"Executor": 1,
+"TelemetryChunks": 0,
+"Availability": 49.797454,
+"Ident": "910ba68103f6"
+},
+{
+"Group": -1,
+"Version": "09",
+"Task": 0,
+"Validator": 0,
+"Executor": 1,
+"TelemetryChunks": 0,
+"Availability": 52.967593,
+"Ident": "c9da04bb8692"
+},
+{
+"Group": -1,
+"Version": "09",
+"Task": 0,
+"Validator": 0,
+"Executor": 1,
+"TelemetryChunks": 0,
+"Availability": 48.761574,
+"Ident": "db71df911ec3"
+},
+{
+"Group": -1,
+"Version": "09",
+"Task": 0,
+"Validator": 0,
+"Executor": 1,
+"TelemetryChunks": 0,
+"Availability": 50.228009,
+"Ident": "17027d759e17"
+},
+{
+"Group": -1,
+"Version": "09",
+"Task": 0,
+"Validator": 0,
+"Executor": 1,
+"TelemetryChunks": 0,
+"Availability": 47.791667,
+"Ident": "e469e8ad41f8"
+},
+{
+"Group": -1,
+"Version": "09",
+"Task": 0,
+"Validator": 0,
+"Executor": 1,
+"TelemetryChunks": 0,
+"Availability": 45.379630,
+"Ident": "ba8436605c42"
+},
+{
+"Group": -1,
+"Version": "09",
+"Task": 0,
+"Validator": 0,
+"Executor": 1,
+"TelemetryChunks": 0,
+"Availability": 48.547454,
+"Ident": "10011a951b27"
+},
+{
+"Group": -1,
+"Version": "09",
+"Task": 0,
+"Validator": 0,
+"Executor": 1,
+"TelemetryChunks": 0,
+"Availability": 53.608796,
+"Ident": "6b19c0defd4c"
+},
+{
+"Group": -1,
+"Version": "09",
+"Task": 0,
+"Validator": 0,
+"Executor": 1,
+"TelemetryChunks": 0,
+"Availability": 51.362269,
+"Ident": "cc43fddac1b0"
+},
+{
+"Group": -1,
+"Version": "09",
+"Task": 0,
+"Validator": 0,
+"Executor": 1,
+"TelemetryChunks": 0,
+"Availability": 54.166667,
+"Ident": "4cbde0ae7db4"
+}
 ]
 },
 {
 "Username": "GRIDSHELLCoreValidators1",
 "Rank": 10,
 "Created": 1664609779,
-"LastSeen": 1715376340,
+"LastSeen": 1715379946,
 "Balance": 1,
 "Good": 100,
 "Bad": 0,
 "UPF": 100,
 "Totals": 2,
-"Submits": 110873,
+"Submits": 110874,
 "TelemetryCount": 4,
 "TelemetryMax": 10,
 "TelemetrySize": 100000,
@@ -108,27 +208,27 @@
 ],
 "Telemetry":[
 {
-"Created": 1715375746,
-"Modified": 1715375746,
-"Size": "6601",
+"Created": 1715379352,
+"Modified": 1715379352,
+"Size": "6751",
 "Name": "GRIDSHELLCoreValidators1CURRENT"
 },
 {
 "Created": 1715292207,
-"Modified": 1715376347,
-"Size": "14205",
+"Modified": 1715378150,
+"Size": "14508",
 "Name": "GRIDSHELLCoreValidators1STAT2024510"
 },
 {
-"Created": 1715205663,
-"Modified": 1715291606,
-"Size": "14356",
-"Name": "GRIDSHELLCoreValidators1STAT202459"
+"Created": 1715378751,
+"Modified": 1715379953,
+"Size": "300",
+"Name": "GRIDSHELLCoreValidators1STAT2024511"
 },
 {
-"Created": 1715375746,
-"Modified": 1715375746,
-"Size": "20537",
+"Created": 1715379352,
+"Modified": 1715379352,
+"Size": "21963",
 "Name": "GRIDSHELLCoreValidators1TASKS"
 }
 ],
@@ -140,7 +240,7 @@
 "Validator": 1,
 "Executor": 1,
 "TelemetryChunks": 0,
-"Availability": 46.074074,
+"Availability": 47.006944,
 "Ident": "0d2fd996bb4c"
 },
 {
@@ -150,7 +250,7 @@
 "Validator": 1,
 "Executor": 1,
 "TelemetryChunks": 0,
-"Availability": 54.155093,
+"Availability": 47.072917,
 "Ident": "761eb6b6a1be"
 }
 ]
@@ -199,7 +299,7 @@
 "Username": "trialestesalamosaurustianzhenosaurus",
 "Rank": 0,
 "Created": 1708705684,
-"LastSeen": 1715375245,
+"LastSeen": 1715379458,
 "Balance": 872,
 "Good": 1,
 "Bad": 99,
@@ -239,13 +339,13 @@
 "Username": "JadeChartreuseDromiceiomimus",
 "Rank": 100,
 "Created": 1668685680,
-"LastSeen": 1715376340,
-"Balance": 62982,
+"LastSeen": 1715379950,
+"Balance": 62968,
 "Good": 100,
 "Bad": 0,
 "UPF": 100,
-"Totals": 676376,
-"Submits": 358517,
+"Totals": 676401,
+"Submits": 358556,
 "TelemetryCount": 4,
 "TelemetryMax": 1001,
 "TelemetrySize": 1500000,
@@ -278,20 +378,20 @@
 "Name": "JadeChartreuseDromiceiomimusFLORA202454"
 },
 {
-"Created": 1715376121,
-"Modified": 1715376121,
+"Created": 1715379721,
+"Modified": 1715379721,
 "Size": "177",
 "Name": "JadeChartreuseDromiceiomimusGMBTC"
 },
 {
-"Created": 1715376002,
-"Modified": 1715376008,
-"Size": "3968",
+"Created": 1715379601,
+"Modified": 1715379605,
+"Size": "2641",
 "Name": "JadeChartreuseDromiceiomimusGMCURRENT"
 },
 {
-"Created": 1715376241,
-"Modified": 1715376241,
+"Created": 1715379841,
+"Modified": 1715379841,
 "Size": "175",
 "Name": "JadeChartreuseDromiceiomimusGMDLTC"
 }
@@ -304,7 +404,7 @@
 "Validator": 0,
 "Executor": 1,
 "TelemetryChunks": 0,
-"Availability": 11.365741,
+"Availability": 13.953704,
 "Ident": "823d6701cd64"
 },
 {
@@ -314,8 +414,8 @@
 "Validator": 0,
 "Executor": 1,
 "TelemetryChunks": 0,
-"Availability": 46.503472,
-"Ident": "204afb6b9b58"
+"Availability": 12.326389,
+"Ident": "fc9db527bc6c"
 },
 {
 "Group": -1,
@@ -324,8 +424,8 @@
 "Validator": 0,
 "Executor": 1,
 "TelemetryChunks": 0,
-"Availability": 10.740741,
-"Ident": "fc9db527bc6c"
+"Availability": 47.020833,
+"Ident": "204afb6b9b58"
 }
 ]
 }
