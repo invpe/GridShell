@@ -1,10 +1,10 @@
 {
-"CPU": 1.514087,
+"CPU": 1.473244,
 "Starttime": 1715076448,
-"Epoch": 1715534410,
+"Epoch": 1715538016,
 "Version": "09",
 "MaxNodesPerDevice": 1,
-"Connections": 10,
+"Connections": 8,
 "Nodes": 5,
 "NodesFree": 3,
 "NodesWorking": 0,
@@ -12,35 +12,35 @@
 "ValidatorsFree": 2,
 "ValidatorsWorking": 0,
 "MaxNodes": 1024,
-"TV": 0.000100,
+"TV": 0.000125,
 "UsersCount": 5,
-"TotalBalance": 137035,
+"TotalBalance": 137036,
 "TaskTimeout": 120000 ,
-"Throttled": 100,
+"Throttled": 102,
 "TasksCount": 0,
 "TasksNew": 0,
 "TasksRunning": 0,
 "TasksFailed": 0,
 "TasksCompleted": 0,
 "TasksValidated": 0,
-"TotalTasks": 1047899,
+"TotalTasks": 1047931,
 "TelemetryRetention": 86400,
 "TelemetryCount": 7,
 "TelemetryChunks": 16,
 "TelemetryChunksLost": 9,
-"TelemetrySize": 56361,
+"TelemetrySize": 56533,
 "Utilization": 0.000000,
 "Users":[
 {
 "Username": "FuchsiaChocolateChuanjiesaurus",
 "Rank": 27,
 "Created": 1691434053,
-"LastSeen": 1715534346,
-"Balance": 74009,
+"LastSeen": 1715537948,
+"Balance": 74016,
 "Good": 100,
 "Bad": 0,
 "UPF": 100,
-"Totals": 218802,
+"Totals": 218809,
 "Submits": 63214,
 "TelemetryCount": 0,
 "TelemetryMax": 6,
@@ -75,13 +75,13 @@
 "Username": "GRIDSHELLCoreValidators1",
 "Rank": 10,
 "Created": 1664609779,
-"LastSeen": 1715534408,
+"LastSeen": 1715538013,
 "Balance": 1,
 "Good": 100,
 "Bad": 0,
 "UPF": 100,
 "Totals": 2,
-"Submits": 110917,
+"Submits": 110918,
 "TelemetryCount": 4,
 "TelemetryMax": 10,
 "TelemetrySize": 100000,
@@ -108,8 +108,8 @@
 ],
 "Telemetry":[
 {
-"Created": 1715533809,
-"Modified": 1715533809,
+"Created": 1715537415,
+"Modified": 1715537415,
 "Size": "5135",
 "Name": "GRIDSHELLCoreValidators1CURRENT"
 },
@@ -121,14 +121,14 @@
 },
 {
 "Created": 1715465295,
-"Modified": 1715534410,
-"Size": "11674",
+"Modified": 1715538016,
+"Size": "12275",
 "Name": "GRIDSHELLCoreValidators1STAT2024512"
 },
 {
-"Created": 1715533809,
-"Modified": 1715533809,
-"Size": "22261",
+"Created": 1715537415,
+"Modified": 1715537415,
+"Size": "21447",
 "Name": "GRIDSHELLCoreValidators1TASKS"
 }
 ],
@@ -140,8 +140,8 @@
 "Validator": 1,
 "Executor": 1,
 "TelemetryChunks": 0,
-"Availability": 57.291667,
-"Ident": "761eb6b6a1be"
+"Availability": 41.105324,
+"Ident": "0d2fd996bb4c"
 },
 {
 "Group": -1,
@@ -150,8 +150,8 @@
 "Validator": 1,
 "Executor": 1,
 "TelemetryChunks": 0,
-"Availability": 57.111111,
-"Ident": "0d2fd996bb4c"
+"Availability": 40.923611,
+"Ident": "761eb6b6a1be"
 }
 ]
 },
@@ -199,7 +199,7 @@
 "Username": "trialestesalamosaurustianzhenosaurus",
 "Rank": 0,
 "Created": 1708705684,
-"LastSeen": 1715534330,
+"LastSeen": 1715537942,
 "Balance": 872,
 "Good": 1,
 "Bad": 99,
@@ -239,13 +239,13 @@
 "Username": "JadeChartreuseDromiceiomimus",
 "Rank": 100,
 "Created": 1668685680,
-"LastSeen": 1715534405,
-"Balance": 62153,
+"LastSeen": 1715538008,
+"Balance": 62147,
 "Good": 100,
 "Bad": 0,
 "UPF": 100,
-"Totals": 677548,
-"Submits": 360518,
+"Totals": 677573,
+"Submits": 360549,
 "TelemetryCount": 3,
 "TelemetryMax": 1001,
 "TelemetrySize": 1500000,
@@ -272,20 +272,20 @@
 ],
 "Telemetry":[
 {
-"Created": 1715533862,
-"Modified": 1715533862,
+"Created": 1715536802,
+"Modified": 1715536802,
 "Size": "179",
 "Name": "JadeChartreuseDromiceiomimusGMBTC"
 },
 {
-"Created": 1715534401,
-"Modified": 1715534404,
-"Size": "2530",
+"Created": 1715537401,
+"Modified": 1715537405,
+"Size": "2915",
 "Name": "JadeChartreuseDromiceiomimusGMCURRENT"
 },
 {
-"Created": 1715533921,
-"Modified": 1715533921,
+"Created": 1715536802,
+"Modified": 1715536802,
 "Size": "175",
 "Name": "JadeChartreuseDromiceiomimusGMDLTC"
 }
@@ -298,7 +298,7 @@
 "Validator": 0,
 "Executor": 1,
 "TelemetryChunks": 0,
-"Availability": 57.290509,
+"Availability": 40.924769,
 "Ident": "fc9db527bc6c"
 },
 {
@@ -308,7 +308,7 @@
 "Validator": 0,
 "Executor": 1,
 "TelemetryChunks": 0,
-"Availability": 57.299769,
+"Availability": 40.912037,
 "Ident": "204afb6b9b58"
 },
 {
@@ -318,7 +318,7 @@
 "Validator": 0,
 "Executor": 1,
 "TelemetryChunks": 0,
-"Availability": 57.284722,
+"Availability": 40.929398,
 "Ident": "823d6701cd64"
 }
 ]
