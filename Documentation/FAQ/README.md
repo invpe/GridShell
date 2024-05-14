@@ -79,7 +79,9 @@
 16. When using `use.php` or other way of interacting with the server i get an error:
 
 ```
-SSL, ERROR
+PHP Warning:  stream_socket_client(): Failed to enable crypto in gridshell.php on line 35
+PHP Warning:  stream_socket_client(): Unable to connect to ssl://work.gridshell.net:1911 (Unknown error) in gridshell.php on line 35
+[GSHELL] Cant connect
 ```
 
 In most cases this means you have been temporarily blocked, either by the exceed of the rate limits or incorrect behaviour.
