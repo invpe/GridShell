@@ -19,7 +19,7 @@
 
  
 <a href=https://github.com/invpe/GridShell/tree/main/Sources/Integrations><img src="https://badgen.net/static/>/Integrations/ebcf34?scale=2?"></a><a href=https://github.com/invpe/gridshell/tree/main/Documentation><img src="https://badgen.net/static/>/Documentation/ebcf34?scale=2"></a>
-<a href=https://github.com/invpe/gridshell/tree/main/Sources><img src="https://badgen.net/static/>/Sources/ebcf34?scale=2?"></a><a href=https://invpe.github.io/GridShell/><img src="https://badgen.net/static/>/Explorer/ebcf34?scale=2?"></a><a href=https://github.com/paladin-t/my_basic><img src="https://badgen.net/static/>/MyBasic/ebcf34?scale=2?"></a><BR>
+<a href=https://github.com/invpe/gridshell/tree/main/Sources><img src="https://badgen.net/static/>/Sources/ebcf34?scale=2?"></a><a href=https://invpe.github.io/GridShellExplorer/><img src="https://badgen.net/static/>/Explorer/ebcf34?scale=2?"></a><a href=https://github.com/paladin-t/my_basic><img src="https://badgen.net/static/>/MyBasic/ebcf34?scale=2?"></a><BR>
 
 </div>  
  
