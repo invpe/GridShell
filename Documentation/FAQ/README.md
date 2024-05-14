@@ -61,3 +61,7 @@
 12. Why use a scripting language like MyBasic?
 
     To prioritize simplicity in implementation and ease of demonstration, I've opted for a scripting language for tasks executed on GridShell. MyBasic's  straightforward syntax ensures accessibility for all users, fostering a welcoming environment for experimentation and testing within the GridShell ecosystem.
+
+13. Why a centralized server instead of decentralization?
+
+    In pursuit of simplicity and expeditious development, GridShell adopts a centralized server architecture rather than a decentralized peer-to-peer approach. This design choice facilitates rapid development and streamlines implementation processes, aligning with our priority of creating a user-friendly environment for efficient deployment and utilization. Simply put - because it was easier.
