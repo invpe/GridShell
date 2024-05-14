@@ -14,6 +14,8 @@
 <a href=https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Whitepaper.md><img src="https://badgen.net/static/>/Whitepaper/34ebd5?scale=2?"></a> 
 <a href=https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Use.md><img src="https://badgen.net/static/>/Use GridShell/34ebd5?scale=2?"></a> 
 <a href=https://github.com/invpe/GridShell/issues><img src="https://badgen.net/static/>/Community/34ebd5?scale=2?"></a>  
+<a href=https://github.com/invpe/GridShell/tree/main/Documentation/FAQ><img src="https://badgen.net/static/>/FAQ/34ebd5?scale=2?"></a>  
+
 
  
 <a href=https://github.com/invpe/GridShell/tree/main/Sources/Integrations><img src="https://badgen.net/static/>/Integrations/ebcf34?scale=2?"></a><a href=https://github.com/invpe/gridshell/tree/main/Documentation><img src="https://badgen.net/static/>/Documentation/ebcf34?scale=2"></a>
