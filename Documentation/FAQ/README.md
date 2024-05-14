@@ -57,3 +57,7 @@
     As the sole developer of this project, advancing GridShell beyond its current Proof of Concept (POC) or Minimum Viable Product (MVP) stage demands
     significant time, resources, and networking. Focusing solo, my efforts are concentrated on demonstrating the project's potential through its MVP/POC iteration.
     This allows for a clear showcase of its capabilities while acknowledging that further development into a fully-fledged product requires additional investment and collaboration.
+
+12. Why use a scripting language like MyBasic?
+
+    To prioritize simplicity in implementation and ease of demonstration, I've opted for a scripting language for tasks executed on GridShell. MyBasic's  straightforward syntax ensures accessibility for all users, fostering a welcoming environment for experimentation and testing within the GridShell ecosystem.
