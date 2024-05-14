@@ -65,3 +65,28 @@
 13. Why a centralized server instead of decentralization?
 
     In pursuit of simplicity and expeditious development, GridShell adopts a centralized server architecture rather than a decentralized peer-to-peer approach. This design choice facilitates rapid development and streamlines implementation processes, aligning with our priority of creating a user-friendly environment for efficient deployment and utilization. Simply put - because it was easier.
+
+14. What are GIP(s) ?
+
+    These are documents i use to store the improvement ideas for GridShell. They help out to find ourselves in the vast space of ideas and implementations done so far.
+
+15. What is TV ?
+
+    TV stand for `Theoretical Value of a Shell`, it is dynamically calculated based on several key factors that reflect the current state and performance of the network.
+    Here's a summary of how each component contributes to this calculation: [GIP060](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0060-TV.md)
+
+
+16. When using `use.php` or other way of interacting with the server i get an error:
+
+```
+SSL, ERROR
+```
+
+In most cases this means you have been temporarily blocked, either by the exceed of the rate limits or incorrect behaviour.
+Wait untill your address gets auto unblocked.
+
+17. How do i submit a task, send shells, burn shells ?
+
+    Use the simplest form of interacting with GridShell by using [php](https://github.com/invpe/GridShell/tree/main/Sources/PHP) client.
+
+
