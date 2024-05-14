@@ -11,7 +11,7 @@ In March 2024, the Explorer instance was discontinued to enable me to prioritize
 
 # Git Webpage
 To get a feeling of how things are doing, a simple Git webpage has been created to display part of the informations from the above telemetry files,
-[see](https://invpe.github.io/GridShell/) here!
+[see](https://invpe.github.io/GridShellExplorer/) here!
 
 
 
