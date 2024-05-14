@@ -26,11 +26,11 @@
 
 <div align="center">
 
-<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShell/main/docs/current.json&query=Nodes&style=plastic&label=Nodes%20Online">
-<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShell/main/docs/current.json&query=TotalTasks&style=plastic&label=Tasks%20completed&color=%2399ff99">
-<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShell/main/docs/current.json&query=UsersCount&style=plastic&label=Volunteers&color=%23ffffff">
-<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShell/main/docs/current.json&query=Utilization&suffix=%25&style=plastic&label=Utilization&color=%23eeee88">
- <img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShell/main/docs/current.json&query=TV&suffix=%25&style=plastic&label=TV&color=%23aaaa88">
+<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShellExplorer/main/docs/current.json&query=Nodes&style=plastic&label=Nodes%20Online">
+<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShellExplorer/main/docs/current.json&query=TotalTasks&style=plastic&label=Tasks%20completed&color=%2399ff99">
+<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShellExplorer/main/docs/current.json&query=UsersCount&style=plastic&label=Volunteers&color=%23ffffff">
+<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShellExplorer/main/docs/current.json&query=Utilization&suffix=%25&style=plastic&label=Utilization&color=%23eeee88">
+ <img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShellExplorer/main/docs/current.json&query=TV&suffix=%25&style=plastic&label=TV&color=%23aaaa88">
 </div>
 
 --- 
