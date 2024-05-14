@@ -90,3 +90,6 @@ Wait untill your address gets auto unblocked.
     Use the simplest form of interacting with GridShell by using [php](https://github.com/invpe/GridShell/tree/main/Sources/PHP) client.
 
 
+18. Are scripts fast?
+    
+    The current implementation employs an interpreted language (MyBasic), which may not deliver optimal speed performance, especially on Ultra-Low Power (ULP) devices like ESP32. While this aspect is subject to improvement in the future, the primary focus at present is on stability and simplicity. As GridShell evolves, efforts to enhance script execution speed on such devices will be considered.
