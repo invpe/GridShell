@@ -43,6 +43,8 @@ GridShell offers several key features:
   
 - Easy integration: Simply use a ready-to-use PHP script or the Library to allow for quick integration with other applications. The GridShell library can contribute to and use the GridShell network at the same time
 
+- Green Computing: By repurposing idle IoT devices, GridShell promotes environmental sustainability and reduces electronic waste. Utilizing ultra-low-power devices, such as ESP32, GridShell operates efficiently and can be powered by renewable energy sources like solar power.
+
 # Hybrid Edge Computing and Centralized Orchestration
 
 GridShell employs a hybrid approach that combines edge computing principles with centralized task orchestration. Here's how it works:
