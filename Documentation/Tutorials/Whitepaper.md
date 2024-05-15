@@ -41,8 +41,21 @@ GridShell offers several key features:
   
 - Serverless Device and Application Building: GridShell enables the creation of serverless devices and applications, reducing the need for external hosting services.
   
-- Easy integration: Simple API endpoint allows for quick integration with other applications. The GridShell library can contribute to and use the GridShell network at the same time
+- Easy integration: Simply use a ready-to-use PHP script or the Library to allow for quick integration with other applications. The GridShell library can contribute to and use the GridShell network at the same time
 
+# Hybrid Edge Computing and Centralized Orchestration
+
+GridShell employs a hybrid approach that combines edge computing principles with centralized task orchestration. Here's how it works:
+
+- Edge Data Collection: IoT devices, such as Node A, collect data at the network edge, where it is generated. This data can include sensor readings, telemetry, or other relevant information.
+
+- Edge Task Submission: Users or applications submit computational tasks to GridShell directly from the edge nodes. These tasks can be triggered based on specific events, thresholds, or schedules, allowing for real-time analysis and decision-making at the edge.
+
+- Centralized Task Orchestration: Upon receiving a task request, the GridShell server orchestrates its execution by identifying an available node within the network to perform the computation. This central coordination ensures efficient resource allocation and load balancing across the GridShell ecosystem.
+
+By combining edge data collection and task submission with centralized task orchestration, GridShell optimizes the performance and scalability of distributed computing while leveraging the proximity and efficiency benefits of edge computing.
+
+This hybrid model enables GridShell to handle a wide range of use cases.
 
 # Use Cases
 GridShell's applications are diverse:
@@ -62,17 +75,15 @@ GridShell's applications are diverse:
 - Collaborative Data Analysis: Users can pool their computational resources for collaborative data analysis and processing.
   In the field of research, multiple institutions can collaboratively analyze datasets for studies.
   GridShell enables distributed data processing, fostering innovation and breakthroughs through collective computational power.
-  
-- Visualization: With GridShell's Explorer endpoint, users can effortlessly visualize their telemetry data. Whether you're monitoring environmental conditions or analyzing financial trends,
-  a single click provides valuable insights into your data.
-  
+    
 - Offloading: Reduce load and move it to the network
   Offload tasks from your local device to the GridShell network. This reduces device strain and ensures efficient, uninterrupted operation.
   
 - Custom processing: Write scripts and execute them on the network
-  Tailor computing tasks to your specific needs.
+  Tailor computing tasks to your specific needs using a simple BASIC-like scripting language.
 
-- Simplify IOT data storage: Submit telemetry to GridShell from all of your nodes then access it via API or visualize with Explorer endpoint.
+- Simplify IOT data storage: Submit telemetry to GridShell from all of your nodes.
+  Use built feature to store your telemetry and access it from your scripts.
 
 - Personalized Instances: Tailor GridShell to your needs by creating customized instances. Build and manage your own simple distributed computing solutions on IoT devices.
 
@@ -94,8 +105,6 @@ GridShell's development roadmap includes:
 - Opening for new IOT platforms: 
   Introduce a streamlined process for adding new IoT platforms, such as Raspberry Pi and ESP8266, to the GridShell network. Community input and collaboration will be central to this effort.
   
-- Go full open source: Long-term vision includes transitioning GridShell to a fully open-source platform, inviting the community to actively contribute to its development.
-
 - Transition to Real-Value Rewards: GridShell aims to empower its volunteers to transition Shell Tokens into real rewards. This strategic shift encourages volunteers to actively participate in establishing real value for Shell Tokens, fostering a mutually beneficial ecosystem.
 
   
