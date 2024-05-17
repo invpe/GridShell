@@ -9,14 +9,19 @@ include "gridshell.php";
 
 function PrintHelp()
 {
-    echo "Use with following options:\n";
-    echo "<YOURHASH> SEND <AMOUNT> <RECEIPENT>\n";
-    echo "<YOURHASH> BURN <TSLOT/TSIZE>\n"; 
-    echo "<YOURHASH> SUBMIT <task> <payload>\n";       
-    echo "<YOURHASH> GETTASK <task>\n";       
-    echo "<YOURHASH> READ <telemetryname> <start> <count>\n";   
-    echo "<YOURHASH> PERSIST <task> <append?> <fname>\n";
-    echo "<YOURHASH> SUBMITPERSIST <task> <payload> <append?> <fname>\n";
+    echo "Use with following options:\n\n";
+    echo "------------[NEW SETUP]------------\n";    
+    echo "GET IDENT NOW - create yourself an account\n\n";
+
+    echo "------------[ALREADY IN]-----------\n";
+    echo "<YOURHASH> SEND <AMOUNT> <RECEIPENT> - send shells\n";
+    echo "<YOURHASH> BURN <TSLOT/TSIZE> - burn shells\n"; 
+    echo "<YOURHASH> SUBMIT <task> <payload> - submit task for execution\n";       
+    echo "<YOURHASH> GETTASK <task> - get task status and payload\n";       
+    echo "<YOURHASH> READ <telemetryname> <start> <count> - read telemetry\n";   
+    echo "<YOURHASH> PERSIST <task> <append?> <fname> - persist telemetry post task execution\n";
+    echo "<YOURHASH> SUBMITPERSIST <task> <payload> <append?> <fname> - submit task and enable persist flag\n";
+    echo "\n";
 }
 function PrintExit()
 {
@@ -28,7 +33,7 @@ echo "----------------------------------------\n";
 echo "-- PHP GridShell command line tool ".$GLOBALS['version']." --\n";
 echo "----------------------------------------\n";
 echo "   https://github.com/invpe/GridShell   \n";
-echo "----------------------------------------\n";
+echo "----------------------------------------\n\n";
 
 if($argc < 3)
 {
@@ -39,8 +44,40 @@ if($argc < 3)
 
 $grid_owner = $argv[1];
 $command = $argv[2];
+
+if($command=="IDENT")
+{
+    echo "Generating your private identification string...\n\n";
+
+    // Generate random bytes
+    $randomBytes = openssl_random_pseudo_bytes(32); // 32 bytes for SHA256
+
+    // Generate SHA256 hash
+    $sha256String = hash('sha256', $randomBytes);
+    
+    //
+    echo "Your PRIVATE identification string is: ".$sha256String."\n";
+    echo "\n";
  
-if($command=="SEND")
+    // Prompt the user
+    echo "Few things before we take off:\n\n";
+    echo "1. The identification string - it is private do not share!\n";
+    echo "   Your nodes will use it to connect to GridShell, you will have to provide it during configuration.\n";
+    echo "2. Store it somewhere safe - there is no way to restore it!\n";    
+    echo "3. The server will reply with a JSON response, containing your public username\n";    
+    echo "   This username is visible on explorer page and can be shared\n";
+    echo "\n";
+    echo "Ready when you are, hit ENTER to continue generating your account...";
+    
+
+    // Read input from the user
+    fgets(STDIN);
+
+    GS_Login($sha256String);
+
+    
+}
+else if($command=="SEND")
 {
     if($argc != 5)
     {

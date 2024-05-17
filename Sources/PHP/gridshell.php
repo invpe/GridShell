@@ -50,7 +50,11 @@ function GS_Login($uid, $nodeid = NULL)
     if (!SOCKET_IsOnline($GLOBALS['grid_socket'])) { 
         return false;
     }
- 
+    
+    $a = fgets($GLOBALS['grid_socket']); 
+    $confirmation = explode(',', $a);   
+    print_r($confirmation);
+    
     return true;
 }  
 function GS_Burn($what)
