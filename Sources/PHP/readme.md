@@ -1,7 +1,29 @@
-# PHP experimental GS library
+# PHP experimental GS library and command line client
 
-> [!NOTE]  
-> This is not frequently maintained/updated code, serves as an experiment for several integrations.
+# Create identification string (account on gridshell)
+`php use.php GET IDENT NOW` - and follow the prompts
+
+```
+----------------------------------------
+-- PHP GridShell command line tool 09 --
+----------------------------------------
+   https://github.com/invpe/GridShell   
+----------------------------------------
+
+Generating your private identification string...
+
+Your PRIVATE identification string is: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+Few things before we take off:
+
+1. The identification string - it is private do not share!
+   Your nodes will use it to connect to GridShell, you will have to provide it during configuration.
+2. Store it somewhere safe - there is no way to restore it!
+3. The server will reply with a JSON response, containing your public username
+   This username is visible on explorer page and can be shared
+
+Ready when you are, hit ENTER to continue generating your account...
+```
 
 # Submit
 `php use.php your_hash SUBMIT task payload` - To submit a task with payload
