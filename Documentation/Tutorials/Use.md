@@ -9,7 +9,7 @@ or you just want to send the data from your sensor and display it - getting Grid
 
 # 👨‍🦲 Setup your account first
 
-To simplify as much as possible, joining GridShell is as easy as providing a 64 bytes long string, that is known only to you.
+Joining GridShell is as easy as providing a 64 bytes long string, that is known only to you.
 
 [Use GridShell PHP command line tool](https://github.com/invpe/GridShell/tree/main/Sources/PHP), to get yourself setup quickly done:
 
