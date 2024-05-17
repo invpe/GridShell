@@ -9,10 +9,12 @@ or you just want to send the data from your sensor and display it - getting Grid
 
 # 👨‍🦲 Setup your account first
 
-GridShell doesn't require any account creation process, you simply provide your 64 bytes long string, that is used as your account.
-Feel free to use [this tool](http://www.unit-conversion.info/texttools/random-string-generator/) to generate the string for you, just don't forget it later on!
+To simplify as much as possible, joining GridShell is as easy as providing a 64 bytes long string, that is known only to you.
 
-![image](https://github.com/invpe/GridShell/assets/106522950/3ed066e8-a72e-4654-941f-94a94bf8496b)
+[Use GridShell PHP command line tool](https://github.com/invpe/GridShell/tree/main/Sources/PHP), to get yourself setup quickly done:
+
+![image](https://github.com/invpe/GridShell/assets/106522950/599819d2-98d5-40d9-a9e4-2118e5b660d0)
+
 
 You can [read more](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0070-V09Accountless.md) in the GIP about the details.
 
@@ -82,16 +84,6 @@ That's a great idea, at any point in time if you want to store telemetry from wi
 Absolutely, simply use the same `CGridShell::AddTask` [method](https://github.com/invpe/GridShell/blob/main/Sources/GridShell/CGridShell.h#L94) from the library to submit a task to the network.
 This time instead of submitting `writedfs` you submit whatever task you want to run on the network.
 
-If you see there is a functionality missing or you want to write your own script - do not hesitate to build it and post [here](https://github.com/invpe/GridShell/discussions/3) so together we will convert this to a task that everyone can use. 
-
-## 📱 Need to visualize the telemetry ?
-
-Nobody likes plain text, and nobody cares about reading them - so instead of trying to spend more time on visualizing the raw data, use the [GridShell Explorer](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md) endpoint that is made on magnificent [Grafana dashboards](https://grafana.com/). This simple dashboard covers `99%` of the telemetry needs, it is absolutely enough !
-
-Just follow the telemetry guidelines as mentioned in the documentation above, and you're set.
-
-The dashboard you will be looking at is called [GridShell Your Telemetry](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md#gridshell-your-telemetry-link).
-
 ## 🤾‍♂️ Want to play with the scripting ?
 Absolutely good idea, download the Playground sketch and change your ESP32 to become a scripting environment,
 dont forget to share you4 creations !
@@ -99,13 +91,6 @@ dont forget to share you4 creations !
 Maybe even turn them into tasks if you are ready !
 
 - [Playground](https://github.com/invpe/GridShell/tree/main/Sources/Playground)
-
-## 🧮 Monitor your tasks and user
-
-The explorer endpoint allows to monitor all aspects of the network using Grafana.
-Familiarize yourself with the metrics and get most out of it for you.
-
-- [GridShell Explorer](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md) documentation
 
 # ⚗️ Run your own GridShell instance
 
