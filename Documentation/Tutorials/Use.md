@@ -7,13 +7,18 @@ Indepentent of what makes you move, if you are here then you are looking for way
 Maybe you are interested in contributing by simply joining your nodes to the network boosting it's performance both in storage and computation,
 or you just want to send the data from your sensor and display it - getting GridShell to work for you is a very simple task.
 
-# 👨‍🦲 Setup your account first
+# 👨‍🦲 JOIN
 
 Joining GridShell is as easy as providing a 64 bytes long string, that is known only to you.
 
-[Use GridShell PHP command line tool](https://github.com/invpe/GridShell/tree/main/Sources/PHP), to get yourself setup quickly done:
+[Use GridShell PHP command line tool](https://github.com/invpe/GridShell/tree/main/Sources/PHP), and get your setup quickly done.
+
+
+
+![image](https://github.com/invpe/GridShell/assets/106522950/d0dd1f6d-0362-4224-8239-d02323896726)
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/599819d2-98d5-40d9-a9e4-2118e5b660d0)
+
 
 
 You can [read more](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0070-V09Accountless.md) in the GIP about the details.
