@@ -51,10 +51,23 @@ function GS_Login($uid, $nodeid = NULL)
         return false;
     }
     
-    $a = fgets($GLOBALS['grid_socket']); 
-    $confirmation = explode(',', $a);   
-    print_r($confirmation);
-    
+    // The server will respond with getting new IDENT and only then
+    // othwerise nothing is sent back from server, so let's give it a time
+    // to receive, and if nothing continue
+    stream_set_timeout($GLOBALS['grid_socket'], 1); 
+    $a = fgets($GLOBALS['grid_socket']);
+
+    if ($a === false) {
+        // No data received within 5 seconds, continue with your code
+        // Handle the timeout condition here
+        // For example:
+        echo "[GSHELL] Timeout: No confirmation received within 1 second.\n";
+    } else {
+        // Data received within the timeout period
+        $confirmation = explode(',', $a);
+        print_r($confirmation);
+    }
+
     return true;
 }  
 function GS_Burn($what)
