@@ -26,6 +26,8 @@ GridShell offers several key features:
 
 - Distributed Computing: Users can submit computational tasks that are executed across the network, harnessing the combined power of IoT devices.
 
+- GridShell supports distributing parts of the code natively within the source code, enabling developers to seamlessly integrate distributed computing tasks using provided methods for task submission and retrieval.
+
 - Telemetry Storage: Telemetry data, referred to as "chunks," is stored and replicated across nodes, providing collaborative storage capabilities.
 
 - Validation Mechanism: A validation process ensures the accuracy and reliability of task execution, with rewards in the form of Shell Tokens for successful validations.
