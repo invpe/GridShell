@@ -48,14 +48,14 @@
 #define GNODE_POOL_PORT 1911
 #define GNODE_RET_TERMINATED 777
 #define GNODE_CACERT_URL "https://raw.githubusercontent.com/invpe/GridShell/main/Sources/GridShell/ca.crt"
-#define GNODE_FIRMWARE_URL "https://github.com/invpe/GridShell/releases/latest/download/latest.bin"  
+#define GNODE_FIRMWARE_URL "https://github.com/invpe/GridShell/releases/latest/download/latest.bin"
 #define GNODE_FILE_PREFIX "GS"
 #define GNODE_SERVER "work.gridshell.net"
 #define GNODE_VERSION "09"
 #define GNODE_IO_SIZE 1024
 #define GNODE_TELEMETRY_FILENAME "/" GNODE_FILE_PREFIX "TELEMETRY"
 /*---------*/
-// #define GNODE_DEBUG 1
+//#define GNODE_DEBUG 1
 #ifdef GNODE_DEBUG
 #define GDEBUG Serial.println
 #else
@@ -99,7 +99,7 @@ public:
   String Read(const String& rstrTelemetry, const uint32_t& ruiStart, const uint32_t& ruiCount);
   std::tuple<int, String> Run(String& rstrBASFile, const String& rstrInputPayload, const uint32_t& ruiTaskTimeout);
   HTTPClient* GetHTTPClient();
-  
+
   int GetTelemetry(const String& rstrFile);
   String ReadFile(const size_t& startPosition, const size_t& byteCount);
   String ReadFileLine();
@@ -112,7 +112,7 @@ public:
   String sha1HW(String payload);
   String sha1HW(unsigned char* payload, int len);
   String sha256HW(unsigned char* payload, int len);
-  String sha256HW(String payload); 
+  String sha256HW(String payload);
   String XOR(const String& toEncrypt, const String& rstrKey);
   ~CGridShell();
 
@@ -257,7 +257,6 @@ static int _csvtolist(struct mb_interpreter_t* s, void** l) {
   mb_check(mb_push_value(s, l, coll));
   return result;
 }
-
 /*---------*/
 static int _hextobin(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
@@ -270,32 +269,29 @@ static int _hextobin(struct mb_interpreter_t* s, void** l) {
   mb_check(mb_attempt_close_bracket(s, l));
 
   String strHashedBlock = String(hashed_block_hex);
-  String binaryHashedBlock = "";
   mb_value_t val;
   mb_make_nil(val);
 
   mb_value_t coll;
   coll.type = MB_DT_LIST;
   mb_init_coll(s, l, &coll);
-
+  mb_value_t mb_feedback_index;
+  mb_value_t feedback_value;
   int feedback_index = 0;
+
   for (unsigned int i = 0; i < strHashedBlock.length(); i += 2) {
     String byteString = strHashedBlock.substring(i, i + 2);
     unsigned char byte = static_cast<unsigned char>(strtoul(byteString.c_str(), nullptr, 16));
-    binaryHashedBlock += byte;
-    mb_value_t mb_feedback_index;
-    mb_value_t feedback_value;
-    mb_make_int(mb_feedback_index, feedback_index++);
-    mb_make_int(feedback_value, static_cast<int>(byte));
+    mb_make_int(mb_feedback_index, feedback_index);
+    mb_make_int(feedback_value, static_cast<int>(byte));    
     mb_set_coll(s, l, coll, mb_feedback_index, feedback_value);
+    feedback_index++;
   }
-
-
   // Push the comparison result onto the stack
-  mb_check(mb_push_value(s, l, coll));
+  mb_check(mb_push_value(s, l, coll));  
   return result;
 }
-
+/*---------*/
 static int _sha256H(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
 
@@ -321,6 +317,7 @@ static int _sha256H(struct mb_interpreter_t* s, void** l) {
   mb_check(mb_push_string(s, l, mb_memdup(buf, (unsigned)(strlen(buf) + 1))));
   return result;
 }
+/*---------*/
 static int _sha256(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
 
@@ -348,6 +345,7 @@ static int _readline(struct mb_interpreter_t* s, void** l) {
   mb_check(mb_push_string(s, l, mb_memdup(cstrRed, strlen(cstrRed) + 1)));
   return result;
 }
+/*---------*/
 static int _read(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
   int_t iStart = 0;
@@ -436,14 +434,14 @@ static int _fmd5(struct mb_interpreter_t* s, void** l) {
 static int _download(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
   char* cFilename;
-  
+
   mb_check(mb_attempt_open_bracket(s, l));
   mb_check(mb_pop_string(s, l, &cFilename));
   mb_check(mb_attempt_close_bracket(s, l));
-  
+
   String strPath = GNODE_TELEMETRY_FILENAME;
   int_t uiBytesWritten = CGridShell::GetInstance().GetTelemetry(String(cFilename));
-  mb_check(mb_push_int(s, l, uiBytesWritten)); 
+  mb_check(mb_push_int(s, l, uiBytesWritten));
   return result;
 }
 /*---------*/
