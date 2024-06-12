@@ -50,7 +50,7 @@ if($command=="IDENT")
     echo "Generating your private identification string...\n\n";
 
     // Generate random bytes
-    $randomBytes = openssl_random_pseudo_bytes(32); // 32 bytes for SHA256
+    $randomBytes = openssl_random_pseudo_bytes(5024);  
 
     // Generate SHA256 hash
     $sha256String = hash('sha256', $randomBytes);
