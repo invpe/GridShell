@@ -37,3 +37,12 @@ You can [read more](https://github.com/invpe/GridShell/blob/main/Documentation/G
 and check [release docs](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Release.md) for how to upload the release to your ESP32.
 
 
+# 🤾‍♂️ USE
+
+Your newly generated user string will undergo a [cooling period](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0070-V09Accountless.md) for some time, meantime feel free to read about the use cases and review example integrations with GridShell. Do not hesitate to post a message, say hello or simply ask for help!
+
+- [Community](https://github.com/invpe/GridShell/issues)
+- [Use Cases](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Whitepaper.md#use-cases)
+- [Integrations](https://github.com/invpe/GridShell/tree/main/Sources/Integrations)
+- [Tutorials](https://github.com/invpe/GridShell/tree/main/Documentation/Tutorials)
+- [Tasks](https://github.com/invpe/GridShell/tree/main/Tasks/Lessons)
