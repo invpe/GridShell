@@ -111,6 +111,8 @@ GridShell's development roadmap includes:
   
 - Transition to Real-Value Rewards: GridShell aims to empower its volunteers to transition Shell Tokens into real rewards. This strategic shift encourages volunteers to actively participate in establishing real value for Shell Tokens, fostering a mutually beneficial ecosystem.
 
+- Transition to Binary Code Execution:
+In order to boost performance and leverage low-level functionalities, there's plans to transition from scripting languages to executing binary code. 
   
 # Conclusion
 
