@@ -12,7 +12,7 @@
 
 <div align="center">
 <a href=https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Whitepaper.md><img src="https://badgen.net/static/>/Whitepaper/34ebd5?scale=2?"></a> 
-<a href=https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Use.md><img src="https://badgen.net/static/>/Use GridShell/34ebd5?scale=2?"></a> 
+<a href=https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Use.md><img src="https://badgen.net/static/>/JOIN/34ebd5?scale=2?"></a> 
 <a href=https://github.com/invpe/GridShell/issues><img src="https://badgen.net/static/>/Community/34ebd5?scale=2?"></a>  
 <a href=https://github.com/invpe/GridShell/tree/main/Documentation/FAQ><img src="https://badgen.net/static/>/FAQ/34ebd5?scale=2?"></a>  
 
