@@ -7,6 +7,8 @@ This can be easily extended, if you happen to run a node on the device that is n
 
 🔴 - Tested not working
 
+🟡 - Undergoing testing
+
 ## ESP32
 List of ESP32 boards.
 
@@ -21,6 +23,10 @@ List of ESP32 boards.
 
 ## ESP8266
 List of ESP8266 boards.
+| Board  | Status |
+| ------------- | ------------- |
+| [D1Mini Pro](https://kamami.pl/esp8266/575263-plytka-rozwojowa-d1-mini-pro-wifi-esp8266.html)  | 🟡  |
+
 
 ## OTHER
 Experimental devices / boards.
