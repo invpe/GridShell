@@ -51,32 +51,32 @@
 
 10. What are the supported devices for use?
 
-    Pretty much any ESP32 can become a GridShell node, as long as you can compile the sources or upload the latest release, you're ready to go.
+    Pretty much any ESP32 can become a GridShell node, as long as you can compile the sources or upload the latest release, you're ready to go. Check [here](https://github.com/invpe/GridShell/edit/main/Documentation/Hardware/README.md) for the list of devices tested.
 
-11. Why is this project a POC / MVP ?
+12. Why is this project a POC / MVP ?
     As the sole developer of this project, advancing GridShell beyond its current Proof of Concept (POC) or Minimum Viable Product (MVP) stage demands
     significant time, resources, and networking. Focusing solo, my efforts are concentrated on demonstrating the project's potential through its MVP/POC iteration.
     This allows for a clear showcase of its capabilities while acknowledging that further development into a fully-fledged product requires additional investment and collaboration.
 
-12. Why use a scripting language like MyBasic?
+13. Why use a scripting language like MyBasic?
 
     To prioritize simplicity in implementation and ease of demonstration, I've opted for a scripting language for tasks executed on GridShell. MyBasic's  straightforward syntax ensures accessibility for all users, fostering a welcoming environment for experimentation and testing within the GridShell ecosystem.
 
-13. Why a centralized server instead of decentralization?
+14. Why a centralized server instead of decentralization?
 
     In pursuit of simplicity and expeditious development, GridShell adopts a centralized server architecture rather than a decentralized peer-to-peer approach. This design choice facilitates rapid development and streamlines implementation processes, aligning with our priority of creating a user-friendly environment for efficient deployment and utilization. Simply put - because it was easier.
 
-14. What are GIP(s) ?
+15. What are GIP(s) ?
 
     These are documents i use to store the improvement ideas for GridShell. They help out to find ourselves in the vast space of ideas and implementations done so far.
 
-15. What is TV ?
+16. What is TV ?
 
     TV stand for `Theoretical Value of a Shell`, it is dynamically calculated based on several key factors that reflect the current state and performance of the network.
     Here's a summary of how each component contributes to this calculation: [GIP060](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0060-TV.md)
 
 
-16. When using `use.php` or other way of interacting with the server i get an error:
+17. When using `use.php` or other way of interacting with the server i get an error:
 
 ```
 PHP Warning:  stream_socket_client(): Failed to enable crypto in gridshell.php on line 35
