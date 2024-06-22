@@ -82,6 +82,6 @@ The configuration is now saved, you are good to go 👍
 Don't worry, just follow the steps again ! 🤝
 
 # :thought_balloon: Issues?
-Let us know [here](https://github.com/invpe/GridShell/discussions), we will find a solution for sure!
+Let us know [here](https://github.com/invpe/GridShell/issues), we will find a solution for sure!
 
 
