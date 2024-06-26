@@ -1,5 +1,6 @@
-# GridShell Library for Arduino
+# Vanilla nodes for GS
 
-👋 Hey, this is the core library for GridShell including my_basic sources.
+This repository contains the source code for pure vanilla nodes in GridShell. Recently, I have added support for the ESP8266, enabling these boards to join the network as well.
 
-If you feel we could do things better, don't hesitate to fire off a discussion ! 🙌
+The compilation process will determine the appropriate version to compile, utilizing #ifdef directives to manage this.
+
