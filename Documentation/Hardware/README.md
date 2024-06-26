@@ -3,6 +3,12 @@
 List of devices / boards that were tested and confirmed working/not working with GridShell vanilla firmware.
 This can be easily extended, if you happen to run a node on the device that is not listed below, please share it's details in the [community](https://github.com/invpe/GridShell/issues) page, so we can add it!
 
+## Important
+
+Be advised all tests were performed on pure vanilla GridShell nodes.
+
+## Status 
+
 🟢 - Tested and working
 
 🔴 - Tested not working
