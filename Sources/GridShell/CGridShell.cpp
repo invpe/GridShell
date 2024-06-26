@@ -12,13 +12,17 @@ CGridShell::CGridShell() {
   m_bAutoUpdate = true;
   m_strUsername = "";
   m_uiLastHB = 0;
-  m_uiLastReconnection = millis() + (10 * GNODE_RECON_TIMER);
+  m_uiLastReconnection = 0;
   m_pCallback = NULL;
 
   // Get the unique MAC address from eFuse
   uint8_t mac[6];
-  esp_read_mac(mac, ESP_MAC_WIFI_STA);
+#if defined(ESP8266)
+  wifi_get_macaddr(STATION_IF, mac);
 
+#else
+  esp_read_mac(mac, ESP_MAC_WIFI_STA);
+#endif
   m_strUniqueID = "";
   for (int i = 0; i < 6; i++) m_strUniqueID += String(mac[i], HEX);
 
@@ -76,17 +80,21 @@ void CGridShell::Stop() {
 String CGridShell::GetCertificate() {
   GDEBUG("Downloading CA certificate...");
   String strCert = "";
-  if (m_HttpClient.begin(GNODE_CACERT_URL)) {
+#if defined(ESP8266)
+  WiFiClientSecure client;
+  client.setInsecure();
+  if (m_HttpClient.begin(client, GNODE_CACERT_URL))
+#else
+  if (m_HttpClient.begin(GNODE_CACERT_URL))
+#endif
+  {
     int httpCode = m_HttpClient.GET();
     if (httpCode == HTTP_CODE_OK) {
       GDEBUG("CA certificate downloaded successfully.");
       strCert = m_HttpClient.getString();
     } else
-      GDEBUG("Failed to download CA certificate.");
-
+      GDEBUG("Failed to download CA certificate: " + String(httpCode));
   } else GDEBUG("HTTP client failed to begin.");
-
-
   m_HttpClient.end();
   return strCert;
 }
@@ -137,8 +145,26 @@ void CGridShell::Reboot() {
 // -----------------------------------------------------------------------------
 void CGridShell::CleanFS() {
   GDEBUG("Chunks & Scripts removal");
-  std::vector<std::string> patterns = { GNODE_FILE_PREFIX, ".bas" };
+  std::vector<String> patterns = { GNODE_FILE_PREFIX, ".bas" };
 
+#if defined(ESP8266)
+  Dir dir = SPIFFS.openDir("/");
+  while (dir.next()) {
+    String fileName = dir.fileName();
+    // Check if the filename contains any pattern from the vector
+    for (const String& pattern : patterns) {
+      if (fileName.indexOf(pattern) != -1) {
+        // Delete the file
+        if (SPIFFS.remove(fileName)) {
+          Serial.println("Deleted file: " + fileName + " " + dir.fileSize());
+          break;  // Break the loop if file is found and deleted
+        } else {
+          Serial.println("Failed to delete file: " + fileName);
+        }
+      }
+    }
+  }
+#else
   File root = SPIFFS.open("/");
   if (!root) {
     GDEBUG("Failed to open directory");
@@ -149,7 +175,7 @@ void CGridShell::CleanFS() {
     String fileName = file.name();
 
     // Check if filename contains any pattern from the vector
-    for (const std::string& pattern : patterns) {
+    for (const String& pattern : patterns) {
       if (fileName.indexOf(pattern.c_str()) != -1) {
         // Delete the file
         if (SPIFFS.remove("/" + fileName)) {
@@ -162,6 +188,7 @@ void CGridShell::CleanFS() {
     }
     file = root.openNextFile();
   }
+#endif
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -202,12 +229,23 @@ bool CGridShell::Connected() {
 // -----------------------------------------------------------------------------
 void CGridShell::Tick() {
 
+#ifdef GDEBUG
+  static uint64_t uiDump = millis();
+  if (millis() - uiDump > 1000) {
+    GDEBUG("DEBUG MEM: " + String(MEMGetFree()) + " FS: " + String(FSGetUsed()) + " CONNECTED: " + String(Connected()));
+    uiDump = millis();
+  }
+#endif
+
+
   // Are we up?
   if (m_Client.connected() == false) {
     // Check if user set and reconnection timer is expired
     if (millis() - m_uiLastReconnection >= GNODE_RECON_TIMER) {
       //
       m_uiLastReconnection = millis();
+      configTime(0, 0, "pool.ntp.org");
+      GDEBUG("Reconnecting");
 
       //
       Stop();
@@ -221,14 +259,19 @@ void CGridShell::Tick() {
         Stop();
         return;
       }
-
+#if defined(ESP8266)
+      BearSSL::X509List certList(strCert.c_str());
+      m_Client.setBufferSizes(256, 256);
+      m_Client.setTrustAnchors(&certList);
+#else
       m_Client.setCACert(strCert.c_str());
-
+#endif
       GDEBUG("Connecting");
 
       // Connect
       if (m_Client.connect(GNODE_SERVER, GNODE_POOL_PORT)) {
 
+        GDEBUG("Connected");
         if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_CONNECTED);
 
         String strVersion = m_Client.readStringUntil(',');
@@ -260,9 +303,7 @@ void CGridShell::Tick() {
           return;
         }
 
-        String strBase64EncodedGUID = EncodeBase64(m_strUsername);
-
-        Send("JOB," + strBase64EncodedGUID + "," + GNODE_VERSION + "," + m_strUniqueID + "\r\n");
+        Send("JOB," + EncodeBase64(m_strUsername) + "," + GNODE_VERSION + "," + m_strUniqueID + "\r\n");
 
         GDEBUG("Ident");
 
@@ -276,6 +317,9 @@ void CGridShell::Tick() {
 
         //
         if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_IDLE);
+      } else {
+        Stop();
+        GDEBUG("Cant connect");
       }
     }
   } else {
@@ -283,7 +327,8 @@ void CGridShell::Tick() {
     String strJobType = m_Client.readStringUntil(',');
 
     //
-    GDEBUG("Server: " + strJobType + " MEM: " + String(ESP.getFreeHeap()) + " FS: " + String(SPIFFS.usedBytes()));
+    if (strJobType != "")
+      GDEBUG("Server:" + strJobType);
 
     // Task coming
     if (strJobType == "EXEC") {
@@ -303,17 +348,24 @@ void CGridShell::Tick() {
         GDEBUG("Empty payload");
       }
 
-      uint32_t uiStart = millis();
       auto aResults = Run(strScript, strPayload, strTimeout.toInt());
       iRetCode = std::get<0>(aResults);
       strOutput = std::get<1>(aResults);
-      GDEBUG("Done " + String(millis() - uiStart) + " ms, RESCODE: " + String(iRetCode) + ", MEM: " + String(ESP.getFreeHeap()) + " OUTP: '" + strOutput + "' FS: " + String(SPIFFS.usedBytes()));
+
 
       if (strOutput.length() > 0) {
         size_t stLen = 0;
+
+#if defined(ESP8266)
+        stLen = Base64.encodedLength(strOutput.length());
+        char* encodedData = new char[stLen + 1];
+        Base64.encode(encodedData, (char*)strOutput.c_str(), strOutput.length());
+#else
         mbedtls_base64_encode(NULL, 0, &stLen, (unsigned char*)strOutput.c_str(), strOutput.length());
         unsigned char* encodedData = new unsigned char[stLen + 1];
         mbedtls_base64_encode(encodedData, stLen, &stLen, (unsigned char*)strOutput.c_str(), strOutput.length());
+
+#endif
         encodedData[stLen] = '\0';
         strOutput = "";
 
@@ -321,7 +373,7 @@ void CGridShell::Tick() {
         Send("RESULTS,");
         Send(String(iRetCode));
         Send(",");
-        m_Client.write(encodedData, stLen);
+        m_Client.write((unsigned char*)encodedData, stLen);
         Send("\r\n");
 
         delete[] encodedData;
@@ -345,9 +397,10 @@ void CGridShell::Tick() {
 // -----------------------------------------------------------------------------
 std::tuple<int, String> CGridShell::Run(String& rstrScript, const String& rstrInputPayload, const uint32_t& ruiTaskTimeout) {
 
-  GDEBUG("---------\n" + rstrScript + "\n------------\n");
-  GDEBUG("PAYLOAD: " + rstrInputPayload + "\n");
-  GDEBUG("Exe Tout: " + String(ruiTaskTimeout) + "ms Heap: " + String(ESP.getFreeHeap()));
+  uint32_t uiStart = millis();
+  GDEBUG(rstrScript);
+  GDEBUG("IN:" + rstrInputPayload);
+
   String strOutputPayload;
   int iRetCode = MB_FUNC_ERR;
 
@@ -395,8 +448,6 @@ std::tuple<int, String> CGridShell::Run(String& rstrScript, const String& rstrIn
       mb_add_var(bas, l, "INPUTPAYLOAD", valAdd, true);
     }
 
-    GDEBUG("Exe Loaded Tout: " + String(ruiTaskTimeout) + "ms Heap: " + String(ESP.getFreeHeap()));
-
     iRetCode = mb_run(bas, true);
 
     mb_value_t valGet;
@@ -405,9 +456,10 @@ std::tuple<int, String> CGridShell::Run(String& rstrScript, const String& rstrIn
     if (valGet.type == MB_DT_STRING)
       strOutputPayload = String(valGet.value.string);
   }
+
   mb_close(&bas);
   mb_dispose();
-
+  GDEBUG("EXEC IN " + String(millis() - uiStart) + " ms, RESCODE: " + String(iRetCode) + ", MEM: " + String(MEMGetFree()) + " OUTP: '" + strOutputPayload + "' FS: " + String(FSGetUsed()));
   return std::make_tuple(iRetCode, strOutputPayload);
 }
 // --[  Method  ]---------------------------------------------------------------
@@ -425,7 +477,7 @@ int CGridShell::GetTelemetry(const String& rstrFile) {
   if (Connected()) {
     int iOffset = 0;  // Offset to keep track of the position in the file
     bool bContinueReading = true;
-    File fTele = SPIFFS.open(GNODE_TELEMETRY_FILENAME, "w");
+    File fTele = SPIFFS.open(GNODE_TELEMETRY_FILENAME, "r");
 
     while (bContinueReading) {
       // Pong
@@ -489,11 +541,30 @@ void CGridShell::Send(const String& strData) {
 // ---------------------------------------------------------------------------
 String CGridShell::EncodeBase64(const String& strString) {
   if (strString.length() > 0) {
+#if defined(ESP8266)
+
+    // Rewrite string to char array for Encoding in Base64
+    char cData[strString.length()];
+
+    for (int a = 0; a < strString.length(); a++)
+      cData[a] = strString[a];
+
+    // Encode
+    int encodedLength = Base64.encodedLength(strString.length());
+    char encodedString[encodedLength];
+
+    //
+    Base64.encode(encodedString, cData, strString.length());
+
+    // Here is the BASE64 Encoded Payload
+    return (String(encodedString));
+#else
     size_t stLen = 0;
     mbedtls_base64_encode(NULL, 0, &stLen, (unsigned char*)strString.c_str(), strString.length());
     unsigned char ucEncoded[stLen];
     mbedtls_base64_encode(ucEncoded, stLen, &stLen, (unsigned char*)strString.c_str(), strString.length());
     return String((char*)ucEncoded);
+#endif
   }
   return "";
 }
@@ -507,12 +578,31 @@ String CGridShell::EncodeBase64(const String& strString) {
 // ---------------------------------------------------------------------------
 String CGridShell::DecodeBase64(const String& strString) {
   if (strString.length() > 0) {
+#if defined(ESP8266)
+
+    // Rewrite string to char array for Encoding in Base64
+    char cData[strString.length()];
+
+    for (int a = 0; a < strString.length(); a++)
+      cData[a] = strString[a];
+
+    // Encode
+    int encodedLength = Base64.decodedLength(cData, sizeof(cData));
+    char encodedString[encodedLength];
+
+    //
+    Base64.decode(encodedString, cData, sizeof(cData));
+
+    // Here is the BASE64 Encoded Payload
+    return (String(encodedString));
+#else
     size_t stLen = 0;
     mbedtls_base64_decode(NULL, 0, &stLen, (unsigned char*)strString.c_str(), strString.length());
     unsigned char ucDecoded[stLen];
     mbedtls_base64_decode(ucDecoded, stLen, &stLen, (unsigned char*)strString.c_str(), strString.length());
     ucDecoded[stLen] = '\0';
     return String((char*)ucDecoded);
+#endif
   }
   return "";
 }
@@ -555,7 +645,10 @@ int CGridShell::MBStep(struct mb_interpreter_t* s, void** l, const char* f, int 
     return GNODE_RET_TERMINATED;
 
   CGridShell::GetInstance().Pong();
- 
+
+  // Breath
+  yield();
+
   //
   return MB_FUNC_OK;
 }
@@ -579,8 +672,11 @@ String CGridShell::sha1HW(String payload) {
 //
 // -----------------------------------------------------------------------------
 String CGridShell::sha1HW(unsigned char* payload, int len) {
+  unsigned char shaResult[20];
+#if defined(ESP8266)
+  sha1(payload, len, shaResult);
+#else
   mbedtls_sha1_context ctx;
-  unsigned char shaResult[20];  // SHA1 produces a 20-byte hash
 
   mbedtls_sha1_init(&ctx);
 
@@ -591,6 +687,7 @@ String CGridShell::sha1HW(unsigned char* payload, int len) {
 
   mbedtls_sha1_free(&ctx);
 
+#endif
   String hashStr = "";
 
   for (uint16_t i = 0; i < 20; i++) {
@@ -600,7 +697,6 @@ String CGridShell::sha1HW(unsigned char* payload, int len) {
     }
     hashStr += hex;
   }
-
   return hashStr;
 }
 // --[  Method  ]---------------------------------------------------------------
@@ -643,12 +739,17 @@ bool CGridShell::StreamFile(const String& rstrURL, const String& rstrPath) {
   // Reset the file position for ReadFileLine
   m_uiCurrentFilePosition = 0;
 
-  //
+#if defined(ESP8266)
+  WiFiClientSecure client;
+  client.setInsecure();
+  m_HttpClient.begin(client, rstrURL);
+#else
   m_HttpClient.begin(rstrURL);
+#endif
   int httpCode = m_HttpClient.GET();
   bool bSuccess = false;
   if (httpCode == HTTP_CODE_OK) {
-    File file = SPIFFS.open(rstrPath, FILE_WRITE);
+    File file = SPIFFS.open(rstrPath, "w");
     if (!file) {
       GDEBUG("Cant write " + rstrPath);
     } else {
@@ -765,6 +866,10 @@ String CGridShell::sha256HW(String payload) {
 // -----------------------------------------------------------------------------
 String CGridShell::sha256HW(unsigned char* payload, int len) {
   unsigned char shaResult[32];  // SHA256 produces a 32-byte hash
+
+#if defined(ESP8266)
+  experimental::crypto::SHA256::hash(payload, len, shaResult);
+#else
   mbedtls_sha256_context ctx;
 
   mbedtls_sha256_init(&ctx);
@@ -775,7 +880,7 @@ String CGridShell::sha256HW(unsigned char* payload, int len) {
   mbedtls_sha256_finish_ret(&ctx, shaResult);
 
   mbedtls_sha256_free(&ctx);
-
+#endif
   String hashStr = "";
 
   for (uint16_t i = 0; i < 32; i++) {
@@ -1048,6 +1153,56 @@ void CGridShell::Persist(const uint32_t& ruiTask, const uint32_t& ruiFlag, const
 // -----------------------------------------------------------------------------
 void CGridShell::ResetFilePosition() {
   m_uiCurrentFilePosition = 0;
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   : Helper function to obtain total size of SPIFFS
+//
+// -----------------------------------------------------------------------------
+uint32_t CGridShell::FSGetTotal() {
+  size_t totalBytes = 0;
+#if defined(ESP8266)
+  FSInfo fs_info;
+  SPIFFS.info(fs_info);
+  totalBytes = fs_info.totalBytes;
+#else
+  totalBytes = SPIFFS.totalBytes();
+#endif
+  return totalBytes;
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   : Helper function to obtain used size of SPIFFS
+//
+// -----------------------------------------------------------------------------
+uint32_t CGridShell::FSGetUsed() {
+  size_t usedBytes = 0;
+#if defined(ESP8266)
+  FSInfo fs_info;
+  SPIFFS.info(fs_info);
+  usedBytes = fs_info.usedBytes;
+#else
+  usedBytes = SPIFFS.usedBytes();
+#endif
+
+  return usedBytes;
+}
+// --[  Method  ]---------------------------------------------------------------
+//
+//  - Class     : CGridShell
+//  - Prototype :
+//
+//  - Purpose   : Helper to obtain heap free
+//
+// -----------------------------------------------------------------------------
+uint32_t CGridShell::MEMGetFree() {
+  return ESP.getFreeHeap();
 }
 // --[  Method  ]---------------------------------------------------------------
 //

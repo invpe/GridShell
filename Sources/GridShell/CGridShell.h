@@ -7,7 +7,7 @@
 //
 // MIT License
 //
-// Copyright (c) 2022-2023 GridShell.net
+// Copyright (c) 2022-2024 GridShell.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -32,16 +32,29 @@
 #ifndef __CLIB_GRIDSHELL__
 #define __CLIB_GRIDSHELL__
 /*---------*/
+#if defined(ESP8266)
+#include <Arduino.h>
+#include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
+#include <BearSSLHelpers.h>
+#include <CertStoreBearSSL.h>
+#include <Hash.h>
+#include <Crypto.h>
+#include <FS.h>
+#include <Preferences.h>
+#include <Base64.h> 
+#else
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 #include <HTTPClient.h>
 #include <Update.h>
 #include "SPIFFS.h"
-#include "my_basic.h"
 #include "mbedtls/base64.h"
 #include "mbedtls/sha1.h"
 #include "mbedtls/sha256.h"
 #include "MD5Builder.h"
+#endif
+#include "my_basic.h"
 /*---------*/
 #define GNODE_PING_TIME 10000
 #define GNODE_RECON_TIMER 60000
@@ -55,7 +68,7 @@
 #define GNODE_IO_SIZE 1024
 #define GNODE_TELEMETRY_FILENAME "/" GNODE_FILE_PREFIX "TELEMETRY"
 /*---------*/
-//#define GNODE_DEBUG 1
+#define GNODE_DEBUG 1
 #ifdef GNODE_DEBUG
 #define GDEBUG Serial.println
 #else
@@ -99,7 +112,6 @@ public:
   String Read(const String& rstrTelemetry, const uint32_t& ruiStart, const uint32_t& ruiCount);
   std::tuple<int, String> Run(String& rstrBASFile, const String& rstrInputPayload, const uint32_t& ruiTaskTimeout);
   HTTPClient* GetHTTPClient();
-
   int GetTelemetry(const String& rstrFile);
   String ReadFile(const size_t& startPosition, const size_t& byteCount);
   String ReadFileLine();
@@ -114,15 +126,18 @@ public:
   String sha256HW(unsigned char* payload, int len);
   String sha256HW(String payload);
   String XOR(const String& toEncrypt, const String& rstrKey);
+  uint32_t FSGetTotal();
+  uint32_t FSGetUsed();
+  uint32_t MEMGetFree();
   ~CGridShell();
 
 private:
   CGridShell();
+  bool StreamFile(const String& rstrURL, const String& rstrPath);
   void Reboot();
   void OTA();
   void CleanFS();
   String GetCertificate();
-  bool StreamFile(const String& rstrURL, const String& rstrPath);
   void Send(const String& strData);
   bool m_bAutoUpdate;
   String m_strUsername;
@@ -283,12 +298,12 @@ static int _hextobin(struct mb_interpreter_t* s, void** l) {
     String byteString = strHashedBlock.substring(i, i + 2);
     unsigned char byte = static_cast<unsigned char>(strtoul(byteString.c_str(), nullptr, 16));
     mb_make_int(mb_feedback_index, feedback_index);
-    mb_make_int(feedback_value, static_cast<int>(byte));    
+    mb_make_int(feedback_value, static_cast<int>(byte));
     mb_set_coll(s, l, coll, mb_feedback_index, feedback_value);
     feedback_index++;
   }
   // Push the comparison result onto the stack
-  mb_check(mb_push_value(s, l, coll));  
+  mb_check(mb_push_value(s, l, coll));
   return result;
 }
 /*---------*/
@@ -374,7 +389,7 @@ static int _tsize(struct mb_interpreter_t* s, void** l) {
   int_t iSize = 0;
   mb_check(mb_attempt_open_bracket(s, l));
   mb_check(mb_attempt_close_bracket(s, l));
-  File fTele = SPIFFS.open(GNODE_TELEMETRY_FILENAME);
+  File fTele = SPIFFS.open(GNODE_TELEMETRY_FILENAME, "r");
   if (fTele) {
     iSize = fTele.size();
     fTele.close();

@@ -3233,7 +3233,7 @@ static void _resize_dynamic_buffer(_dynamic_buffer_t* buf, size_t es, size_t c) 
 }
 
 /* Allocate a chunk of memory with a specific size */
-static void* mb_malloc(size_t s) {
+static void* mb_malloc(size_t s) {  
 	char* ret = 0;
 	size_t rs = s;
 

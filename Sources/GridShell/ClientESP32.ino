@@ -1,12 +1,19 @@
 //
-// GridShell Vanilla Node for ESP32
-// (c) 2022-2023 GridShell.net
+// GridShell Vanilla Node for ESP32 & ESP8266
+// (c) 2022-2023-2024 GridShell.net
 // https://github.com/invpe/GridShell
 //
-#include <WiFi.h>
+#if defined(ESP8266)
+#pragma message "GridShell - ESP8266"
+#include <ESP8266WiFi.h>
+#include <FS.h>
 #include <Preferences.h>
+#else
+#pragma message "GridShell - ESP32"
+#include <WiFi.h>
 #include "SPIFFS.h"
-#include "CGridShell.h" 
+#endif
+#include "CGridShell.h"
 ///////////////////////////////////
 // NVRAM Prefs                   //
 ///////////////////////////////////
@@ -55,12 +62,14 @@ void setup() {
   // Load config
   LoadConfig(WIFI_SSID, WIFI_PWD, GRID_USERHASH);
 
+
   //
   Serial.println("NODEID: " + CGridShell::GetInstance().GetNodeID());
-  Serial.println("SPIFFS: " + String(SPIFFS.totalBytes()));
-  Serial.println("SPIFFSU: " + String(SPIFFS.usedBytes()));
+  Serial.println("MEM: " + String(CGridShell::GetInstance().MEMGetFree()));
+  Serial.println("SPIFFS: " + String(CGridShell::GetInstance().FSGetTotal()));
+  Serial.println("SPIFFSU: " + String(CGridShell::GetInstance().FSGetUsed()));
   Serial.println("VERSION: " GNODE_VERSION);
- 
+
   // Check if necessary creds given
   if (WIFI_SSID == "" || GRID_USERHASH == "") {
     Serial.println("Time to setup, hit ENTER to start.");
@@ -103,8 +112,8 @@ void setup() {
   Serial.println("Connecting to WiFi " + WIFI_SSID);
 
   // Connect to WiFi
-  WiFi.mode(WIFI_STA);
   WiFi.hostname("GSNODE" GNODE_VERSION);
+  WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID.c_str(), WIFI_PWD.c_str());
 
   // Wait for WIFI
