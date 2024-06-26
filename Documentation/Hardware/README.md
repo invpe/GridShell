@@ -1,6 +1,6 @@
 # Boards/Devices  
 
-List of devices / boards that were tested and confirmed working/not working with GridShell.
+List of devices / boards that were tested and confirmed working/not working with GridShell vanilla firmware.
 This can be easily extended, if you happen to run a node on the device that is not listed below, please share it's details in the [community](https://github.com/invpe/GridShell/issues) page, so we can add it!
 
 🟢 - Tested and working
@@ -25,7 +25,7 @@ List of ESP32 boards.
 List of ESP8266 boards.
 | Board  | Status | Specs |
 | ------------- | ------------- | ------------- |
-| [D1Mini Pro](https://kamami.pl/esp8266/575263-plytka-rozwojowa-d1-mini-pro-wifi-esp8266.html)  | 🟡  | ESP8266EX CPU 80 MHz/160 MHz, Flash 16MB, RAM 50kB |
+| [D1Mini Pro](https://kamami.pl/esp8266/575263-plytka-rozwojowa-d1-mini-pro-wifi-esp8266.html)  | 🟢  | ESP8266EX CPU 80 MHz/160 MHz, Flash 16MB, RAM 50kB |
 
 
 ## OTHER
