@@ -24,7 +24,7 @@ List of ESP32 boards.
 | [Wemos D1 Mini ESP32](https://nettigo.pl/products/modul-wifi-bluetooth-esp32-d1-mini)  | 🟢  | ESP32-WROOM-32 2 Cores 32-bit Xtensa® LX6 (up to 600 DMIPS) 240MHz,448kB ROM,520kB SRAM,4MB FLASH |
 | [NodeMCU ESP32](https://botland.store/esp32-wifi-and-bt-modules/8893-esp32-wifi-bt-42-platform-with-module-5904422337438.html)  | 🟢  |  ESP-WROOM-32 |
 | [M5 Stamp Pico](https://shop.m5stack.com/products/m5stamp-pico-5pcs)  | 🟢  | ESP32-PICO-D4 ROM: 448 KB (for booting/core functions), SRAM: 520 KB (for data/instructions) 4MB Flash |
-| [ESP32 Cam](https://sklep.msalamon.pl/produkt/esp32-cam/)  | 🟢  | |
+| [ESP32 Cam](https://sklep.msalamon.pl/produkt/esp32-cam/)  | 🟢  | ESP32-S 160 MHz, 520 kB RAM,  8 MB PSRAM, 4 MB FLASH|
 
 
 ## ESP8266
