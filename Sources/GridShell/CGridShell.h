@@ -49,6 +49,7 @@
 #include <HTTPClient.h>
 #include <Update.h>
 #include "SPIFFS.h"
+#include "esp_mac.h"
 #include "mbedtls/base64.h"
 #include "mbedtls/sha1.h"
 #include "mbedtls/sha256.h"
@@ -72,7 +73,7 @@
 #define GNODE_IO_SIZE 1024
 #define GNODE_TELEMETRY_FILENAME "/" GNODE_FILE_PREFIX "TELEMETRY"
 /*---------*/
-// #define GNODE_DEBUG 1
+#define GNODE_DEBUG 1
 #ifdef GNODE_DEBUG
 #define GDEBUG Serial.println
 #else
@@ -130,9 +131,9 @@ public:
   String sha256HW(unsigned char* payload, int len);
   String sha256HW(String payload);
   String XOR(const String& toEncrypt, const String& rstrKey);
-  uint32_t FSGetTotal();
-  uint32_t FSGetUsed();
-  uint32_t MEMGetFree();
+  size_t FSGetTotal();
+  size_t FSGetUsed();
+  size_t MEMGetFree();
   ~CGridShell();
 
 private:
@@ -458,7 +459,6 @@ static int _download(struct mb_interpreter_t* s, void** l) {
   mb_check(mb_pop_string(s, l, &cFilename));
   mb_check(mb_attempt_close_bracket(s, l));
 
-  String strPath = GNODE_TELEMETRY_FILENAME;
   int_t uiBytesWritten = CGridShell::GetInstance().GetTelemetry(String(cFilename));
   mb_check(mb_push_int(s, l, uiBytesWritten));
   return result;

@@ -19,7 +19,6 @@ CGridShell::CGridShell() {
   uint8_t mac[6];
 #if defined(ESP8266)
   wifi_get_macaddr(STATION_IF, mac);
-
 #else
   esp_read_mac(mac, ESP_MAC_WIFI_STA);
 #endif
@@ -232,7 +231,7 @@ void CGridShell::Tick() {
 #ifdef GDEBUG
   static uint64_t uiDump = millis();
   if (millis() - uiDump > 1000) {
-    GDEBUG("DEBUG MEM: " + String(MEMGetFree()) + " FS: " + String(FSGetUsed()) + " CONNECTED: " + String(Connected()));
+    //GDEBUG("DEBUG MEM: " + String(MEMGetFree()) + " FS: " + String(FSGetUsed()) + " CONNECTED: " + String(Connected()));
     uiDump = millis();
   }
 #endif
@@ -397,10 +396,8 @@ void CGridShell::Tick() {
 // -----------------------------------------------------------------------------
 std::tuple<int, String> CGridShell::Run(String& rstrScript, const String& rstrInputPayload, const uint32_t& ruiTaskTimeout) {
 
-  uint32_t uiStart = millis();
-  GDEBUG(rstrScript);
-  GDEBUG("IN:" + rstrInputPayload);
-
+  uint32_t uiStart = millis();  
+  
   String strOutputPayload;
   int iRetCode = MB_FUNC_ERR;
 
@@ -459,7 +456,7 @@ std::tuple<int, String> CGridShell::Run(String& rstrScript, const String& rstrIn
 
   mb_close(&bas);
   mb_dispose();
-  GDEBUG("EXEC IN " + String(millis() - uiStart) + " ms, RESCODE: " + String(iRetCode) + ", MEM: " + String(MEMGetFree()) + " OUTP: '" + strOutputPayload + "' FS: " + String(FSGetUsed()));
+  //GDEBUG("EXEC IN " + String(millis() - uiStart) + " ms, RESCODE: " + String(iRetCode) + ", MEM: " + String(MEMGetFree()) + " OUTP: '" + strOutputPayload + "' FS: " + String(FSGetUsed()));
   return std::make_tuple(iRetCode, strOutputPayload);
 }
 // --[  Method  ]---------------------------------------------------------------
@@ -681,9 +678,9 @@ String CGridShell::sha1HW(unsigned char* payload, int len) {
   mbedtls_sha1_init(&ctx);
 
   // Perform SHA1 hash
-  mbedtls_sha1_starts_ret(&ctx);
-  mbedtls_sha1_update_ret(&ctx, payload, len);
-  mbedtls_sha1_finish_ret(&ctx, shaResult);
+  mbedtls_sha1_starts(&ctx);
+  mbedtls_sha1_update(&ctx, payload, len);
+  mbedtls_sha1_finish(&ctx, shaResult);
 
   mbedtls_sha1_free(&ctx);
 
@@ -875,9 +872,9 @@ String CGridShell::sha256HW(unsigned char* payload, int len) {
   mbedtls_sha256_init(&ctx);
 
   // Perform SHA256 hash
-  mbedtls_sha256_starts_ret(&ctx, 0);  // 0 for SHA256
-  mbedtls_sha256_update_ret(&ctx, payload, len);
-  mbedtls_sha256_finish_ret(&ctx, shaResult);
+  mbedtls_sha256_starts(&ctx, 0);  // 0 for SHA256
+  mbedtls_sha256_update(&ctx, payload, len);
+  mbedtls_sha256_finish(&ctx, shaResult);
 
   mbedtls_sha256_free(&ctx);
 #endif
@@ -1162,7 +1159,7 @@ void CGridShell::ResetFilePosition() {
 //  - Purpose   : Helper function to obtain total size of SPIFFS
 //
 // -----------------------------------------------------------------------------
-uint32_t CGridShell::FSGetTotal() {
+size_t CGridShell::FSGetTotal() {
   size_t totalBytes = 0;
 #if defined(ESP8266)
   FSInfo fs_info;
@@ -1181,7 +1178,7 @@ uint32_t CGridShell::FSGetTotal() {
 //  - Purpose   : Helper function to obtain used size of SPIFFS
 //
 // -----------------------------------------------------------------------------
-uint32_t CGridShell::FSGetUsed() {
+size_t CGridShell::FSGetUsed() {
   size_t usedBytes = 0;
 #if defined(ESP8266)
   FSInfo fs_info;
@@ -1201,7 +1198,7 @@ uint32_t CGridShell::FSGetUsed() {
 //  - Purpose   : Helper to obtain heap free
 //
 // -----------------------------------------------------------------------------
-uint32_t CGridShell::MEMGetFree() {
+size_t CGridShell::MEMGetFree() {
   return ESP.getFreeHeap();
 }
 // --[  Method  ]---------------------------------------------------------------
