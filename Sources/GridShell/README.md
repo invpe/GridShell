@@ -9,6 +9,9 @@ Specific items regarding devices supported by the source code.
 
 ## ESP8266
 
+### Preferences
+Nothing at the core SDK for esp8266, so i am using additional library here
+
 ### Base64
 There's no (or i coudln't find) base64 encoder/decoder, so i had to install the base64 library to get that part of the code done.
 Within the core SDK there is base64 encoder, but i couldn't find decoder so we have to use an external lib for esp8266.
