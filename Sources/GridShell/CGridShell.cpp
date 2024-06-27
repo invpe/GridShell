@@ -474,7 +474,7 @@ int CGridShell::GetTelemetry(const String& rstrFile) {
   if (Connected()) {
     int iOffset = 0;  // Offset to keep track of the position in the file
     bool bContinueReading = true;
-    File fTele = SPIFFS.open(GNODE_TELEMETRY_FILENAME, "r");
+    File fTele = SPIFFS.open(GNODE_TELEMETRY_FILENAME, "w");
 
     while (bContinueReading) {
       // Pong
