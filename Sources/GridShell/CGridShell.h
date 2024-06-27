@@ -73,7 +73,7 @@
 #define GNODE_IO_SIZE 1024
 #define GNODE_TELEMETRY_FILENAME "/" GNODE_FILE_PREFIX "TELEMETRY"
 /*---------*/
-#define GNODE_DEBUG 1
+// #define GNODE_DEBUG 1
 #ifdef GNODE_DEBUG
 #define GDEBUG Serial.println
 #else

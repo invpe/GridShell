@@ -231,7 +231,7 @@ void CGridShell::Tick() {
 #ifdef GDEBUG
   static uint64_t uiDump = millis();
   if (millis() - uiDump > 1000) {
-    //GDEBUG("DEBUG MEM: " + String(MEMGetFree()) + " FS: " + String(FSGetUsed()) + " CONNECTED: " + String(Connected()));
+    GDEBUG("DEBUG MEM: " + String(MEMGetFree()) + " FS: " + String(FSGetUsed()) + " CONNECTED: " + String(Connected()));
     uiDump = millis();
   }
 #endif
@@ -456,7 +456,7 @@ std::tuple<int, String> CGridShell::Run(String& rstrScript, const String& rstrIn
 
   mb_close(&bas);
   mb_dispose();
-  //GDEBUG("EXEC IN " + String(millis() - uiStart) + " ms, RESCODE: " + String(iRetCode) + ", MEM: " + String(MEMGetFree()) + " OUTP: '" + strOutputPayload + "' FS: " + String(FSGetUsed()));
+  GDEBUG("EXEC IN " + String(millis() - uiStart) + " ms, RESCODE: " + String(iRetCode) + ", MEM: " + String(MEMGetFree()) + " OUTP: '" + strOutputPayload + "' FS: " + String(FSGetUsed()));
   return std::make_tuple(iRetCode, strOutputPayload);
 }
 // --[  Method  ]---------------------------------------------------------------
