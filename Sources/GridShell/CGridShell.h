@@ -61,14 +61,18 @@
 #define GNODE_POOL_PORT 1911
 #define GNODE_RET_TERMINATED 777
 #define GNODE_CACERT_URL "https://raw.githubusercontent.com/invpe/GridShell/main/Sources/GridShell/ca.crt"
-#define GNODE_FIRMWARE_URL "https://github.com/invpe/GridShell/releases/latest/download/latest.bin"
+#if defined(ESP8266)
+#define GNODE_FIRMWARE_URL "https://github.com/invpe/GridShell/releases/latest/download/esp8266.bin"
+#else
+#define GNODE_FIRMWARE_URL "https://github.com/invpe/GridShell/releases/latest/download/esp32.bin"
+#endif
 #define GNODE_FILE_PREFIX "GS"
 #define GNODE_SERVER "work.gridshell.net"
 #define GNODE_VERSION "09"
 #define GNODE_IO_SIZE 1024
 #define GNODE_TELEMETRY_FILENAME "/" GNODE_FILE_PREFIX "TELEMETRY"
 /*---------*/
-#define GNODE_DEBUG 1
+// #define GNODE_DEBUG 1
 #ifdef GNODE_DEBUG
 #define GDEBUG Serial.println
 #else
