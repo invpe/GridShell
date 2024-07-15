@@ -43,7 +43,7 @@ With billions of IOT devices connected today there is a huge potential of comput
 https://www.gnd.io/some-thoughts-on-idle-iot-devices-and-rent-economies/
 
  
-Welcome to GridShell, an innovative distributed computing solution powered by IOT nodes (Esp32/Esp8266). Designed to address high-throughput computing challenges, GridShell seamlessly integrates data processing, analysis, and visualization for a wide array of applications.
+Welcome to GridShell, a passion project dedicated to innovating computing with low-power devices. GridShell is an advanced distributed computing solution powered by IoT nodes (Esp32/Esp8266). This collaborative system aims to harness the idle processing power of underutilized IoT devices, made with love and a commitment to pushing the boundaries of technology.
 
 
 <img src=https://github.com/invpe/gridshell/blob/main/Resources/GSEP.png>
@@ -54,5 +54,6 @@ Welcome to GridShell, an innovative distributed computing solution powered by IO
 <p align="center">
   <i>Artistic vision of 64 ESP32 validator nodes powered from the sun</i>
 </p> 
+
 
 2022-2023-2024
