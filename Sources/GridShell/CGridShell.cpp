@@ -240,7 +240,8 @@ void CGridShell::Tick() {
   // Are we up?
   if (m_Client.connected() == false) {
     // Check if user set and reconnection timer is expired
-    if (millis() - m_uiLastReconnection >= GNODE_RECON_TIMER) {
+    if (millis() - m_uiLastReconnection >= GNODE_RECON_TIMER) 
+    {
       //
       m_uiLastReconnection = millis();
       configTime(0, 0, "pool.ntp.org");
@@ -1123,7 +1124,7 @@ String CGridShell::GetTask(const uint32_t& ruiTask) {
   String retVal = strReturn.substring(strReturn.indexOf(",") + 1);
 
   if (retType == "GETTASK") {
-    return retType;
+    return retVal;
   }
 
   return "";
