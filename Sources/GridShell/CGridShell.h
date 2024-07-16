@@ -58,7 +58,7 @@
 #include "my_basic.h"
 /*---------*/
 #define GNODE_PING_TIME 10000
-#define GNODE_RECON_TIMER 60000
+#define GNODE_RECON_TIMER 1000
 #define GNODE_POOL_PORT 1911
 #define GNODE_RET_TERMINATED 777
 #define GNODE_CACERT_URL "https://raw.githubusercontent.com/invpe/GridShell/main/Sources/GridShell/ca.crt"

@@ -7,12 +7,14 @@
 #pragma message "GridShell - ESP8266"
 #include <ESP8266WiFi.h>
 #include <FS.h>
-#include <Preferences.h>
+#define LED_BUILTIN 2
 #else
 #pragma message "GridShell - ESP32"
-#include <WiFi.h>
+#include <WiFi.h> 
 #include "SPIFFS.h"
+#define LED_BUILTIN 27
 #endif
+#include <Preferences.h>
 #include "CGridShell.h"
 ///////////////////////////////////
 // NVRAM Prefs                   //

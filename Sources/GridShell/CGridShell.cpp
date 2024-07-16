@@ -240,8 +240,7 @@ void CGridShell::Tick() {
   // Are we up?
   if (m_Client.connected() == false) {
     // Check if user set and reconnection timer is expired
-    if (millis() - m_uiLastReconnection >= GNODE_RECON_TIMER) 
-    {
+    if (millis() - m_uiLastReconnection >= GNODE_RECON_TIMER) {
       //
       m_uiLastReconnection = millis();
       configTime(0, 0, "pool.ntp.org");
@@ -475,7 +474,7 @@ int CGridShell::GetTelemetry(const String& rstrFile) {
   if (Connected()) {
     int iOffset = 0;  // Offset to keep track of the position in the file
     bool bContinueReading = true;
-    File fTele = SPIFFS.open(GNODE_TELEMETRY_FILENAME, "w");
+    File fTele = SPIFFS.open(GNODE_TELEMETRY_FILENAME, "r");
 
     while (bContinueReading) {
       // Pong
