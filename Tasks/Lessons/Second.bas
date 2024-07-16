@@ -1,7 +1,0 @@
-' This task will add 100 to the number provided in INPUTPAYLOAD
-' The result will be stored in OUTPUTPAYLOAD
-
-MAGICNUMBER = VAL(INPUTPAYLOAD)
-MAGICNUMBER = MAGICNUMBER + 100
-
-OUTPUTPAYLOAD = STR(MAGICNUMBER)
