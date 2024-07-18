@@ -3,6 +3,7 @@
 PHP GridShell command line tool
 Important: this tool has no checks, and serves as an dirty example.
 Ensure to provide proper values to not lock yourself out (throttle)
+But hey! You can improve it if you wish :-)
 */
 
 include "gridshell.php";
@@ -21,6 +22,7 @@ function PrintHelp()
     echo "<YOURHASH> READ <telemetryname> <start> <count> - read telemetry\n";   
     echo "<YOURHASH> PERSIST <task> <append?> <fname> - persist telemetry post task execution\n";
     echo "<YOURHASH> SUBMITPERSIST <task> <payload> <append?> <fname> - submit task and enable persist flag\n";
+    echo "<YOURHASH> UPLOAD <filename> <telemetryname>\n";
     echo "\n";
 }
 function PrintExit()
@@ -224,6 +226,37 @@ else if($command=="SUBMITPERSIST")
             GS_Disconnect();
             PrintExit();
         } else echo "Something went wrong, throttled ?\n";
+    }
+}
+else if($command=="UPLOAD")
+{
+    if($argc != 5)
+    {
+        PrintHelp();
+        exit(0);
+    }
+    else
+    { 
+        echo "Submitting: ".$argv[3]."\n";
+        echo "Will store as: ".$argv[4]."\n";
+        
+        if(GS_Login($grid_owner))
+        { 
+            $contents = file_get_contents($argv[3]);
+            $chunkSize = 512;
+            $chunks = str_split($contents, $chunkSize);
+
+            echo "Sending first part.\n";
+            $output=GS_AddTask("writedfs",$argv[4].",0,".base64_encode($chunks[0]).",");
+
+            for($i = 1; $i < sizeof($chunks); $i++)
+            {
+                echo "Sending ".$i." out of ".sizeof($chunks)."\n";
+                GS_AddTask("writedfs",$argv[4].",1,".base64_encode($chunks[$i]).",");
+                sleep(1);
+            }
+
+        }else echo "Something went wrong, throttled ?\n";
     }
 }
 GS_Disconnect();
