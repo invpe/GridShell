@@ -124,7 +124,7 @@ Wait untill your address gets auto unblocked.
 
     Absolutely. The core principle of GridShell is minimal power usage, aiming for green computing. If you don't want to keep your node online, simply use the `EVENT_NO_TASKS_TO_EXECUTE` callback to check if there are any tasks to perform. When this value is `zero`, you can disconnect and go to sleep.
 
-All vanilla nodes starting from version 0.10 (V10) will have this functionality built into the setup screen.
+All vanilla nodes starting from version 0.10 (V10) will have this functionality built into the setup screen [GIP0075](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0075-TODO_V10_GoToSleepFlagVanilla.md)
 </details>
 
 
