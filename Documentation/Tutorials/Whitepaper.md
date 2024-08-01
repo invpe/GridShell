@@ -4,22 +4,27 @@
 
 # GridShell Whitepaper
 ## Abstract
-GridShell is a collaborative distributed computing system designed to harness the idle processing power of underutilized IoT devices. This whitepaper provides an overview of GridShell's architecture, features, and its potential applications in the world of distributed computing.
+GridShell is an innovative distributed computing system that leverages the idle processing power of underutilized IoT devices. This project taps into a market valued at 2.6 billion USD, with projections of reaching 1 trillion IoT devices by 2035. Despite the market's immense potential, many of the 15 billion connected devices today remain idle most of the time, excelling only at their primary functions and missing out on additional benefits like passive revenue and multipurpose use.
 
-## Introduction
-In today's world, millions of IoT devices, such as ESP32 sensors, are underutilized, idling away their processing capabilities while performing simple tasks. GridShell was born out of the realization that we can do more with these devices—much more. It envisions a world where these devices come together, forming a dynamic ecosystem that offers distributed computing power, storage, and serverless capabilities.
-By harnessing the untapped processing power of idle IoT devices, GridShell not only maximizes the potential of underutilized hardware but also brings substantial advantages to the table. From cost reduction and collaborative data analysis to seamless integration and serverless device creation, GridShell empowers users to make the most of their IoT investments.
+Imagine your smart plugs at home, which only turn on and off, yet house a 240MHz CPU. Wouldn't it be beneficial if they could also generate passive income instead of just idling?
 
-## Problem Statement
-Many IoT devices are limited by single-use applications or idle for the majority of their lifecycle. This underutilization is wasteful in terms of both computational resources and energy consumption. GridShell addresses this issue by repurposing idle devices for distributed computing tasks, creating a collaborative network that benefits from their collective power.
+GridShell aims to connect these devices, sharing their processing power during idle periods. By enabling tokenomics, this system targets to allow everyone involved to earn passive income, unlocking the untapped computing power currently idling in billions of devices installed in homes worldwide.
+
+## Problem statement
+Currently, smart homes and IoT devices are underutilized and largely disconnected, failing to form a cohesive ecosystem. This results in limited or no opportunities for owners to generate passive income or leverage the full computational potential of their devices. If just 1% of these devices—amounting to 10 million—were connected, their combined processing power could be harnessed during idle times. This would enable profitable tokenomics, allowing volunteers/owners to earn passive income for sharing their IOT idle time and allow everyone to utilize the untapped computing power currently lying dormant in billions of devices.
+
+GridShell aims to solve this problem by repurposing idle devices for distributed computing tasks, creating a collaborative network that maximizes their collective power for mutual benefit.
 
 # Technical Overview
+
+## Important
+The current GridShell technical implementation serves as a Proof of Concept (POC). It demonstrates the feasibility of engaging in the concept of IoT volunteer computing but is not a production-ready solution. Developing a market-ready version would require a larger team, significant effort, and extensive technical expertise.
+
 ## Architecture
 GridShell's architecture is built on a network of IoT devices, including ESP32 sensors, and a central server. Nodes in the network share computational tasks, validate results, and store telemetry data.
 
 ## Protocols
 Secure data transfer is ensured through the implementation of SSL/TLS protocols, guaranteeing the integrity and confidentiality of data exchanged between nodes and the server.
-
 
 # Key Features
 GridShell offers several key features:
@@ -118,11 +123,8 @@ In order to boost performance and leverage low-level functionalities, there's pl
 
 In conclusion, GridShell represents more than just a project; it embodies a vision of a smarter, more sustainable future. 
 Envision a world where your IoT-connected smart home appliances not only enhance convenience but also generate income. 
-As the value of GridShell Tokens continues to rise their value, this vision hopefully transforms into reality.
+As the value of GridShell Tokens continues to rise, this vision hopefully transforms into reality.
 
 GridShell breathes life into your idle devices, converting them into valuable assets that contribute to a greener, more interconnected future. 
-
-Unlock the true potential of IoT, reduce waste, and revolutionize the landscape of ultra low power distributed computing.
-Construct a world where every device, every action, and every contribution matters. Join and change your IoT devices to work for you, and for the betterment of our planet.
 
 Inspired by the history of BOINC and its ambitious pursuit of volunteer computing, GridShell aims to carry forward the spirit of distributed volunteer computing into the realm of IoT devices. (Reference: [BOINC History](https://continuum-hypothesis.com/boinc_history.php))
