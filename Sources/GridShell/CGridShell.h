@@ -42,7 +42,7 @@
 #include <Crypto.h>
 #include <FS.h>
 #include <Preferences.h>
-#include <Base64.h> 
+#include <Base64.h>
 #else
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
@@ -118,7 +118,7 @@ public:
   std::tuple<int, String> Run(String& rstrBASFile, const String& rstrInputPayload, const uint32_t& ruiTaskTimeout);
   HTTPClient* GetHTTPClient();
   int GetTelemetry(const String& rstrFile);
-  String ReadFile(const size_t& startPosition, const size_t& byteCount);
+  String ReadFile(const size_t& startPosition, const size_t& byteCount, const String& rstrFile = GNODE_TELEMETRY_FILENAME);
   String ReadFileLine();
   bool Write(const String& rstrName, const String& rstrWhat, const bool& bAppend);
   void Delete(const String& rstrName);
@@ -357,7 +357,6 @@ static int _sha256(struct mb_interpreter_t* s, void** l) {
 /*---------*/
 static int _readline(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
-
   mb_check(mb_attempt_open_bracket(s, l));
   mb_check(mb_attempt_close_bracket(s, l));
   String strRed = CGridShell::GetInstance().ReadFileLine();
@@ -370,12 +369,22 @@ static int _read(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
   int_t iStart = 0;
   int_t iCount = 0;
+  char* m;
 
   mb_check(mb_attempt_open_bracket(s, l));
   mb_check(mb_pop_int(s, l, &iStart));
   mb_check(mb_pop_int(s, l, &iCount));
+  mb_check(mb_pop_string(s, l, &m));
   mb_check(mb_attempt_close_bracket(s, l));
-  String strRed = CGridShell::GetInstance().ReadFile(iStart, iCount);
+  String strFileName = String(m);
+
+  // Reach to the default telemetry file
+  String strRed = "";
+  if (strFileName.isEmpty())
+    strRed = CGridShell::GetInstance().ReadFile(iStart, iCount);
+  else
+    strRed = CGridShell::GetInstance().ReadFile(iStart, iCount, strFileName);
+
   const char* cstrRed = strRed.c_str();
   mb_check(mb_push_string(s, l, mb_memdup(cstrRed, strlen(cstrRed) + 1)));
   return result;

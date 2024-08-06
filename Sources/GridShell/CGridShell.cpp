@@ -262,7 +262,7 @@ void CGridShell::Tick() {
       BearSSL::X509List certList(strCert.c_str());
       m_Client.setBufferSizes(256, 256);
       m_Client.setTrustAnchors(&certList);
-#else
+#else      
       m_Client.setCACert(strCert.c_str());
 #endif
       GDEBUG("Connecting");
@@ -396,8 +396,8 @@ void CGridShell::Tick() {
 // -----------------------------------------------------------------------------
 std::tuple<int, String> CGridShell::Run(String& rstrScript, const String& rstrInputPayload, const uint32_t& ruiTaskTimeout) {
 
-  uint32_t uiStart = millis();  
-  
+  uint32_t uiStart = millis();
+
   String strOutputPayload;
   int iRetCode = MB_FUNC_ERR;
 
@@ -958,9 +958,9 @@ String CGridShell::ReadFileLine() {
 //  - Purpose   : Helper reads file from to byte
 //
 // -----------------------------------------------------------------------------
-String CGridShell::ReadFile(const size_t& startPosition, const size_t& byteCount) {
+String CGridShell::ReadFile(const size_t& startPosition, const size_t& byteCount, const String& rstrFile) {
 
-  File file = SPIFFS.open(GNODE_TELEMETRY_FILENAME, "r");
+  File file = SPIFFS.open(rstrFile, "r");
   if (!file) {
     return String();
   }
