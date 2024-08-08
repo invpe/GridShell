@@ -96,5 +96,6 @@ Now simply b64decode the output of the `GETTASK`
 Couple of more examples from the shell:
 
 `php use.php HASH_HASH_HASH SUBMIT "OUTPUTPAYLOAD=\"TEST V010 CUSTOM SCRIPT\"" SOME_INPUT_PAYLOAD`
+
 `php use.php HASH_HASH_HASH SUBMIT "OUTPUTPAYLOAD=\"PREFIX_\"+INPUTPAYLOAD" SOME_INPUT_PAYLOAD`
 
