@@ -10,12 +10,17 @@
 #define LED_BUILTIN 2
 #else
 #pragma message "GridShell - ESP32"
-#include <WiFi.h> 
+#include <WiFi.h>
 #include "SPIFFS.h"
 #define LED_BUILTIN 27
 #endif
 #include <Preferences.h>
 #include "CGridShell.h"
+///////////////////////////////////
+// DEEPSLEEP 5minutes            //
+///////////////////////////////////
+#define DEEP_SLEEP_TIME 5e6 * 60
+String DEEP_SLEEP = "";
 ///////////////////////////////////
 // NVRAM Prefs                   //
 ///////////////////////////////////
@@ -23,21 +28,23 @@ Preferences preferences;
 ///////////////////////////////////
 // Config saver                  //
 ///////////////////////////////////
-void SaveConfig(const String& WIFI_SSID, const String& WIFI_PWD, const String& GRID_USERHASH) {
+void SaveConfig(const String& WIFI_SSID, const String& WIFI_PWD, const String& GRID_USERHASH, const String& DEEPSLEEP) {
   preferences.begin("config", false);
   preferences.putString("ssid", WIFI_SSID);
   preferences.putString("pass", WIFI_PWD);
   preferences.putString("uhash", GRID_USERHASH);
+  preferences.putString("dsleep", DEEPSLEEP);
   preferences.end();
 }
 ///////////////////////////////////
 // Config loader                 //
 ///////////////////////////////////
-void LoadConfig(String& WIFI_SSID, String& WIFI_PWD, String& GRID_USERHASH) {
+void LoadConfig(String& WIFI_SSID, String& WIFI_PWD, String& GRID_USERHASH, String& DEEPSLEEP) {
   preferences.begin("config", false);
   WIFI_SSID = preferences.getString("ssid", "");
   WIFI_PWD = preferences.getString("pass", "");
   GRID_USERHASH = preferences.getString("uhash", "");
+  DEEPSLEEP = preferences.getString("dsleep", "");
   preferences.end();
 }
 ///////////////////////////////////
@@ -62,8 +69,7 @@ void setup() {
   String GRID_USERHASH = "";
 
   // Load config
-  LoadConfig(WIFI_SSID, WIFI_PWD, GRID_USERHASH);
-
+  LoadConfig(WIFI_SSID, WIFI_PWD, GRID_USERHASH, DEEP_SLEEP);
 
   //
   Serial.println("NODEID: " + CGridShell::GetInstance().GetNodeID());
@@ -105,10 +111,21 @@ void setup() {
     }
     GRID_USERHASH = Serial.readString();
     GRID_USERHASH.trim();  // Remove leading/trailing spaces
+
+    // V10 Ask for deep sleep if no work
+    Serial.println("Go to sleep if no work(YES/NO):");
+    #if defined(ESP8266)
+      Serial.println("ESP8266: Ensure to solder GPIO16 with RST! ");
+    #endif
+    while (!Serial.available()) {
+      // Wait for input
+    }
+    DEEP_SLEEP = Serial.readString();
+    DEEP_SLEEP.trim();  // Remove leading/trailing spaces
   }
 
   // Save config
-  SaveConfig(WIFI_SSID, WIFI_PWD, GRID_USERHASH);
+  SaveConfig(WIFI_SSID, WIFI_PWD, GRID_USERHASH, DEEP_SLEEP);
 
   //
   Serial.println("Connecting to WiFi " + WIFI_SSID);
@@ -138,6 +155,8 @@ void setup() {
   // Register callback
   CGridShell::GetInstance().RegisterEventCallback(GridShellCB);
 
+
+
   digitalWrite(LED_BUILTIN, LOW);
 }
 ///////////////////////////////////
@@ -145,6 +164,27 @@ void setup() {
 ///////////////////////////////////
 void GridShellCB(uint8_t uiEventType) {
   switch (uiEventType) {
+
+    ///////////////////////////////////
+    // Nothing to do                 //
+    ///////////////////////////////////
+    case CGridShell::eEvent::EVENT_NO_TASKS_TO_EXECUTE:
+      {
+        if (DEEP_SLEEP == "YES") {
+          GDEBUG("Taking a nap");
+          #if defined(ESP8266)
+                    // Remember ESP8266 needs GPIO16 and RST soldered
+                    // To wake up from the DEEP SLEEP, otherwise
+                    // It will not come back!
+                    ESP.deepSleep(DEEP_SLEEP_TIME);
+          #else
+                    CGridShell::GetInstance().Stop();
+                    esp_sleep_enable_timer_wakeup(DEEP_SLEEP_TIME);
+                    esp_deep_sleep_start();
+          #endif 
+        }
+      }
+      break;
     ///////////////////////////////////
     // Node is executing a task     //
     ///////////////////////////////////
