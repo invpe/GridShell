@@ -14,7 +14,7 @@ This update enables scripts to be executed effortlessly, allowing users to submi
 
 Simply use the php client to submit your work: 
 
-`php use.php YOUR_ID SUBMIT BASE64(SCRIPT_SOURCE_CODE) PLAIN_TEXT_INPUT_PAYLOAD`
+`php use.php YOUR_ID SUBMIT PLAIN_TEXT_SCRIPT_SOURCE_CODE PLAIN_TEXT_INPUT_PAYLOAD`
 
 # Examples
 
@@ -33,7 +33,7 @@ THIS_IS_JUST_A_TEST
 Example distributed execution with GridShell:
 
 ```
-$ php use.php HASH SUBMIT T1VUUFVUUEFZTE9BRD1JTlBVVFBBWUxPQUQ THIS_IS_JUST_A_TEST
+$ php use.php HASH SUBMIT OUTPUTPAYLOAD=INPUTPAYLOAD THIS_IS_JUST_A_TEST
 
 ----------------------------------------
 -- PHP GridShell command line tool 09 --
