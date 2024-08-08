@@ -31,6 +31,7 @@
 // -----------------------------------------------------------------------------
 #ifndef __CLIB_GRIDSHELL__
 #define __CLIB_GRIDSHELL__
+//#define __TEST__
 /*---------*/
 #if defined(ESP8266)
 #include <Arduino.h>
@@ -58,22 +59,29 @@
 #include "my_basic.h"
 /*---------*/
 #define GNODE_PING_TIME 10000
-#define GNODE_RECON_TIMER 1000
+#define GNODE_RECON_TIMER 5000
 #define GNODE_POOL_PORT 1911
 #define GNODE_RET_TERMINATED 777
+#define GNODE_VERSION "10"
+#define GNODE_IO_SIZE 1024
+#define GNODE_FILE_PREFIX "/GS"
+#define GNODE_TELEMETRY_FILENAME "TELEMETRY"
 #define GNODE_CACERT_URL "https://raw.githubusercontent.com/invpe/GridShell/main/Sources/GridShell/ca.crt"
+
 #if defined(ESP8266)
 #define GNODE_FIRMWARE_URL "https://github.com/invpe/GridShell/releases/latest/download/esp8266.bin"
 #else
 #define GNODE_FIRMWARE_URL "https://github.com/invpe/GridShell/releases/latest/download/esp32.bin"
 #endif
-#define GNODE_FILE_PREFIX "GS"
+#ifdef __TEST__
+#define GNODE_DEBUG 1
+#define GNODE_SERVER "xx.yy.zz.ww"
+#else
 #define GNODE_SERVER "work.gridshell.net"
-#define GNODE_VERSION "09"
-#define GNODE_IO_SIZE 1024
-#define GNODE_TELEMETRY_FILENAME "/" GNODE_FILE_PREFIX "TELEMETRY"
+#endif
+
 /*---------*/
-// #define GNODE_DEBUG 1
+// 
 #ifdef GNODE_DEBUG
 #define GDEBUG Serial.println
 #else
@@ -402,8 +410,10 @@ static int _tsize(struct mb_interpreter_t* s, void** l) {
   int result = MB_FUNC_OK;
   int_t iSize = 0;
   mb_check(mb_attempt_open_bracket(s, l));
-  mb_check(mb_attempt_close_bracket(s, l));
-  File fTele = SPIFFS.open(GNODE_TELEMETRY_FILENAME, "r");
+  mb_check(mb_attempt_close_bracket(s, l)); 
+
+  String strFullName = String(GNODE_FILE_PREFIX) + String(GNODE_TELEMETRY_FILENAME);
+  File fTele = SPIFFS.open(strFullName, "r");
   if (fTele) {
     iSize = fTele.size();
     fTele.close();
@@ -437,7 +447,7 @@ static int _write(struct mb_interpreter_t* s, void** l) {
 
   // We don't append chunks
   int_t iSuccess = CGridShell::GetInstance().Write(String(cFilename), String(cText), false);
-
+  Serial.println("SUCC: "+String(iSuccess));
   mb_check(mb_push_int(s, l, iSuccess));
   return result;
 }

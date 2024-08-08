@@ -259,11 +259,23 @@ void CGridShell::Tick() {
         return;
       }
 #if defined(ESP8266)
-      BearSSL::X509List certList(strCert.c_str());
       m_Client.setBufferSizes(256, 256);
-      m_Client.setTrustAnchors(&certList);
-#else      
-      m_Client.setCACert(strCert.c_str());
+  
+  #ifdef __TEST__
+        m_Client.setInsecure();
+  #else
+        BearSSL::X509List certList(strCert.c_str());
+        m_Client.setTrustAnchors(&certList);
+  #endif
+
+#else
+
+  #ifdef __TEST__
+        m_Client.setInsecure();
+  #else
+        m_Client.setCACert(strCert.c_str());
+  #endif
+  
 #endif
       GDEBUG("Connecting");
 
@@ -319,6 +331,8 @@ void CGridShell::Tick() {
       } else {
         Stop();
         GDEBUG("Cant connect");
+          if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_NO_TASKS_TO_EXECUTE);
+
       }
     }
   } else {
@@ -474,7 +488,10 @@ int CGridShell::GetTelemetry(const String& rstrFile) {
   if (Connected()) {
     int iOffset = 0;  // Offset to keep track of the position in the file
     bool bContinueReading = true;
-    File fTele = SPIFFS.open(GNODE_TELEMETRY_FILENAME, "w");
+
+    String strFullName = String(GNODE_FILE_PREFIX) + String(GNODE_TELEMETRY_FILENAME);
+
+    File fTele = SPIFFS.open(strFullName, "w");
 
     while (bContinueReading) {
       // Pong
@@ -776,7 +793,8 @@ bool CGridShell::StreamFile(const String& rstrURL, const String& rstrPath) {
 //
 // -----------------------------------------------------------------------------
 String CGridShell::GetMD5(const String& rstrFile) {
-  File fFile = SPIFFS.open(rstrFile, "r");
+  String strFullName = String(GNODE_FILE_PREFIX) + rstrFile;
+  File fFile = SPIFFS.open(strFullName, "r");
   if (!fFile) return String();
 
   if (fFile.seek(0, SeekSet)) {
@@ -797,7 +815,8 @@ String CGridShell::GetMD5(const String& rstrFile) {
 //
 // -----------------------------------------------------------------------------
 String CGridShell::GetSHA1(const String& rstrFile) {
-  File fScriptFile = SPIFFS.open(rstrFile, "r");
+  String strFullName = String(GNODE_FILE_PREFIX) + rstrFile;
+  File fScriptFile = SPIFFS.open(strFullName, "r");
   if (!fScriptFile)
     return "";
   String strScript = fScriptFile.readString();
@@ -814,7 +833,8 @@ String CGridShell::GetSHA1(const String& rstrFile) {
 //
 // -----------------------------------------------------------------------------
 void CGridShell::Delete(const String& rstrName) {
-  SPIFFS.remove(rstrName);
+  String strFullName = String(GNODE_FILE_PREFIX) + rstrName;
+  SPIFFS.remove(strFullName);
 }
 // --[  Method  ]---------------------------------------------------------------
 //
@@ -827,11 +847,12 @@ void CGridShell::Delete(const String& rstrName) {
 bool CGridShell::Write(const String& rstrName, const String& rstrWhat, const bool& bAppend) {
 
   File fTelemetry;
+  String strFullName = String(GNODE_FILE_PREFIX) + rstrName;
 
   if (bAppend)
-    fTelemetry = SPIFFS.open(rstrName, "a");
+    fTelemetry = SPIFFS.open(strFullName, "a");
   else
-    fTelemetry = SPIFFS.open(rstrName, "w");
+    fTelemetry = SPIFFS.open(strFullName, "w");
 
   if (!fTelemetry) {
     return false;
@@ -934,7 +955,9 @@ void CGridShell::OTA() {
 //
 // -----------------------------------------------------------------------------
 String CGridShell::ReadFileLine() {
-  File file = SPIFFS.open(GNODE_TELEMETRY_FILENAME, "r");
+  String strFullName = String(GNODE_FILE_PREFIX) + String(GNODE_TELEMETRY_FILENAME);
+
+  File file = SPIFFS.open(strFullName, "r");
   if (!file) {
     return String();
   }
@@ -959,8 +982,8 @@ String CGridShell::ReadFileLine() {
 //
 // -----------------------------------------------------------------------------
 String CGridShell::ReadFile(const size_t& startPosition, const size_t& byteCount, const String& rstrFile) {
-
-  File file = SPIFFS.open(rstrFile, "r");
+  String strFullName = String(GNODE_FILE_PREFIX) + rstrFile;
+  File file = SPIFFS.open(strFullName, "r");
   if (!file) {
     return String();
   }
