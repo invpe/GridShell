@@ -204,16 +204,18 @@ extern "C" {
 #if defined(ESP8266)
 //
 #else
-#define MB_PREFER_SPEED
+//#define MB_PREFER_SPEED
 #endif
 #endif /* MB_PREFER_SPEED */
 
 #ifndef MB_COMPACT_MODE
+
 // ESP8266 Requires this off
 #if defined(ESP8266)
 #else
-#define MB_COMPACT_MODE
+  #define MB_COMPACT_MODE
 #endif
+
 #endif /* MB_COMPACT_MODE */
 
 #ifdef MB_COMPACT_MODE

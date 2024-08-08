@@ -79,13 +79,12 @@
 #else
 #define GNODE_SERVER "work.gridshell.net"
 #endif
-
 /*---------*/
 // 
 #ifdef GNODE_DEBUG
 #define GDEBUG Serial.println
 #else
-#define GDEBUG void
+#define GDEBUG(x)
 #endif
 /*---------*/
 class CGridShell {

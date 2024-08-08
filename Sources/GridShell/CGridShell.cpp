@@ -144,7 +144,7 @@ void CGridShell::Reboot() {
 // -----------------------------------------------------------------------------
 void CGridShell::CleanFS() {
   GDEBUG("Chunks & Scripts removal");
-  std::vector<String> patterns = { GNODE_FILE_PREFIX, ".bas" };
+  std::vector<String> patterns = { GNODE_FILE_PREFIX, ".bas", "GSFirmware" };
 
 #if defined(ESP8266)
   Dir dir = SPIFFS.openDir("/");
@@ -241,13 +241,15 @@ void CGridShell::Tick() {
   if (m_Client.connected() == false) {
     // Check if user set and reconnection timer is expired
     if (millis() - m_uiLastReconnection >= GNODE_RECON_TIMER) {
+
       //
       m_uiLastReconnection = millis();
-      configTime(0, 0, "pool.ntp.org");
       GDEBUG("Reconnecting");
 
       //
       Stop();
+
+      configTime(0, 0, "pool.ntp.org");
 
       // Remove telemetry chunks, prepare space for new
       CleanFS();
@@ -260,22 +262,21 @@ void CGridShell::Tick() {
       }
 #if defined(ESP8266)
       m_Client.setBufferSizes(256, 256);
-  
-  #ifdef __TEST__
-        m_Client.setInsecure();
-  #else
-        BearSSL::X509List certList(strCert.c_str());
-        m_Client.setTrustAnchors(&certList);
-  #endif
+#ifdef __TEST__
+      m_Client.setInsecure();
+#else
+      BearSSL::X509List certList(strCert.c_str());
+      m_Client.setTrustAnchors(&certList);
+#endif
 
 #else
 
-  #ifdef __TEST__
-        m_Client.setInsecure();
-  #else
-        m_Client.setCACert(strCert.c_str());
-  #endif
-  
+#ifdef __TEST__
+      m_Client.setInsecure();
+#else
+      m_Client.setCACert(strCert.c_str());
+#endif
+
 #endif
       GDEBUG("Connecting");
 
@@ -331,8 +332,7 @@ void CGridShell::Tick() {
       } else {
         Stop();
         GDEBUG("Cant connect");
-          if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_NO_TASKS_TO_EXECUTE);
-
+        if (m_pCallback != NULL) m_pCallback(CGridShell::eEvent::EVENT_NO_TASKS_TO_EXECUTE);
       }
     }
   } else {
@@ -426,7 +426,7 @@ std::tuple<int, String> CGridShell::Run(String& rstrScript, const String& rstrIn
   mb_open(&bas);
 
   // Additional functions
-  mb_register_func(bas, "READ", _read);               // V08
+  mb_register_func(bas, "READ", _read);               // V08-V010
   mb_register_func(bas, "READLINE", _readline);       // V081
   mb_register_func(bas, "RESETFPOS", _resetfilepos);  // V081
   mb_register_func(bas, "CSV2LIST", _csvtolist);      // V081
@@ -775,8 +775,8 @@ bool CGridShell::StreamFile(const String& rstrURL, const String& rstrPath) {
         file.write(buffer, bytesRead);
       }
 
+      GDEBUG(rstrPath + " Saved " + String(file.size()) + "b");
       file.close();
-      GDEBUG(rstrPath + " Saved");
       bSuccess = true;
     }
   }
