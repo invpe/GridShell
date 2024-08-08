@@ -1,7 +1,7 @@
 <?php
 $GLOBALS['lastpong'] = 0; 
 $GLOBALS['grid_socket'] = 0; 
-$GLOBALS['version'] = "09";
+$GLOBALS['version'] = "10";
 $GLOBALS['server'] = "work.gridshell.net";
 $GLOBALS['port'] = 1911;
  
@@ -53,7 +53,7 @@ function GS_Login($uid, $nodeid = NULL)
     
     // The server will respond with getting new IDENT and only then
     // othwerise nothing is sent back from server, so let's give it a time
-    // to receive, and if nothing continue
+    // to receive, and if nothing continue.    
     stream_set_timeout($GLOBALS['grid_socket'], 1); 
     $a = fgets($GLOBALS['grid_socket']);
 
