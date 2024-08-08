@@ -114,9 +114,9 @@ void setup() {
 
     // V10 Ask for deep sleep if no work
     Serial.println("Go to sleep if no work(YES/NO):");
-    #if defined(ESP8266)
-      Serial.println("ESP8266: Ensure to solder GPIO16 with RST! ");
-    #endif
+#if defined(ESP8266)
+    Serial.println("ESP8266: Ensure to solder GPIO16 with RST! ");
+#endif
     while (!Serial.available()) {
       // Wait for input
     }
@@ -154,9 +154,6 @@ void setup() {
 
   // Register callback
   CGridShell::GetInstance().RegisterEventCallback(GridShellCB);
-
-
-
   digitalWrite(LED_BUILTIN, LOW);
 }
 ///////////////////////////////////
@@ -172,16 +169,18 @@ void GridShellCB(uint8_t uiEventType) {
       {
         if (DEEP_SLEEP == "YES") {
           GDEBUG("Taking a nap");
-          #if defined(ESP8266)
-                    // Remember ESP8266 needs GPIO16 and RST soldered
-                    // To wake up from the DEEP SLEEP, otherwise
-                    // It will not come back!
-                    ESP.deepSleep(DEEP_SLEEP_TIME);
-          #else
-                    CGridShell::GetInstance().Stop();
-                    esp_sleep_enable_timer_wakeup(DEEP_SLEEP_TIME);
-                    esp_deep_sleep_start();
-          #endif 
+          CGridShell::GetInstance().Stop();
+#if defined(ESP8266)
+          // Remember ESP8266 needs GPIO16 and RST soldered
+          // To wake up from the DEEP SLEEP, otherwise
+          // It will not come back!
+
+          ESP.deepSleep(DEEP_SLEEP_TIME);
+#else
+
+          esp_sleep_enable_timer_wakeup(DEEP_SLEEP_TIME);
+          esp_deep_sleep_start();
+#endif
         }
       }
       break;
