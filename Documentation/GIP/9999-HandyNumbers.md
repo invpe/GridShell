@@ -30,6 +30,7 @@ Accounts are being removed if not seen for longer than `259200` seconds `3 days`
 | Valid task  | 1  | For valid task execution  |
 | Airdrop  | 1  | For single airdrop  |
 | autocat  | 1 | For valid execution from V09 |
+| md5dfs  | 1 | Chunk checksum check |
 
 # Void execution 
 
@@ -37,7 +38,6 @@ Accounts are being removed if not seen for longer than `259200` seconds `3 days`
 | ------------- | ------------- | ------------- | 
 | replicatedfs  | 0  | Replication of a chunk |
 | deletedfs  | 0 | Removal of a chunk |
-| md5dfs  | 0 | Chunk checksum check |
 | send  | 0 | Void task |
 | burn  | 0 | Void task |
 
