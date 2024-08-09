@@ -6,7 +6,7 @@
 
 
 <p align="center">
-  <i>Supercharge Your IoT: Harness Idle Power, Earn Rewards</i>
+  <i>Supercharge Your IoT: Harness Idle Power, Earn Rewards, Become Green</i>
 </p>  
 
 
@@ -16,13 +16,11 @@
 <a href=https://github.com/invpe/GridShell/discussions><img src="https://badgen.net/static/>/Community/34ebd5?scale=2?"></a>  
 <a href=https://github.com/invpe/GridShell/tree/main/Documentation/FAQ><img src="https://badgen.net/static/>/FAQ/34ebd5?scale=2?"></a>  
 
-
  
 <a href=https://github.com/invpe/GridShell/tree/main/Sources/Integrations><img src="https://badgen.net/static/>/Integrations/ebcf34?scale=2?"></a><a href=https://github.com/invpe/gridshell/tree/main/Documentation><img src="https://badgen.net/static/>/Documentation/ebcf34?scale=2"></a>
 <a href=https://github.com/invpe/gridshell/tree/main/Sources><img src="https://badgen.net/static/>/Sources/ebcf34?scale=2?"></a><a href=https://invpe.github.io/GridShellExplorer/><img src="https://badgen.net/static/>/Explorer/ebcf34?scale=2?"></a><a href=https://github.com/paladin-t/my_basic><img src="https://badgen.net/static/>/MyBasic/ebcf34?scale=2?"></a><BR>
 
 </div>  
- 
 
 <div align="center">
 
@@ -33,7 +31,16 @@
  <img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShellExplorer/main/docs/current.json&query=TV&suffix=%25&style=plastic&label=TV&color=%23aaaa88">
 </div>
 
---- 
+---
+
+
+```
+Welcome from a node somewhere there !
+
+taskid = submit("OUTPUTPAYLOAD=\"HELLO WORLD FROM \"","GRIDSHELL")
+results = gettask(taskid)
+```
+
 
 # :seedling: Welcome
 
