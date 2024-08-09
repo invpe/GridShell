@@ -40,6 +40,7 @@ Welcome from a node somewhere there !
 taskid = submit(OUTPUTPAYLOAD=HELLO WORLD FROM,GRIDSHELL)
 results = gettask(taskid)
 ```
+![b](https://github.com/user-attachments/assets/c04f9cdc-70b3-4a5c-ada0-478243388086)
 
 
 # :seedling: Welcome
