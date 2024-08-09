@@ -79,20 +79,34 @@ The idea is to keep it separate for clarity.
 <details>
 <summary>Technical</summary>
 
-1. What are the supported devices for use?
+1. How do i start computing?
+   
+   `task_id = submit("script","input payload")`
+   
+   `results = gettask(task_id)`
+   
+   It's that simple and follows the distributed tasks execution pattern.
+
+   - You can start simply with the easy-to-use php script: [here](https://github.com/invpe/GridShell/tree/main/Sources/PHP), check [this GIP](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0081-V09-ADDTASKCustomScript.md) for examples.
+
+   - Or by using the GridShell C++ library [here](https://github.com/invpe/GridShell/tree/main/Sources/GridShell), check [basic integrations](https://github.com/invpe/GridShell/tree/main/Sources/Integrations) for lots of examples.
+   
+      
+
+3. What are the supported devices for use?
 
     Pretty much any ESP32 can become a GridShell node, as long as you can compile the sources or upload the latest release, you're ready to go. Check [here](https://github.com/invpe/GridShell/edit/main/Documentation/Hardware/README.md) for the list of devices tested.
 
-2. Why use a scripting language like MyBasic?
+4. Why use a scripting language like MyBasic?
 
     To prioritize simplicity in implementation and ease of demonstration, I've opted for a scripting language for tasks executed on GridShell. MyBasic's  straightforward syntax ensures accessibility for all users, fostering a welcoming environment for experimentation and testing within the GridShell ecosystem.
 
-3. Why a centralized server instead of decentralization?
+5. Why a centralized server instead of decentralization?
 
     In pursuit of simplicity and expeditious development, GridShell adopts a centralized server architecture rather than a decentralized peer-to-peer approach. This design choice facilitates rapid development and streamlines implementation processes, aligning with our priority of creating a user-friendly environment for efficient deployment and utilization. Simply put - because it was easier.
 
 
-4. When using `use.php` or other way of interacting with the server i get an error:
+6. When using `use.php` or other way of interacting with the server i get an error:
 
 ```
 PHP Warning:  stream_socket_client(): Failed to enable crypto in gridshell.php on line 35
