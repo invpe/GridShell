@@ -248,9 +248,9 @@ void CGridShell::Tick() {
 
       //
       Stop();
-
+#if defined(ESP8266)
       configTime(0, 0, "pool.ntp.org");
-
+#endif
       // Remove telemetry chunks, prepare space for new
       CleanFS();
 
