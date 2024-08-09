@@ -37,7 +37,7 @@
 ```
 Welcome from a node somewhere there !
 
-taskid = submit("OUTPUTPAYLOAD=\"HELLO WORLD FROM \"","GRIDSHELL")
+taskid = submit(OUTPUTPAYLOAD=HELLO WORLD FROM,GRIDSHELL)
 results = gettask(taskid)
 ```
 
