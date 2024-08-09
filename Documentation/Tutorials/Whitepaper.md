@@ -10,10 +10,14 @@ Imagine your smart plugs at home, which only turn on and off, yet house a 240MHz
 
 GridShell aims to connect these devices, sharing their processing power during idle periods. By enabling tokenomics, this system targets to allow everyone involved to earn passive income, unlocking the untapped computing power currently idling in billions of devices installed in homes worldwide.
 
+In addition, GridShell also promotes green and eco-friendly computing by enabling certain tasks to be run on low-power nodes within the network. This approach not only optimizes resource utilization but also contributes to reducing the overall energy footprint for computing. By efficiently utilizing devices that are already powered on, GridShell helps minimize the need for additional energy consumption, aligning with global efforts to promote sustainable and environmentally conscious technologies.
+
 ## Problem statement
 Currently, smart homes and IoT devices are underutilized and largely disconnected, failing to form a cohesive ecosystem. This results in limited or no opportunities for owners to generate passive income or leverage the full computational potential of their devices. If just 1% of these devices—amounting to 10 million—were connected, their combined processing power could be harnessed during idle times. This would enable profitable tokenomics, allowing volunteers/owners to earn passive income for sharing their IOT idle time and allow everyone to utilize the untapped computing power currently lying dormant in billions of devices.
 
 GridShell aims to solve this problem by repurposing idle devices for distributed computing tasks, creating a collaborative network that maximizes their collective power for mutual benefit.
+
+Furthermore, by focusing on eco-friendly computing, GridShell ensures that these tasks can be distributed to low-power nodes, contributing to a more sustainable and energy-efficient computing infrastructure.
 
 # Technical Overview
 
