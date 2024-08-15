@@ -10,9 +10,6 @@
 # Whitepaper
 A living document [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Whitepaper.md)
 
-# Connect and join the Grid 
-Read the simple techinical tutorial on how to join the grid with couple of clicks [here](https://github.com/invpe/gridshell/blob/main/Documentation/Tutorials/Join.md) 
-
 # Shells
 What is a shell ? [link](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Shells.md)
 
@@ -33,12 +30,6 @@ Read about the Grid Improvement Proposal document, see released ones, comment an
 
 # Read about TELEMETRY
 What is GridShell Telemetry and what purpose does it serve ? [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Telemetry.md)
-
-# ~~API~~ (Decomissioned)
-Check how to integrate with the current TestNet GridShell network [here](https://github.com/invpe/GridShell/tree/main/Documentation/API)
-
-# ~~EXPLORER~~ (Decomissioned)
-Grafana Visualization endpoint [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Explorer.md)
 
 # Use
 Read how to use the GridShell network [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Use.md)
