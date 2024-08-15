@@ -13,13 +13,13 @@
 
 
 ## Introduction to Nodes:
-In the dynamic world of GridShell, nodes are the elemental units that collectively empower the entire system. These nodes, powered by ESP32 devices, form the backbone of GridShell's distributed computing architecture, enabling collaborative and impactful computing endeavors.
+In the dynamic world of GridShell, nodes are the elemental units that collectively empower the entire system. These nodes, powered by ESP32/and other IOT devices, form the backbone of GridShell's distributed computing architecture, enabling collaborative and impactful computing endeavors.
 
 ## The Role of Nodes:
-Each ESP32-based node within the GridShell network acts as a miniature powerhouse, contributing its processing capabilities to handle tasks and computations. These nodes work harmoniously to create a robust, decentralized computing infrastructure that collectively processes tasks and drives insights.
+Each node within the GridShell network acts as a miniature powerhouse, contributing its processing capabilities to handle tasks and computations. These nodes work harmoniously to create a robust, decentralized computing infrastructure that collectively processes tasks and drives insights.
 
 ## Harnessing Distributed Power:
-The collective strength of ESP32 nodes in GridShell unlocks an unparalleled level of computing power. These nodes, distributed across a network of volunteers, combine their strengths to perform tasks with efficiency, speed, and accuracy, fostering a true sense of collaborative computing.
+The collective strength of nodes in GridShell unlocks an unparalleled level of computing power. These nodes, distributed across a network of volunteers, combine their strengths to perform tasks with efficiency, speed, and accuracy, fostering a true sense of collaborative computing.
 
 ## Volunteer-Powered Computing:
 GridShell's nodes are not just components; they represent a community of volunteers and enthusiasts who unite to propel computing into the future. When you join the GridShell network with your ESP32 device, you become an integral part of this community, contributing to a shared goal of innovation and progress.
