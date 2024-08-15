@@ -12,6 +12,18 @@ and download all in one binary file, which you can simply upload to your esp32 d
 
 
 ## Use web flasher - flashing from the web page (Chrome)
+
+The simplest way to upload the vanilla binary is through the web page, see the video below of how i do it, and follow the steps
+to get your esp node programmed with the latest vanilla sources.
+
+
+![gridshell_programming](https://github.com/user-attachments/assets/130940d5-da21-4195-8b20-885675dc9e1d)
+
+
+
+<details>
+<summary>Steps</summary>
+
 1. Open [https://espressif.github.io/esptool-js/](https://espressif.github.io/esptool-js/)
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/8fe54ed2-7c97-4e25-802f-f3aef100e364)
@@ -46,21 +58,18 @@ and download all in one binary file, which you can simply upload to your esp32 d
 11. Reset the device (remove from USB, plug in again)
 
 
-
-## Use esptool - flashing from command line (advanced)
-Simply execute: 
-
-```
-python3 esptool.py --chip esp32 --port "/dev/ttyUSB1" --baud 1500000  erase_flash
-
-python3 esptool.py --chip esp32 --port "/dev/ttyUSB1" --baud 1500000  --before default_reset --after hard_reset write_flash  -z --flash_mode dio --flash_freq 80m --flash_size 4MB 0x0 esp32merged.bin
-```
-
-Remembering to replace `/dev/ttyUSB1` with your port.
-
+</details>
 
 
 # Configuring the node
+
+After programming the node, all that is left is configurit it, have a look at the video or follow the steps below.
+
+![gridshell_configuration](https://github.com/user-attachments/assets/141dc253-dda5-4d39-afad-71e6ff176c8e)
+
+
+<details>
+<summary>Steps</summary>
 
 1. Open the serial monitor [https://serial.huhn.me/](https://serial.huhn.me/)
 
@@ -75,6 +84,7 @@ Remembering to replace `/dev/ttyUSB1` with your port.
 
 ![image](https://github.com/invpe/GridShell/assets/106522950/77c5b265-a98a-40db-8bbf-9ed6e0dbca19)
 
+</details>
 
 
 
