@@ -4,8 +4,11 @@ If you're not planning to work with sources, the most convienient way to setup a
 Follow the tutorial below, to program your board and configure the node in few simple steps.
 
 ## Download latest merged release file 
-Click [https://github.com/invpe/GridShell/releases/latest/download/gridshellmerged.bin](https://github.com/invpe/GridShell/releases/latest/download/gridshellmerged.bin) and download 
-all in one binary file, which you can simply upload to your esp32 device over WEB (simplest) or command line (advanced).
+
+- ESP32: Click [https://github.com/invpe/GridShell/releases/latest/download/esp32merged.bin](https://github.com/invpe/GridShell/releases/latest/download/esp32merged.bin) 
+- ESP8266: Click [https://github.com/invpe/GridShell/releases/latest/download/esp8266merged.bin](https://github.com/invpe/GridShell/releases/latest/download/esp8266merged.bin) 
+
+and download all in one binary file, which you can simply upload to your esp32 device over WEB (simplest) or command line (advanced).
 
 
 ## Use web flasher - flashing from the web page (Chrome)
@@ -14,7 +17,7 @@ all in one binary file, which you can simply upload to your esp32 device over WE
 ![image](https://github.com/invpe/GridShell/assets/106522950/8fe54ed2-7c97-4e25-802f-f3aef100e364)
 
    
-2. Plug in your ESP32 device to USB, set port speed to 115200 and click connect.
+2. Plug in your ESP32/ESP8266 device to USB, set port speed to 115200 and click connect.
   
 
 3. Select **Serial port**
@@ -50,7 +53,7 @@ Simply execute:
 ```
 python3 esptool.py --chip esp32 --port "/dev/ttyUSB1" --baud 1500000  erase_flash
 
-python3 esptool.py --chip esp32 --port "/dev/ttyUSB1" --baud 1500000  --before default_reset --after hard_reset write_flash  -z --flash_mode dio --flash_freq 80m --flash_size 4MB 0x0 gridshellmerged.bin
+python3 esptool.py --chip esp32 --port "/dev/ttyUSB1" --baud 1500000  --before default_reset --after hard_reset write_flash  -z --flash_mode dio --flash_freq 80m --flash_size 4MB 0x0 esp32merged.bin
 ```
 
 Remembering to replace `/dev/ttyUSB1` with your port.
