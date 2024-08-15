@@ -31,8 +31,8 @@ Read about the Grid Improvement Proposal document, see released ones, comment an
 # Read about TELEMETRY
 What is GridShell Telemetry and what purpose does it serve ? [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Telemetry.md)
 
-# Use
-Read how to use the GridShell network [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Use.md)
+# Join and Use
+Read how to join and use the GridShell network [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Use.md)
 
 # TestNet
 How is this running today [here](https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/GTN.md)
