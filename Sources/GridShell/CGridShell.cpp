@@ -309,9 +309,11 @@ void CGridShell::Tick() {
           // Guard users utilizing library in their sketches from
           // wiping out their firmware
           if (m_bAutoUpdate)
+          {
             OTA();
-
-          Reboot();
+            Reboot();
+          }
+          
           return;
         }
 
