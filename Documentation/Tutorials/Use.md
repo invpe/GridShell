@@ -10,9 +10,10 @@ The string you choose to identify with GridShell should not be exposed, keep it 
 
 You can simply use the [GridShell PHP command line tool](https://github.com/invpe/GridShell/tree/main/Sources/PHP) or any [web sha256 generator](https://tools.keycdn.com/sha256-online-generator) to get yourself a hash.
 
-![image](https://github.com/invpe/GridShell/assets/106522950/d0dd1f6d-0362-4224-8239-d02323896726)
 
-![image](https://github.com/invpe/GridShell/assets/106522950/599819d2-98d5-40d9-a9e4-2118e5b660d0)
+![gridshell_create_user](https://github.com/user-attachments/assets/b86905e1-5e37-409e-83ce-de06d8028124)
+
+
 
  
 # Configure
