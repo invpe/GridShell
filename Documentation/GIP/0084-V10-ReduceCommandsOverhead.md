@@ -1,7 +1,7 @@
 # GIP 0084 - Reduce SEND/BURN/PERSIST and replace with a task.
 
 - Author(s): gridshell
-- Date: 09/09/24
+- Date: --/--/24
 
  1. Abstract
 
