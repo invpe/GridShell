@@ -1,7 +1,7 @@
 # GIP 0085 - Capitalize first letters of users aliases
 
 - Author(s): gridshell
-- Date: --/--/24
+- Date: 09/09/24
 
  1. Abstract
 
