@@ -6,7 +6,7 @@
 
 
 <p align="center">
-  <i>Supercharge Your IoT: Harness Idle Power, Earn Rewards, Become Green</i>
+  <i>Distribute your tasks to a wide range of everyday devices, including sensors, light bulbs, smart sockets, refrigerators and DIY solutions</i>
 </p>  
 
 
