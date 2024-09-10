@@ -31,6 +31,15 @@
  <img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShellExplorer/main/docs/current.json&query=TV&suffix=%25&style=plastic&label=TV&color=%23aaaa88">
 </div>
 
+
+---
+
+<div align="center">  
+  Integrated with<BR>
+  <a href=https://looko2.pl/en/><img src=https://github.com/user-attachments/assets/b83d1f62-32f7-483d-b22a-285dd615249d alt="Integrated with"></a>
+</div>
+
+
 ---
 
 
