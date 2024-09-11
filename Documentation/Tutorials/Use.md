@@ -35,6 +35,8 @@ Meantime see how easy it is to get your first task executed on the network, it o
 
 ![image](https://github.com/user-attachments/assets/b5b2234d-af49-49e9-89b3-fe50e6c3734a)
 
+Or if you preffer not to work with Arduino, instead simply run a script [see here](https://github.com/invpe/GridShell/tree/main/Sources/Integrations) for simple integration with a PHP script.
+
 
 
 
