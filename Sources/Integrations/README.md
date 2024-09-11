@@ -59,7 +59,9 @@ void loop() {
 # No sketch
 
 Yes, you can simply execute a script with a command line using the [php script](https://github.com/invpe/GridShell/tree/main/Sources/PHP).
-Follow this simple gif or simply run `php use.php your_hash_goes_here SUBMIT OUTPUTPAYLOAD=HELLO VOID`
+Follow this simple gif or simply run 
+
+`php use.php your_hash_goes_here SUBMIT "OUTPUTPAYLOAD=\"HELLO\"" "IOT"`
 
 ![image](https://github.com/user-attachments/assets/18787584-499f-4d73-a49e-943aff75ed04)
 
