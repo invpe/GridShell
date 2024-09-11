@@ -44,7 +44,7 @@ if($argc < 3)
 }
 
 
-$grid_owner = $argv[1];
+$grid_owner = $argv[1]; 
 $command = $argv[2];
 
 if($command=="IDENT")
@@ -92,10 +92,11 @@ else if($command=="SEND")
         $receipent = $argv[4];
 
         echo "Transfer ".$amount." to ".$receipent."\n";
-       
+        
         if(GS_Login($grid_owner))
         { 
-            GS_Send($amount, $receipent); 
+            $pd=$receipent.",".$amount;
+            print_r(GS_AddTask("send",$pd));     
             GS_Disconnect();
             PrintExit();
         } else echo "Something went wrong, throttled ?\n";
@@ -111,26 +112,14 @@ else if($command=="BURN")
     else
     {
         $argument = $argv[3];
-        if($argument=="TSLOT")
-        {
-            echo "Burn requested for 1 Telemetry Slot\n";
-            if(GS_Login($grid_owner))
-            { 
-                GS_Burn("TSLOT"); 
-                GS_Disconnect();
-                PrintExit();
-            } else echo "Something went wrong, throttled ?\n";
-        }
-        else if($argument=="TSIZE")
-        {
-            echo "Burn requested for 1k Telemetry Size\n";
-            if(GS_Login($grid_owner))
-            { 
-                GS_Burn("TSIZE"); 
-                GS_Disconnect();
-                PrintExit();
-            } else echo "Something went wrong, throttled ?\n";
-        }
+        echo "Burn shells for ".$argument."\n";
+        if(GS_Login($grid_owner))
+        { 
+            $pd=$argument;
+            print_r(GS_AddTask("burn",$pd));     
+            GS_Disconnect();
+            PrintExit();
+        } else echo "Something went wrong, throttled ?\n";
     }
 }
 else if($command=="SUBMIT")

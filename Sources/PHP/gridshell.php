@@ -69,23 +69,7 @@ function GS_Login($uid, $nodeid = NULL)
     }
 
     return true;
-}  
-function GS_Burn($what)
-{ 
-    if (!SOCKET_IsOnline($GLOBALS['grid_socket'])) {        
-        return false;
-    } 
-     fputs($GLOBALS['grid_socket'],"BURN,".$what."\r\n");
-     return true;
-} 
-function GS_Send($amt,$receiver)
-{ 
-    if (!SOCKET_IsOnline($GLOBALS['grid_socket'])) {        
-        return false;
-    } 
-     fputs($GLOBALS['grid_socket'],"SEND,".$receiver.",".$amt."\r\n");
-     return true;
-} 
+}   
 function GS_GetTask($taskid)
 { 
     if (!SOCKET_IsOnline($GLOBALS['grid_socket'])) {        
@@ -107,15 +91,7 @@ function GS_Read($tname,$start,$count)
     $incoming = trim(preg_replace('/\s\s+/', ' ', $a)); 
     $returned = explode(',', $incoming);
     return $returned;
-}
-function GS_Persist($task,$flag)
-{ 
-    if (!SOCKET_IsOnline($GLOBALS['grid_socket'])) {        
-        return false;
-    } 
-    fputs($GLOBALS['grid_socket'],"PERSIST,".$task.",".$flag."\r\n");    
-    return NULL;
-}  
+} 
 function GS_Pong()
 { 
     if (!SOCKET_IsOnline($GLOBALS['grid_socket'])) {
