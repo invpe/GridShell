@@ -71,37 +71,34 @@ By combining edge data collection and task submission with centralized task orch
 This hybrid model enables GridShell to handle a wide range of use cases.
 
 # Use Cases
-GridShell's applications are diverse:
 
-- Educational Projects: Use the network to teach concepts of distributed computing, sensor networks, and data collection.
+- Educational Projects: Teaching distributed computing concepts without complex setups.
 
-- IoT Sensor Networks: IoT devices can contribute to distributed computing tasks while performing their primary sensing functions.
-  Imagine a vast air quality operation where IoT sensors continuously collect data on atmospheric pollutants levels. GridShell allows these sensors to not only perform their primary
-  functions but also contribute their idle processing power to predictive analytics, reporting and visualization of the data.
+- IoT Sensor Networks: Sensors like air quality monitors perform distributed tasks without needing an intermediate server, e.g., calculating pollutant levels using GridShell.
 
-- Logic execution through GridShell enables the execution of scripts for device logic management, eliminating the need for hardcoding directly onto IoT sensors. This approach allows for the centralized management of hundreds of sensors using single or multiple scripts, significantly simplifying the process of updating and customizing device logic across a vast network.
+- Telemetry Storage: Developers store telemetry data with minimal code additions.
+
+- Green Computing: Repurpose idle devices for environmental sustainability.
+
+- Collaborative Data Analysis: Pool computational resources for joint projects.
+
+- Low Power Mining: Leverage distributed IoT devices for cryptocurrency mining tasks.
+
+# User examples
+
+- As a learner, I want to understand distributed computing without the hassle of complex setup or hosting.
   
-- Reducing costs: Solution can be used to zero out the cost at the entry stage of your product. No hosting needed, deploy & test with GridShell.
-  Startups and entrepreneurs can eliminate hosting costs during the initial stages of product development by leveraging GridShell's serverless capabilities.
-  Deploy and test your product without the burden of infrastructure expenses.
+- As a developer, I want to store simple telemetry with minimal code additions.
   
-- Collaborative Data Analysis: Users can pool their computational resources for collaborative data analysis and processing.
-  In the field of research, multiple institutions can collaboratively analyze datasets for studies.
-  GridShell enables distributed data processing, fostering innovation and breakthroughs through collective computational power.
-    
-- Offloading: Reduce load and move it to the network
-  Offload tasks from your local device to the GridShell network. This reduces device strain and ensures efficient, uninterrupted operation.
+- I want to contribute my sensor’s idling power to computing tasks.
   
-- Custom processing: Write scripts and execute them on the network
-  Tailor computing tasks to your specific needs using a simple BASIC-like scripting language.
-
-- Simplify IOT data storage: Submit telemetry to GridShell from all of your nodes.
-  Use built feature to store your telemetry and access it from your scripts.
-
-- Personalized Instances: Tailor GridShell to your needs by creating customized instances. Build and manage your own simple distributed computing solutions on IoT devices.
-
-- Ultra Low Power Cryptocurrency Mining: GridShell has demonstrated its capabilities in participating in cryptocurrency mining activities. Users have successfully harnessed the power of distributed IoT devices for tasks like Bitcoin Lottery and other Coins mining. While GridShell operates at an ultra-low power scale, it showcases its adaptability to various computational purposes, even within the cryptocurrency realm.
+- As a hobbyist, I want to use my ESP32 for distributed computing in my spare time.
   
+- As an environmental enthusiast, I want to use eco-friendly devices for computing tasks.
+  
+- As a data analyst, I want to offload computations to distributed IoT devices.
+  
+- As a community air quality monitor, I want my sensors to connect to GridShell for real-time calculations without an intermediate server.
   
 ## Extending GridShell to Other Platforms
 GridShell is designed with extensibility in mind. While its current focus is on ESP32 microcontrollers to showcase the concept, it can seamlessly integrate with other platforms like Raspberry Pi. The flexibility of GridShell means it can be adapted to various hardware environments, opening up a broader range of use cases and possibilities.
