@@ -4,11 +4,14 @@
   <img  src="https://github.com/invpe/gridshell/blob/main/Resources/gridshell_small.png">  
 </p>
 
+<div align="center">
 
-<p align="center">
-  <i>Distribute your tasks to a wide range of everyday devices, including sensors, light bulbs, smart sockets, refrigerators and DIY solutions</i>
-</p>  
-
+<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShellExplorer/main/docs/current.json&query=Nodes&style=plastic&label=Nodes%20Online">
+<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShellExplorer/main/docs/current.json&query=TotalTasks&style=plastic&label=Tasks%20completed&color=%2399ff99">
+<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShellExplorer/main/docs/current.json&query=UsersCount&style=plastic&label=Volunteers&color=%23ffffff">
+<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShellExplorer/main/docs/current.json&query=Utilization&suffix=%25&style=plastic&label=Utilization&color=%23eeee88">
+ <img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShellExplorer/main/docs/current.json&query=TV&suffix=%25&style=plastic&label=TV&color=%23aaaa88">
+</div>
 
 <div align="center">
 <a href=https://github.com/invpe/GridShell/blob/main/Documentation/Tutorials/Whitepaper.md><img src="https://badgen.net/static/>/Whitepaper/34ebd5?scale=2?"></a> 
@@ -22,18 +25,9 @@
 
 </div>  
 
-<div align="center">
-
-<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShellExplorer/main/docs/current.json&query=Nodes&style=plastic&label=Nodes%20Online">
-<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShellExplorer/main/docs/current.json&query=TotalTasks&style=plastic&label=Tasks%20completed&color=%2399ff99">
-<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShellExplorer/main/docs/current.json&query=UsersCount&style=plastic&label=Volunteers&color=%23ffffff">
-<img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShellExplorer/main/docs/current.json&query=Utilization&suffix=%25&style=plastic&label=Utilization&color=%23eeee88">
- <img alt="Dynamic JSON Badge" src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/invpe/GridShellExplorer/main/docs/current.json&query=TV&suffix=%25&style=plastic&label=TV&color=%23aaaa88">
-</div>
-
-
----
-
+<p align="center">
+  <i>Distribute your tasks to a wide range of everyday devices, including sensors, light bulbs, smart sockets, refrigerators and DIY solutions</i>
+</p>   
 <div align="center">  
   Integrated with<BR>
   <a href=https://looko2.pl/en/><img src=https://github.com/user-attachments/assets/b83d1f62-32f7-483d-b22a-285dd615249d alt="Integrated with"></a>
@@ -43,34 +37,19 @@
 ---
 
 
-```
-Welcome from a node somewhere there !
+With billions of IOT devices connected today there is a huge potential of computing power ready for use at minimal or even zero cost. These tiny computers are capable of operating on renewable energies like solar power, giving tremendous opportunities for utilizing their computing capabilities without impacting environment. We all have WiFi enabled sensors, smart bulbs, sockets, plugs... which idle for most of their time - why not connect them together and use as one big computer to solve our problems ?
 
-taskid = submit(OUTPUTPAYLOAD=HELLO WORLD FROM,GRIDSHELL)
+<a href=https://www.gnd.io/some-thoughts-on-idle-iot-devices-and-rent-economies/><img src=https://github.com/invpe/GridShell/assets/106522950/2130ee5d-800e-4710-9cd1-2be6315d3c06></a>
+
+
+
+
+
+
+
+```
+taskid = submit(YOUR_SCRIPT,YOUR_INPUT)
 results = gettask(taskid)
 ```
 ![b](https://github.com/user-attachments/assets/c04f9cdc-70b3-4a5c-ada0-478243388086)
-
-
-# :seedling: Welcome
-
-With billions of IOT devices connected today there is a huge potential of computing power ready for use at minimal or even zero cost. These tiny computers are capable of operating on renewable energies like solar power, giving tremendous opportunities for utilizing their computing capabilities without impacting environment. We all have WiFi enabled sensors, smart bulbs, sockets, plugs... which idle for most of their time - why not connect them together and use as one big computer to solve our problems ?
-
-![image](https://github.com/invpe/GridShell/assets/106522950/2130ee5d-800e-4710-9cd1-2be6315d3c06)
-https://www.gnd.io/some-thoughts-on-idle-iot-devices-and-rent-economies/
-
- 
-Welcome to GridShell, a passion project dedicated to innovating computing with low-power devices. GridShell is an advanced distributed computing solution powered by IoT nodes (Esp32/Esp8266). This collaborative system aims to harness the idle processing power of underutilized IoT devices, made with love and a commitment to pushing the boundaries of technology.
-
-
-<img src=https://github.com/invpe/gridshell/blob/main/Resources/GSEP.png>
-<div align="center"><tt>GridShell cluster operating 192 nodes in ULP mode</tt></div>
-
-![GridShellCube](https://github.com/invpe/GridShell/assets/106522950/a7e99269-b7fa-4bdd-a20a-bd308fd801be)
-
-<p align="center">
-  <i>Artistic vision of 64 ESP32 validator nodes powered from the sun</i>
-</p> 
-
-
-2022-2023-2024
+   
