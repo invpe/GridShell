@@ -26,7 +26,7 @@
 </div>  
 
 <p align="center">
-  <i>Distribute your tasks to a wide range of everyday devices, including sensors, light bulbs, smart sockets, refrigerators and DIY solutions</i>
+  <i>Distribute tasks to a wide range of everyday devices, including sensors, light bulbs, smart sockets, refrigerators and DIY solutions</i>
 </p>   
 <div align="center">  
   Integrated with<BR>
