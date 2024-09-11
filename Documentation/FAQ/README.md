@@ -4,6 +4,27 @@ The FAQ is split between non technical and technical questions i have received s
 The idea is to keep it separate for clarity.
 
 <details>
+<summary>Contribution</summary>
+
+1. How can I contribute to the project?
+
+   You can contribute by forking the repository, creating a new branch for your changes, and submitting a pull request. Ensure your code is well-documented, and link relevant issues if you're addressing        one.But if you're not into forking - feel free to open a new [discussion](https://github.com/invpe/GridShell/discussions)
+
+3. What areas need help?
+
+      We need contributions in areas like code optimization, developing and testing for different IoT devices, enhancing the documentation, and creating tutorials.
+
+5. Do I need experience with IoT to contribute?
+
+   Not necessarily! If you're new, you can help with documentation, testing, or learning by contributing to simple issues.
+
+6. How can I join discussions?
+
+      You can join ongoing [discussions](https://github.com/invpe/GridShell/discussions) on our GitHub Discussions or other communication platforms listed in the repository.
+   
+</details>
+
+<details>
 <summary>Generic</summary>
    
 1. What is GridShell?
