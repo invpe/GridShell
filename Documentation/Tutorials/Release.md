@@ -87,6 +87,11 @@ After programming the node, all that is left is configurit it, have a look at th
 </details>
 
 
+# Updates
+
+All vanilla nodes will undergo automatic update on version changes, you don't need to do anything.
+
+
 
 # 🍏 Success
 The configuration is now saved, you are good to go 👍
