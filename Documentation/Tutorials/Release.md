@@ -1,4 +1,4 @@
-# ⏩ Setting up from a release file
+# ⏩ Setting up vanilla nodes from a release file
 If you're not planning to work with sources, the most convienient way to setup a GS Node is to upload release to the board.
 
 Follow the tutorial below, to program your board and configure the node in few simple steps.
