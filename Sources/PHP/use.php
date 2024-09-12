@@ -20,8 +20,6 @@ function PrintHelp()
     echo "<YOURHASH> SUBMIT <task> <payload> - submit task for execution\n";       
     echo "<YOURHASH> GETTASK <task> - get task status and payload\n";       
     echo "<YOURHASH> READ <telemetryname> <start> <count> - read telemetry\n";   
-    echo "<YOURHASH> PERSIST <task> <append?> <fname> - persist telemetry post task execution\n";
-    echo "<YOURHASH> SUBMITPERSIST <task> <payload> <append?> <fname> - submit task and enable persist flag\n";
     echo "<YOURHASH> UPLOAD <filename> <telemetryname>\n";
     echo "\n";
 }
@@ -176,46 +174,6 @@ else if($command=="GETTASK")
         PrintExit();
     } else echo "Something went wrong, throttled ?\n";  
 
-}else if($command=="PERSIST")
-{
-    if($argc != 6)
-    {
-        PrintHelp();
-        exit(0);
-    }
-    else
-    {
-        $t = $argv[3];
-        $receipent = $argv[4];
-
-        echo "Set persist flag ".$argv[4]." on ".$argv[3]." as ".$argv[5]."\n";
-       
-        if(GS_Login($grid_owner))
-        { 
-            GS_Persist($argv[3], $argv[4],$argv[5]);
-            GS_Disconnect();
-            PrintExit();
-        } else echo "Something went wrong, throttled ?\n";
-    }
-}
-else if($command=="SUBMITPERSIST")
-{
-    if($argc != 7)
-    {
-        PrintHelp();
-        exit(0);
-    }
-    else
-    { 
-        if(GS_Login($grid_owner))
-        { 
-            $ooo = GS_AddTask($argv[3],$argv[4]);
-            GS_Persist($ooo['1'],$argv[5],$argv[6]);
- 
-            GS_Disconnect();
-            PrintExit();
-        } else echo "Something went wrong, throttled ?\n";
-    }
 }
 else if($command=="UPLOAD")
 {
