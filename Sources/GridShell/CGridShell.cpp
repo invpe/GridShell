@@ -1134,18 +1134,6 @@ String CGridShell::GetTask(const uint32_t& ruiTask) {
 //  - Class     : CGridShell
 //  - Prototype :
 //
-//  - Purpose   : Set Persist flag to the task
-//
-// -----------------------------------------------------------------------------
-void CGridShell::Persist(const uint32_t& ruiTask, const uint32_t& ruiFlag, const String& rstrFilename) {
-  String strCommand = "PERSIST," + String(ruiTask) + "," + String(ruiFlag) + "," + rstrFilename + "\r\n";
-  Send(strCommand);
-}
-// --[  Method  ]---------------------------------------------------------------
-//
-//  - Class     : CGridShell
-//  - Prototype :
-//
 //  - Purpose   : DTOR
 //
 // -----------------------------------------------------------------------------
