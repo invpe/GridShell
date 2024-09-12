@@ -1,4 +1,4 @@
-# 🔡 GridShell work protocol (V09)
+# 🔡 GridShell work protocol (V010)
 
 
 
@@ -54,14 +54,11 @@ Same as above but validators only, do not waste energy - come back in a moment.
 7. Go to point 3
 
 
-## Commands
+## Commands 
 
-All comannds can be sent every `3` seconds to avoid throttling.
-
-- `SEND,SomeGridShellUserName,100` - send `100` tokens to `SomeGridShellUserName` [GIP0025](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0025-SEND.md)
-- `BURN,TSLOT` - Telemetry Slot Redemtpion [GIP0015](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0015-Shell2Telemetry.md) [GIP0026](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0026-BURN.md)
-- `BURN,TSIZE` - Telemetry Size increase [GIP0026](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0026-BURN.md)
+- `ADDT,BASE64(SCRIPT),BASE64(PAYLOAD)` - Add task for execution
 - `READ,START,COUNT` - Read telemetry [GIP0063](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0063-V9CommandREAD.md)
-- `PERSIST,TASKID,FLAG,FILENAME` - Flag task for persisting OUTPUTTELEMETRY [GIP0062](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0062-V9Persist.md)
 - `GETTASK,TASKID` - Retrieve last exec task payload [GIP066](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0066-V9CommandGetTask.md)
- 
+- `PONG` - Keep alive
+- `RESULTS,RET_CODE,BASE64(OUTPUT_PAYLOAD)` - Return results 
+- `JOB,BASE64(grid user hash),VERSION,IDENT` - Join network
