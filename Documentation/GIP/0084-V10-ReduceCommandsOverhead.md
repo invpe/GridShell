@@ -6,4 +6,7 @@
  1. Abstract
 
 There is no need to keep separate commands for SEND,BURN,PERSIST - both send and burn can be replaced with a script addition.
-Persist will become a part of submit task.
+
+`SEND` will be a task,
+`BURN` will be a task,
+`PERSIST` will be removed.
