@@ -1056,14 +1056,8 @@ bool CGridShell::Send(const String& rstrReceipent, const uint32_t& ruiValue) {
 
   if (!Connected()) return false;
 
-  if (rstrReceipent.isEmpty())
-    return false;
-
-  if (ruiValue == 0)
-    return false;
-
-  String strCommand = "SEND," + rstrReceipent + "," + String(ruiValue) + "\r\n";
-  Send(strCommand);
+  AddTask("send",rstrReceipent+","+String(ruiValue));
+  
   return true;
 }
 // --[  Method  ]---------------------------------------------------------------
@@ -1077,29 +1071,11 @@ bool CGridShell::Send(const String& rstrReceipent, const uint32_t& ruiValue) {
 bool CGridShell::Burn(const CGridShell::eBurn& rWhat) {
 
   if (!Connected()) return false;
+  
+  if(rWhat == CGridShell::eBurn::BURN_TELEMETRY_SLOT) AddTask("burn","TSLOT");
+  else if(rWhat == CGridShell::eBurn::BURN_TELEMETRY_TSIZE)AddTask("burn","TSIZE");
+  else return false;
 
-  String strCommand = "";
-  switch (rWhat) {
-    case CGridShell::eBurn::BURN_TELEMETRY_SLOT:
-      {
-        strCommand = "BURN,TSLOT\r\n";
-      }
-      break;
-    case CGridShell::eBurn::BURN_TELEMETRY_TSIZE:
-      {
-        strCommand = "BURN,TSIZE\r\n";
-      }
-      break;
-    default:
-      {
-      }
-      break;
-  }
-
-  if (strCommand.isEmpty())
-    return false;
-
-  Send(strCommand);
   return true;
 }
 // --[  Method  ]---------------------------------------------------------------
