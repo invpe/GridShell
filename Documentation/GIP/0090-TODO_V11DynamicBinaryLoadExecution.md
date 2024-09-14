@@ -1,4 +1,4 @@
-# GIP 0080 - Replace scripting with dynamic binary load/execution
+# GIP 0090 - Replace scripting with dynamic binary load/execution
 
 - Author(s): gridshell
 - Date: --/--/--
