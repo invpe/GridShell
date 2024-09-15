@@ -56,6 +56,9 @@ Task Management:
 - Enable tasks to access telemetry data, potentially reusing the GridShell library within the master sketch for consistency.
 - Develop a pipeline for task submission and execution, transitioning from the current script-based approach to a binary-based approach.
 
+Task storage and retrieval:
+Follow [GIP91](https://github.com/invpe/GridShell/blob/main/Documentation/GIP/0091TODO_V11_ServerTasksFromGIT.md) 
+
 Communication Protocol:
 - Maintain the existing communication protocol between nodes and the master sketch to ensure seamless integration and operation within the GridShell network.
 
