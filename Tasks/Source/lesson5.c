@@ -41,7 +41,7 @@ void local_main(char* arg,size_t len)
  
         printf("Output file opened\n");
         fprintf(output_file,"Input: %s\n", arg);
-        fprintf(output_file,"SHA256: %s\n",hex_output);
+        fprintf(output_file,"MD5: %s\n",hex_output);
         fclose(output_file);
     } 
 }
