@@ -6,12 +6,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>    
-#include "esp32/rom/sha.h" 
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>    
-#include "esp32/rom/sha.h" 
+#include "esp32/rom/sha.h"  
 
 void perform_sha256(const unsigned char *input, uint32_t input_length, unsigned char *output) {
     SHA_CTX ctx;
