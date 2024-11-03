@@ -27,17 +27,3 @@ List of ESP32 boards.
 | [ESP32 Cam](https://sklep.msalamon.pl/produkt/esp32-cam/)  | 🟢  | ESP32-S 160 MHz, 520 kB RAM,  8 MB PSRAM, 4 MB FLASH|
 
 
-## ESP8266
-List of ESP8266 boards.
-| Board  | Status | Specs |
-| ------------- | ------------- | ------------- |
-| [D1Mini Pro](https://kamami.pl/esp8266/575263-plytka-rozwojowa-d1-mini-pro-wifi-esp8266.html)  | 🟢  | ESP8266EX CPU 80 MHz/160 MHz, Flash 16MB, RAM 50kB |
-
-
-## OTHER
-Experimental devices / boards.
-
-| Device  | Status |
-| ------------- | ------------- |
-| PSP  | 🟢  |
-
